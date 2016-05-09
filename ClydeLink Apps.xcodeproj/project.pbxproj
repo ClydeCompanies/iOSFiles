@@ -1,0 +1,505 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9133DEC11CE1307300F8330E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DEC01CE1307300F8330E /* AppDelegate.swift */; };
+		9133DEC31CE1307300F8330E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DEC21CE1307300F8330E /* ViewController.swift */; };
+		9133DEC61CE1307300F8330E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9133DEC41CE1307300F8330E /* Main.storyboard */; };
+		9133DEC81CE1307300F8330E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9133DEC71CE1307300F8330E /* Assets.xcassets */; };
+		9133DECB1CE1307300F8330E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */; };
+		9133DED61CE1307300F8330E /* ClydeLink_AppsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DED51CE1307300F8330E /* ClydeLink_AppsTests.swift */; };
+		9133DEE11CE1307300F8330E /* ClydeLink_AppsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9133DED21CE1307300F8330E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9133DEB51CE1307300F8330E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9133DEBC1CE1307300F8330E;
+			remoteInfo = "ClydeLink Apps";
+		};
+		9133DEDD1CE1307300F8330E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9133DEB51CE1307300F8330E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9133DEBC1CE1307300F8330E;
+			remoteInfo = "ClydeLink Apps";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9133DEBD1CE1307300F8330E /* ClydeLink Apps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ClydeLink Apps.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9133DEC01CE1307300F8330E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9133DEC21CE1307300F8330E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9133DEC51CE1307300F8330E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9133DEC71CE1307300F8330E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9133DECA1CE1307300F8330E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9133DECC1CE1307300F8330E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9133DED11CE1307300F8330E /* ClydeLink AppsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ClydeLink AppsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9133DED51CE1307300F8330E /* ClydeLink_AppsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClydeLink_AppsTests.swift; sourceTree = "<group>"; };
+		9133DED71CE1307300F8330E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9133DEDC1CE1307300F8330E /* ClydeLink AppsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ClydeLink AppsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClydeLink_AppsUITests.swift; sourceTree = "<group>"; };
+		9133DEE21CE1307300F8330E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9133DEBA1CE1307300F8330E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9133DECE1CE1307300F8330E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9133DED91CE1307300F8330E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9133DEB41CE1307300F8330E = {
+			isa = PBXGroup;
+			children = (
+				9133DEBF1CE1307300F8330E /* ClydeLink Apps */,
+				9133DED41CE1307300F8330E /* ClydeLink AppsTests */,
+				9133DEDF1CE1307300F8330E /* ClydeLink AppsUITests */,
+				9133DEBE1CE1307300F8330E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9133DEBE1CE1307300F8330E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9133DEBD1CE1307300F8330E /* ClydeLink Apps.app */,
+				9133DED11CE1307300F8330E /* ClydeLink AppsTests.xctest */,
+				9133DEDC1CE1307300F8330E /* ClydeLink AppsUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9133DEBF1CE1307300F8330E /* ClydeLink Apps */ = {
+			isa = PBXGroup;
+			children = (
+				9133DEC01CE1307300F8330E /* AppDelegate.swift */,
+				9133DEC21CE1307300F8330E /* ViewController.swift */,
+				9133DEC41CE1307300F8330E /* Main.storyboard */,
+				9133DEC71CE1307300F8330E /* Assets.xcassets */,
+				9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */,
+				9133DECC1CE1307300F8330E /* Info.plist */,
+			);
+			path = "ClydeLink Apps";
+			sourceTree = "<group>";
+		};
+		9133DED41CE1307300F8330E /* ClydeLink AppsTests */ = {
+			isa = PBXGroup;
+			children = (
+				9133DED51CE1307300F8330E /* ClydeLink_AppsTests.swift */,
+				9133DED71CE1307300F8330E /* Info.plist */,
+			);
+			path = "ClydeLink AppsTests";
+			sourceTree = "<group>";
+		};
+		9133DEDF1CE1307300F8330E /* ClydeLink AppsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */,
+				9133DEE21CE1307300F8330E /* Info.plist */,
+			);
+			path = "ClydeLink AppsUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9133DEBC1CE1307300F8330E /* ClydeLink Apps */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9133DEE51CE1307300F8330E /* Build configuration list for PBXNativeTarget "ClydeLink Apps" */;
+			buildPhases = (
+				9133DEB91CE1307300F8330E /* Sources */,
+				9133DEBA1CE1307300F8330E /* Frameworks */,
+				9133DEBB1CE1307300F8330E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ClydeLink Apps";
+			productName = "ClydeLink Apps";
+			productReference = 9133DEBD1CE1307300F8330E /* ClydeLink Apps.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9133DED01CE1307300F8330E /* ClydeLink AppsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9133DEE81CE1307300F8330E /* Build configuration list for PBXNativeTarget "ClydeLink AppsTests" */;
+			buildPhases = (
+				9133DECD1CE1307300F8330E /* Sources */,
+				9133DECE1CE1307300F8330E /* Frameworks */,
+				9133DECF1CE1307300F8330E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9133DED31CE1307300F8330E /* PBXTargetDependency */,
+			);
+			name = "ClydeLink AppsTests";
+			productName = "ClydeLink AppsTests";
+			productReference = 9133DED11CE1307300F8330E /* ClydeLink AppsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9133DEDB1CE1307300F8330E /* ClydeLink AppsUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9133DEEB1CE1307300F8330E /* Build configuration list for PBXNativeTarget "ClydeLink AppsUITests" */;
+			buildPhases = (
+				9133DED81CE1307300F8330E /* Sources */,
+				9133DED91CE1307300F8330E /* Frameworks */,
+				9133DEDA1CE1307300F8330E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9133DEDE1CE1307300F8330E /* PBXTargetDependency */,
+			);
+			name = "ClydeLink AppsUITests";
+			productName = "ClydeLink AppsUITests";
+			productReference = 9133DEDC1CE1307300F8330E /* ClydeLink AppsUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9133DEB51CE1307300F8330E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "XLR8 Development LLC";
+				TargetAttributes = {
+					9133DEBC1CE1307300F8330E = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					9133DED01CE1307300F8330E = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 9133DEBC1CE1307300F8330E;
+					};
+					9133DEDB1CE1307300F8330E = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 9133DEBC1CE1307300F8330E;
+					};
+				};
+			};
+			buildConfigurationList = 9133DEB81CE1307300F8330E /* Build configuration list for PBXProject "ClydeLink Apps" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9133DEB41CE1307300F8330E;
+			productRefGroup = 9133DEBE1CE1307300F8330E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9133DEBC1CE1307300F8330E /* ClydeLink Apps */,
+				9133DED01CE1307300F8330E /* ClydeLink AppsTests */,
+				9133DEDB1CE1307300F8330E /* ClydeLink AppsUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9133DEBB1CE1307300F8330E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9133DECB1CE1307300F8330E /* LaunchScreen.storyboard in Resources */,
+				9133DEC81CE1307300F8330E /* Assets.xcassets in Resources */,
+				9133DEC61CE1307300F8330E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9133DECF1CE1307300F8330E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9133DEDA1CE1307300F8330E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9133DEB91CE1307300F8330E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9133DEC31CE1307300F8330E /* ViewController.swift in Sources */,
+				9133DEC11CE1307300F8330E /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9133DECD1CE1307300F8330E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9133DED61CE1307300F8330E /* ClydeLink_AppsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9133DED81CE1307300F8330E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9133DEE11CE1307300F8330E /* ClydeLink_AppsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9133DED31CE1307300F8330E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9133DEBC1CE1307300F8330E /* ClydeLink Apps */;
+			targetProxy = 9133DED21CE1307300F8330E /* PBXContainerItemProxy */;
+		};
+		9133DEDE1CE1307300F8330E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9133DEBC1CE1307300F8330E /* ClydeLink Apps */;
+			targetProxy = 9133DEDD1CE1307300F8330E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9133DEC41CE1307300F8330E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9133DEC51CE1307300F8330E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9133DECA1CE1307300F8330E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9133DEE31CE1307300F8330E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9133DEE41CE1307300F8330E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9133DEE61CE1307300F8330E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "ClydeLink Apps/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-Apps";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9133DEE71CE1307300F8330E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "ClydeLink Apps/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-Apps";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		9133DEE91CE1307300F8330E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "ClydeLink AppsTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-AppsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClydeLink Apps.app/ClydeLink Apps";
+			};
+			name = Debug;
+		};
+		9133DEEA1CE1307300F8330E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "ClydeLink AppsTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-AppsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClydeLink Apps.app/ClydeLink Apps";
+			};
+			name = Release;
+		};
+		9133DEEC1CE1307300F8330E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "ClydeLink AppsUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-AppsUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "ClydeLink Apps";
+			};
+			name = Debug;
+		};
+		9133DEED1CE1307300F8330E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "ClydeLink AppsUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-AppsUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "ClydeLink Apps";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9133DEB81CE1307300F8330E /* Build configuration list for PBXProject "ClydeLink Apps" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9133DEE31CE1307300F8330E /* Debug */,
+				9133DEE41CE1307300F8330E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9133DEE51CE1307300F8330E /* Build configuration list for PBXNativeTarget "ClydeLink Apps" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9133DEE61CE1307300F8330E /* Debug */,
+				9133DEE71CE1307300F8330E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		9133DEE81CE1307300F8330E /* Build configuration list for PBXNativeTarget "ClydeLink AppsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9133DEE91CE1307300F8330E /* Debug */,
+				9133DEEA1CE1307300F8330E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		9133DEEB1CE1307300F8330E /* Build configuration list for PBXNativeTarget "ClydeLink AppsUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9133DEEC1CE1307300F8330E /* Debug */,
+				9133DEED1CE1307300F8330E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9133DEB51CE1307300F8330E /* Project object */;
+}
