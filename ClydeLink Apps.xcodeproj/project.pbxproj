@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16C01CE24AA20062527E /* ConstructionViewController.swift */; };
 		9133DEC11CE1307300F8330E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DEC01CE1307300F8330E /* AppDelegate.swift */; };
 		9133DEC31CE1307300F8330E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DEC21CE1307300F8330E /* ViewController.swift */; };
 		9133DEC61CE1307300F8330E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9133DEC41CE1307300F8330E /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		911E16C01CE24AA20062527E /* ConstructionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructionViewController.swift; sourceTree = "<group>"; };
 		9133DEBD1CE1307300F8330E /* ClydeLink Apps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ClydeLink Apps.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9133DEC01CE1307300F8330E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9133DEC21CE1307300F8330E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			children = (
 				9133DEC01CE1307300F8330E /* AppDelegate.swift */,
 				9133DEC21CE1307300F8330E /* ViewController.swift */,
+				911E16C01CE24AA20062527E /* ConstructionViewController.swift */,
 				9133DEC41CE1307300F8330E /* Main.storyboard */,
 				9133DEC71CE1307300F8330E /* Assets.xcassets */,
 				9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */,
@@ -258,6 +261,7 @@
 			files = (
 				9133DEC31CE1307300F8330E /* ViewController.swift in Sources */,
 				9133DEC11CE1307300F8330E /* AppDelegate.swift in Sources */,
+				911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,6 +486,7 @@
 				9133DEE71CE1307300F8330E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9133DEE81CE1307300F8330E /* Build configuration list for PBXNativeTarget "ClydeLink AppsTests" */ = {
 			isa = XCConfigurationList;
@@ -490,6 +495,7 @@
 				9133DEEA1CE1307300F8330E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9133DEEB1CE1307300F8330E /* Build configuration list for PBXNativeTarget "ClydeLink AppsUITests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +504,7 @@
 				9133DEED1CE1307300F8330E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
