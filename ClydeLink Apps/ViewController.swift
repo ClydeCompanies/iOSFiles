@@ -14,8 +14,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        print("Testing")
-        print("Jaden")
+        View1.hidden = true
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,8 +23,20 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func Apps(sender: AnyObject) {
+    
+    @IBAction func Test(sender: AnyObject) {
+        if (View1.hidden == true)
+        {
+            View1.hidden = false
+        }
+        else
+        {
+            View1.hidden = true
+        }
     }
+    
+    @IBOutlet weak var View1: UIView!
+    
 
 }
 
