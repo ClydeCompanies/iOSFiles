@@ -180,7 +180,6 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="92" id="5ZX-X1-x8k"/>
                                     <constraint firstAttribute="height" constant="92" id="99K-bq-3wF"/>
                                     <constraint firstItem="xNz-oI-Emk" firstAttribute="leading" secondItem="pcO-mg-IfV" secondAttribute="leading" constant="8" id="Ayi-8H-8a8"/>
                                     <constraint firstItem="llb-Md-ngq" firstAttribute="top" secondItem="pcO-mg-IfV" secondAttribute="top" constant="6" id="M6E-zh-pse"/>
@@ -221,7 +220,7 @@
                                     <action selector="EquipmentButtonPush:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2db-IG-Qin"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fgh-Nl-hNB">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fgh-Nl-hNB">
                                 <rect key="frame" x="20" y="246" width="335" height="92"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etZ-Te-aG8">
@@ -278,6 +277,7 @@
                                     <constraint firstItem="etZ-Te-aG8" firstAttribute="leading" secondItem="Fgh-Nl-hNB" secondAttribute="leading" constant="8" id="TIh-Kp-W4N"/>
                                     <constraint firstItem="jRQ-U5-myR" firstAttribute="top" secondItem="Fgh-Nl-hNB" secondAttribute="top" constant="6" id="TXX-jD-wtG"/>
                                     <constraint firstAttribute="trailing" secondItem="jRQ-U5-myR" secondAttribute="trailing" constant="8" id="ZI7-Vp-2q0"/>
+                                    <constraint firstAttribute="height" constant="92" id="fIw-65-BDb"/>
                                     <constraint firstAttribute="trailing" secondItem="etZ-Te-aG8" secondAttribute="trailing" constant="8" id="hzF-Kf-HhP"/>
                                     <constraint firstItem="jRQ-U5-myR" firstAttribute="top" secondItem="Fgh-Nl-hNB" secondAttribute="top" constant="6" id="oie-ki-9em"/>
                                     <constraint firstAttribute="trailing" secondItem="etZ-Te-aG8" secondAttribute="trailing" constant="8" id="pp5-HK-J0h"/>
@@ -295,7 +295,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="© Clyde Companies Inc. 2016" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1q9-5n-6wH">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="© Clyde Companies Inc. 2016" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1q9-5n-6wH">
                                 <rect key="frame" x="70" y="626" width="234" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -425,6 +425,7 @@
                             <constraint firstItem="ZWT-7N-hds" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="LYE-es-oO8"/>
                             <constraint firstItem="UTR-db-pAR" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="RKY-Ub-Q8w"/>
                             <constraint firstItem="RWv-pz-7U3" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Rjd-Sp-YhN"/>
+                            <constraint firstItem="1q9-5n-6wH" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ti6-zu-xkA" secondAttribute="bottom" constant="115" id="ThZ-j8-45V"/>
                             <constraint firstItem="UTR-db-pAR" firstAttribute="top" secondItem="ZWT-7N-hds" secondAttribute="bottom" constant="30" id="Tst-9t-hf7"/>
                             <constraint firstItem="aEX-Rk-nY9" firstAttribute="top" secondItem="UTR-db-pAR" secondAttribute="bottom" constant="30" id="UA3-zY-Uix"/>
                             <constraint firstItem="ZWT-7N-hds" firstAttribute="top" secondItem="RWv-pz-7U3" secondAttribute="bottom" constant="8" id="ZMy-MP-hZ2"/>
@@ -441,12 +442,18 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="AccCreditButton" destination="ZWT-7N-hds" id="Eid-1y-ar5"/>
+                        <outlet property="AccFieldHeight" destination="2wG-WO-Cft" id="Jv9-9X-VDU"/>
                         <outlet property="Accounting" destination="XZ3-b3-MlR" id="qpn-ut-47a"/>
                         <outlet property="Credit" destination="lXR-Sn-b5M" id="aq3-TU-AC7"/>
                         <outlet property="EmployeeApps" destination="UTR-db-pAR" id="RHa-ad-QfY"/>
+                        <outlet property="EmployeeConst" destination="Tst-9t-hf7" id="ano-AE-6UD"/>
+                        <outlet property="EmployeeFieldHeight" destination="99K-bq-3wF" id="9TQ-Ub-NGN"/>
+                        <outlet property="EquipFieldHeight" destination="fIw-65-BDb" id="Zva-ZM-e4Y"/>
                         <outlet property="Equipment" destination="aEX-Rk-nY9" id="FFb-Ns-QfJ"/>
+                        <outlet property="EquipmentConst" destination="UA3-zY-Uix" id="wJs-ux-LA4"/>
                         <outlet property="FirstButton" destination="XZ3-b3-MlR" id="oVj-jJ-YPt"/>
                         <outlet property="HRApps" destination="ti6-zu-xkA" id="SJ4-L1-A10"/>
+                        <outlet property="HRAppsConst" destination="z5w-dO-V8q" id="8NK-2s-ZEV"/>
                         <outlet property="MainView" destination="8bC-Xf-vdC" id="3bJ-VY-sgv"/>
                         <outlet property="View1" destination="Afr-SE-2Kz" id="V27-BV-Gx3"/>
                         <outlet property="View2" destination="pcO-mg-IfV" id="KB8-A4-TZy"/>

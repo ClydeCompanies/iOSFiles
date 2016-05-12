@@ -19,6 +19,7 @@ class ViewController: UIViewController {
         View3.hidden = true
         View4.hidden = true
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -32,24 +33,25 @@ class ViewController: UIViewController {
     @IBAction func Test(sender: AnyObject) {
         if (View1.hidden == true)
         {
+            EmployeeConst.constant += 82
+            
+            EmployeeApps.updateConstraintsIfNeeded()
             AccCreditButton.selected = true
             view.bringSubviewToFront(View1)
             View1.hidden = false
             
-            EmployeeApps.enabled = false
-            Equipment.enabled = false
-            HRApps.enabled = false
+            
         }
         else
         {
+            EmployeeConst.constant -= 82
+            
+            View1.frame.size.height = 30
             AccCreditButton.selected = false
             View1.hidden = true
             view.sendSubviewToBack(View1)
             
-            AccCreditButton.enabled = true
-            EmployeeApps.enabled = true
-            Equipment.enabled = true
-            HRApps.enabled = true
+            
         }
     }
     
@@ -57,46 +59,45 @@ class ViewController: UIViewController {
     @IBAction func EmployeeButtonPush(sender: AnyObject) {
         if (View2.hidden == true)
         {
+            
+            EquipmentConst.constant += 82
+            
             EmployeeApps.selected = true
             view.bringSubviewToFront(View2)
             View2.hidden = false
             
-            AccCreditButton.enabled = false
-            Equipment.enabled = false
-            HRApps.enabled = false
+            
         }
         else{
+            EquipmentConst.constant -= 82
+            
             EmployeeApps.selected = false
             View2.hidden = true
             view.sendSubviewToBack(View2)
             
-            AccCreditButton.enabled = true
-            EmployeeApps.enabled = true
-            Equipment.enabled = true
-            HRApps.enabled = true
+            
         }
     }
     
     @IBAction func EquipmentButtonPush(sender: AnyObject) {
         if (View3.hidden == true)
         {
+            HRAppsConst.constant += 82
+            
             Equipment.selected = true
             view.bringSubviewToFront(View3)
             View3.hidden = false
             
-            AccCreditButton.enabled = false
-            EmployeeApps.enabled = false
-            HRApps.enabled = false
+            
         }
         else{
+            HRAppsConst.constant -= 82
+            
             Equipment.selected = false
             View3.hidden = true
             view.sendSubviewToBack(View3)
             
-            AccCreditButton.enabled = true
-            EmployeeApps.enabled = true
-            Equipment.enabled = true
-            HRApps.enabled = true
+            
         }
 
     }
@@ -123,6 +124,20 @@ class ViewController: UIViewController {
             HRApps.enabled = true
         }
     }
+    
+    
+    
+    @IBOutlet weak var EquipFieldHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var AccFieldHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var EmployeeFieldHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var HRAppsConst: NSLayoutConstraint!
+    
+    @IBOutlet weak var EquipmentConst: NSLayoutConstraint!
+    
+    @IBOutlet weak var EmployeeConst: NSLayoutConstraint!
     
     @IBOutlet weak var HRApps: UIButton!
     
