@@ -33,6 +33,27 @@ class ViewController: UIViewController {
     @IBAction func Test(sender: AnyObject) {
         if (View1.hidden == true)
         {
+            if (AccCreditButton.selected == true) {
+                EmployeeConst.constant -= 62
+                View1.hidden = true
+                AccCreditButton.selected = false
+            }
+            if (EmployeeApps.selected == true){
+                EquipmentConst.constant -= 62
+                View2.hidden = true
+                EmployeeApps.selected = false
+            }
+            if (Equipment.selected == true){
+                HRAppsConst.constant -= 62
+                View3.hidden = true
+                Equipment.selected = false
+            }
+            if (HRApps.selected == true)
+            {
+                HRApps.selected = false
+                View4.hidden = true
+            }
+            
             EmployeeConst.constant += 62
             
             EmployeeApps.updateConstraintsIfNeeded()
@@ -44,7 +65,14 @@ class ViewController: UIViewController {
         }
         else
         {
-            EmployeeConst.constant -= 62
+            if (EmployeeConst.constant > 50) {
+                EmployeeConst.constant -= 62}
+            if (EquipmentConst.constant > 50){
+                EquipmentConst.constant -= 62
+            }
+            if (HRAppsConst.constant > 50){
+                HRAppsConst.constant -= 62
+            }
             
             View1.frame.size.height = 30
             AccCreditButton.selected = false
@@ -59,6 +87,26 @@ class ViewController: UIViewController {
     @IBAction func EmployeeButtonPush(sender: AnyObject) {
         if (View2.hidden == true)
         {
+            if (AccCreditButton.selected == true) {
+                EmployeeConst.constant -= 62
+                View1.hidden = true
+                AccCreditButton.selected = false
+            }
+            if (EmployeeApps.selected == true){
+                EquipmentConst.constant -= 62
+                View2.hidden = true
+                EmployeeApps.selected = false
+            }
+            if (Equipment.selected == true){
+                HRAppsConst.constant -= 62
+                View3.hidden = true
+                Equipment.selected = false
+            }
+            if (HRApps.selected == true)
+            {
+                HRApps.selected = false
+                View4.hidden = true
+            }
             
             EquipmentConst.constant += 62
             
@@ -82,6 +130,27 @@ class ViewController: UIViewController {
     @IBAction func EquipmentButtonPush(sender: AnyObject) {
         if (View3.hidden == true)
         {
+            if (AccCreditButton.selected == true) {
+                EmployeeConst.constant -= 62
+                View1.hidden = true
+                AccCreditButton.selected = false
+            }
+            if (EmployeeApps.selected == true){
+                EquipmentConst.constant -= 62
+                View2.hidden = true
+                EmployeeApps.selected = false
+            }
+            if (Equipment.selected == true){
+                HRAppsConst.constant -= 62
+                View3.hidden = true
+                Equipment.selected = false
+            }
+            if (HRApps.selected == true)
+            {
+                HRApps.selected = false
+                View4.hidden = true
+            }
+            
             HRAppsConst.constant += 62
             
             Equipment.selected = true
@@ -105,6 +174,27 @@ class ViewController: UIViewController {
     @IBAction func HRButtonPress(sender: AnyObject) {
         if (View4.hidden == true)
         {
+            if (AccCreditButton.selected == true) {
+                EmployeeConst.constant -= 62
+                View1.hidden = true
+                AccCreditButton.selected = false
+            }
+            if (EmployeeApps.selected == true){
+                EquipmentConst.constant -= 62
+                View2.hidden = true
+                EmployeeApps.selected = false
+            }
+            if (Equipment.selected == true){
+                HRAppsConst.constant -= 62
+                View3.hidden = true
+                Equipment.selected = false
+            }
+            if (HRApps.selected == true)
+            {
+                HRApps.selected = false
+                View4.hidden = true
+            }
+            
             HRApps.selected = true
             view.bringSubviewToFront(View4)
             View4.hidden = false
