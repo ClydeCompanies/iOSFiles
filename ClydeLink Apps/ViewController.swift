@@ -36,12 +36,21 @@ class ViewController: UIViewController {
             AccCreditButton.selected = true
             view.bringSubviewToFront(View1)
             View1.hidden = false
+            
+            EmployeeApps.enabled = false
+            Equipment.enabled = false
+            HRApps.enabled = false
         }
         else
         {
             AccCreditButton.selected = false
             View1.hidden = true
             view.sendSubviewToBack(View1)
+            
+            AccCreditButton.enabled = true
+            EmployeeApps.enabled = true
+            Equipment.enabled = true
+            HRApps.enabled = true
         }
     }
     
@@ -52,11 +61,20 @@ class ViewController: UIViewController {
             EmployeeApps.selected = true
             view.bringSubviewToFront(View2)
             View2.hidden = false
+            
+            AccCreditButton.enabled = false
+            Equipment.enabled = false
+            HRApps.enabled = false
         }
         else{
             EmployeeApps.selected = false
             View2.hidden = true
             view.sendSubviewToBack(View2)
+            
+            AccCreditButton.enabled = true
+            EmployeeApps.enabled = true
+            Equipment.enabled = true
+            HRApps.enabled = true
         }
     }
     
@@ -66,11 +84,20 @@ class ViewController: UIViewController {
             Equipment.selected = true
             view.bringSubviewToFront(View3)
             View3.hidden = false
+            
+            AccCreditButton.enabled = false
+            EmployeeApps.enabled = false
+            HRApps.enabled = false
         }
         else{
             Equipment.selected = false
             View3.hidden = true
             view.sendSubviewToBack(View3)
+            
+            AccCreditButton.enabled = true
+            EmployeeApps.enabled = true
+            Equipment.enabled = true
+            HRApps.enabled = true
         }
 
     }
@@ -81,11 +108,20 @@ class ViewController: UIViewController {
             HRApps.selected = true
             view.bringSubviewToFront(View4)
             View4.hidden = false
+            
+            AccCreditButton.enabled = false
+            EmployeeApps.enabled = false
+            Equipment.enabled = false
         }
         else{
             HRApps.selected = false
             View4.hidden = true
             view.sendSubviewToBack(View4)
+            
+            AccCreditButton.enabled = true
+            EmployeeApps.enabled = true
+            Equipment.enabled = true
+            HRApps.enabled = true
         }
     }
     
