@@ -33,7 +33,7 @@ class ViewController: UIViewController {
     @IBAction func Test(sender: AnyObject) {
         if (View1.hidden == true)
         {
-            EmployeeConst.constant += 82
+            EmployeeConst.constant += 62
             
             EmployeeApps.updateConstraintsIfNeeded()
             AccCreditButton.selected = true
@@ -44,7 +44,7 @@ class ViewController: UIViewController {
         }
         else
         {
-            EmployeeConst.constant -= 82
+            EmployeeConst.constant -= 62
             
             View1.frame.size.height = 30
             AccCreditButton.selected = false
@@ -60,7 +60,7 @@ class ViewController: UIViewController {
         if (View2.hidden == true)
         {
             
-            EquipmentConst.constant += 82
+            EquipmentConst.constant += 62
             
             EmployeeApps.selected = true
             view.bringSubviewToFront(View2)
@@ -69,7 +69,7 @@ class ViewController: UIViewController {
             
         }
         else{
-            EquipmentConst.constant -= 82
+            EquipmentConst.constant -= 62
             
             EmployeeApps.selected = false
             View2.hidden = true
@@ -82,7 +82,7 @@ class ViewController: UIViewController {
     @IBAction func EquipmentButtonPush(sender: AnyObject) {
         if (View3.hidden == true)
         {
-            HRAppsConst.constant += 82
+            HRAppsConst.constant += 62
             
             Equipment.selected = true
             view.bringSubviewToFront(View3)
@@ -91,7 +91,7 @@ class ViewController: UIViewController {
             
         }
         else{
-            HRAppsConst.constant -= 82
+            HRAppsConst.constant -= 62
             
             Equipment.selected = false
             View3.hidden = true
@@ -109,19 +109,14 @@ class ViewController: UIViewController {
             view.bringSubviewToFront(View4)
             View4.hidden = false
             
-            AccCreditButton.enabled = false
-            EmployeeApps.enabled = false
-            Equipment.enabled = false
+            
         }
         else{
             HRApps.selected = false
             View4.hidden = true
             view.sendSubviewToBack(View4)
             
-            AccCreditButton.enabled = true
-            EmployeeApps.enabled = true
-            Equipment.enabled = true
-            HRApps.enabled = true
+            
         }
     }
     
