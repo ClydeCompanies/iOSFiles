@@ -15,7 +15,9 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         View1.hidden = true
-        
+        View2.hidden = true
+        View3.hidden = true
+        View4.hidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,20 +25,90 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBOutlet var MainView: UIView!
+    
+    @IBOutlet weak var FirstButton: UIButton!
     
     @IBAction func Test(sender: AnyObject) {
         if (View1.hidden == true)
         {
+            
+            AccCreditButton.selected = true
+            view.bringSubviewToFront(View1)
             View1.hidden = false
         }
         else
         {
+            AccCreditButton.selected = false
             View1.hidden = true
+            view.sendSubviewToBack(View1)
         }
     }
     
+    
+    @IBAction func EmployeeButtonPush(sender: AnyObject) {
+        if (View2.hidden == true)
+        {
+            EmployeeApps.selected = true
+            view.bringSubviewToFront(View2)
+            View2.hidden = false
+        }
+        else{
+            EmployeeApps.selected = false
+            View2.hidden = true
+            view.sendSubviewToBack(View2)
+        }
+    }
+    
+    @IBAction func EquipmentButtonPush(sender: AnyObject) {
+        if (View3.hidden == true)
+        {
+            Equipment.selected = true
+            view.bringSubviewToFront(View3)
+            View3.hidden = false
+        }
+        else{
+            Equipment.selected = false
+            View3.hidden = true
+            view.sendSubviewToBack(View3)
+        }
+
+    }
+    
+    @IBAction func HRButtonPress(sender: AnyObject) {
+        if (View4.hidden == true)
+        {
+            HRApps.selected = true
+            view.bringSubviewToFront(View4)
+            View4.hidden = false
+        }
+        else{
+            HRApps.selected = false
+            View4.hidden = true
+            view.sendSubviewToBack(View4)
+        }
+    }
+    
+    @IBOutlet weak var HRApps: UIButton!
+    
+    @IBOutlet weak var View4: UIView!
+    
+    @IBOutlet weak var Equipment: UIButton!
+    
+    
+    @IBOutlet weak var View3: UIView!
+    
+    @IBOutlet weak var View2: UIView!
+    
+    @IBOutlet weak var EmployeeApps: UIButton!
+    
     @IBOutlet weak var View1: UIView!
     
+    @IBOutlet weak var Accounting: UIButton!
 
+    @IBOutlet weak var Credit: UIButton!
+    
+    @IBOutlet weak var AccCreditButton: UIButton!
+    
 }
 
