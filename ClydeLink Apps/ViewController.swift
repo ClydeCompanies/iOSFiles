@@ -32,7 +32,6 @@ class ViewController: UIViewController {
     @IBAction func Test(sender: AnyObject) {
         if (View1.hidden == true)
         {
-            
             AccCreditButton.selected = true
             view.bringSubviewToFront(View1)
             View1.hidden = false
