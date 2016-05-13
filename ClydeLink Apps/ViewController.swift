@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         View4.hidden = true
     }
     
+    let buffer: CGFloat = 23
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -33,31 +34,30 @@ class ViewController: UIViewController {
     @IBAction func Test(sender: AnyObject) {
         if (View1.hidden == true)
         {
-            if (AccCreditButton.selected == true) {
-                EmployeeConst.constant -= 62
+            if (View1.hidden == false) {
+                EmployeeConst.constant = buffer
                 View1.hidden = true
                 AccCreditButton.selected = false
             }
-            if (EmployeeApps.selected == true){
-                EquipmentConst.constant -= 62
+            if (View2.hidden == false){
+                EquipmentConst.constant = buffer
                 View2.hidden = true
                 EmployeeApps.selected = false
             }
-            if (Equipment.selected == true){
-                HRAppsConst.constant -= 62
+            if (View3.hidden == false){
+                HRAppsConst.constant = buffer
                 View3.hidden = true
                 Equipment.selected = false
             }
-            if (HRApps.selected == true)
+            if (View4.hidden == false)
             {
                 HRApps.selected = false
                 View4.hidden = true
             }
             
-            EmployeeConst.constant += 62
+            EmployeeConst.constant = View1.frame.size.height + 10
             
             EmployeeApps.updateConstraintsIfNeeded()
-            AccCreditButton.selected = true
             view.bringSubviewToFront(View1)
             View1.hidden = false
             
@@ -66,12 +66,12 @@ class ViewController: UIViewController {
         else
         {
             if (EmployeeConst.constant > 50) {
-                EmployeeConst.constant -= 62}
+                EmployeeConst.constant = buffer}
             if (EquipmentConst.constant > 50){
-                EquipmentConst.constant -= 62
+                EquipmentConst.constant = buffer
             }
             if (HRAppsConst.constant > 50){
-                HRAppsConst.constant -= 62
+                HRAppsConst.constant = buffer
             }
             
             View1.frame.size.height = 30
@@ -87,37 +87,36 @@ class ViewController: UIViewController {
     @IBAction func EmployeeButtonPush(sender: AnyObject) {
         if (View2.hidden == true)
         {
-            if (AccCreditButton.selected == true) {
-                EmployeeConst.constant -= 62
+            if (View1.hidden == false) {
+                EmployeeConst.constant = buffer
                 View1.hidden = true
                 AccCreditButton.selected = false
             }
-            if (EmployeeApps.selected == true){
-                EquipmentConst.constant -= 62
+            if (View2.hidden == false){
+                EquipmentConst.constant = buffer
                 View2.hidden = true
                 EmployeeApps.selected = false
             }
-            if (Equipment.selected == true){
-                HRAppsConst.constant -= 62
+            if (View3.hidden == false){
+                HRAppsConst.constant = buffer
                 View3.hidden = true
                 Equipment.selected = false
             }
-            if (HRApps.selected == true)
+            if (View4.hidden == false)
             {
                 HRApps.selected = false
                 View4.hidden = true
             }
             
-            EquipmentConst.constant += 62
+            EquipmentConst.constant = View2.frame.size.height + 10
             
-            EmployeeApps.selected = true
             view.bringSubviewToFront(View2)
             View2.hidden = false
             
             
         }
         else{
-            EquipmentConst.constant -= 62
+            EquipmentConst.constant = buffer
             
             EmployeeApps.selected = false
             View2.hidden = true
@@ -130,37 +129,36 @@ class ViewController: UIViewController {
     @IBAction func EquipmentButtonPush(sender: AnyObject) {
         if (View3.hidden == true)
         {
-            if (AccCreditButton.selected == true) {
-                EmployeeConst.constant -= 62
+            if (View1.hidden == false) {
+                EmployeeConst.constant = buffer
                 View1.hidden = true
                 AccCreditButton.selected = false
             }
-            if (EmployeeApps.selected == true){
-                EquipmentConst.constant -= 62
+            if (View2.hidden == false){
+                EquipmentConst.constant = buffer
                 View2.hidden = true
                 EmployeeApps.selected = false
             }
-            if (Equipment.selected == true){
-                HRAppsConst.constant -= 62
+            if (View3.hidden == false){
+                HRAppsConst.constant = buffer
                 View3.hidden = true
                 Equipment.selected = false
             }
-            if (HRApps.selected == true)
+            if (View4.hidden == false)
             {
                 HRApps.selected = false
                 View4.hidden = true
             }
             
-            HRAppsConst.constant += 62
+            HRAppsConst.constant = View3.frame.size.height + 10
             
-            Equipment.selected = true
             view.bringSubviewToFront(View3)
             View3.hidden = false
             
             
         }
         else{
-            HRAppsConst.constant -= 62
+            HRAppsConst.constant = buffer
             
             Equipment.selected = false
             View3.hidden = true
@@ -174,28 +172,27 @@ class ViewController: UIViewController {
     @IBAction func HRButtonPress(sender: AnyObject) {
         if (View4.hidden == true)
         {
-            if (AccCreditButton.selected == true) {
-                EmployeeConst.constant -= 62
+            if (View1.hidden == false) {
+                EmployeeConst.constant = buffer
                 View1.hidden = true
                 AccCreditButton.selected = false
             }
-            if (EmployeeApps.selected == true){
-                EquipmentConst.constant -= 62
+            if (View2.hidden == false){
+                EquipmentConst.constant = buffer
                 View2.hidden = true
                 EmployeeApps.selected = false
             }
-            if (Equipment.selected == true){
-                HRAppsConst.constant -= 62
+            if (View3.hidden == false){
+                HRAppsConst.constant = buffer
                 View3.hidden = true
                 Equipment.selected = false
             }
-            if (HRApps.selected == true)
+            if (View4.hidden == false)
             {
                 HRApps.selected = false
                 View4.hidden = true
             }
             
-            HRApps.selected = true
             view.bringSubviewToFront(View4)
             View4.hidden = false
             
