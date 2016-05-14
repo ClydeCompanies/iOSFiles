@@ -21,6 +21,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var EmployeeButtons: NSMutableArray! = NSMutableArray()
     
+    var appButtons: NSMutableArray! = NSMutableArray()
+    
+    var AccountingVisible = false
+    var EmployeeVisible = false
+    var EquipmentVisible = false
+    var HRVisible = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +37,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.headerButtons.addObject("Equipment Apps")
         self.headerButtons.addObject("Human Resources Apps")
        
+        self.appButtons.addObject("Test1")
+        self.appButtons.addObject("Test2")
+        self.appButtons.addObject("Test3")
+        self.appButtons.addObject("Test4")
+        self.appButtons.addObject("Test5")
+        self.appButtons.addObject("Test6")
+        self.appButtons.addObject("Test7")
+        self.appButtons.addObject("Test8")
         
         AppTable.reloadData()
         
@@ -45,7 +60,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - AppTable View
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.headerButtons.count + self.AccCreditButtons.count
+        return self.headerButtons.count + 2
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -59,58 +74,61 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
         return cell
         }
-        else if ((indexPath.row == 1 || indexPath.row == 2) && AccCreditButtons.count != 0)
+        else if ((indexPath.row == 1 || indexPath.row == 2))
         {
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
             
-            cell.Title.text = self.AccCreditButtons.objectAtIndex(indexPath.row - 1) as? String
+            cell.Title.text = self.appButtons.objectAtIndex(indexPath.row-1) as? String
             
             return cell
         }
         else{
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("HeaderCell", forIndexPath: indexPath) as! HeaderTableViewCell
             
-            if AccCreditButtons.count == 0
-            {
-            cell.Title.text = self.headerButtons.objectAtIndex(indexPath.row) as? String
-            }
-            else
-            {
+            
                 cell.Title.text = self.headerButtons.objectAtIndex(indexPath.row-2) as? String
-            }
+            
             
             
             return cell
         }
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        if (AccountingVisible == true)
+        {
+            if (indexPath.row == 1 || indexPath.row == 2)
+            {
+                return 60.0
+            }
+        }
+        else if (AccountingVisible == false)
+        {
+            if (indexPath.row == 1 || indexPath.row == 2)
+            {
+                return 0.0
+            }
+        }
+        
+        return 60.0
+    }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         print(indexPath.row)
         
-        if (indexPath.row == 0 && AccCreditButtons.count == 0)
+        if (indexPath.row == 0 && AccountingVisible == false)
         {
-            self.AccCreditButtons.addObject("Test1")
-            self.AccCreditButtons.addObject("Test2")
+            AccountingVisible = true
             AppTable.reloadData()
         }
-        else if (indexPath.row == 0 && AccCreditButtons.count != 0)
+        else if (indexPath.row == 0 && AccountingVisible == true)
         {
-            self.AccCreditButtons.removeAllObjects()
+            AccountingVisible = false
             AppTable.reloadData()
         }
         
-        if (indexPath.row == 1 && EmployeeButtons.count == 0)
-        {
-            self.EmployeeButtons.addObject("Test1")
-            self.EmployeeButtons.addObject("Test2")
-            AppTable.reloadData()
-        }
-        else if (indexPath.row == 1 && EmployeeButtons.count != 0)
-        {
-            self.AccCreditButtons.removeAllObjects()
-            AppTable.reloadData()
-        }
         
         AppTable.deselectRowAtIndexPath(indexPath, animated: true)
         
