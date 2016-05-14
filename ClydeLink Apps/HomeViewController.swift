@@ -19,6 +19,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var AccCreditButtons: NSMutableArray! = NSMutableArray()
     
+    var EmployeeButtons: NSMutableArray! = NSMutableArray()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,13 +29,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.headerButtons.addObject("Employee Apps")
         self.headerButtons.addObject("Equipment Apps")
         self.headerButtons.addObject("Human Resources Apps")
-        
-        self.AccCreditButtons.addObject("Accounting Apps")
-        self.AccCreditButtons.addObject("Credit Apps")
+       
         
         AppTable.reloadData()
         
         AppTable.separatorStyle = UITableViewCellSeparatorStyle.None
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,8 +50,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        print(indexPath.row)
-        
         if indexPath.row == 0
         {
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("HeaderCell", forIndexPath: indexPath) as! HeaderTableViewCell
@@ -60,7 +59,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
         return cell
         }
-        else if (indexPath.row == 1 || indexPath.row == 2)
+        else if ((indexPath.row == 1 || indexPath.row == 2) && AccCreditButtons.count != 0)
         {
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
             
@@ -71,11 +70,52 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         else{
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("HeaderCell", forIndexPath: indexPath) as! HeaderTableViewCell
             
-            cell.Title.text = self.headerButtons.objectAtIndex(indexPath.row-2) as? String
+            if AccCreditButtons.count == 0
+            {
+            cell.Title.text = self.headerButtons.objectAtIndex(indexPath.row) as? String
+            }
+            else
+            {
+                cell.Title.text = self.headerButtons.objectAtIndex(indexPath.row-2) as? String
+            }
+            
             
             return cell
         }
     }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        print(indexPath.row)
+        
+        if (indexPath.row == 0 && AccCreditButtons.count == 0)
+        {
+            self.AccCreditButtons.addObject("Test1")
+            self.AccCreditButtons.addObject("Test2")
+            AppTable.reloadData()
+        }
+        else if (indexPath.row == 0 && AccCreditButtons.count != 0)
+        {
+            self.AccCreditButtons.removeAllObjects()
+            AppTable.reloadData()
+        }
+        
+        if (indexPath.row == 1 && EmployeeButtons.count == 0)
+        {
+            self.EmployeeButtons.addObject("Test1")
+            self.EmployeeButtons.addObject("Test2")
+            AppTable.reloadData()
+        }
+        else if (indexPath.row == 1 && EmployeeButtons.count != 0)
+        {
+            self.AccCreditButtons.removeAllObjects()
+            AppTable.reloadData()
+        }
+        
+        AppTable.deselectRowAtIndexPath(indexPath, animated: true)
+        
+    }
+    
     
     @IBAction func editTable(sender: AnyObject) {
         if (AppTable.editing == false)
