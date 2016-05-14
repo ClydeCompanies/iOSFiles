@@ -19,6 +19,9 @@
 		9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5AD1CE780C300C24D8F /* LoginViewController.swift */; };
 		9195A5B01CE789A700C24D8F /* AppsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5AF1CE789A700C24D8F /* AppsTable.swift */; };
 		9195A5B31CE78CCD00C24D8F /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B11CE78CCD00C24D8F /* DataModel.xcdatamodeld */; };
+		9195A5B51CE7908B00C24D8F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B41CE7908B00C24D8F /* HomeViewController.swift */; };
+		9195A5B71CE7A0EA00C24D8F /* HeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B61CE7A0EA00C24D8F /* HeaderTableViewCell.swift */; };
+		9195A5B91CE7AC1000C24D8F /* AppTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B81CE7AC1000C24D8F /* AppTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +60,9 @@
 		9195A5AD1CE780C300C24D8F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9195A5AF1CE789A700C24D8F /* AppsTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsTable.swift; sourceTree = "<group>"; };
 		9195A5B21CE78CCD00C24D8F /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		9195A5B41CE7908B00C24D8F /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		9195A5B61CE7A0EA00C24D8F /* HeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTableViewCell.swift; sourceTree = "<group>"; };
+		9195A5B81CE7AC1000C24D8F /* AppTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +124,9 @@
 				9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */,
 				9133DECC1CE1307300F8330E /* Info.plist */,
 				9195A5B11CE78CCD00C24D8F /* DataModel.xcdatamodeld */,
+				9195A5B41CE7908B00C24D8F /* HomeViewController.swift */,
+				9195A5B61CE7A0EA00C24D8F /* HeaderTableViewCell.swift */,
+				9195A5B81CE7AC1000C24D8F /* AppTableViewCell.swift */,
 			);
 			path = "ClydeLink Apps";
 			sourceTree = "<group>";
@@ -273,8 +282,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				9195A5B01CE789A700C24D8F /* AppsTable.swift in Sources */,
+				9195A5B91CE7AC1000C24D8F /* AppTableViewCell.swift in Sources */,
+				9195A5B71CE7A0EA00C24D8F /* HeaderTableViewCell.swift in Sources */,
 				911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */,
 				9133DEC31CE1307300F8330E /* ViewController.swift in Sources */,
+				9195A5B51CE7908B00C24D8F /* HomeViewController.swift in Sources */,
 				9195A5B31CE78CCD00C24D8F /* DataModel.xcdatamodeld in Sources */,
 				9133DEC11CE1307300F8330E /* AppDelegate.swift in Sources */,
 				9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */,

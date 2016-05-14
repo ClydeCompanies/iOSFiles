@@ -58,10 +58,10 @@
             </objects>
             <point key="canvasLocation" x="-297.5" y="363.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Main-->
         <scene sceneID="6H2-WH-D1q">
             <objects>
-                <viewController id="Auj-ne-zK8" sceneMemberID="viewController">
+                <viewController title="Main" id="Auj-ne-zK8" customClass="HomeViewController" customModule="ClydeLink_Apps" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cZ6-uW-2Us"/>
                         <viewControllerLayoutGuide type="bottom" id="Yl3-Sc-rk8"/>
@@ -74,7 +74,12 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
                                     <navigationItem title="ClydeLink Apps" id="4Aa-1P-VPL">
-                                        <barButtonItem key="backBarButtonItem" title="&lt;" id="mFa-qX-oHn"/>
+                                        <barButtonItem key="leftBarButtonItem" title="Edit" style="plain" id="8xk-rp-KG3">
+                                            <connections>
+                                                <action selector="editTable:" destination="Auj-ne-zK8" id="MtQ-3L-yjG"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Settings" style="plain" id="v0G-3K-BWl"/>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -84,25 +89,66 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HtZ-SP-8Uh" customClass="AppsTable" customModule="ClydeLink_Apps" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="375" height="562"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HtZ-SP-8Uh">
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="50" id="DeC-K4-5Ya">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="50"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="HeaderCell" rowHeight="60" id="DeC-K4-5Ya" customClass="HeaderTableViewCell" customModule="ClydeLink_Apps" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DeC-K4-5Ya" id="3OZ-lR-r6I">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXi-PW-7MJ">
+                                                    <rect key="frame" x="8" y="19" width="359" height="21"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="Title" destination="ZXi-PW-7MJ" id="kdu-UU-YHD"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="AppCell" editingAccessoryType="checkmark" rowHeight="60" id="ote-uy-lV4" customClass="AppTableViewCell" customModule="ClydeLink_Apps" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="88" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ote-uy-lV4" id="vfT-MO-gzV">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRQ-Gd-ALD">
+                                                    <rect key="frame" x="8" y="19" width="359" height="21"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="Title" destination="rRQ-Gd-ALD" id="C6d-IT-H1o"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Auj-ne-zK8" id="cQJ-md-Xwh"/>
+                                    <outlet property="delegate" destination="Auj-ne-zK8" id="rU5-DU-S83"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="AppTable" destination="HtZ-SP-8Uh" id="KHG-cT-qUG"/>
+                        <outlet property="leftButton" destination="8xk-rp-KG3" id="xtt-Sk-g6F"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z1r-SA-dFM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -580,28 +626,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZTm-Mf-G35">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="k27-TV-1WN"/>
-                                </constraints>
-                                <items>
-                                    <navigationItem title="ClydeLink Apps" id="0aG-xP-l73">
-                                        <barButtonItem key="backBarButtonItem" title="&lt;" id="tHA-gb-4GF"/>
-                                        <barButtonItem key="leftBarButtonItem" style="plain" id="Tkr-nG-fYN">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="giN-bg-KEU">
-                                                <rect key="frame" x="16" y="7" width="55" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="16"/>
-                                                <state key="normal" title="Home"/>
-                                                <connections>
-                                                    <segue destination="BYZ-38-t0r" kind="presentation" id="HRF-N4-zlg"/>
-                                                </connections>
-                                            </button>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="© Clyde Companies Inc. 2016" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="beo-Bw-te5">
                                 <rect key="frame" x="70" y="626" width="234" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="9"/>
@@ -686,6 +710,21 @@
                                 </prototypes>
                                 <sections/>
                             </tableView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZTm-Mf-G35">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="k27-TV-1WN"/>
+                                </constraints>
+                                <items>
+                                    <navigationItem title="ClydeLink Apps" id="0aG-xP-l73">
+                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="reply" id="Tkr-nG-fYN">
+                                            <connections>
+                                                <segue destination="BYZ-38-t0r" kind="presentation" id="lla-eZ-e8y"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -722,10 +761,10 @@
             </objects>
             <point key="canvasLocation" x="884.5" y="-399.5"/>
         </scene>
-        <!--Construction View Controller-->
+        <!--Construction-->
         <scene sceneID="mZJ-gx-3qK">
             <objects>
-                <viewController id="0DF-CZ-aJg" customClass="ConstructionViewController" customModule="ClydeLink_Apps" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Construction" id="0DF-CZ-aJg" customClass="ConstructionViewController" customModule="ClydeLink_Apps" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VI0-Rg-hpd"/>
                         <viewControllerLayoutGuide type="bottom" id="dxN-RG-LUO"/>
@@ -745,16 +784,10 @@
                                 <items>
                                     <navigationItem title="ClydeLink Apps" id="GJv-iB-fkr">
                                         <barButtonItem key="backBarButtonItem" title="&lt;" id="Ejj-Sd-NfD"/>
-                                        <barButtonItem key="leftBarButtonItem" style="plain" id="Q3Y-XS-NZz">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Jvu-cg-i0H">
-                                                <rect key="frame" x="16" y="7" width="55" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="16"/>
-                                                <state key="normal" title="Home"/>
-                                                <connections>
-                                                    <segue destination="BYZ-38-t0r" kind="presentation" id="XGH-Su-J2w"/>
-                                                </connections>
-                                            </button>
+                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="reply" id="Q3Y-XS-NZz">
+                                            <connections>
+                                                <segue destination="BYZ-38-t0r" kind="presentation" id="gDq-Bi-nXv"/>
+                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
@@ -775,9 +808,6 @@
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <connections>
-                        <outlet property="Back" destination="Jvu-cg-i0H" id="vax-dJ-i7p"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ggc-jS-hih" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -788,7 +818,7 @@
         <image name="CCI_Logo_Tall" width="214" height="292"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="HRF-N4-zlg"/>
+        <segue reference="lla-eZ-e8y"/>
         <segue reference="ytY-7i-dSa"/>
     </inferredMetricsTieBreakers>
 </document>
