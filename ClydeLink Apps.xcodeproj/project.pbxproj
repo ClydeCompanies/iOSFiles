@@ -16,6 +16,7 @@
 		9133DECB1CE1307300F8330E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */; };
 		9133DED61CE1307300F8330E /* ClydeLink_AppsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DED51CE1307300F8330E /* ClydeLink_AppsTests.swift */; };
 		9133DEE11CE1307300F8330E /* ClydeLink_AppsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */; };
+		9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5AD1CE780C300C24D8F /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		9133DEDC1CE1307300F8330E /* ClydeLink AppsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ClydeLink AppsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClydeLink_AppsUITests.swift; sourceTree = "<group>"; };
 		9133DEE21CE1307300F8330E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9195A5AD1CE780C300C24D8F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				9133DEC21CE1307300F8330E /* ViewController.swift */,
 				911E16C01CE24AA20062527E /* ConstructionViewController.swift */,
 				911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */,
+				9195A5AD1CE780C300C24D8F /* LoginViewController.swift */,
 				9133DEC41CE1307300F8330E /* Main.storyboard */,
 				9133DEC71CE1307300F8330E /* Assets.xcassets */,
 				9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */,
@@ -266,6 +269,7 @@
 				911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */,
 				9133DEC31CE1307300F8330E /* ViewController.swift in Sources */,
 				9133DEC11CE1307300F8330E /* AppDelegate.swift in Sources */,
+				9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */,
 				911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
