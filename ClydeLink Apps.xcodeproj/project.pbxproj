@@ -17,6 +17,8 @@
 		9133DED61CE1307300F8330E /* ClydeLink_AppsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DED51CE1307300F8330E /* ClydeLink_AppsTests.swift */; };
 		9133DEE11CE1307300F8330E /* ClydeLink_AppsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */; };
 		9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5AD1CE780C300C24D8F /* LoginViewController.swift */; };
+		9195A5B01CE789A700C24D8F /* AppsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5AF1CE789A700C24D8F /* AppsTable.swift */; };
+		9195A5B31CE78CCD00C24D8F /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B11CE78CCD00C24D8F /* DataModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClydeLink_AppsUITests.swift; sourceTree = "<group>"; };
 		9133DEE21CE1307300F8330E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9195A5AD1CE780C300C24D8F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		9195A5AF1CE789A700C24D8F /* AppsTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsTable.swift; sourceTree = "<group>"; };
+		9195A5B21CE78CCD00C24D8F /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,10 +112,12 @@
 				911E16C01CE24AA20062527E /* ConstructionViewController.swift */,
 				911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */,
 				9195A5AD1CE780C300C24D8F /* LoginViewController.swift */,
+				9195A5AF1CE789A700C24D8F /* AppsTable.swift */,
 				9133DEC41CE1307300F8330E /* Main.storyboard */,
 				9133DEC71CE1307300F8330E /* Assets.xcassets */,
 				9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */,
 				9133DECC1CE1307300F8330E /* Info.plist */,
+				9195A5B11CE78CCD00C24D8F /* DataModel.xcdatamodeld */,
 			);
 			path = "ClydeLink Apps";
 			sourceTree = "<group>";
@@ -266,8 +272,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9195A5B01CE789A700C24D8F /* AppsTable.swift in Sources */,
 				911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */,
 				9133DEC31CE1307300F8330E /* ViewController.swift in Sources */,
+				9195A5B31CE78CCD00C24D8F /* DataModel.xcdatamodeld in Sources */,
 				9133DEC11CE1307300F8330E /* AppDelegate.swift in Sources */,
 				9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */,
 				911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */,
@@ -522,6 +530,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9195A5B11CE78CCD00C24D8F /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9195A5B21CE78CCD00C24D8F /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 9195A5B21CE78CCD00C24D8F /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9133DEB51CE1307300F8330E /* Project object */;
 }
