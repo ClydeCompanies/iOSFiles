@@ -17,10 +17,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var headerButtons: NSMutableArray! = NSMutableArray()
     
-    var AccCreditButtons: NSMutableArray! = NSMutableArray()
-    
-    var EmployeeButtons: NSMutableArray! = NSMutableArray()
-    
     var appButtons: NSMutableArray! = NSMutableArray()
     
     var AccountingVisible = false
@@ -28,6 +24,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var EquipmentVisible = false
     var HRVisible = false
     
+    var AppCount: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,16 +34,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.headerButtons.addObject("Equipment Apps")
         self.headerButtons.addObject("Human Resources Apps")
        
-        self.appButtons.addObject("Test1")
-        self.appButtons.addObject("Test2")
-        self.appButtons.addObject("Test3")
-        self.appButtons.addObject("Test4")
-        self.appButtons.addObject("Test5")
-        self.appButtons.addObject("Test6")
-        self.appButtons.addObject("Test7")
-        self.appButtons.addObject("Test8")
+        self.appButtons.addObject("Accounting App")
+        self.appButtons.addObject("Credit App")
+        self.appButtons.addObject("Employee Search")
+        self.appButtons.addObject("Employee Info")
+        self.appButtons.addObject("Truck Search")
+        self.appButtons.addObject("Equipment Search")
+        self.appButtons.addObject("Human Resources")
+        self.appButtons.addObject("HR Search")
         
-        AppTable.reloadData()
         
         AppTable.separatorStyle = UITableViewCellSeparatorStyle.None
         
@@ -60,36 +56,30 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - AppTable View
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.headerButtons.count + 2
+        return self.headerButtons.count + self.appButtons.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         if indexPath.row == 0
+        {
+            AppCount = 0
+        }
+        
+        if indexPath.row % 3 == 0
         {
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("HeaderCell", forIndexPath: indexPath) as! HeaderTableViewCell
         
-        cell.Title.text = self.headerButtons.objectAtIndex(indexPath.row) as? String
+            cell.Title.text = self.headerButtons.objectAtIndex(indexPath.row / 3) as? String
         
-            
-        return cell
+            return cell
         }
-        else if ((indexPath.row == 1 || indexPath.row == 2))
+        else
         {
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
             
-            cell.Title.text = self.appButtons.objectAtIndex(indexPath.row-1) as? String
+            cell.Title.text = self.appButtons.objectAtIndex(AppCount) as? String
             
-            return cell
-        }
-        else{
-            let cell = self.AppTable.dequeueReusableCellWithIdentifier("HeaderCell", forIndexPath: indexPath) as! HeaderTableViewCell
-            
-            
-                cell.Title.text = self.headerButtons.objectAtIndex(indexPath.row-2) as? String
-            
-            
-            
+            AppCount += 1;
             return cell
         }
     }
@@ -111,15 +101,59 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
         
+        if (EmployeeVisible == true)
+        {
+            if (indexPath.row == 4 || indexPath.row == 5)
+            {
+                return 60.0
+            }
+        }
+        else if (EmployeeVisible == false)
+        {
+            if (indexPath.row == 4 || indexPath.row == 5)
+            {
+                return 0.0
+            }
+        }
+        
+        if (EquipmentVisible == true)
+        {
+            if (indexPath.row == 7 || indexPath.row == 8)
+            {
+                return 60.0
+            }
+        }
+        else if (EquipmentVisible == false)
+        {
+            if (indexPath.row == 7 || indexPath.row == 8)
+            {
+                return 0.0
+            }
+        }
+        
+        if (HRVisible == true)
+        {
+            if (indexPath.row == 10 || indexPath.row == 11)
+            {
+                return 60.0
+            }
+        }
+        else if (HRVisible == false)
+        {
+            if (indexPath.row == 10 || indexPath.row == 11)
+            {
+                return 0.0
+            }
+        }
         return 60.0
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        print(indexPath.row)
         
         if (indexPath.row == 0 && AccountingVisible == false)
         {
+            closeAllButtons()
             AccountingVisible = true
             AppTable.reloadData()
         }
@@ -129,23 +163,57 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             AppTable.reloadData()
         }
         
+        if (indexPath.row == 3 && EmployeeVisible == false)
+        {
+            closeAllButtons()
+            EmployeeVisible = true
+            AppTable.reloadData()
+        }
+        else if (indexPath.row == 3 && EmployeeVisible == true)
+        {
+            EmployeeVisible = false
+            AppTable.reloadData()
+        }
+        
+        if (indexPath.row == 6 && EquipmentVisible == false)
+        {
+            closeAllButtons()
+            EquipmentVisible = true
+            AppTable.reloadData()
+        }
+        else if (indexPath.row == 6 && EquipmentVisible == true)
+        {
+            EquipmentVisible = false
+            AppTable.reloadData()
+        }
+        
+        if (indexPath.row == 9 && HRVisible == false)
+        {
+            closeAllButtons()
+            HRVisible = true
+            AppTable.reloadData()
+        }
+        else if (indexPath.row == 9 && HRVisible == true)
+        {
+            HRVisible = false
+            AppTable.reloadData()
+        }
         
         AppTable.deselectRowAtIndexPath(indexPath, animated: true)
         
     }
     
+    func closeAllButtons()
+    {
+        AccountingVisible = false
+        EmployeeVisible = false
+        EquipmentVisible = false
+        HRVisible = false
+    }
     
     @IBAction func editTable(sender: AnyObject) {
-        if (AppTable.editing == false)
-        {
-            leftButton.title = "Done"
-            AppTable.editing = true
-        }
-        else
-        {
-            leftButton.title = "Edit"
-            AppTable.editing = false
-        }
+        let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Edit")
+        self.showViewController(vc as! UIViewController, sender: vc)
         
     }
     

@@ -22,6 +22,7 @@
 		9195A5B51CE7908B00C24D8F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B41CE7908B00C24D8F /* HomeViewController.swift */; };
 		9195A5B71CE7A0EA00C24D8F /* HeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B61CE7A0EA00C24D8F /* HeaderTableViewCell.swift */; };
 		9195A5B91CE7AC1000C24D8F /* AppTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B81CE7AC1000C24D8F /* AppTableViewCell.swift */; };
+		9195A5BB1CE7F74E00C24D8F /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5BA1CE7F74E00C24D8F /* EditViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		9195A5B41CE7908B00C24D8F /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		9195A5B61CE7A0EA00C24D8F /* HeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTableViewCell.swift; sourceTree = "<group>"; };
 		9195A5B81CE7AC1000C24D8F /* AppTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppTableViewCell.swift; sourceTree = "<group>"; };
+		9195A5BA1CE7F74E00C24D8F /* EditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,20 +115,12 @@
 		9133DEBF1CE1307300F8330E /* ClydeLink Apps */ = {
 			isa = PBXGroup;
 			children = (
-				9133DEC01CE1307300F8330E /* AppDelegate.swift */,
-				9133DEC21CE1307300F8330E /* ViewController.swift */,
-				911E16C01CE24AA20062527E /* ConstructionViewController.swift */,
-				911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */,
-				9195A5AD1CE780C300C24D8F /* LoginViewController.swift */,
-				9195A5AF1CE789A700C24D8F /* AppsTable.swift */,
+				9195A5BC1CE7FAEC00C24D8F /* View Controllers */,
 				9133DEC41CE1307300F8330E /* Main.storyboard */,
 				9133DEC71CE1307300F8330E /* Assets.xcassets */,
 				9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */,
 				9133DECC1CE1307300F8330E /* Info.plist */,
 				9195A5B11CE78CCD00C24D8F /* DataModel.xcdatamodeld */,
-				9195A5B41CE7908B00C24D8F /* HomeViewController.swift */,
-				9195A5B61CE7A0EA00C24D8F /* HeaderTableViewCell.swift */,
-				9195A5B81CE7AC1000C24D8F /* AppTableViewCell.swift */,
 			);
 			path = "ClydeLink Apps";
 			sourceTree = "<group>";
@@ -147,6 +141,23 @@
 				9133DEE21CE1307300F8330E /* Info.plist */,
 			);
 			path = "ClydeLink AppsUITests";
+			sourceTree = "<group>";
+		};
+		9195A5BC1CE7FAEC00C24D8F /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9133DEC01CE1307300F8330E /* AppDelegate.swift */,
+				9133DEC21CE1307300F8330E /* ViewController.swift */,
+				911E16C01CE24AA20062527E /* ConstructionViewController.swift */,
+				911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */,
+				9195A5AD1CE780C300C24D8F /* LoginViewController.swift */,
+				9195A5AF1CE789A700C24D8F /* AppsTable.swift */,
+				9195A5B41CE7908B00C24D8F /* HomeViewController.swift */,
+				9195A5B61CE7A0EA00C24D8F /* HeaderTableViewCell.swift */,
+				9195A5B81CE7AC1000C24D8F /* AppTableViewCell.swift */,
+				9195A5BA1CE7F74E00C24D8F /* EditViewController.swift */,
+			);
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,6 +301,7 @@
 				9195A5B31CE78CCD00C24D8F /* DataModel.xcdatamodeld in Sources */,
 				9133DEC11CE1307300F8330E /* AppDelegate.swift in Sources */,
 				9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */,
+				9195A5BB1CE7F74E00C24D8F /* EditViewController.swift in Sources */,
 				911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

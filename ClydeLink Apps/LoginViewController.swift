@@ -33,7 +33,7 @@ class LoginViewController: UIViewController {
     */
 
     @IBAction func LoginButtonPress(sender: AnyObject) {
-        let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Home")
+        let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
         self.showViewController(vc as! UIViewController, sender: vc)
     }
     
