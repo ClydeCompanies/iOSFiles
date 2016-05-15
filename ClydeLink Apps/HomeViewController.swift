@@ -6,6 +6,8 @@
 //  Copyright © 2016 XLR8 Development LLC. All rights reserved.
 //
 
+// Jackson was here.
+
 import UIKit
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -88,6 +90,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // This is what the function does
+    // Input:
+    // Output:
+    // @param: 
+    // @return:
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         if (AccountingVisible == true)
