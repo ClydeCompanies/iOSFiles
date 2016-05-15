@@ -24,6 +24,8 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var AppCount: Int = 0
     
+    var checked: Array = [Bool]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -78,6 +80,12 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.Title.text = self.headerButtons.objectAtIndex(indexPath.row / 3) as? String
             
+            
+            if !checked[indexPath.row/3] {
+                cell.accessoryType = .None
+            } else if checked[indexPath.row/3] {
+                cell.accessoryType = .Checkmark
+            }
             return cell
         }
         else
@@ -86,6 +94,11 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.Title.text = self.appButtons.objectAtIndex(AppCount) as? String
             
+            if !checked[AppCount] {
+                cell.accessoryType = .None
+            } else if checked[AppCount] {
+                cell.accessoryType = .Checkmark
+            }
             AppCount += 1;
             return cell
         }
@@ -96,7 +109,21 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
         return 60.0
     }
     
-
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+        
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+            if cell.accessoryType == .Checkmark {
+                cell.accessoryType = .None
+                checked[indexPath.row] = false
+            } else {
+                cell.accessoryType = .Checkmark
+                checked[indexPath.row] = true
+            }
+        }
+        
+        
+        AppTable.deselectRowAtIndexPath(indexPath, animated: true)
+    }
 
     
     

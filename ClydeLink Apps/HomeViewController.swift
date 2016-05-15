@@ -64,6 +64,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         {
             AppCount = 0
         }
+        if (AppCount == 8)
+        {
+            AppCount = 0
+        }
         
         if indexPath.row % 3 == 0
         {
@@ -197,6 +201,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         {
             HRVisible = false
             AppTable.reloadData()
+        }
+        
+        if (indexPath.row == 7)
+        {
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Truck Search")
+            self.showViewController(vc as! UIViewController, sender: vc)
+        }
+        else if (indexPath.row % 3 != 0)
+        {
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Construction")
+            self.showViewController(vc as! UIViewController, sender: vc)
         }
         
         AppTable.deselectRowAtIndexPath(indexPath, animated: true)
