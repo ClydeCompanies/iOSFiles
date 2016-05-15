@@ -86,6 +86,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // This is what the function does
+    // Input:
+    // Output:
+    // @param: 
+    // @return:
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         if (AccountingVisible == true)
