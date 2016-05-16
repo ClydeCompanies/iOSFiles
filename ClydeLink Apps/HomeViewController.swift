@@ -57,6 +57,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
+    
+    
+    
     // MARK: - AppTable View
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -241,6 +246,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
+    
+    @IBAction func settingsButton(sender: AnyObject) {
+        let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Settings")
+        self.showViewController(vc as! UIViewController, sender: vc)
+        
+    }
     
     
     
