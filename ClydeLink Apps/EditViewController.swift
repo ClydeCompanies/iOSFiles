@@ -24,7 +24,7 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var AppCount: Int = 0
     
-    var checked: Array = [Bool]()
+    var checked: Array = [Bool](count: 12, repeatedValue: false)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +44,9 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.appButtons.addObject("HR Search")
         
         
-        AppTable.separatorStyle = UITableViewCellSeparatorStyle.None
+        AppTable.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+        
+        AppTable.tableFooterView = UIView(frame: CGRectZero)
         
     }
 
@@ -81,11 +83,6 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.Title.text = self.headerButtons.objectAtIndex(indexPath.row / 3) as? String
             
             
-            if !checked[indexPath.row/3] {
-                cell.accessoryType = .None
-            } else if checked[indexPath.row/3] {
-                cell.accessoryType = .Checkmark
-            }
             return cell
         }
         else
@@ -94,9 +91,9 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.Title.text = self.appButtons.objectAtIndex(AppCount) as? String
             
-            if !checked[AppCount] {
+            if !checked[indexPath.row] {
                 cell.accessoryType = .None
-            } else if checked[AppCount] {
+            } else if checked[indexPath.row] {
                 cell.accessoryType = .Checkmark
             }
             AppCount += 1;
@@ -115,7 +112,9 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
             if cell.accessoryType == .Checkmark {
                 cell.accessoryType = .None
                 checked[indexPath.row] = false
-            } else {
+            }
+            else if (cell.accessoryType == .None && indexPath.row % 3 != 0)
+            {
                 cell.accessoryType = .Checkmark
                 checked[indexPath.row] = true
             }

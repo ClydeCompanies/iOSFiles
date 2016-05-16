@@ -46,7 +46,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.appButtons.addObject("HR Search")
         
         
-        AppTable.separatorStyle = UITableViewCellSeparatorStyle.None
+        AppTable.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+        
+        AppTable.tableFooterView = UIView(frame: CGRectZero)
         
     }
 
