@@ -24,7 +24,7 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var AppCount: Int = 0
     
-    var checked: Array = [Bool](count: 12, repeatedValue: false)
+    var checked: Array = [Bool](count: 12, repeatedValue: true)
     
     override func viewDidLoad() {
         super.viewDidLoad()
