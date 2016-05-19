@@ -69,6 +69,7 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
         self.showViewController(vc as! UIViewController, sender: vc)
         prefs.setObject(checked, forKey: "userChecked")
+        prefs.synchronize()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
