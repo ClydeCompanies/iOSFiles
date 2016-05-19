@@ -27,23 +27,7 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let prefs = NSUserDefaults.standardUserDefaults()
     var checked: Array = [AnyObject](count: 12, repeatedValue: true)
-    //****************************************************************************************************
     
-    /*
-     For small bits of data like a connection string, I'd use NSUserDefaults.
-     
-     When you want to save your connection string, you'd do this:
-     
-     [[NSUserDefaults standardUserDefaults] setObject:myConnectionString
-     forKey:@"connectionString"];
-     
-     When you want to load it, you'd do this:
-     
-     myConnectionString = [[NSUserDefaults standardUserDefaults]
-     stringForKey:@"connectionString"];
-    */
-    
-    //****************************************************************************************************
     
     override func viewDidLoad() {
         super.viewDidLoad()
