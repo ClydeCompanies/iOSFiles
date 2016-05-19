@@ -234,7 +234,7 @@
 				TargetAttributes = {
 					9133DEBC1CE1307300F8330E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = QSZCK35VQS;
+						DevelopmentTeam = W3MVWHQTCX;
 					};
 					9133DED01CE1307300F8330E = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -459,6 +459,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-Apps";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -473,6 +474,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-Apps";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
