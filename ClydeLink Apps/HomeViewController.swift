@@ -28,6 +28,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var AppCount: Int = 0
     
+    let prefs = NSUserDefaults.standardUserDefaults()
+    var checked: Array = [AnyObject](count: 12, repeatedValue: true)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,6 +52,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         AppTable.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
         
         AppTable.tableFooterView = UIView(frame: CGRectZero)
+        
+        if (prefs.arrayForKey("userChecked") != nil) {
+            checked = prefs.arrayForKey("userChecked")!
+        } else {
+            checked = [true,true,true,true,true,true,true,true,true,true,true,true]
+        }
         
     }
 
@@ -106,10 +115,23 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (AccountingVisible == true)
         {
-            if (indexPath.row == 1 || indexPath.row == 2)
+            if (indexPath.row == 1 && checked[1] as! NSObject == true)
             {
                 return 60.0
             }
+            else if (indexPath.row == 1 && checked[1] as! NSObject == false)
+            {
+                return 0.0
+            }
+            if (indexPath.row == 2 && checked[2] as! NSObject == true)
+            {
+                return 60.0
+            }
+            else if (indexPath.row == 2 && checked[2] as! NSObject == false)
+            {
+                return 0.0
+            }
+            
         }
         else if (AccountingVisible == false)
         {
@@ -121,9 +143,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (EmployeeVisible == true)
         {
-            if (indexPath.row == 4 || indexPath.row == 5)
+            if (indexPath.row == 4 && checked[4] as! NSObject == true)
             {
                 return 60.0
+            }
+            else if (indexPath.row == 4 && checked[4] as! NSObject == false)
+            {
+                return 0.0
+            }
+            if (indexPath.row == 5 && checked[5] as! NSObject == true)
+            {
+                return 60.0
+            }
+            else if (indexPath.row == 5 && checked[5] as! NSObject == false)
+            {
+                return 0.0
             }
         }
         else if (EmployeeVisible == false)
@@ -136,9 +170,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (EquipmentVisible == true)
         {
-            if (indexPath.row == 7 || indexPath.row == 8)
+            if (indexPath.row == 7 && checked[7] as! NSObject == true)
             {
                 return 60.0
+            }
+            else if (indexPath.row == 7 && checked[7] as! NSObject == false)
+            {
+                return 0.0
+            }
+            if (indexPath.row == 8 && checked[8] as! NSObject == true)
+            {
+                return 60.0
+            }
+            else if (indexPath.row == 8 && checked[8] as! NSObject == false)
+            {
+                return 0.0
             }
         }
         else if (EquipmentVisible == false)
@@ -151,9 +197,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (HRVisible == true)
         {
-            if (indexPath.row == 10 || indexPath.row == 11)
+            if (indexPath.row == 10 && checked[10] as! NSObject == true)
             {
                 return 60.0
+            }
+            else if (indexPath.row == 10 && checked[10] as! NSObject == false)
+            {
+                return 0.0
+            }
+            if (indexPath.row == 11 && checked[11] as! NSObject == true)
+            {
+                return 60.0
+            }
+            else if (indexPath.row == 11 && checked[11] as! NSObject == false)
+            {
+                return 0.0
             }
         }
         else if (HRVisible == false)
