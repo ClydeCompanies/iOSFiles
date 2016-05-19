@@ -262,7 +262,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     
-    
+//    This is for the URL Schemes:
+//    
+//    if let url = NSURL(string: "app://") where UIApplication.sharedApplication().canOpenURL(url) {
+//    UIApplication.sharedApplication().openURL(url)
+//    } else if let itunesUrl = NSURL(string: "https://itunes.apple.com/itunes-link-to-app") where UIApplication.sharedApplication().canOpenURL(itunesUrl) {
+//    UIApplication.sharedApplication().openURL(itunesUrl)
+//    }
     
     
     
