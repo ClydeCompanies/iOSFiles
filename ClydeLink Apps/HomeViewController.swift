@@ -53,11 +53,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         AppTable.tableFooterView = UIView(frame: CGRectZero)
         
-        if (prefs.arrayForKey("userChecked") != nil) {
-            checked = prefs.arrayForKey("userChecked")!
-        } else {
-            checked = [true,true,true,true,true,true,true,true,true,true,true,true]
-        }
+        loadChecked()
         
     }
 
@@ -74,6 +70,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - AppTable View
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        loadChecked()
+        
         return self.headerButtons.count + self.appButtons.count
     }
     
@@ -313,7 +311,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     
-    
+    func loadChecked()
+    {
+        if (prefs.arrayForKey("userChecked") != nil) {
+            checked = prefs.arrayForKey("userChecked")!
+        } else {
+            checked = [true,true,true,true,true,true,true,true,true,true,true,true]
+        }
+    }
     
     
     
