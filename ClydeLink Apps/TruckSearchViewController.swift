@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TruckSearchViewController: UIViewController {
+class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,4 +57,28 @@ class TruckSearchViewController: UIViewController {
     
     @IBOutlet weak var ResultsTable: UITableView!
     
+    
+    
+    
+    // MARK: Table View
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("NONE", forIndexPath: indexPath) as! TruckSearchTableViewCell
+        
+        return cell
+    }
+
+    
+    
 }
+
+
+
+
+
+
+
