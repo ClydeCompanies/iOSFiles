@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class EditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -24,7 +25,25 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var AppCount: Int = 0
     
-    var checked: Array = [Bool](count: 12, repeatedValue: true)
+    let prefs = NSUserDefaults.standardUserDefaults()
+    var checked: Array = [AnyObject](count: 12, repeatedValue: true)
+    //****************************************************************************************************
+    
+    /*
+     For small bits of data like a connection string, I'd use NSUserDefaults.
+     
+     When you want to save your connection string, you'd do this:
+     
+     [[NSUserDefaults standardUserDefaults] setObject:myConnectionString
+     forKey:@"connectionString"];
+     
+     When you want to load it, you'd do this:
+     
+     myConnectionString = [[NSUserDefaults standardUserDefaults]
+     stringForKey:@"connectionString"];
+    */
+    
+    //****************************************************************************************************
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +67,12 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         AppTable.tableFooterView = UIView(frame: CGRectZero)
         
+        if (prefs.arrayForKey("userChecked") != nil) {
+            checked = prefs.arrayForKey("userChecked")!
+        } else {
+            checked = [true,true,true,true,true,true,true,true,true,true,true,true]
+        }
+        print(checked)
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,7 +84,7 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
         self.showViewController(vc as! UIViewController, sender: vc)
-        
+        prefs.setObject(checked, forKey: "userChecked")
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,9 +117,9 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.Title.text = self.appButtons.objectAtIndex(AppCount) as? String
             
-            if !checked[indexPath.row] {
+            if !(checked[indexPath.row] as! Bool) {
                 cell.accessoryType = .None
-            } else if checked[indexPath.row] {
+            } else if (checked[indexPath.row] as! Bool) {
                 cell.accessoryType = .Checkmark
             }
             AppCount += 1;
