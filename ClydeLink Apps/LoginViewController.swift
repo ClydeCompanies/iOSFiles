@@ -10,6 +10,8 @@ import UIKit
 
 class LoginViewController: UIViewController {
 
+    let prefs = NSUserDefaults.standardUserDefaults()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,6 +37,8 @@ class LoginViewController: UIViewController {
     @IBAction func LoginButtonPress(sender: AnyObject) {
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
         self.showViewController(vc as! UIViewController, sender: vc)
+        
+        prefs.setObject(Username, forKey: "username")
     }
     
     @IBOutlet weak var Username: UITextField!
