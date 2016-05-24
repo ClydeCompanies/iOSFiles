@@ -38,7 +38,7 @@ class LoginViewController: UIViewController {
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
         self.showViewController(vc as! UIViewController, sender: vc)
         
-        prefs.setObject(Username, forKey: "username")
+        prefs.setObject(Username.text, forKey: "username")
     }
     
     @IBOutlet weak var Username: UITextField!
