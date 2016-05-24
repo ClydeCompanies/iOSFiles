@@ -37,13 +37,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.headerButtons.addObject("Equipment Apps")
         self.headerButtons.addObject("Human Resources Apps")
        
-        self.appButtons.addObject("Accounting App")
-        self.appButtons.addObject("Credit App")
-        self.appButtons.addObject("Employee Search")
-        self.appButtons.addObject("Employee Info")
+        self.appButtons.addObject("Create New Customer Account")
+        self.appButtons.addObject("Credit Dashboard")
+        self.appButtons.addObject("New Hire")
+        self.appButtons.addObject("Expense Reimbursement")
         self.appButtons.addObject("Truck Search")
         self.appButtons.addObject("Equipment Search")
-        self.appButtons.addObject("Human Resources")
+        self.appButtons.addObject("Training Request Form")
         self.appButtons.addObject("HR Search")
         
         
@@ -72,7 +72,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return prefs.stringForKey("username")
+        
+        
+        return "Logged in as: " + prefs.stringForKey("username")!
+        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

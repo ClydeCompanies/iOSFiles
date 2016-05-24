@@ -39,6 +39,9 @@ class LoginViewController: UIViewController {
         self.showViewController(vc as! UIViewController, sender: vc)
         
         prefs.setObject(Username.text, forKey: "username")
+        if (Username.text == "") {
+            prefs.setObject("Admin", forKey: "username")
+            }
     }
     
     @IBOutlet weak var Username: UITextField!
