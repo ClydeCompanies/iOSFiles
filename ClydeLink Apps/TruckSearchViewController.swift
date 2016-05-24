@@ -43,7 +43,27 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     @IBAction func SearchClick(sender: AnyObject) {
-        print(TextBox.text! + "Searched")
+        
+    if let url = NSURL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/GetTrucks?") {
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPBody = "name=&truck=70&token=tRuv^:]56NEn61M5vl3MGf/5A/gU<@".dataUsingEncoding(NSUTF8StringEncoding)
+        request.HTTPMethod = "POST"
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+            guard error == nil && data != nil else { // check for fundamental networking error
+                print("error=\(error)")
+                return
+            }
+            
+            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 {           // check for http errors
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("response = \(response)")
+            }
+            
+            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            print("responseString = \(responseString)")
+        }
+        task.resume()
+    }
     }
     
     
