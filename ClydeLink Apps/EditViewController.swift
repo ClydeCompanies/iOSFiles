@@ -56,7 +56,7 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             checked = [true,true,true,true,true,true,true,true,true,true,true,true]
         }
-        print(checked)
+//        print(checked)
     }
 
     override func didReceiveMemoryWarning() {

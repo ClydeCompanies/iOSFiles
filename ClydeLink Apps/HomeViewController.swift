@@ -6,8 +6,6 @@
 //  Copyright © 2016 XLR8 Development LLC. All rights reserved.
 //
 
-// Jackson was here.
-
 import UIKit
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -69,6 +67,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: - AppTable View
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1;
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return prefs.stringForKey("username")
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         loadChecked()
         
@@ -103,6 +109,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             return cell
         }
     }
+    
     
     // This is what the function does
     // Input:
