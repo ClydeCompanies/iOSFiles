@@ -41,10 +41,12 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             TextBox.reloadInputViews()
         }
     }
+
     
     @IBAction func SearchClick(sender: AnyObject) {
         
-    if let url = NSURL(string: "https://63.157.124.27/") {
+    if let url = NSURL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/GetTrucks?") {
+        print("Starting:\n")
         let request = NSMutableURLRequest(URL: url)
         request.HTTPBody = "name=&truck=70&token=tRuv^:]56NEn61M5vl3MGf/5A/gU<@".dataUsingEncoding(NSUTF8StringEncoding)
         request.HTTPMethod = "POST"
