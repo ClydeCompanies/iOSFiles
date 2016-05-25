@@ -44,11 +44,22 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
 
     
     @IBAction func SearchClick(sender: AnyObject) {
+        var nameSearched = ""
+        var truckNumber = ""
         
-    if let url = NSURL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/GetTrucks?") {
+        if (SearchCriteria.text == "Fleet Number:")
+        {
+            truckNumber = TextBox.text!
+        }
+        else if (SearchCriteria.text == "Employee Name:")
+        {
+            nameSearched = TextBox.text!
+        }
+        
+    if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
         print("Starting:\n")
         let request = NSMutableURLRequest(URL: url)
-        request.HTTPBody = "name=&truck=70&token=tRuv^:]56NEn61M5vl3MGf/5A/gU<@".dataUsingEncoding(NSUTF8StringEncoding)
+        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
         request.HTTPMethod = "POST"
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
             guard error == nil && data != nil else { // check for fundamental networking error
