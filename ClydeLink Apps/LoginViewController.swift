@@ -12,10 +12,17 @@ class LoginViewController: UIViewController {
 
     let prefs = NSUserDefaults.standardUserDefaults()
     
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,10 +45,15 @@ class LoginViewController: UIViewController {
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
         self.showViewController(vc as! UIViewController, sender: vc)
         
-        prefs.setObject(Username.text, forKey: "username")
-        if (Username.text == "") {
+        
+        if (Username.text == "")
+        {
             prefs.setObject("Admin", forKey: "username")
-            }
+        }
+        else
+        {
+            prefs.setObject(Username.text, forKey: "username")
+        }
     }
     
     @IBOutlet weak var Username: UITextField!

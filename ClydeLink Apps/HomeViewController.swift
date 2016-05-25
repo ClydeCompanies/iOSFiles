@@ -72,9 +72,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        
-        return "Logged in as: " + prefs.stringForKey("username")!
+        var uName: String = ""
+        if (prefs.stringForKey("username") != nil)
+        {
+            uName = prefs.stringForKey("username")!
+        }
+        return "Logged in as " + uName
         
     }
     

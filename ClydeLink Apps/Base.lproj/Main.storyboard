@@ -73,6 +73,9 @@
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0sw-u9-yaG">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <color key="barTintColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="ClydeLink Apps" id="Id8-mf-6ea">
                                         <barButtonItem key="leftBarButtonItem" title="Done" style="plain" id="TRC-3s-nTc">
@@ -165,6 +168,9 @@
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dPX-Ub-ycB">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <color key="barTintColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="ClydeLink Apps" id="4Aa-1P-VPL">
                                         <barButtonItem key="leftBarButtonItem" title="Edit" style="plain" id="8xk-rp-KG3">
@@ -274,6 +280,9 @@
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iTz-yT-3y9">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <color key="barTintColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="ClydeLink Apps" id="wRs-8n-syZ">
                                         <barButtonItem key="leftBarButtonItem" title="Done" style="plain" id="LuJ-1o-bQH">
@@ -366,30 +375,6 @@
                                     <action selector="ChangeSearchButtonPress:" destination="5N6-5d-20c" eventType="touchUpInside" id="z55-4j-GNi"/>
                                 </connections>
                             </button>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZTm-Mf-G35">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="k27-TV-1WN"/>
-                                </constraints>
-                                <color key="barTintColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <items>
-                                    <navigationItem title="ClydeLink Apps" id="0aG-xP-l73">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="reply" id="Tkr-nG-fYN">
-                                            <connections>
-                                                <segue destination="Auj-ne-zK8" kind="presentation" modalTransitionStyle="crossDissolve" id="b95-nF-XaH"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <connections>
-                                            <outlet property="leftBarButtonItem" destination="Tkr-nG-fYN" id="i2q-KN-vOd"/>
-                                        </connections>
-                                    </navigationItem>
-                                </items>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="barPosition">
-                                        <integer key="value" value="3"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0Bf-57-aeS">
                                 <rect key="frame" x="20" y="146" width="335" height="472"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -417,6 +402,33 @@
                                     <outlet property="delegate" destination="5N6-5d-20c" id="nML-53-I0a"/>
                                 </connections>
                             </tableView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZTm-Mf-G35">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="k27-TV-1WN"/>
+                                </constraints>
+                                <color key="barTintColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="ClydeLink Apps" id="0aG-xP-l73">
+                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="reply" id="Tkr-nG-fYN">
+                                            <connections>
+                                                <segue destination="Auj-ne-zK8" kind="presentation" modalTransitionStyle="crossDissolve" id="b95-nF-XaH"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <connections>
+                                            <outlet property="leftBarButtonItem" destination="Tkr-nG-fYN" id="i2q-KN-vOd"/>
+                                        </connections>
+                                    </navigationItem>
+                                </items>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="barPosition">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -439,6 +451,8 @@
                             <constraint firstItem="6UC-ZA-XQq" firstAttribute="top" secondItem="ZTm-Mf-G35" secondAttribute="bottom" constant="19" id="vdZ-6y-HWi"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
@@ -474,6 +488,9 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JeW-Bj-0mR">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <color key="barTintColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </textAttributes>
                                 <items>
                                     <navigationItem title="ClydeLink Apps" id="GJv-iB-fkr">
                                         <barButtonItem key="backBarButtonItem" title="&lt;" id="Ejj-Sd-NfD"/>
@@ -510,6 +527,6 @@
         <image name="CCI_Logo_Tall" width="214" height="292"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="b95-nF-XaH"/>
+        <segue reference="trZ-pE-0lw"/>
     </inferredMetricsTieBreakers>
 </document>
