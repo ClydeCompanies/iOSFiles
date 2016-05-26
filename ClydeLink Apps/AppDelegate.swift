@@ -2,8 +2,7 @@
 //  AppDelegate.swift
 //  ClydeLink Apps
 //
-//  Created by J J Feddock on 5/9/16.
-//  Copyright © 2016 XLR8 Development LLC. All rights reserved.
+//  Created by XLR8 Development LLC on 5/9/16.
 //
 
 import UIKit

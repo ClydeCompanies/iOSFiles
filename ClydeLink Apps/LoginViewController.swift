@@ -2,18 +2,17 @@
 //  LoginViewController.swift
 //  ClydeLink Apps
 //
-//  Created by J J Feddock on 5/14/16.
-//  Copyright © 2016 XLR8 Development LLC. All rights reserved.
+//  Created by XLR8 Development LLC on 5/14/16.
 //
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController {  // Basic ViewController for the Login Screen, will be added to when necessary to include implementation for Authentication. Currently stores username entered for use later in the application.
 
-    let prefs = NSUserDefaults.standardUserDefaults()
+    let prefs = NSUserDefaults.standardUserDefaults()  // Where we are saving the user defaults in the Application data on the phone
     
     func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        //Causes the view (or one of its embedded text fields) to resign the first responder status and dismiss the keyboard
         view.endEditing(true)
     }
     
@@ -41,7 +40,8 @@ class LoginViewController: UIViewController {
     }
     */
 
-    @IBAction func LoginButtonPress(sender: AnyObject) {
+    @IBAction func LoginButtonPress(sender: AnyObject) {  // Transitions to new VC without any Authentication, simply for ease of testing until we solidify the means of auth that we are going to use
+        
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
         self.showViewController(vc as! UIViewController, sender: vc)
         

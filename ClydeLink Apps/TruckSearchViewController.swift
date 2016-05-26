@@ -21,6 +21,10 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)  // Allows dismissal of keyboard on tap anywhere on screen besides the keyboard itself
+        
+        ResultsTable.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+        
+        ResultsTable.tableFooterView = UIView(frame: CGRectZero)
     }
     
     override func didReceiveMemoryWarning() {
@@ -50,7 +54,8 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     } */
 
     
-    @IBAction func SearchClick(sender: AnyObject) {
+    @IBAction func SearchClick(sender: AnyObject) {  // Program reaction to a click on the search button, initially if the search box is empty, will have to effect, otherwise will query the database for information
+        
         if (TextBox.text == "") {
             return
         }
@@ -152,6 +157,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 cell.supervisorLabel.text = Supervisor
             }
             if let ePhoto = Employees[indexPath.row]["PicLocation"] as? String {  // Save complete URL of picture location, and save it to the table
+                
                 let url = NSURL(string: "https://clydelink.sharepoint.com/apps/Profile%20Pictures%20Large/\(ePhoto)LThumb.jpg")!
                 if let data = NSData(contentsOfURL: url){
                     let myImage = UIImage(data: data)
