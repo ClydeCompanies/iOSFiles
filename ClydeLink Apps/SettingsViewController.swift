@@ -2,13 +2,12 @@
 //  SettingsViewController.swift
 //  ClydeLink Apps
 //
-//  Created by J J Feddock on 5/16/16.
-//  Copyright © 2016 XLR8 Development LLC. All rights reserved.
+//  Created by XLR8 Development LLC on 5/16/16.
 //
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+class SettingsViewController: UIViewController {  // Basics of Settings screen, will be added to when decision has been made as to how we must proceed with the development of the screen
 
     override func viewDidLoad() {
         super.viewDidLoad()

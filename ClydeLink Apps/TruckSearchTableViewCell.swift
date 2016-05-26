@@ -2,13 +2,12 @@
 //  TruckSearchTableViewCell.swift
 //  ClydeLink Apps
 //
-//  Created by J J Feddock on 5/19/16.
-//  Copyright © 2016 XLR8 Development LLC. All rights reserved.
+//  Created by XLR8 Development LLC on 5/19/16.
 //
 
 import UIKit
 
-class TruckSearchTableViewCell: UITableViewCell {
+class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of each cell that is added to the Results Table from the Truck Search
 
     override func awakeFromNib() {
         super.awakeFromNib()

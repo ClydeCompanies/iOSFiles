@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ConstructionViewController: UIViewController {
+class ConstructionViewController: UIViewController {  // Simple ViewController designed to be a placeholder for other HTML queries and Segues that will be developed in the future
 
     override func viewDidLoad() {
         super.viewDidLoad()

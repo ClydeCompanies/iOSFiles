@@ -77,7 +77,7 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="ClydeLink Apps" id="Id8-mf-6ea">
+                                    <navigationItem title="Edit" id="Id8-mf-6ea">
                                         <barButtonItem key="leftBarButtonItem" title="Done" style="plain" id="TRC-3s-nTc">
                                             <connections>
                                                 <action selector="DoneButtonPress:" destination="Uud-XT-j5E" id="Zix-kI-00A"/>
@@ -172,7 +172,7 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="ClydeLink Apps" id="4Aa-1P-VPL">
+                                    <navigationItem title="ClydeLink" id="4Aa-1P-VPL">
                                         <barButtonItem key="leftBarButtonItem" title="Edit" style="plain" id="8xk-rp-KG3">
                                             <connections>
                                                 <action selector="editTable:" destination="Auj-ne-zK8" id="MtQ-3L-yjG"/>
@@ -284,7 +284,7 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="ClydeLink Apps" id="wRs-8n-syZ">
+                                    <navigationItem title="Settings" id="wRs-8n-syZ">
                                         <barButtonItem key="leftBarButtonItem" title="Done" style="plain" id="LuJ-1o-bQH">
                                             <connections>
                                                 <action selector="DoneButtonPress:" destination="Uud-XT-j5E" id="EOp-5T-3BU"/>
@@ -320,6 +320,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Employee Name or Truck #" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Dj7-n2-cfR">
+                                <rect key="frame" x="20" y="83" width="335" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no"/>
+                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ay-m8-e7t">
                                 <rect key="frame" x="20" y="125" width="335" height="42"/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -350,8 +355,8 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="ClydeLink Apps" id="0aG-xP-l73">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="reply" id="Tkr-nG-fYN">
+                                    <navigationItem title="Truck Search" id="0aG-xP-l73">
+                                        <barButtonItem key="leftBarButtonItem" title="Home" style="plain" id="Tkr-nG-fYN">
                                             <connections>
                                                 <segue destination="Auj-ne-zK8" kind="presentation" modalTransitionStyle="crossDissolve" id="b95-nF-XaH"/>
                                             </connections>
@@ -450,7 +455,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="CCI_Logo_Tall" translatesAutoresizingMaskIntoConstraints="NO" id="rQE-Fq-Yi3">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person-generic" translatesAutoresizingMaskIntoConstraints="NO" id="rQE-Fq-Yi3">
                                                     <rect key="frame" x="8" y="20" width="78" height="79"/>
                                                 </imageView>
                                             </subviews>
@@ -472,11 +477,6 @@
                                     <outlet property="delegate" destination="5N6-5d-20c" id="nML-53-I0a"/>
                                 </connections>
                             </tableView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Employee Name or Truck #" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Dj7-n2-cfR">
-                                <rect key="frame" x="20" y="83" width="335" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no"/>
-                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -486,8 +486,6 @@
                             <constraint firstItem="3ay-m8-e7t" firstAttribute="trailing" secondItem="zJq-Yk-CLg" secondAttribute="trailingMargin" id="FMa-CA-gwc"/>
                             <constraint firstAttribute="trailing" secondItem="ZTm-Mf-G35" secondAttribute="trailing" id="Gup-nH-mho"/>
                             <constraint firstItem="Dj7-n2-cfR" firstAttribute="leading" secondItem="zJq-Yk-CLg" secondAttribute="leadingMargin" id="ILK-LZ-hE6"/>
-                            <constraint firstItem="3ay-m8-e7t" firstAttribute="trailing" secondItem="zJq-Yk-CLg" secondAttribute="trailingMargin" id="M7e-Gb-N3p"/>
-                            <constraint firstItem="3ay-m8-e7t" firstAttribute="leading" secondItem="zJq-Yk-CLg" secondAttribute="leadingMargin" id="Mhw-bC-fYZ"/>
                             <constraint firstAttribute="bottomMargin" secondItem="Dj7-n2-cfR" secondAttribute="bottom" constant="554" id="iOb-ee-NU7"/>
                             <constraint firstItem="Dj7-n2-cfR" firstAttribute="trailing" secondItem="zJq-Yk-CLg" secondAttribute="trailingMargin" id="jai-RU-N4C"/>
                             <constraint firstAttribute="bottomMargin" secondItem="3ay-m8-e7t" secondAttribute="bottom" constant="500" id="pqk-5D-s1J"/>
@@ -533,9 +531,9 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="ClydeLink Apps" id="GJv-iB-fkr">
+                                    <navigationItem title="ClydeLink" id="GJv-iB-fkr">
                                         <barButtonItem key="backBarButtonItem" title="&lt;" id="Ejj-Sd-NfD"/>
-                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="reply" id="Q3Y-XS-NZz">
+                                        <barButtonItem key="leftBarButtonItem" title="Home" style="plain" id="Q3Y-XS-NZz">
                                             <connections>
                                                 <segue destination="Auj-ne-zK8" kind="presentation" animates="NO" modalTransitionStyle="crossDissolve" id="OV6-fr-Jkh"/>
                                             </connections>
@@ -566,6 +564,7 @@
     </scenes>
     <resources>
         <image name="CCI_Logo_Tall" width="214" height="292"/>
+        <image name="person-generic" width="659" height="659"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="b95-nF-XaH"/>

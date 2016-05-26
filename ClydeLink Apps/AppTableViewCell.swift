@@ -2,13 +2,12 @@
 //  AppTableViewCell.swift
 //  ClydeLink Apps
 //
-//  Created by J J Feddock on 5/14/16.
-//  Copyright © 2016 XLR8 Development LLC. All rights reserved.
+//  Created by XLR8 Development LLC on 5/14/16.
 //
 
 import UIKit
 
-class AppTableViewCell: UITableViewCell {
+class AppTableViewCell: UITableViewCell {  // Controls the content that is added to the Home and Edit tables, these are the inferior buttons, those which actually have functions and direct to other screens/functionalities
 
     
     @IBOutlet weak var Title: UILabel!

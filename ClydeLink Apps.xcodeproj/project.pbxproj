@@ -18,7 +18,6 @@
 		9133DED61CE1307300F8330E /* ClydeLink_AppsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DED51CE1307300F8330E /* ClydeLink_AppsTests.swift */; };
 		9133DEE11CE1307300F8330E /* ClydeLink_AppsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */; };
 		9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5AD1CE780C300C24D8F /* LoginViewController.swift */; };
-		9195A5B01CE789A700C24D8F /* AppsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5AF1CE789A700C24D8F /* AppsTable.swift */; };
 		9195A5B31CE78CCD00C24D8F /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B11CE78CCD00C24D8F /* DataModel.xcdatamodeld */; };
 		9195A5B51CE7908B00C24D8F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B41CE7908B00C24D8F /* HomeViewController.swift */; };
 		9195A5B71CE7A0EA00C24D8F /* HeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B61CE7A0EA00C24D8F /* HeaderTableViewCell.swift */; };
@@ -62,7 +61,6 @@
 		9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClydeLink_AppsUITests.swift; sourceTree = "<group>"; };
 		9133DEE21CE1307300F8330E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9195A5AD1CE780C300C24D8F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		9195A5AF1CE789A700C24D8F /* AppsTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsTable.swift; sourceTree = "<group>"; };
 		9195A5B21CE78CCD00C24D8F /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		9195A5B41CE7908B00C24D8F /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		9195A5B61CE7A0EA00C24D8F /* HeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTableViewCell.swift; sourceTree = "<group>"; };
@@ -155,7 +153,6 @@
 				911E16C01CE24AA20062527E /* ConstructionViewController.swift */,
 				911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */,
 				9195A5AD1CE780C300C24D8F /* LoginViewController.swift */,
-				9195A5AF1CE789A700C24D8F /* AppsTable.swift */,
 				9195A5B41CE7908B00C24D8F /* HomeViewController.swift */,
 				9195A5B61CE7A0EA00C24D8F /* HeaderTableViewCell.swift */,
 				9195A5B81CE7AC1000C24D8F /* AppTableViewCell.swift */,
@@ -298,7 +295,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9195A5B01CE789A700C24D8F /* AppsTable.swift in Sources */,
 				9195A5B91CE7AC1000C24D8F /* AppTableViewCell.swift in Sources */,
 				91007C721CEE32EF006C8EED /* TruckSearchTableViewCell.swift in Sources */,
 				9195A5B71CE7A0EA00C24D8F /* HeaderTableViewCell.swift in Sources */,
