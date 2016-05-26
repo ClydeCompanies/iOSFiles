@@ -2,8 +2,7 @@
 //  HomeViewController.swift
 //  ClydeLink Apps
 //
-//  Created by J J Feddock on 5/14/16.
-//  Copyright © 2016 XLR8 Development LLC. All rights reserved.
+//  Created by XLR8 Development LLC on 5/14/16.
 //
 
 import UIKit
@@ -19,17 +18,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var appButtons: NSMutableArray! = NSMutableArray()
     
-    var AccountingVisible = false
-    var EmployeeVisible = false
-    var EquipmentVisible = false
-    var HRVisible = false
+    var AccountingVisible = false  //
+    var EmployeeVisible = false    // Controls which categories are expanded
+    var EquipmentVisible = false   //
+    var HRVisible = false          //
     
-    var AppCount: Int = 0
+    var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
-    let prefs = NSUserDefaults.standardUserDefaults()
-    var checked: Array = [AnyObject](count: 12, repeatedValue: true)
+    let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
+    var checked: Array = [AnyObject](count: 12, repeatedValue: true)  // Controls which buttons are visible
     
-    override func viewDidLoad() {
+    override func viewDidLoad() {  // Runs when the view loads
         super.viewDidLoad()
 
         self.headerButtons.addObject("Accounting and Credit Apps")
@@ -67,11 +66,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: - AppTable View
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
         return 1;
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
         var uName: String = ""
         if (prefs.stringForKey("username") != nil)
         {
@@ -81,13 +80,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of all the buttons needed
         loadChecked()
         
         return self.headerButtons.count + self.appButtons.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Determines which buttons should be header buttons and which chould carry on to other views
         if indexPath.row == 0
         {
             AppCount = 0
@@ -117,12 +116,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
-    // This is what the function does
-    // Input:
-    // Output:
-    // @param: 
-    // @return:
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {  // Gives the height for each row
         
         if (AccountingVisible == true)
         {
@@ -235,7 +229,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         return 60.0
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
         
         
         if (indexPath.row == 0 && AccountingVisible == false)
@@ -302,21 +296,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func closeAllButtons()
-    {
+    {  // Close every category
         AccountingVisible = false
         EmployeeVisible = false
         EquipmentVisible = false
         HRVisible = false
     }
     
-    @IBAction func editTable(sender: AnyObject) {
+    @IBAction func editTable(sender: AnyObject) {  // Edit button pressed
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Edit")
         self.showViewController(vc as! UIViewController, sender: vc)
         
     }
     
     
-    @IBAction func settingsButton(sender: AnyObject) {
+    @IBAction func settingsButton(sender: AnyObject) {  // Settings button pressed
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Settings")
         self.showViewController(vc as! UIViewController, sender: vc)
         
@@ -325,7 +319,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     func loadChecked()
-    {
+    {  // Find the array for visible buttons
         if (prefs.arrayForKey("userChecked") != nil) {
             checked = prefs.arrayForKey("userChecked")!
         } else {
