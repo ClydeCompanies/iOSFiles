@@ -358,7 +358,7 @@
                                     <navigationItem title="Truck Search" id="0aG-xP-l73">
                                         <barButtonItem key="leftBarButtonItem" title="Home" style="plain" id="Tkr-nG-fYN">
                                             <connections>
-                                                <segue destination="Auj-ne-zK8" kind="presentation" modalTransitionStyle="crossDissolve" id="b95-nF-XaH"/>
+                                                <segue destination="Auj-ne-zK8" kind="presentation" modalTransitionStyle="coverVertical" id="b95-nF-XaH"/>
                                             </connections>
                                         </barButtonItem>
                                         <connections>
@@ -493,6 +493,9 @@
                                     <outlet property="delegate" destination="5N6-5d-20c" id="nML-53-I0a"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="SHx-jo-DWy">
+                                <rect key="frame" x="326" y="136" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -516,6 +519,7 @@
                     <connections>
                         <outlet property="ResultsTable" destination="0Bf-57-aeS" id="L9f-tW-x5Q"/>
                         <outlet property="TextBox" destination="Dj7-n2-cfR" id="4pA-jq-sao"/>
+                        <outlet property="activityIndicator" destination="SHx-jo-DWy" id="m6R-UO-ID5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oLh-vv-dCa" userLabel="First Responder" sceneMemberID="firstResponder"/>

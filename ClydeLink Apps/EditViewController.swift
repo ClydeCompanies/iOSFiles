@@ -66,9 +66,30 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func DoneButtonPress(sender: AnyObject) {  // Done button pressed > Go to Home View
         
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
-        self.showViewController(vc as! UIViewController, sender: vc)
+        self.presentViewController(vc as! UIViewController, animated: false, completion: nil)
+        
+        
         prefs.setObject(checked, forKey: "userChecked")
         prefs.synchronize()
+    }
+    
+    
+    
+    
+    // MARK: - Table View
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
+        return 1;
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
+        var uName: String = ""
+        if (prefs.stringForKey("username") != nil)
+        {
+            uName = prefs.stringForKey("username")!
+        }
+        return "Logged in as " + uName
+        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Get number of sections in table

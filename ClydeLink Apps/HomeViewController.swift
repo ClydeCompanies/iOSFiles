@@ -305,14 +305,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBAction func editTable(sender: AnyObject) {  // Edit button pressed
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Edit")
-        self.showViewController(vc as! UIViewController, sender: vc)
+        self.presentViewController(vc as! UIViewController, animated: false, completion: nil)
         
     }
     
     
     @IBAction func settingsButton(sender: AnyObject) {  // Settings button pressed
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Settings")
-        self.showViewController(vc as! UIViewController, sender: vc)
+        self.presentViewController(vc as! UIViewController, animated: false, completion: nil)
         
     }
     

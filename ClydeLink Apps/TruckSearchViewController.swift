@@ -9,6 +9,9 @@ import UIKit
 
 class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {  // Provides backend code for both the TruckSearchViewController, but also the DataSource and Delegate for the ResultsTable embedded within it
     
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     var Employees: Array<AnyObject> = []  // Array that holds information retrieved from server in POST query of Truck Search
     
     func dismissKeyboard() {
@@ -25,6 +28,8 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         ResultsTable.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
         
         ResultsTable.tableFooterView = UIView(frame: CGRectZero)
+        
+        activityIndicator.hidden = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,8 +65,10 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             return
         }
         
+        activityIndicator.startAnimating()
+        activityIndicator.hidden = false
+        
         Employees = []
-        ResultsTable.reloadData()
         
         if (TextBox.text == ":-)") {
             let alertController = UIAlertController(title: "You Win!", message:
@@ -86,30 +93,33 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
 
         let request = NSMutableURLRequest(URL: url)
-        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
+//        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
         request.HTTPMethod = "POST"
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
-            guard error == nil && data != nil else { // check for fundamental networking error
-                print("error=\(error)")
-                return
-            }
+//            guard error == nil && data != nil else { // check for fundamental networking error
+//                print("error=\(error)")
+//                return
+//            }
             
-            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
-                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+//            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+//                print("statusCode should be 200, but is \(httpStatus.statusCode)")
 //                print("response = \(response)")
-            }
+//            }
             
             let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options:.MutableContainers) // Creates dictionary array to save results of query
             
-            print(mydata)
-            
-            self.Employees = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
-            
-            self.ResultsTable.reloadData()  // Refreshes the table information
-            
-            
+            print(mydata)  // Direct response from server printed to console, for testing
+
+            dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+                self.Employees = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
+                self.ResultsTable.reloadData()  // Reloads Table View cells as results
+                self.activityIndicator.stopAnimating()  // Ends spinner
+                self.activityIndicator.hidden = true  // Hides spinner
+            }
         }
         task.resume()
+        
+        
         
         
         self.dismissKeyboard()  // Dismisses keyboard after the search
