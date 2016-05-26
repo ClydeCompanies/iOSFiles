@@ -2,27 +2,25 @@
 //  TruckSearchViewController.swift
 //  ClydeLink Apps
 //
-//  Created by J J Feddock on 5/12/16.
-//  Copyright © 2016 XLR8 Development LLC. All rights reserved.
+//  Created by XLR8 Development LLC on 5/12/16.
 //
 
 import UIKit
 
-class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {  // Provides backend code for both the TruckSearchViewController, but also the DataSource and Delegate for the ResultsTable embedded within it
     
-    var Employees: Array<AnyObject> = []
+    var Employees: Array<AnyObject> = []  // Array that holds information retrieved from server in POST query of Truck Search
     
     func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        //Causes the view (or one of its embedded text fields) to resign the first responder status and drop into background
         view.endEditing(true)
     }
     
-    override func viewDidLoad() {
+    override func viewDidLoad() {  // Runs as soon as the view is brought into the foreground
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
+        view.addGestureRecognizer(tap)  // Allows dismissal of keyboard on tap anywhere on screen besides the keyboard itself
     }
     
     override func didReceiveMemoryWarning() {
@@ -30,8 +28,8 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func ChangeSearchButtonPress(sender: AnyObject) {
-        if (SearchCriteria.text == "Fleet Number:")
+/*    @IBAction func ChangeSearchButtonPress(sender: AnyObject) {  // Runs when text is pressed signifying a change in search parameters
+        if (SearchCriteria.text == "Fleet Number:")  // If current search criteria is Truck, change it to Employee
         {
             SearchCriteria.text = "Employee Name:"
             SearchStart.text = ""
@@ -40,7 +38,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             TextBox.autocapitalizationType = .Words
             TextBox.reloadInputViews()
         }
-        else{
+        else{  // Do the opposite! (Change search parameter to
             SearchCriteria.text = "Fleet Number:"
             SearchStart.text = "01 -"
             ChangeSearch.setTitle("Search by Employee Name", forState: UIControlState.Normal)
@@ -49,7 +47,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             TextBox.autocapitalizationType = .None
             TextBox.reloadInputViews()
         }
-    }
+    } */
 
     
     @IBAction func SearchClick(sender: AnyObject) {
@@ -58,7 +56,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         }
         
         if (TextBox.text == ":-)") {
-            let alertController = UIAlertController(title: "Wazzup?!", message:
+            let alertController = UIAlertController(title: "You Win!", message:
                 "", preferredStyle: UIAlertControllerStyle.Alert)
             alertController.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.Default,handler: nil))
             
@@ -68,16 +66,16 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         var nameSearched = ""
         var truckNumber = ""
         
-        if (SearchCriteria.text == "Fleet Number:")
+        if (Int(TextBox.text!) != nil)  // Tests whether the input was a number (for Truck Search) or text (for Employee Search)
         {
             truckNumber = TextBox.text!
         }
-        else if (SearchCriteria.text == "Employee Name:")
+        else
         {
             nameSearched = TextBox.text!
         }
         
-    if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
+    if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
 
         let request = NSMutableURLRequest(URL: url)
         request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
@@ -93,23 +91,20 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
 //                print("response = \(response)")
             }
             
-//            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-            
-            
-            let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options:.MutableContainers)
+            let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options:.MutableContainers) // Creates dictionary array to save results of query
             
             print(mydata)
             
-            self.Employees = mydata as! Array<AnyObject>
+            self.Employees = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
             
             
             
         }
         task.resume()
         
-        self.ResultsTable.reloadData()
+        self.ResultsTable.reloadData()  // Refreshes the table information
         
-        self.dismissKeyboard()
+        self.dismissKeyboard()  // Dismisses keyboard after the search
         
     }
     }
@@ -130,11 +125,12 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     
     // MARK: Table View
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of the query result, showing how many table cells to create
         return Employees.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Creates each cell, by parsing through the data received from the Employees array which we returned from the database
+        
         let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("RESULT", forIndexPath: indexPath) as! TruckSearchTableViewCell
         
             if let cName = Employees[indexPath.row]["CompanyName"] as? String {
@@ -155,17 +151,14 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             if let Supervisor = Employees[indexPath.row]["SupervisorName"] as? String {
                 cell.supervisorLabel.text = Supervisor
             }
-            if let ePhoto = Employees[indexPath.row]["PicLocation"] as? String {
-                let url = NSURL(string: ePhoto)
-                if let data = NSData(contentsOfURL: url!){
+            if let ePhoto = Employees[indexPath.row]["PicLocation"] as? String {  // Save complete URL of picture location, and save it to the table
+                let url = NSURL(string: "https://clydelink.sharepoint.com/apps/Profile%20Pictures%20Large/\(ePhoto)LThumb.jpg")!
+                if let data = NSData(contentsOfURL: url){
                     let myImage = UIImage(data: data)
                     cell.employeePhoto.image = myImage
                 }
                 
             }
-        
-        
-        
 
         return cell
     }
