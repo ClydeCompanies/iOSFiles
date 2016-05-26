@@ -155,6 +155,16 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             if let Supervisor = Employees[indexPath.row]["SupervisorName"] as? String {
                 cell.supervisorLabel.text = Supervisor
             }
+            if let ePhoto = Employees[indexPath.row]["PicLocation"] as? String {
+                let url = NSURL(string: ePhoto)
+                if let data = NSData(contentsOfURL: url!){
+                    let myImage = UIImage(data: data)
+                    cell.employeePhoto.image = myImage
+                }
+                
+            }
+        
+        
         
 
         return cell

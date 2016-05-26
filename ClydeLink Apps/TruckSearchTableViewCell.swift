@@ -28,5 +28,6 @@ class TruckSearchTableViewCell: UITableViewCell {
     @IBOutlet weak var truckLabel: UILabel!
     @IBOutlet weak var supervisorLabel: UILabel!
     
+    @IBOutlet weak var employeePhoto: UIImageView!
 
 }
