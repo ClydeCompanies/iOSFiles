@@ -60,6 +60,9 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             return
         }
         
+        Employees = []
+        ResultsTable.reloadData()
+        
         if (TextBox.text == ":-)") {
             let alertController = UIAlertController(title: "You Win!", message:
                 "", preferredStyle: UIAlertControllerStyle.Alert)
@@ -102,12 +105,12 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             
             self.Employees = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
             
+            self.ResultsTable.reloadData()  // Refreshes the table information
             
             
         }
         task.resume()
         
-        self.ResultsTable.reloadData()  // Refreshes the table information
         
         self.dismissKeyboard()  // Dismisses keyboard after the search
         
@@ -131,12 +134,25 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     // MARK: Table View
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of the query result, showing how many table cells to create
-        return Employees.count
+        var numberOfRows: Int = 1
+        if (Employees.count > numberOfRows)
+        {
+            numberOfRows = Employees.count
+        }
+
+        return numberOfRows
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Creates each cell, by parsing through the data received from the Employees array which we returned from the database
-        
-        let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("RESULT", forIndexPath: indexPath) as! TruckSearchTableViewCell
+        if (Employees.count == 0)
+        {
+            let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("NORESULT", forIndexPath: indexPath) as! TruckSearchTableViewCell
+            
+            return cell
+        }
+            
+        else {
+            let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("RESULT", forIndexPath: indexPath) as! TruckSearchTableViewCell
         
             if let cName = Employees[indexPath.row]["CompanyName"] as? String {
                 cell.companyLabel.text = cName
@@ -156,17 +172,18 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             if let Supervisor = Employees[indexPath.row]["SupervisorName"] as? String {
                 cell.supervisorLabel.text = Supervisor
             }
-            if let ePhoto = Employees[indexPath.row]["PicLocation"] as? String {  // Save complete URL of picture location, and save it to the table
-                
-                let url = NSURL(string: "https://clydelink.sharepoint.com/apps/Profile%20Pictures%20Large/\(ePhoto)LThumb.jpg")!
-                if let data = NSData(contentsOfURL: url){
-                    let myImage = UIImage(data: data)
-                    cell.employeePhoto.image = myImage
-                }
-                
-            }
+//            if let ePhoto = Employees[indexPath.row]["PicLocation"] as? String {  // Save complete URL of picture location, and save it to the table
+//                
+//                let url = NSURL(string: "https://clydelink.sharepoint.com/apps/Profile%20Pictures%20Large/\(ePhoto)LThumb.jpg")!
+//                if let data = NSData(contentsOfURL: url){
+//                    let myImage = UIImage(data: data)
+//                    cell.employeePhoto.image = myImage
+//                }
+//                
+//            }
 
-        return cell
+            return cell
+        }
     }
     
     
