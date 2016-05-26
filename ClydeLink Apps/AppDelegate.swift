@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  ClydeLink Apps
 //
-//  Created by XLR8 Development LLC on 5/9/16.
+//  Created by XLR8 Development LLC on 5/9/16
 //
 
 import UIKit
