@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Launch-->
@@ -18,17 +19,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="KKp-ie-ewI">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="KKp-ie-ewI">
                                 <rect key="frame" x="34" y="315" width="307" height="38"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" secondItem="KKp-ie-ewI" secondAttribute="height" multiplier="307:38" id="070-Lg-Hbo"/>
                                     <constraint firstAttribute="width" secondItem="KKp-ie-ewI" secondAttribute="height" multiplier="307:38" id="nmW-4h-Jm9"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="KKp-ie-ewI" firstAttribute="leading" secondItem="sco-RH-SLa" secondAttribute="leading" constant="34" id="G3h-Dg-j31"/>
-                            <constraint firstAttribute="trailing" secondItem="KKp-ie-ewI" secondAttribute="trailing" constant="34" id="Vq7-32-CF3"/>
+                            <constraint firstItem="KKp-ie-ewI" firstAttribute="centerY" secondItem="sco-RH-SLa" secondAttribute="centerY" id="4bo-zJ-I05"/>
+                            <constraint firstItem="KKp-ie-ewI" firstAttribute="centerX" secondItem="sco-RH-SLa" secondAttribute="centerX" id="B3C-va-gB4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="KKp-ie-ewI" secondAttribute="trailing" constant="14" id="ZRo-cA-ehY"/>
+                            <constraint firstItem="KKp-ie-ewI" firstAttribute="leading" secondItem="sco-RH-SLa" secondAttribute="leadingMargin" constant="14" id="vl1-1p-quB"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
