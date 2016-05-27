@@ -43,7 +43,7 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.appButtons.addObject("Truck Search")
         self.appButtons.addObject("Equipment Search")
         self.appButtons.addObject("Training Request Form")
-        self.appButtons.addObject("HR Search")
+        self.appButtons.addObject("Emmployee Directory")
         
         
         AppTable.separatorStyle = UITableViewCellSeparatorStyle.SingleLine

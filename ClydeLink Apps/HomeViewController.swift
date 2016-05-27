@@ -43,7 +43,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.appButtons.addObject("Truck Search")
         self.appButtons.addObject("Equipment Search")
         self.appButtons.addObject("Training Request Form")
-        self.appButtons.addObject("HR Search")
+        self.appButtons.addObject("Employee Directory")
         
         
         AppTable.separatorStyle = UITableViewCellSeparatorStyle.SingleLine

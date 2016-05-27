@@ -204,15 +204,19 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             if let Supervisor = Employees[indexPath.row]["SupervisorName"] as? String {
                 cell.supervisorLabel.text = Supervisor
             }
-//            if let ePhoto = Employees[indexPath.row]["PicLocation"] as? String {  // Save complete URL of picture location, and save it to the table
-//                
-//                let url = NSURL(string: "https://clydelink.sharepoint.com/apps/Profile%20Pictures%20Large/\(ePhoto)LThumb.jpg")!
-//                if let data = NSData(contentsOfURL: url){
-//                    let myImage = UIImage(data: data)
-//                    cell.employeePhoto.image = myImage
-//                }
-//                
-//            }
+            if let ePhoto = Employees[indexPath.row]["PicLocation"] as? String {  // Save complete URL of picture location, and save it to the table
+                
+                let url = NSURL(string: "https://clydewap.clydeinc.com/images/Medium/\(ePhoto)")!
+                if let data = NSData(contentsOfURL: url){
+                    let myImage = UIImage(data: data)
+                    cell.employeePhoto.image = myImage
+                }
+                else
+                {
+                    cell.employeePhoto.image = UIImage(named: "person-generic")
+                }
+                
+            }
 
             return cell
         }

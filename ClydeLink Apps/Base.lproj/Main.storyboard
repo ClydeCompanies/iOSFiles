@@ -49,8 +49,8 @@
                                     <action selector="LoginButtonPress:" destination="Hu7-dF-iQo" eventType="touchUpInside" id="zmI-UK-847"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="© Clyde Companies Inc. 2016" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lg2-VZ-LU8">
-                                <rect key="frame" x="70" y="626" width="235" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="© Clyde Companies Inc. 2016" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lg2-VZ-LU8">
+                                <rect key="frame" x="70" y="636" width="235" height="11"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -250,7 +250,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXi-PW-7MJ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXi-PW-7MJ">
                                                     <rect key="frame" x="8" y="19" width="359" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -259,6 +259,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="ZXi-PW-7MJ" secondAttribute="trailing" constant="8" id="LEN-hQ-Ryf"/>
+                                                <constraint firstItem="ZXi-PW-7MJ" firstAttribute="centerY" secondItem="3OZ-lR-r6I" secondAttribute="centerY" id="Vxj-Xc-cPy"/>
                                                 <constraint firstItem="ZXi-PW-7MJ" firstAttribute="leading" secondItem="3OZ-lR-r6I" secondAttribute="leading" constant="8" id="nuq-oC-Uag"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -274,7 +275,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRQ-Gd-ALD">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRQ-Gd-ALD">
                                                     <rect key="frame" x="8" y="19" width="359" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
@@ -282,6 +283,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="rRQ-Gd-ALD" firstAttribute="leading" secondItem="vfT-MO-gzV" secondAttribute="leading" constant="8" id="HkO-7V-blY"/>
+                                                <constraint firstItem="rRQ-Gd-ALD" firstAttribute="centerY" secondItem="vfT-MO-gzV" secondAttribute="centerY" id="j7L-50-jIq"/>
                                                 <constraint firstAttribute="trailing" secondItem="rRQ-Gd-ALD" secondAttribute="trailing" constant="8" id="mzR-WG-h1h"/>
                                             </constraints>
                                         </tableViewCellContentView>
