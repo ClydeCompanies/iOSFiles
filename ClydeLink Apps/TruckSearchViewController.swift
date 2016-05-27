@@ -14,6 +14,8 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     
     var Employees: Array<AnyObject> = []  // Array that holds information retrieved from server in POST query of Truck Search
     
+    var flag: Int = 0
+    
     func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status and drop into background
         view.endEditing(true)
@@ -96,26 +98,37 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
 //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
         request.HTTPMethod = "POST"
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
-//            guard error == nil && data != nil else { // check for fundamental networking error
-//                print("error=\(error)")
-//                return
-//            }
+            guard error == nil && data != nil else { // check for fundamental networking error
+                print("error=\(error)")
+                return
+            }
             
-//            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
-//                print("statusCode should be 200, but is \(httpStatus.statusCode)")
-//                print("response = \(response)")
-//            }
+            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("response = \(response)")
+            }
             
-            let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options:.MutableContainers) // Creates dictionary array to save results of query
+            let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
             
             print(mydata)  // Direct response from server printed to console, for testing
 
             dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+                if (mydata == nil)
+                {
+                    self.activityIndicator.stopAnimating()  // Ends spinner
+                    self.activityIndicator.hidden = true
+                    self.flag = 1
+                    self.ResultsTable.reloadData()
+                    
+                    return
+                }
+                
                 self.Employees = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
                 self.ResultsTable.reloadData()  // Reloads Table View cells as results
                 self.activityIndicator.stopAnimating()  // Ends spinner
                 self.activityIndicator.hidden = true  // Hides spinner
             }
+            
         }
         task.resume()
         
@@ -154,9 +167,18 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Creates each cell, by parsing through the data received from the Employees array which we returned from the database
-        if (Employees.count == 0)
+        if (Employees.count == 0 && flag == 0)
         {
-            let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("NORESULT", forIndexPath: indexPath) as! TruckSearchTableViewCell
+            let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("NORESULT", forIndexPath: indexPath) as! TruckSearchNRTableViewCell
+            
+            return cell
+        }
+            
+        if (Employees.count == 0 && flag == 1)
+        {
+            let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("NORESULT", forIndexPath: indexPath) as! TruckSearchNRTableViewCell
+            
+            cell.errorLabel.text = "Error Connecting to Server"
             
             return cell
         }
