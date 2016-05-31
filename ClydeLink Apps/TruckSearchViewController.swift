@@ -14,7 +14,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     
     var Employees: Array<AnyObject> = []  // Array that holds information retrieved from server in POST query of Truck Search
     
-    var flag: Int = 0
+    var flag: Int = 0  // An Error Connecting to the Server will set this flag to 1 and tell the Table to display the message!
     
     func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status and drop into background
@@ -100,6 +100,16 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
             guard error == nil && data != nil else { // check for fundamental networking error
                 print("error=\(error)")
+                self.flag = 1
+                self.ResultsTable.reloadData()
+                
+                let alertController = UIAlertController(title: "Error", message:
+                    "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                self.presentViewController(alertController, animated: true, completion: nil)
+                
+                self.activityIndicator.stopAnimating()  // Ends spinner
+                self.activityIndicator.hidden = true
                 return
             }
             
@@ -120,6 +130,12 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                     self.flag = 1
                     self.ResultsTable.reloadData()
                     
+                    let alertController = UIAlertController(title: "Error", message:
+                        "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                    
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                    
                     return
                 }
                 
@@ -132,9 +148,9 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         }
         task.resume()
         
-        
-        
-        
+        self.ResultsTable.reloadData()
+        self.activityIndicator.stopAnimating()  // Ends spinner
+        self.activityIndicator.hidden = true
         self.dismissKeyboard()  // Dismisses keyboard after the search
         
     }
@@ -167,21 +183,21 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Creates each cell, by parsing through the data received from the Employees array which we returned from the database
-        if (Employees.count == 0 && flag == 0)
+        if (Employees.count == 0)
         {
             let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("NORESULT", forIndexPath: indexPath) as! TruckSearchNRTableViewCell
             
             return cell
         }
             
-        if (Employees.count == 0 && flag == 1)
-        {
-            let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("NORESULT", forIndexPath: indexPath) as! TruckSearchNRTableViewCell
-            
-            cell.errorLabel.text = "Error Connecting to Server"
-            
-            return cell
-        }
+//        if (Employees.count == 0 && flag == 1)
+//        {
+//            let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("NORESULT", forIndexPath: indexPath) as! TruckSearchNRTableViewCell
+//            
+//            cell.errorLabel.text = "Error Connecting to Server"
+//            
+//            return cell
+//        }
             
         else {
             let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("RESULT", forIndexPath: indexPath) as! TruckSearchTableViewCell
