@@ -56,9 +56,11 @@ class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of ea
             var phone = phoneNumber.text!
             if phone.characters.count == 10
             {
-//                phone = "(" + phone.substringFromIndex(0,3) + ")" + phone.substring(4,3) + "-" + phone(substring(7
                 
-                phone = "(" + phone.substringWithRange(Range<String.Index>(phone.startIndex...phone.startIndex.advancedBy(3))) + ") " + phone.substringWithRange(Range<String.Index>(phone.startIndex.advancedBy(3)...phone.startIndex.advancedBy(6))) + "-" + phone.substringWithRange(Range<String.Index>(phone.startIndex.advancedBy(6)...phone.endIndex))
+                phone = "(" + phone.substringWithRange(Range<String.Index>(phone.startIndex..<phone.startIndex.advancedBy(3))) + ") " + phone.substringWithRange(Range<String.Index>(phone.startIndex.advancedBy(3)..<phone.startIndex.advancedBy(6))) + "-" + phone.substringWithRange(Range<String.Index>(phone.startIndex.advancedBy(6)..<phone.endIndex))
+            } else if phone.characters.count == 12
+            {
+                phone = "(" + phone.substringWithRange(Range<String.Index>(phone.startIndex..<phone.startIndex.advancedBy(3))) + ") " + phone.substringWithRange(Range<String.Index>(phone.startIndex.advancedBy(4)..<phone.endIndex))
             }
             let callAlert = UIAlertController(title: "\(phone)", message:
                 "", preferredStyle: UIAlertControllerStyle.Alert)
