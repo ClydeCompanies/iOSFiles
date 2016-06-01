@@ -40,7 +40,7 @@ class EditViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.appButtons.addObject("Credit Dashboard")
         self.appButtons.addObject("New Hire")
         self.appButtons.addObject("Expense Reimbursement")
-        self.appButtons.addObject("Truck Search")
+        self.appButtons.addObject("Vehicle Search")
         self.appButtons.addObject("Equipment Search")
         self.appButtons.addObject("Training Request Form")
         self.appButtons.addObject("Emmployee Directory")

@@ -78,6 +78,9 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             alertController.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.Default,handler: nil))
             
             self.presentViewController(alertController, animated: true, completion: nil)
+            self.activityIndicator.stopAnimating()  // Ends spinner
+            self.activityIndicator.hidden = true
+            return
         }
         
         var nameSearched = ""
@@ -95,6 +98,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
 
         let request = NSMutableURLRequest(URL: url)
+        
 //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
         request.HTTPMethod = "POST"
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
@@ -108,8 +112,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
                 self.presentViewController(alertController, animated: true, completion: nil)
                 
-                self.activityIndicator.stopAnimating()  // Ends spinner
-                self.activityIndicator.hidden = true
+                
                 return
             }
             

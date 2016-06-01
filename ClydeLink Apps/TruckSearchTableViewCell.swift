@@ -12,6 +12,8 @@ class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of ea
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        mobileLabel.textAlignment = NSTextAlignment.Left
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -22,7 +24,7 @@ class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of ea
     
     @IBOutlet weak var companyLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var mobileLabel: UILabel!
+    @IBOutlet weak var mobileLabel: UITextView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var truckLabel: UILabel!
     @IBOutlet weak var supervisorLabel: UILabel!
