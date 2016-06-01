@@ -529,12 +529,6 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="supervisor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pBY-u6-02W">
-                                                    <rect key="frame" x="177" y="93" width="150" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person-generic" translatesAutoresizingMaskIntoConstraints="NO" id="rQE-Fq-Yi3">
                                                     <rect key="frame" x="8" y="20" width="78" height="79"/>
                                                     <constraints>
@@ -553,13 +547,20 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="TopLeft" fixedFrame="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" minimumZoomScale="0.0" bouncesZoom="NO" editable="NO" text="mobile" translatesAutoresizingMaskIntoConstraints="NO" id="N05-hf-VBI">
-                                                    <rect key="frame" x="159" y="42" width="168" height="17"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dgf-A3-ERA">
+                                                    <rect key="frame" x="154" y="42" width="48" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                    <dataDetectorType key="dataDetectorTypes" phoneNumber="YES"/>
-                                                </textView>
+                                                    <state key="normal" title="Call"/>
+                                                    <connections>
+                                                        <action selector="mobileClick:" destination="5N6-5d-20c" eventType="touchUpInside" id="UFf-Ti-Brd"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="supervisor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pBY-u6-02W">
+                                                    <rect key="frame" x="177" y="93" width="150" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Pgz-0L-ugA" firstAttribute="leading" secondItem="rQE-Fq-Yi3" secondAttribute="trailing" constant="9" id="0dV-lU-Jh8"/>
@@ -596,7 +597,8 @@
                                             <outlet property="companyLabel" destination="l3d-Ku-OmH" id="EOJ-nK-1cz"/>
                                             <outlet property="companyTitle" destination="Pgz-0L-ugA" id="lvi-Vu-C4i"/>
                                             <outlet property="employeePhoto" destination="rQE-Fq-Yi3" id="D2z-Vf-id1"/>
-                                            <outlet property="mobileLabel" destination="N05-hf-VBI" id="rS0-An-utM"/>
+                                            <outlet property="mobileLabel" destination="Dgf-A3-ERA" id="zI0-qv-O53"/>
+                                            <outlet property="mobileTitle" destination="QdJ-Dy-RsJ" id="ssp-p0-oQS"/>
                                             <outlet property="nameLabel" destination="3n1-Dp-vsR" id="kiP-VF-kt0"/>
                                             <outlet property="nameTitle" destination="VSR-qp-7i8" id="Vns-AF-inX"/>
                                             <outlet property="supervisorLabel" destination="pBY-u6-02W" id="gMz-TQ-Qg6"/>

@@ -61,7 +61,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     } */
 
     
-    @IBAction func SearchClick(sender: AnyObject) {  // Program reaction to a click on the search button, initially if the search box is empty, will have to effect, otherwise will query the database for information
+    @IBAction func SearchClick(sender: AnyObject) {  // Program reaction to a click on the search button, initially if the search box is empty, will have no effect, otherwise will query the database for information
         
         if (TextBox.text == "") {
             return
@@ -170,9 +170,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     
     @IBOutlet weak var ResultsTable: UITableView!
     
-    
-    
-    
     // MARK: Table View
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of the query result, showing how many table cells to create
@@ -212,7 +209,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 cell.nameLabel.text = name
             }
             if let mobile = Employees[indexPath.row]["PhoneNumber"] as? String {
-                cell.mobileLabel.text = mobile
+                //Yay, there's a number
             }
             if let jobTitle = Employees[indexPath.row]["JobTitle"] as? String {
                 cell.titleLabel.text = jobTitle
@@ -246,7 +243,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     func turnRed(cell:TruckSearchTableViewCell) {  // Turn all text labels in this cell to RED
         cell.companyLabel.textColor = UIColor.redColor()
         cell.nameLabel.textColor = UIColor.redColor()
-        cell.mobileLabel.textColor = UIColor.redColor()
         cell.titleLabel.textColor = UIColor.redColor()
         cell.truckLabel.textColor = UIColor.redColor()
         cell.supervisorLabel.textColor = UIColor.redColor()
