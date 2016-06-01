@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		385DE51E1CFE89B200AE7E08 /* Temp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385DE51D1CFE89B200AE7E08 /* Temp.swift */; };
 		91007C721CEE32EF006C8EED /* TruckSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */; };
 		911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16C01CE24AA20062527E /* ConstructionViewController.swift */; };
 		911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		385DE51D1CFE89B200AE7E08 /* Temp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temp.swift; sourceTree = "<group>"; };
 		91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchTableViewCell.swift; sourceTree = "<group>"; };
 		911E16C01CE24AA20062527E /* ConstructionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructionViewController.swift; sourceTree = "<group>"; };
 		911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchViewController.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */,
 				9133DEC31CE1307300F8330E /* ViewController.swift in Sources */,
 				9195A5B51CE7908B00C24D8F /* HomeViewController.swift in Sources */,
+				385DE51E1CFE89B200AE7E08 /* Temp.swift in Sources */,
 				9195A5B31CE78CCD00C24D8F /* DataModel.xcdatamodeld in Sources */,
 				9133DEC11CE1307300F8330E /* AppDelegate.swift in Sources */,
 				9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */,
@@ -457,7 +460,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "ClydeLink Apps/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = XLR8.ClydeLinkApps;
+				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-Apps";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -473,7 +476,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "ClydeLink Apps/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = XLR8.ClydeLinkApps;
+				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-Apps";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

@@ -7,8 +7,21 @@
 
 import UIKit
 
-class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of each cell that is added to the Results Table from the Truck Search
+extension UIView {
+    var parentViewController: UIViewController? {
+        var parentResponder: UIResponder? = self
+        while parentResponder != nil {
+            parentResponder = parentResponder!.nextResponder()
+            if parentResponder is UIViewController {
+                return parentResponder as! UIViewController!
+            }
+        }
+        return nil
+    }
+}
 
+class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of each cell that is added to the Results Table from the Truck Search
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -19,6 +32,7 @@ class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of ea
 
         // Configure the view for the selected state
     }
+    
     @IBOutlet weak var companyTitle: UILabel!
     @IBOutlet weak var nameTitle: UILabel!
     @IBOutlet weak var mobileTitle: UILabel!
@@ -35,10 +49,27 @@ class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of ea
     
     @IBOutlet weak var employeePhoto: UIImageView!
     @IBOutlet weak var phoneNumber: UILabel!
-
+    
+    
     @IBAction func mobileClick(sender: AnyObject!) {
-        if let url: NSURL = NSURL(string: "tel://\(phoneNumber.text!)") {
-            print (url)
+        if phoneNumber.text != "" {
+            
+            let callAlert = UIAlertController(title: "\(phoneNumber.text!)", message:
+                "", preferredStyle: UIAlertControllerStyle.Alert)
+            callAlert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default,handler: nil))
+            callAlert.addAction(UIAlertAction(title: "Call", style: UIAlertActionStyle.Default,handler: { (action: UIAlertAction!) in
+                self.call(self.phoneNumber.text!)
+            }))
+            parentViewController!.presentViewController(callAlert, animated: true, completion: nil)
+        } else {
+            let errorAlert = UIAlertController(title: "Error", message:
+                "Phone number not listed", preferredStyle: UIAlertControllerStyle.Alert)
+            errorAlert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default,handler: nil))
+            parentViewController!.presentViewController(errorAlert, animated: true, completion: nil)
+        }
+    }
+    func call(number: String) {
+        if let url: NSURL = NSURL(string: "tel://\(number)") {
             let application:UIApplication = UIApplication.sharedApplication()
             if (application.canOpenURL(url)) {
                 application.openURL(url);
