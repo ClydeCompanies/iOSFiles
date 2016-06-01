@@ -390,7 +390,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOH-UF-bYY">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOH-UF-bYY">
                                 <rect key="frame" x="20" y="350" width="335" height="30"/>
                                 <state key="normal" title="LOGOUT" backgroundImage="blueGradient">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -404,7 +404,9 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="iTz-yT-3y9" secondAttribute="trailing" id="5SI-Pm-1AC"/>
                             <constraint firstItem="iTz-yT-3y9" firstAttribute="leading" secondItem="SiZ-Mn-GVQ" secondAttribute="leading" id="JOC-6S-DAe"/>
+                            <constraint firstItem="mOH-UF-bYY" firstAttribute="leading" secondItem="SiZ-Mn-GVQ" secondAttribute="leadingMargin" id="Z59-I1-vHc"/>
                             <constraint firstItem="iTz-yT-3y9" firstAttribute="top" secondItem="RLO-YC-3N3" secondAttribute="bottom" id="ZQo-aI-MYH"/>
+                            <constraint firstItem="mOH-UF-bYY" firstAttribute="trailing" secondItem="SiZ-Mn-GVQ" secondAttribute="trailingMargin" id="wF9-kW-ACr"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
