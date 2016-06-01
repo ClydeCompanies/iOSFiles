@@ -24,7 +24,6 @@
 		9195A5B91CE7AC1000C24D8F /* AppTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B81CE7AC1000C24D8F /* AppTableViewCell.swift */; };
 		9195A5BB1CE7F74E00C24D8F /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5BA1CE7F74E00C24D8F /* EditViewController.swift */; };
 		919D7D581CEA71BB00055A0A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919D7D571CEA71BB00055A0A /* SettingsViewController.swift */; };
-		91E215C11CF8C94E0031B75F /* TruckSearchNRTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E215C01CF8C94E0031B75F /* TruckSearchNRTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +67,6 @@
 		9195A5B81CE7AC1000C24D8F /* AppTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppTableViewCell.swift; sourceTree = "<group>"; };
 		9195A5BA1CE7F74E00C24D8F /* EditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		919D7D571CEA71BB00055A0A /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		91E215C01CF8C94E0031B75F /* TruckSearchNRTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchNRTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,7 +159,6 @@
 				9195A5BA1CE7F74E00C24D8F /* EditViewController.swift */,
 				919D7D571CEA71BB00055A0A /* SettingsViewController.swift */,
 				91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */,
-				91E215C01CF8C94E0031B75F /* TruckSearchNRTableViewCell.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -301,7 +298,6 @@
 				9195A5B91CE7AC1000C24D8F /* AppTableViewCell.swift in Sources */,
 				91007C721CEE32EF006C8EED /* TruckSearchTableViewCell.swift in Sources */,
 				9195A5B71CE7A0EA00C24D8F /* HeaderTableViewCell.swift in Sources */,
-				91E215C11CF8C94E0031B75F /* TruckSearchNRTableViewCell.swift in Sources */,
 				911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */,
 				9133DEC31CE1307300F8330E /* ViewController.swift in Sources */,
 				9195A5B51CE7908B00C24D8F /* HomeViewController.swift in Sources */,
