@@ -209,6 +209,15 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 cell.nameLabel.text = name
             }
             if let mobile = Employees[indexPath.row]["PhoneNumber"] as? String {
+                if (mobile == "")
+                {
+                    cell.mobileLabel.hidden = true
+                    cell.mobileTitle.hidden = true
+                    //Move other fields up
+                } else {
+                    cell.mobileTitle.hidden = false
+                    cell.mobileLabel.hidden = false
+                }
                 cell.phoneNumber.text = mobile
             }
             if let jobTitle = Employees[indexPath.row]["JobTitle"] as? String {
@@ -222,6 +231,8 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             }
             if (Employees[indexPath.row]["Synced"] as? Int) == 0 {
                 turnRed(cell)
+            } else {
+                turnBlack(cell)
             }
             if let ePhoto = Employees[indexPath.row]["PicLocation"] as? String {  // Save complete URL of picture location, and save it to the table
                 
@@ -255,6 +266,20 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         cell.titleTitle.textColor = UIColor.redColor()
         cell.truckTitle.textColor = UIColor.redColor()
         cell.supervisorTitle.textColor = UIColor.redColor()
+    }
+    func turnBlack(cell:TruckSearchTableViewCell) {  // Turn all text labels in this cell to black
+        cell.companyLabel.textColor = UIColor.blackColor()
+        cell.nameLabel.textColor = UIColor.blackColor()
+        cell.titleLabel.textColor = UIColor.blackColor()
+        cell.truckLabel.textColor = UIColor.blackColor()
+        cell.supervisorLabel.textColor = UIColor.blackColor()
+        
+        cell.companyTitle.textColor = UIColor.blackColor()
+        cell.nameTitle.textColor = UIColor.blackColor()
+        cell.mobileTitle.textColor = UIColor.blackColor()
+        cell.titleTitle.textColor = UIColor.blackColor()
+        cell.truckTitle.textColor = UIColor.blackColor()
+        cell.supervisorTitle.textColor = UIColor.blackColor()
     }
     
 }
