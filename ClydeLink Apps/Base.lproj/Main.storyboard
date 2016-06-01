@@ -580,14 +580,19 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <state key="normal" title="Call"/>
                                                     <connections>
-                                                        <action selector="mobileClick:" destination="klI-Uu-nFR" eventType="touchUpInside" id="3FL-9X-9lN"/>
-                                                        <action selector="mobileClick:" destination="5N6-5d-20c" eventType="touchUpInside" id="UFf-Ti-Brd"/>
+                                                        <action selector="mobileClick:" destination="klI-Uu-nFR" eventType="touchUpInside" id="slQ-k1-m0Y"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="supervisor" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pBY-u6-02W">
                                                     <rect key="frame" x="177" y="93" width="150" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="PhoneNumberLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0v3-J2-9e9">
+                                                    <rect key="frame" x="21" y="0.0" width="42" height="0.0"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -630,6 +635,7 @@
                                             <outlet property="mobileTitle" destination="QdJ-Dy-RsJ" id="ssp-p0-oQS"/>
                                             <outlet property="nameLabel" destination="3n1-Dp-vsR" id="kiP-VF-kt0"/>
                                             <outlet property="nameTitle" destination="VSR-qp-7i8" id="Vns-AF-inX"/>
+                                            <outlet property="phoneNumber" destination="0v3-J2-9e9" id="oN7-5D-wC5"/>
                                             <outlet property="supervisorLabel" destination="pBY-u6-02W" id="gMz-TQ-Qg6"/>
                                             <outlet property="supervisorTitle" destination="d7E-85-ctk" id="03C-AQ-n5T"/>
                                             <outlet property="titleLabel" destination="gQA-Yw-ROI" id="p2v-2R-0z2"/>

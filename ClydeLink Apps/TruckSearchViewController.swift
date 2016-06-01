@@ -209,7 +209,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 cell.nameLabel.text = name
             }
             if let mobile = Employees[indexPath.row]["PhoneNumber"] as? String {
-                cell.mobileLabel.setTitle(mobile, forState: UIControlState.Normal)
+                cell.phoneNumber.text = mobile
             }
             if let jobTitle = Employees[indexPath.row]["JobTitle"] as? String {
                 cell.titleLabel.text = jobTitle
@@ -240,6 +240,8 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             return cell
         }
     }
+    
+    
     func turnRed(cell:TruckSearchTableViewCell) {  // Turn all text labels in this cell to RED
         cell.companyLabel.textColor = UIColor.redColor()
         cell.nameLabel.textColor = UIColor.redColor()

@@ -34,13 +34,15 @@ class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of ea
     @IBOutlet weak var supervisorLabel: UILabel!
     
     @IBOutlet weak var employeePhoto: UIImageView!
+    @IBOutlet weak var phoneNumber: UILabel!
 
-    
-    @IBAction func mobileClick(sender: AnyObject) {
-        let phone = mobileLabel.currentTitle
-        if let url = NSURL(string: "tel://\(phone)") {
-            UIApplication.sharedApplication().openURL(url)
+    @IBAction func mobileClick(sender: AnyObject!) {
+        if let url: NSURL = NSURL(string: "tel://\(phoneNumber.text!)") {
+            print (url)
+            let application:UIApplication = UIApplication.sharedApplication()
+            if (application.canOpenURL(url)) {
+                application.openURL(url);
+            }
         }
     }
-    
 }
