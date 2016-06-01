@@ -220,6 +220,9 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             if let Supervisor = Employees[indexPath.row]["SupervisorName"] as? String {
                 cell.supervisorLabel.text = Supervisor
             }
+            if (Employees[indexPath.row]["Synced"] as? Int) == 0 {
+                turnRed(cell)
+            }
             if let ePhoto = Employees[indexPath.row]["PicLocation"] as? String {  // Save complete URL of picture location, and save it to the table
                 
                 let url = NSURL(string: "https://clydewap.clydeinc.com/images/Medium/\(ePhoto)")!
@@ -237,6 +240,20 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             return cell
         }
     }
-    
+    func turnRed(cell:TruckSearchTableViewCell) {  // Turn all text labels in this cell to RED
+        cell.companyLabel.textColor = UIColor.redColor()
+        cell.nameLabel.textColor = UIColor.redColor()
+        cell.mobileLabel.textColor = UIColor.redColor()
+        cell.titleLabel.textColor = UIColor.redColor()
+        cell.truckLabel.textColor = UIColor.redColor()
+        cell.supervisorLabel.textColor = UIColor.redColor()
+        
+        cell.companyTitle.textColor = UIColor.redColor()
+        cell.nameTitle.textColor = UIColor.redColor()
+        cell.mobileTitle.textColor = UIColor.redColor()
+        cell.titleTitle.textColor = UIColor.redColor()
+        cell.truckTitle.textColor = UIColor.redColor()
+        cell.supervisorTitle.textColor = UIColor.redColor()
+    }
     
 }

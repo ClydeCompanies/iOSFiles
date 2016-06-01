@@ -19,6 +19,12 @@ class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of ea
 
         // Configure the view for the selected state
     }
+    @IBOutlet weak var companyTitle: UILabel!
+    @IBOutlet weak var nameTitle: UILabel!
+    @IBOutlet weak var mobileTitle: UILabel!
+    @IBOutlet weak var titleTitle: UILabel!
+    @IBOutlet weak var truckTitle: UILabel!
+    @IBOutlet weak var supervisorTitle: UILabel!
     
     @IBOutlet weak var companyLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
