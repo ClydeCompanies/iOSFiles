@@ -209,7 +209,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 cell.nameLabel.text = name
             }
             if let mobile = Employees[indexPath.row]["PhoneNumber"] as? String {
-                //Yay, there's a number
+                cell.mobileLabel.setTitle(mobile, forState: UIControlState.Normal)
             }
             if let jobTitle = Employees[indexPath.row]["JobTitle"] as? String {
                 cell.titleLabel.text = jobTitle
