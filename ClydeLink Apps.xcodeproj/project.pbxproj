@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		385DE51C1CFE652C00AE7E08 /* TruckSearchNRTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385DE51B1CFE652C00AE7E08 /* TruckSearchNRTableViewCell.swift */; };
 		91007C721CEE32EF006C8EED /* TruckSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */; };
 		911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16C01CE24AA20062527E /* ConstructionViewController.swift */; };
 		911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		385DE51B1CFE652C00AE7E08 /* TruckSearchNRTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchNRTableViewCell.swift; sourceTree = "<group>"; };
 		91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchTableViewCell.swift; sourceTree = "<group>"; };
 		911E16C01CE24AA20062527E /* ConstructionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructionViewController.swift; sourceTree = "<group>"; };
 		911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchViewController.swift; sourceTree = "<group>"; };
