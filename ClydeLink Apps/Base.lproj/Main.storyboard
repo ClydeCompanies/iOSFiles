@@ -594,12 +594,17 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="companyLabel" destination="l3d-Ku-OmH" id="EOJ-nK-1cz"/>
+                                            <outlet property="companyTitle" destination="Pgz-0L-ugA" id="lvi-Vu-C4i"/>
                                             <outlet property="employeePhoto" destination="rQE-Fq-Yi3" id="D2z-Vf-id1"/>
                                             <outlet property="mobileLabel" destination="N05-hf-VBI" id="rS0-An-utM"/>
                                             <outlet property="nameLabel" destination="3n1-Dp-vsR" id="kiP-VF-kt0"/>
+                                            <outlet property="nameTitle" destination="VSR-qp-7i8" id="Vns-AF-inX"/>
                                             <outlet property="supervisorLabel" destination="pBY-u6-02W" id="gMz-TQ-Qg6"/>
+                                            <outlet property="supervisorTitle" destination="d7E-85-ctk" id="03C-AQ-n5T"/>
                                             <outlet property="titleLabel" destination="gQA-Yw-ROI" id="p2v-2R-0z2"/>
+                                            <outlet property="titleTitle" destination="JIE-gx-dVT" id="rOZ-YY-wGh"/>
                                             <outlet property="truckLabel" destination="Smz-iu-BUY" id="uev-dN-GR4"/>
+                                            <outlet property="truckTitle" destination="xDt-mP-6UV" id="3Y2-cq-eDY"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="NORESULT" rowHeight="90" id="eJT-xf-1Ba" customClass="TruckSearchNRTableViewCell" customModule="ClydeLink_Apps" customModuleProvider="target">
