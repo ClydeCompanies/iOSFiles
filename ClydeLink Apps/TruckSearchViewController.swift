@@ -218,7 +218,8 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                     cell.mobileTitle.hidden = false
                     cell.mobileLabel.hidden = false
                 }
-                cell.phoneNumber.text = mobile
+                let phonenumber = mobile.stringByReplacingOccurrencesOfString("[^0-9]", withString: "", options: NSStringCompareOptions.RegularExpressionSearch, range:nil);
+                cell.phoneNumber.text = phonenumber
             }
             if let jobTitle = Employees[indexPath.row]["JobTitle"] as? String {
                 cell.titleLabel.text = jobTitle
