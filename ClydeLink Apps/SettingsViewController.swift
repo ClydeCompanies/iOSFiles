@@ -9,9 +9,26 @@ import UIKit
 
 class SettingsViewController: UIViewController {  // Basics of Settings screen, will be added to when decision has been made as to how we must proceed with the development of the screen
 
+    @IBOutlet weak var versionNumber: UILabel!
+    @IBOutlet weak var buildNumber: UILabel!
+    @IBOutlet weak var userName: UILabel!
+    
+    let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+            versionNumber.text = version
+        }
+        if let build = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+            buildNumber.text = build
+        }
+        var uName: String = "Username"
+        if (prefs.stringForKey("username") != nil)
+        {
+            uName = prefs.stringForKey("username")!
+        }
+        userName.text = uName
         // Do any additional setup after loading the view.
     }
 
