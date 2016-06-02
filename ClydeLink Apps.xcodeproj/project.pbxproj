@@ -119,7 +119,6 @@
 		9133DEBF1CE1307300F8330E /* ClydeLink Apps */ = {
 			isa = PBXGroup;
 			children = (
-				91E215C41CFE6E980031B75F /* TruckSearchNRTableViewCell.swift */,
 				9195A5BC1CE7FAEC00C24D8F /* View Controllers */,
 				9133DEC41CE1307300F8330E /* Main.storyboard */,
 				9133DEC71CE1307300F8330E /* Assets.xcassets */,
@@ -162,6 +161,7 @@
 				9195A5BA1CE7F74E00C24D8F /* EditViewController.swift */,
 				919D7D571CEA71BB00055A0A /* SettingsViewController.swift */,
 				91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */,
+				91E215C41CFE6E980031B75F /* TruckSearchNRTableViewCell.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
