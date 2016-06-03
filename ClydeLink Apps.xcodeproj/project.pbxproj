@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3834F4181D013513006E9EFA /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3834F4171D013513006E9EFA /* App.swift */; };
 		91007C721CEE32EF006C8EED /* TruckSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */; };
 		911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16C01CE24AA20062527E /* ConstructionViewController.swift */; };
 		911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3834F4171D013513006E9EFA /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchTableViewCell.swift; sourceTree = "<group>"; };
 		911E16C01CE24AA20062527E /* ConstructionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructionViewController.swift; sourceTree = "<group>"; };
 		911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchViewController.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				9195A5B71CE7A0EA00C24D8F /* HeaderTableViewCell.swift in Sources */,
 				91E215C51CFE6E980031B75F /* TruckSearchNRTableViewCell.swift in Sources */,
 				911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */,
+				3834F4181D013513006E9EFA /* App.swift in Sources */,
 				9133DEC31CE1307300F8330E /* ViewController.swift in Sources */,
 				9195A5B51CE7908B00C24D8F /* HomeViewController.swift in Sources */,
 				9195A5B31CE78CCD00C24D8F /* DataModel.xcdatamodeld in Sources */,
