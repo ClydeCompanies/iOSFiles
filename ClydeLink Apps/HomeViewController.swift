@@ -14,43 +14,30 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var AppTable: UITableView!
     
-    var headerButtons: NSMutableArray! = NSMutableArray()
-    
-    var appButtons: NSMutableArray! = NSMutableArray()
-    
-    var AccountingVisible = false  //
-    var EmployeeVisible = false    // Controls which categories are expanded
-    var EquipmentVisible = false   //
-    var HRVisible = false          //
+    var appButtons: Array = [App]()
     
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
-    var checked: Array = [AnyObject](count: 12, repeatedValue: true)  // Controls which buttons are visible
+    var currentapps: Array = [App]()
     
     override func viewDidLoad() {  // Runs when the view loads
         super.viewDidLoad()
-
-        self.headerButtons.addObject("Accounting and Credit Apps")
-        self.headerButtons.addObject("Employee Apps")
-        self.headerButtons.addObject("Equipment Apps")
-        self.headerButtons.addObject("Human Resources Apps")
-       
-        self.appButtons.addObject("Create New Customer Account")
-        self.appButtons.addObject("Credit Dashboard")
-        self.appButtons.addObject("New Hire")
-        self.appButtons.addObject("Expense Reimbursement")
-        self.appButtons.addObject("Vehicle Search")
-        self.appButtons.addObject("Equipment Search")
-        self.appButtons.addObject("Training Request Form")
-        self.appButtons.addObject("Employee Directory")
+        loadChecked()
         
+        //Go through and find headers
+        for element in currentapps
+        {
+            if (element.selected)
+            {
+                self.appButtons.append(element)
+            }
+        }
         
         AppTable.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
         
         AppTable.tableFooterView = UIView(frame: CGRectZero)
         
-        loadChecked()
         
     }
 
@@ -58,8 +45,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
     
     
     
@@ -83,7 +68,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of all the buttons needed
         loadChecked()
         
-        return self.headerButtons.count + self.appButtons.count
+        return self.appButtons.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Determines which buttons should be header buttons and which chould carry on to other views
@@ -91,216 +76,43 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         {
             AppCount = 0
         }
-        if (AppCount == 8)
+        if (AppCount == self.appButtons.count)
         {
             AppCount = 0
         }
-        
-        if indexPath.row % 3 == 0
-        {
-            let cell = self.AppTable.dequeueReusableCellWithIdentifier("HeaderCell", forIndexPath: indexPath) as! HeaderTableViewCell
-        
-            cell.Title.text = self.headerButtons.objectAtIndex(indexPath.row / 3) as? String
-        
-            return cell
-        }
-        else
-        {
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
             
-            cell.Title.text = self.appButtons.objectAtIndex(AppCount) as? String
+            cell.Title.text = self.appButtons[AppCount].title
             
             AppCount += 1;
             return cell
-        }
+        
     }
     
-    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {  // Gives the height for each row
-        
-        if (AccountingVisible == true)
-        {
-            if (indexPath.row == 1 && checked[1] as! NSObject == true)
-            {
-                return 60.0
-            }
-            else if (indexPath.row == 1 && checked[1] as! NSObject == false)
-            {
-                return 0.0
-            }
-            if (indexPath.row == 2 && checked[2] as! NSObject == true)
-            {
-                return 60.0
-            }
-            else if (indexPath.row == 2 && checked[2] as! NSObject == false)
-            {
-                return 0.0
-            }
-            
-        }
-        else if (AccountingVisible == false)
-        {
-            if (indexPath.row == 1 || indexPath.row == 2)
-            {
-                return 0.0
-            }
-        }
-        
-        if (EmployeeVisible == true)
-        {
-            if (indexPath.row == 4 && checked[4] as! NSObject == true)
-            {
-                return 60.0
-            }
-            else if (indexPath.row == 4 && checked[4] as! NSObject == false)
-            {
-                return 0.0
-            }
-            if (indexPath.row == 5 && checked[5] as! NSObject == true)
-            {
-                return 60.0
-            }
-            else if (indexPath.row == 5 && checked[5] as! NSObject == false)
-            {
-                return 0.0
-            }
-        }
-        else if (EmployeeVisible == false)
-        {
-            if (indexPath.row == 4 || indexPath.row == 5)
-            {
-                return 0.0
-            }
-        }
-        
-        if (EquipmentVisible == true)
-        {
-            if (indexPath.row == 7 && checked[7] as! NSObject == true)
-            {
-                return 60.0
-            }
-            else if (indexPath.row == 7 && checked[7] as! NSObject == false)
-            {
-                return 0.0
-            }
-            if (indexPath.row == 8 && checked[8] as! NSObject == true)
-            {
-                return 60.0
-            }
-            else if (indexPath.row == 8 && checked[8] as! NSObject == false)
-            {
-                return 0.0
-            }
-        }
-        else if (EquipmentVisible == false)
-        {
-            if (indexPath.row == 7 || indexPath.row == 8)
-            {
-                return 0.0
-            }
-        }
-        
-        if (HRVisible == true)
-        {
-            if (indexPath.row == 10 && checked[10] as! NSObject == true)
-            {
-                return 60.0
-            }
-            else if (indexPath.row == 10 && checked[10] as! NSObject == false)
-            {
-                return 0.0
-            }
-            if (indexPath.row == 11 && checked[11] as! NSObject == true)
-            {
-                return 60.0
-            }
-            else if (indexPath.row == 11 && checked[11] as! NSObject == false)
-            {
-                return 0.0
-            }
-        }
-        else if (HRVisible == false)
-        {
-            if (indexPath.row == 10 || indexPath.row == 11)
-            {
-                return 0.0
-            }
-        }
         return 60.0
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
-        
-        
-        if (indexPath.row == 0 && AccountingVisible == false)
+        let buttonpressed = self.appButtons[indexPath.row]
+        print(buttonpressed.header)
+        print(buttonpressed.title)
+        print(buttonpressed.link)
+        print(buttonpressed.selected)
+        print(buttonpressed.permissions)
+        var vc : AnyObject! = nil
+        switch (buttonpressed.link)
         {
-            closeAllButtons()
-            AccountingVisible = true
-            AppTable.reloadData()
+            case "vehiclesearch":
+                vc = self.storyboard!.instantiateViewControllerWithIdentifier("Truck Search")
+                break;
+            default:
+                vc = self.storyboard!.instantiateViewControllerWithIdentifier("Construction")
+                break;
         }
-        else if (indexPath.row == 0 && AccountingVisible == true)
-        {
-            AccountingVisible = false
-            AppTable.reloadData()
-        }
-        
-        if (indexPath.row == 3 && EmployeeVisible == false)
-        {
-            closeAllButtons()
-            EmployeeVisible = true
-            AppTable.reloadData()
-        }
-        else if (indexPath.row == 3 && EmployeeVisible == true)
-        {
-            EmployeeVisible = false
-            AppTable.reloadData()
-        }
-        
-        if (indexPath.row == 6 && EquipmentVisible == false)
-        {
-            closeAllButtons()
-            EquipmentVisible = true
-            AppTable.reloadData()
-        }
-        else if (indexPath.row == 6 && EquipmentVisible == true)
-        {
-            EquipmentVisible = false
-            AppTable.reloadData()
-        }
-        
-        if (indexPath.row == 9 && HRVisible == false)
-        {
-            closeAllButtons()
-            HRVisible = true
-            AppTable.reloadData()
-        }
-        else if (indexPath.row == 9 && HRVisible == true)
-        {
-            HRVisible = false
-            AppTable.reloadData()
-        }
-        
-        if (indexPath.row == 7)
-        {
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Truck Search")
-            self.showViewController(vc as! UIViewController, sender: vc)
-        }
-        else if (indexPath.row % 3 != 0)
-        {
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Construction")
-            self.showViewController(vc as! UIViewController, sender: vc)
-        }
-        
+        self.showViewController(vc as! UIViewController, sender: vc)
         AppTable.deselectRowAtIndexPath(indexPath, animated: true)
         
-    }
-    
-    func closeAllButtons()
-    {  // Close every category
-        AccountingVisible = false
-        EmployeeVisible = false
-        EquipmentVisible = false
-        HRVisible = false
     }
     
     @IBAction func editTable(sender: AnyObject) {  // Edit button pressed
@@ -316,18 +128,79 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    
+    @IBAction func AddFeatures(sender: AnyObject) {
+        let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Add Features")
+        self.presentViewController(vc as! UIViewController, animated: false, completion: nil)
+    }
     
     func loadChecked()
     {  // Find the array for visible buttons
-        if (prefs.arrayForKey("userChecked") != nil) {
-            checked = prefs.arrayForKey("userChecked")!
+        if (prefs.arrayForKey("userapps") != nil) {
+            currentapps = prefs.arrayForKey("userapps") as! [App]
         } else {
-            checked = [true,true,true,true,true,true,true,true,true,true,true,true]
+            currentapps = []
+            fillAppArray(&currentapps)
         }
     }
     
-    
+    func fillAppArray(inout currentapps: [App])
+    {
+        currentapps.append(App())
+        currentapps[currentapps.count - 1].header = "Accounting and Credit Apps"
+        currentapps[currentapps.count - 1].title = "Create New Customer Account"
+        currentapps[currentapps.count - 1].link = "newcustomeraccount"
+        currentapps[currentapps.count - 1].permissions = 4
+        currentapps[currentapps.count - 1].selected = true
+        
+        currentapps.append(App())
+        currentapps[currentapps.count - 1].header = "Accounting and Credit Apps"
+        currentapps[currentapps.count - 1].title = "Credit Dashboard"
+        currentapps[currentapps.count - 1].link = "creditdashboard"
+        currentapps[currentapps.count - 1].permissions = 4
+        currentapps[currentapps.count - 1].selected = true
+        
+        currentapps.append(App())
+        currentapps[currentapps.count - 1].header = "Employee Apps"
+        currentapps[currentapps.count - 1].title = "New Hire"
+        currentapps[currentapps.count - 1].link = "newhire"
+        currentapps[currentapps.count - 1].permissions = 4
+        currentapps[currentapps.count - 1].selected = true
+        
+        currentapps.append(App())
+        currentapps[currentapps.count - 1].header = "Employee Apps"
+        currentapps[currentapps.count - 1].title = "Expense Reimbursement"
+        currentapps[currentapps.count - 1].link = "expensereimbursement"
+        currentapps[currentapps.count - 1].permissions = 4
+        currentapps[currentapps.count - 1].selected = true
+        
+        currentapps.append(App())
+        currentapps[currentapps.count - 1].header = "Equipment Apps"
+        currentapps[currentapps.count - 1].title = "Vehicle Search"
+        currentapps[currentapps.count - 1].link = "vehiclesearch"
+        currentapps[currentapps.count - 1].permissions = 4
+        currentapps[currentapps.count - 1].selected = true  // Debug
+        
+        currentapps.append(App())
+        currentapps[currentapps.count - 1].header = "Equipment Apps"
+        currentapps[currentapps.count - 1].title = "Equipment Search"
+        currentapps[currentapps.count - 1].link = "equipmentsearch"
+        currentapps[currentapps.count - 1].permissions = 4
+        currentapps[currentapps.count - 1].selected = true
+        
+        currentapps.append(App())
+        currentapps[currentapps.count - 1].header = "Human Resources Apps"
+        currentapps[currentapps.count - 1].title = "Training Request Form"
+        currentapps[currentapps.count - 1].link = "trainingrequestform"
+        currentapps[currentapps.count - 1].permissions = 4
+        currentapps[currentapps.count - 1].selected = true
+        
+        currentapps.append(App())
+        currentapps[currentapps.count - 1].header = "Human Resources Apps"
+        currentapps[currentapps.count - 1].title = "Employee Directory"
+        currentapps[currentapps.count - 1].link = "employeedirectory"
+        currentapps[currentapps.count - 1].permissions = 4
+        currentapps[currentapps.count - 1].selected = true
+    }
     
     
     

@@ -239,8 +239,15 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HtZ-SP-8Uh">
-                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s8F-Ew-Err">
+                                <rect key="frame" x="0.0" y="589" width="375" height="30"/>
+                                <state key="normal" title="Add Features..."/>
+                                <connections>
+                                    <action selector="AddFeatures:" destination="Auj-ne-zK8" eventType="touchUpInside" id="xgR-u6-Nv3"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HtZ-SP-8Uh">
+                                <rect key="frame" x="0.0" y="64" width="375" height="521"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="HeaderCell" rowHeight="60" id="DeC-K4-5Ya" customClass="HeaderTableViewCell" customModule="ClydeLink_Apps" customModuleProvider="target">
