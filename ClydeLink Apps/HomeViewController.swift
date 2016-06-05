@@ -89,9 +89,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    //************************************************************************************************
-    
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {  // Delete the selected app
         if editingStyle == .Delete {
             for element in currentapps
             {
@@ -101,14 +99,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     break
                 }
             }
-//            prefs.setObject(currentapps, forKey: "userapps")
-//            prefs.synchronize()
+            let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
+            prefs.setObject(appData, forKey: "userapps")
+            prefs.synchronize()
             appButtons.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
         }
     }
     
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {  // Allow Delete
         if self.AppTable.editing {return .Delete}
         return .None
     }
@@ -117,7 +116,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         return true
     }
     
-    func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {  // Move apps within table
         let itemToMove = appButtons[fromIndexPath.row]
         appButtons.removeAtIndex(fromIndexPath.row)
         appButtons.insert(itemToMove, atIndex: toIndexPath.row)
@@ -139,16 +138,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         currentapps.removeAtIndex(fromindex)
         currentapps.insert(itemToMove, atIndex: toindex + 1)
-        print("*****")
-        for element in currentapps
-        {
-            print(element.title + " " + String(element.selected))
-        }
-//        prefs.setObject(currentapps, forKey: "userapps")
-//        prefs.synchronize()
+        let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
+        prefs.setObject(appData, forKey: "userapps")
+        prefs.synchronize()
     }
-    
-    //********************************************************************************************************
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {  // Gives the height for each row
         return 60.0
@@ -156,11 +149,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
         let buttonpressed = self.appButtons[indexPath.row]
-        print(buttonpressed.header)
-        print(buttonpressed.title)
-        print(buttonpressed.link)
-        print(buttonpressed.selected)
-        print(buttonpressed.permissions)
         var vc : AnyObject! = nil
         switch (buttonpressed.link)
         {
@@ -205,8 +193,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func loadChecked()
     {  // Find the array for visible buttons
-        if (prefs.arrayForKey("userapps") != nil) {
-            currentapps = prefs.arrayForKey("userapps") as! [App]
+        if let data = prefs.objectForKey("userapps") as? NSData {
+            currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
         } else {
             currentapps = []
             fillAppArray(&currentapps)
@@ -216,64 +204,31 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func fillAppArray(inout currentapps: [App])
     {
         let debug = true
-        currentapps.append(App())
-        currentapps[currentapps.count - 1].header = "Accounting and Credit Apps"
-        currentapps[currentapps.count - 1].title = "Create New Customer Account"
-        currentapps[currentapps.count - 1].link = "newcustomeraccount"
-        currentapps[currentapps.count - 1].permissions = 4
-        currentapps[currentapps.count - 1].selected = debug
+        //              HEADER                          TITLE                           LINK      PERMISSIONS SELECTED
+        currentapps.append(
+        App(h:"Accounting and Credit Apps", t: "Create New Customer Account",l: "newcustomeraccount",  p: 4, s: debug))
+        currentapps.append(
+        App(h: "Accounting and Credit Apps",t: "Credit Dashboard",           l: "creditdashboard",     p: 4, s: debug))
         
-        currentapps.append(App())
-        currentapps[currentapps.count - 1].header = "Accounting and Credit Apps"
-        currentapps[currentapps.count - 1].title = "Credit Dashboard"
-        currentapps[currentapps.count - 1].link = "creditdashboard"
-        currentapps[currentapps.count - 1].permissions = 4
-        currentapps[currentapps.count - 1].selected = debug
+        currentapps.append(
+        App(h: "Employee Apps",             t: "New Hire",                   l: "newhire",             p: 4, s: debug))
+        currentapps.append(
+        App(h: "Employee Apps",             t: "Expense Reimbursement",      l: "expensereimbursement",p: 4, s: debug))
         
-        currentapps.append(App())
-        currentapps[currentapps.count - 1].header = "Employee Apps"
-        currentapps[currentapps.count - 1].title = "New Hire"
-        currentapps[currentapps.count - 1].link = "newhire"
-        currentapps[currentapps.count - 1].permissions = 4
-        currentapps[currentapps.count - 1].selected = debug
+        currentapps.append(
+        App(h: "Equipment Apps",           t: "Vehicle Search",              l: "vehiclesearch",       p: 4, s: debug))
+        currentapps.append(
+        App(h: "Equipment Apps",           t: "Equipment Search",            l: "equipmentsearch",     p: 4, s: debug))
         
-        currentapps.append(App())
-        currentapps[currentapps.count - 1].header = "Employee Apps"
-        currentapps[currentapps.count - 1].title = "Expense Reimbursement"
-        currentapps[currentapps.count - 1].link = "expensereimbursement"
-        currentapps[currentapps.count - 1].permissions = 4
-        currentapps[currentapps.count - 1].selected = debug
+        currentapps.append(
+        App(h: "Human Resources Apps",     t: "Training Request Form",       l: "trainingrequestform", p: 4, s: debug))
+        currentapps.append(
+        App(h: "Human Resources Apps",     t: "Employee Directory",          l: "employeedirectory",   p: 4, s: debug))
         
-        currentapps.append(App())
-        currentapps[currentapps.count - 1].header = "Equipment Apps"
-        currentapps[currentapps.count - 1].title = "Vehicle Search"
-        currentapps[currentapps.count - 1].link = "vehiclesearch"
-        currentapps[currentapps.count - 1].permissions = 4
-        currentapps[currentapps.count - 1].selected = debug
-        
-        currentapps.append(App())
-        currentapps[currentapps.count - 1].header = "Equipment Apps"
-        currentapps[currentapps.count - 1].title = "Equipment Search"
-        currentapps[currentapps.count - 1].link = "equipmentsearch"
-        currentapps[currentapps.count - 1].permissions = 4
-        currentapps[currentapps.count - 1].selected = debug
-        
-        currentapps.append(App())
-        currentapps[currentapps.count - 1].header = "Human Resources Apps"
-        currentapps[currentapps.count - 1].title = "Training Request Form"
-        currentapps[currentapps.count - 1].link = "trainingrequestform"
-        currentapps[currentapps.count - 1].permissions = 4
-        currentapps[currentapps.count - 1].selected = debug
-        
-        currentapps.append(App())
-        currentapps[currentapps.count - 1].header = "Human Resources Apps"
-        currentapps[currentapps.count - 1].title = "Employee Directory"
-        currentapps[currentapps.count - 1].link = "employeedirectory"
-        currentapps[currentapps.count - 1].permissions = 4
-        currentapps[currentapps.count - 1].selected = debug
         //Convert function
-//        prefs.setObject(currentapps, forKey: "userapps")
-//        prefs.synchronize()
+        let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
+        prefs.setObject(appData, forKey: "userapps")
+        prefs.synchronize()
     }
     
     
