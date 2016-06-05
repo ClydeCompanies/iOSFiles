@@ -129,15 +129,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         var toindex: Int = 0
+        var change: Int = 0
+        
+        if (toIndexPath.row > fromIndexPath.row)
+        {
+            //Down
+            change = 1
+        } else {
+            //Up
+            change = -1
+        }
         
         for element in currentapps
         {
-            if (element.title == appButtons[fromIndexPath.row + 1].title) {
+            if (element.title == appButtons[fromIndexPath.row + change].title) {
                 toindex = currentapps.indexOf(element)!
             }
         }
         currentapps.removeAtIndex(fromindex)
-        currentapps.insert(itemToMove, atIndex: toindex + 1)
+        currentapps.insert(itemToMove, atIndex: toindex + change)
         let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
         prefs.setObject(appData, forKey: "userapps")
         prefs.synchronize()
