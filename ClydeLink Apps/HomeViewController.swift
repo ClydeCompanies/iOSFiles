@@ -147,6 +147,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
         currentapps.removeAtIndex(fromindex)
+        if (toindex + change >= currentapps.count)
+        {
+            change = 0
+        }
         currentapps.insert(itemToMove, atIndex: toindex + change)
         let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
         prefs.setObject(appData, forKey: "userapps")

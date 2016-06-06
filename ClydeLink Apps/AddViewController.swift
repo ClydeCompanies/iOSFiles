@@ -32,16 +32,19 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     
     @IBAction func DoneSelected(sender: AnyObject) {
-        for element in selected
+        for element in appStore
         {
-            for element2 in currentapps
+            if (element.selected)
             {
-                if (element.title == element2.title)
+                for element2 in currentapps
                 {
-                    currentapps.removeAtIndex(currentapps.indexOf(element2)!)
-                    element.selected = true
-                    currentapps.append(element)
-                    break
+                    if (element.title == element2.title)
+                    {
+                        currentapps.removeAtIndex(currentapps.indexOf(element2)!)
+                        element.selected = true
+                        currentapps.append(element)
+                        break
+                    }
                 }
             }
         }
@@ -51,7 +54,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
 
         let vc : UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
         //vc.setEditing(true, animated: true)
-        
         self.presentViewController(vc, animated: true, completion: nil)
     }
     
@@ -70,8 +72,11 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     // MARK: Table View Functions
     
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {  // Disallow Delete
+        return .None
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-//        loadApps()
         if indexPath.row == 0
         {
             AppCount = 0
@@ -83,12 +88,17 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
         
         cell.Title.text = self.appStore[AppCount].title
+        if (appStore[indexPath.row].selected)
+        {
+            cell.accessoryType = UITableViewCellAccessoryType.Checkmark;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryType.None;
+        }
         AppCount += 1;
         return cell
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        loadApps()
         return self.appStore.count
     }
     
@@ -97,11 +107,8 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
-        let buttonPressed = self.appStore[indexPath.row]
-        selected.append(buttonPressed)
-        appStore.removeAtIndex(indexPath.row)
-        AppTable.deselectRowAtIndexPath(indexPath, animated: true)
-        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        appStore[indexPath.row].selected = !appStore[indexPath.row].selected
+        tableView.reloadData()
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
