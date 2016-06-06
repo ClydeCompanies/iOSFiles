@@ -121,6 +121,7 @@
 		9133DEBF1CE1307300F8330E /* ClydeLink Apps */ = {
 			isa = PBXGroup;
 			children = (
+				3834F4171D013513006E9EFA /* App.swift */,
 				9195A5BC1CE7FAEC00C24D8F /* View Controllers */,
 				9133DEC41CE1307300F8330E /* Main.storyboard */,
 				9133DEC71CE1307300F8330E /* Assets.xcassets */,
