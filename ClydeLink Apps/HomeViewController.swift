@@ -73,18 +73,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Determines which buttons should be header buttons and which chould carry on to other views
-        if indexPath.row == 0
-        {
-            AppCount = 0
-        }
-        if (AppCount == self.appButtons.count)
-        {
-            AppCount = 0
-        }
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
             
-            cell.Title.text = self.appButtons[AppCount].title
-            AppCount += 1;
+            cell.Title.text = self.appButtons[indexPath.row].title
             return cell
         
     }
