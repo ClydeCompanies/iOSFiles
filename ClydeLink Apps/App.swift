@@ -2,8 +2,7 @@
 //  App.swift
 //  ClydeLink Apps
 //
-//  Created by JFed on 6/2/16.
-//  Copyright © 2016 XLR8 Development LLC. All rights reserved.
+//  Created by XLR8 Development LLC on 6/2/16.
 //
 
 import UIKit
