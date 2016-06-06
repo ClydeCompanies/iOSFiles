@@ -27,7 +27,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         loadChecked()
         
-        //Go through and find headers
         for element in currentapps
         {
             if (element.selected)
@@ -54,7 +53,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - AppTable View
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
-        return 1;
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 18
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
@@ -63,8 +66,22 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         {
             uName = prefs.stringForKey("username")!
         }
-        return "Logged in as " + uName
         
+        let loggedIn: String = "Logged in as " + uName
+        
+        return loggedIn
+        
+    }
+    
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
+        
+        header.textLabel!
+            .textColor = UIColor.blackColor()
+        header.textLabel!.font = UIFont.boldSystemFontOfSize(12)
+        header.textLabel!.frame = header.frame
+        header.textLabel!.textAlignment = NSTextAlignment.Left
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of all the buttons needed
