@@ -21,6 +21,8 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     var headers: Array = [String]()
     var headered: Array = [App]()
     
+    var headersused: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadApps()
@@ -82,16 +84,27 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
         if (indexPath.row == 0)
         {
-            // Header
-        } else {
-            // Maybe Header
-        }
-        cell.Title.text = self.appStore[indexPath.row].title
-        if (appStore[indexPath.row].selected)
-        {
-            cell.accessoryType = UITableViewCellAccessoryType.Checkmark;
-        } else {
+            cell.backgroundColor = UIColor.blueColor()
+            headersused += 1
             cell.accessoryType = UITableViewCellAccessoryType.None;
+        } else {
+            if (appStore[indexPath.row - headersused].header != appStore[indexPath.row-headersused-1])
+            {
+                // Header
+                cell.backgroundColor = UIColor.blueColor()
+                cell.Title.text = self.appStore[indexPath.row-headersused].header
+                headersused += 1
+                cell.accessoryType = UITableViewCellAccessoryType.None;
+            } else {
+                // Not Header
+                cell.Title.text = self.appStore[indexPath.row - headersused].title
+                if (appStore[indexPath.row - headersused].selected)
+                {
+                    cell.accessoryType = UITableViewCellAccessoryType.Checkmark;
+                } else {
+                    cell.accessoryType = UITableViewCellAccessoryType.None;
+                }
+            }
         }
         return cell
     }
@@ -105,7 +118,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
-        appStore[indexPath.row].selected = !appStore[indexPath.row].selected
+        //appStore[indexPath.row].selected = !appStore[indexPath.row].selected
         tableView.reloadData()
     }
     
@@ -116,7 +129,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             uName = prefs.stringForKey("username")!
         }
         return "Logged in as " + uName
-        
     }
     
     func loadApps() {
@@ -135,7 +147,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         let debug = false
         //              HEADER                          TITLE                           LINK      PERMISSIONS SELECTED
         currentapps.append(
-            App(h:"Accounting and Credit Apps", t: "Create New Customer Account",l: "newcustomeraccount",  p: 4, s: debug))
+            App(h: "Accounting and Credit Apps",t: "Create New Customer Account",l: "newcustomeraccount",  p: 4, s: debug))
         currentapps.append(
             App(h: "Accounting and Credit Apps",t: "Credit Dashboard",           l: "creditdashboard",     p: 4, s: debug))
         
