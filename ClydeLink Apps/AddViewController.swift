@@ -18,6 +18,8 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     var currentapps: Array = [App]()
     var appStore: Array = [App]()
     var selected: Array = [App]()
+    var headers: Array = [String]()
+    var headered: Array = [App]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,24 +79,20 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.row == 0
-        {
-            AppCount = 0
-        }
-        if (AppCount == self.appStore.count)
-        {
-            AppCount = 0
-        }
         let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
-        
-        cell.Title.text = self.appStore[AppCount].title
+        if (indexPath.row == 0)
+        {
+            // Header
+        } else {
+            // Maybe Header
+        }
+        cell.Title.text = self.appStore[indexPath.row].title
         if (appStore[indexPath.row].selected)
         {
             cell.accessoryType = UITableViewCellAccessoryType.Checkmark;
         } else {
             cell.accessoryType = UITableViewCellAccessoryType.None;
         }
-        AppCount += 1;
         return cell
     }
     
@@ -129,6 +127,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             fillAppArray(&currentapps)
         }
         buildAppStore()
+        sortarray(&currentapps)
     }
     
     func fillAppArray(inout currentapps: [App])
@@ -168,5 +167,28 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                 appStore.append(element)
             }
         }
+    }
+    
+    func sortarray(inout currentapps: [App])
+    {
+        headers = []
+        headered = []
+        for element in currentapps {
+            if (!headers.contains(element.header) && !element.selected)
+            {
+                headers.append(element.header)
+            }
+        }
+        for header in headers
+        {
+            for element in currentapps
+            {
+                if (element.header == header)
+                {
+                    headered.append(element)
+                }
+            }
+        }
+//        currentapps = headered
     }
 }
