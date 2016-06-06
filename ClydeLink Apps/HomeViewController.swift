@@ -211,6 +211,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             currentapps = []
             fillAppArray(&currentapps)
         }
+        sortarray(&currentapps)
     }
     
     func fillAppArray(inout currentapps: [App])
@@ -242,7 +243,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         prefs.setObject(appData, forKey: "userapps")
         prefs.synchronize()
     }
-    
+    func sortarray(inout currentapps: [App])
+    {
+        for element in currentapps
+        {
+            if (!element.selected)
+            {
+                currentapps.removeAtIndex(currentapps.indexOf(element)!)
+                currentapps.append(element)
+            }
+        }
+    }
     
     
     
