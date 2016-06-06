@@ -96,6 +96,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 if (element.title == appButtons[indexPath.row].title)
                 {
                     element.selected = false
+                    currentapps.removeAtIndex(currentapps.indexOf(element)!)
+                    currentapps.append(element)
                     break
                 }
             }
@@ -104,6 +106,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             prefs.synchronize()
             appButtons.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            print("***")
+            for element in currentapps
+            {
+                print(element.title)
+            }
         }
     }
     
@@ -135,10 +142,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         {
             //Down
             change = 1
-        } else {
+        } else if (toIndexPath.row < fromIndexPath.row){
             //Up
             change = -1
+        } else {
+            change = 0
         }
+        
         
         for element in currentapps
         {
@@ -148,6 +158,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         currentapps.removeAtIndex(fromindex)
         if (toindex + change >= currentapps.count)
+        {
+            change = 0
+        }
+        if (toindex + change < 0)
         {
             change = 0
         }
