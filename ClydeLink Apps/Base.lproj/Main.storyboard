@@ -393,6 +393,9 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOH-UF-bYY">
                                 <rect key="frame" x="20" y="350" width="335" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="mOH-UF-bYY" secondAttribute="height" multiplier="67:6" id="fdR-7N-RDk"/>
+                                </constraints>
                                 <state key="normal" title="LOGOUT" backgroundImage="blueGradient">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -436,7 +439,7 @@
         <!--Add-->
         <scene sceneID="403-9D-2dM">
             <objects>
-                <viewController title="Add" id="koz-q1-BkM" customClass="AddViewController" customModule="ClydeLink_Apps" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Add" title="Add" id="koz-q1-BkM" customClass="AddViewController" customModule="ClydeLink_Apps" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VVy-VT-CB9"/>
                         <viewControllerLayoutGuide type="bottom" id="yXy-GW-N3W"/>
@@ -929,6 +932,6 @@
         <image name="person-generic" width="659" height="659"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="b95-nF-XaH"/>
+        <segue reference="trZ-pE-0lw"/>
     </inferredMetricsTieBreakers>
 </document>

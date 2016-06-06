@@ -190,15 +190,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     @IBAction func settingsButton(sender: AnyObject) {  // Settings button pressed
-        if (rightButton.title == "Settings")
-        {
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Settings")
-            self.presentViewController(vc as! UIViewController, animated: false, completion: nil)
-        } else if (rightButton.title == "Add")
-        {
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Add Features")
-            self.presentViewController(vc as! UIViewController, animated: false, completion: nil)
-        }
+        let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier(rightButton.title!)
+        self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
     }
     
     func loadChecked()
