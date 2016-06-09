@@ -11,6 +11,7 @@ class HeaderTableViewCell: UITableViewCell {  // Controls the content that is ad
     
     
     @IBOutlet weak var Title: UILabel!
+    @IBOutlet weak var Header: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()

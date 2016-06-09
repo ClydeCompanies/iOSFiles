@@ -81,12 +81,24 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
+        
 //        if (indexPath.row == 0)
 //        {
-//            cell.backgroundColor = UIColor.blueColor()
-            cell.Title.text = self.appStore[indexPath.row].title
-            cell.accessoryType = UITableViewCellAccessoryType.None;
+//            let cell = self.AppTable.dequeueReusableCellWithIdentifier("HeaderCell", forIndexPath: indexPath) as! HeaderTableViewCell
+//            cell.Header.text = self.appStore[indexPath.row].header
+//            cell.Title.text = self.appStore[indexPath.row].title
+//            
+//            return cell
+//            
+//        }
+//        else
+//        {
+            let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
+//        if (indexPath.row == 0)
+//        {
+//              cell.backgroundColor = UIColor.blueColor()
+                cell.Title.text = self.appStore[indexPath.row].title
+                cell.accessoryType = UITableViewCellAccessoryType.None;
 //        } 
 //            else {
 //            if (appStore[indexPath.row - headersused].header != appStore[indexPath.row-(headersused-1)].header)
@@ -111,7 +123,8 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
 //                }
 //            }
 //        }
-        return cell
+            return cell
+//            }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
