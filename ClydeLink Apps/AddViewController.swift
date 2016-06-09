@@ -21,7 +21,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     var headers: Array = [String]()
     var headered: Array = [App]()
     
-    var headersused: Int = 0
+    var headersused: Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,17 +85,19 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         if (indexPath.row == 0)
         {
             cell.backgroundColor = UIColor.blueColor()
-            headersused += 1
             cell.accessoryType = UITableViewCellAccessoryType.None;
         } else {
-            if (appStore[indexPath.row - headersused].header != appStore[indexPath.row-headersused-1])
+            if (indexPath.row > 1) {
+            if (appStore[indexPath.row - headersused].header != appStore[indexPath.row-headersused-1].header)
             {
                 // Header
                 cell.backgroundColor = UIColor.blueColor()
                 cell.Title.text = self.appStore[indexPath.row-headersused].header
                 headersused += 1
                 cell.accessoryType = UITableViewCellAccessoryType.None;
-            } else {
+                
+            }
+            else {
                 // Not Header
                 cell.Title.text = self.appStore[indexPath.row - headersused].title
                 if (appStore[indexPath.row - headersused].selected)
@@ -104,6 +106,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                 } else {
                     cell.accessoryType = UITableViewCellAccessoryType.None;
                 }
+            }
             }
         }
         return cell
