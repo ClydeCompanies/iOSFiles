@@ -82,38 +82,55 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
-        if (indexPath.row == 0)
-        {
-            cell.backgroundColor = UIColor.blueColor()
+//        if (indexPath.row == 0)
+//        {
+//            cell.backgroundColor = UIColor.blueColor()
+            cell.Title.text = self.appStore[indexPath.row].title
             cell.accessoryType = UITableViewCellAccessoryType.None;
-        } else {
-            if (indexPath.row > 1) {
-            if (appStore[indexPath.row - headersused].header != appStore[indexPath.row-headersused-1].header)
-            {
-                // Header
-                cell.backgroundColor = UIColor.blueColor()
-                cell.Title.text = self.appStore[indexPath.row-headersused].header
-                headersused += 1
-                cell.accessoryType = UITableViewCellAccessoryType.None;
-                
-            }
-            else {
-                // Not Header
-                cell.Title.text = self.appStore[indexPath.row - headersused].title
-                if (appStore[indexPath.row - headersused].selected)
-                {
-                    cell.accessoryType = UITableViewCellAccessoryType.Checkmark;
-                } else {
-                    cell.accessoryType = UITableViewCellAccessoryType.None;
-                }
-            }
-            }
-        }
+//        } 
+//            else {
+//            if (appStore[indexPath.row - headersused].header != appStore[indexPath.row-(headersused-1)].header)
+//            {
+//                // Header
+//                cell.backgroundColor = UIColor.blueColor()
+//                cell.Title.text = self.appStore[indexPath.row-headersused].header
+//                headersused += 1
+//                cell.accessoryType = UITableViewCellAccessoryType.None;
+//                
+//                }
+//          
+//            else {
+//                // Not Header
+//                cell.backgroundColor = UIColor.whiteColor()
+//                cell.Title.text = self.appStore[indexPath.row - headersused].title
+//                if (appStore[indexPath.row - headersused].selected)
+//                {
+//                    cell.accessoryType = UITableViewCellAccessoryType.Checkmark;
+//                } else {
+//                    cell.accessoryType = UITableViewCellAccessoryType.None;
+//                }
+//            }
+//        }
         return cell
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.appStore.count
+    }
+    
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
+        
+        header.textLabel!
+            .textColor = UIColor.blackColor()
+        header.textLabel!.font = UIFont.boldSystemFontOfSize(12)
+        header.textLabel!.frame = header.frame
+        header.textLabel!.textAlignment = NSTextAlignment.Left
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 18
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
@@ -122,6 +139,16 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
         //appStore[indexPath.row].selected = !appStore[indexPath.row].selected
+        
+        for element in currentapps
+        {
+            let currentCell = tableView.cellForRowAtIndexPath(indexPath)! as! AppTableViewCell
+            if (currentCell.Title.text == element.title)
+            {
+                element.selected = true
+            }
+        }
+        buildAppStore()
         tableView.reloadData()
     }
     
@@ -175,6 +202,8 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func buildAppStore() {
+        appStore = []
+        
         for element in currentapps
         {
             if !element.selected
