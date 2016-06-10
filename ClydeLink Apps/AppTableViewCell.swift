@@ -12,6 +12,8 @@ class AppTableViewCell: UITableViewCell {  // Controls the content that is added
     
     @IBOutlet weak var Title: UILabel!
     
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

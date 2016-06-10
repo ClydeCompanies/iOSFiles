@@ -22,6 +22,10 @@ extension UIView {
 
 class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of each cell that is added to the Results Table from the Truck Search
     
+    
+    @IBOutlet weak var ResultsStack: UIStackView!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

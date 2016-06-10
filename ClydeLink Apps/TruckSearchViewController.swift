@@ -156,6 +156,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         self.activityIndicator.hidden = true
         self.dismissKeyboard()  // Dismisses keyboard after the search
         
+
     }
     }
     
@@ -190,15 +191,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             return cell
         }
             
-//        if (Employees.count == 0 && flag == 1)
-//        {
-//            let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("NORESULT", forIndexPath: indexPath) as! TruckSearchNRTableViewCell
-//            
-//            cell.errorLabel.text = "Error Connecting to Server"
-//            
-//            return cell
-//        }
-            
         else {
             let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("RESULT", forIndexPath: indexPath) as! TruckSearchTableViewCell
         
@@ -213,7 +205,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 {
                     cell.mobileLabel.hidden = true
                     cell.mobileTitle.hidden = true
-                    //Move other fields up
                 } else {
                     cell.mobileTitle.hidden = false
                     cell.mobileLabel.hidden = false
@@ -251,6 +242,19 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
 
             return cell
         }
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        if (Employees.count > 0)
+        {
+            return 140
+        }
+        else
+        {
+            return 89
+        }
+        
     }
     
     
