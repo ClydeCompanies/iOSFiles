@@ -105,7 +105,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             guard error == nil && data != nil else { // check for fundamental networking error
                 print("error=\(error)")
                 self.flag = 1
-                self.ResultsTable.reloadData()
                 
                 let alertController = UIAlertController(title: "Error", message:
                     "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -143,18 +142,18 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 }
                 
                 self.Employees = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
+//                self.activityIndicator.stopAnimating()  // Ends spinner
+//                self.activityIndicator.hidden = true  // Hides spinner
                 self.ResultsTable.reloadData()  // Reloads Table View cells as results
-                self.activityIndicator.stopAnimating()  // Ends spinner
-                self.activityIndicator.hidden = true  // Hides spinner
             }
             
         }
         task.resume()
         
-        self.ResultsTable.reloadData()
         self.activityIndicator.stopAnimating()  // Ends spinner
         self.activityIndicator.hidden = true
         self.dismissKeyboard()  // Dismisses keyboard after the search
+        self.ResultsTable.reloadData()  // Reloads Table View cells as results
         
 
     }

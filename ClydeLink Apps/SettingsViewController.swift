@@ -37,6 +37,12 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         // Dispose of any resources that can be recreated.
     }
     
+    
+    @IBAction func SignOut(sender: AnyObject) {
+        let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Login")
+        self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+    }
+    
 
     /*
     // MARK: - Navigation
