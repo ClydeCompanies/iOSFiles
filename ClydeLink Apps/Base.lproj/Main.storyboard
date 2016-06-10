@@ -10,7 +10,7 @@
         <!--Login-->
         <scene sceneID="GIA-vz-6Wq">
             <objects>
-                <viewController title="Login" id="Hu7-dF-iQo" customClass="LoginViewController" customModule="ClydeLink_Apps" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Login" title="Login" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Hu7-dF-iQo" customClass="LoginViewController" customModule="ClydeLink_Apps" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PGA-is-LiY"/>
                         <viewControllerLayoutGuide type="bottom" id="EbH-va-Tgl"/>
@@ -350,6 +350,11 @@
                                                 <segue destination="Auj-ne-zK8" kind="presentation" animates="NO" modalTransitionStyle="crossDissolve" id="trZ-pE-0lw"/>
                                             </connections>
                                         </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Sign Out" style="plain" id="2zA-2n-cwM">
+                                            <connections>
+                                                <action selector="SignOut:" destination="eJr-qm-Kqb" id="MYo-LN-exP"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                                 <userDefinedRuntimeAttributes>
@@ -374,43 +379,31 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="App Info:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ihq-iZ-Hcr">
-                                <rect key="frame" x="20" y="416" width="82" height="21"/>
+                                <rect key="frame" x="20" y="575" width="82" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Version:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ThA-bc-iJj">
-                                <rect key="frame" x="20" y="445" width="70" height="21"/>
+                                <rect key="frame" x="20" y="604" width="70" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Build:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LEB-67-y5M">
-                                <rect key="frame" x="20" y="467" width="70" height="21"/>
+                                <rect key="frame" x="20" y="626" width="70" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOH-UF-bYY">
-                                <rect key="frame" x="20" y="350" width="335" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="mOH-UF-bYY" secondAttribute="height" multiplier="67:6" id="fdR-7N-RDk"/>
-                                </constraints>
-                                <state key="normal" title="LOGOUT" backgroundImage="blueGradient">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="Hu7-dF-iQo" kind="presentation" id="qqr-Ke-AYM"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="###" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YYS-Lx-6Eg">
-                                <rect key="frame" x="98" y="467" width="42" height="21"/>
+                                <rect key="frame" x="98" y="626" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="###" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="twK-RY-r5e">
-                                <rect key="frame" x="98" y="445" width="32" height="21"/>
+                                <rect key="frame" x="98" y="604" width="32" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -420,9 +413,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="iTz-yT-3y9" secondAttribute="trailing" id="5SI-Pm-1AC"/>
                             <constraint firstItem="iTz-yT-3y9" firstAttribute="leading" secondItem="SiZ-Mn-GVQ" secondAttribute="leading" id="JOC-6S-DAe"/>
-                            <constraint firstItem="mOH-UF-bYY" firstAttribute="leading" secondItem="SiZ-Mn-GVQ" secondAttribute="leadingMargin" id="Z59-I1-vHc"/>
                             <constraint firstItem="iTz-yT-3y9" firstAttribute="top" secondItem="RLO-YC-3N3" secondAttribute="bottom" id="ZQo-aI-MYH"/>
-                            <constraint firstItem="mOH-UF-bYY" firstAttribute="trailing" secondItem="SiZ-Mn-GVQ" secondAttribute="trailingMargin" id="wF9-kW-ACr"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -988,10 +979,9 @@
     </scenes>
     <resources>
         <image name="CCI_Logo_Tall" width="214" height="292"/>
-        <image name="blueGradient" width="800" height="300"/>
         <image name="person-generic" width="659" height="659"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="b95-nF-XaH"/>
+        <segue reference="trZ-pE-0lw"/>
     </inferredMetricsTieBreakers>
 </document>
