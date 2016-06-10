@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3834F4181D013513006E9EFA /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3834F4171D013513006E9EFA /* App.swift */; };
+		38783BBA1D09E4BC003987C5 /* AddTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38783BB91D09E4BC003987C5 /* AddTableViewCell.swift */; };
 		91007C721CEE32EF006C8EED /* TruckSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */; };
 		911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16C01CE24AA20062527E /* ConstructionViewController.swift */; };
 		911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */; };
@@ -48,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		3834F4171D013513006E9EFA /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		38783BB91D09E4BC003987C5 /* AddTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTableViewCell.swift; sourceTree = "<group>"; };
 		91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchTableViewCell.swift; sourceTree = "<group>"; };
 		911E16C01CE24AA20062527E /* ConstructionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructionViewController.swift; sourceTree = "<group>"; };
 		911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchViewController.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				9195A5B41CE7908B00C24D8F /* HomeViewController.swift */,
 				9195A5B61CE7A0EA00C24D8F /* HeaderTableViewCell.swift */,
 				9195A5B81CE7AC1000C24D8F /* AppTableViewCell.swift */,
+				38783BB91D09E4BC003987C5 /* AddTableViewCell.swift */,
 				9195A5BA1CE7F74E00C24D8F /* EditViewController.swift */,
 				919D7D571CEA71BB00055A0A /* SettingsViewController.swift */,
 				91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */,
@@ -317,6 +320,7 @@
 				9133DEC11CE1307300F8330E /* AppDelegate.swift in Sources */,
 				9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */,
 				9195A5BB1CE7F74E00C24D8F /* EditViewController.swift in Sources */,
+				38783BBA1D09E4BC003987C5 /* AddTableViewCell.swift in Sources */,
 				911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */,
 				919D7D581CEA71BB00055A0A /* SettingsViewController.swift in Sources */,
 			);

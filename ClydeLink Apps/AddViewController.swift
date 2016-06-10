@@ -17,11 +17,11 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
     var currentapps: Array = [App]()
     var appStore: Array = [App]()
-    var selected: Array = [App]()
-    var headers: Array = [String]()
-    var headered: Array = [App]()
+//    var selected: Array = [App]()
+//    var headers: Array = [String]()
+//    var headered: Array = [App]()
     
-    var headersused: Int = 1
+//    var headersused: Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -152,18 +152,34 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
         //appStore[indexPath.row].selected = !appStore[indexPath.row].selected
-        
-        for element in currentapps
+        let buttonpressed = self.appStore[indexPath.row]
+        var vc : AnyObject! = nil
+        switch (buttonpressed.link)
         {
-            let currentCell = tableView.cellForRowAtIndexPath(indexPath)! as! AppTableViewCell
-            if (currentCell.Title.text == element.title)
-            {
-                element.selected = true
-            }
+        case "vehiclesearch":
+            vc = self.storyboard!.instantiateViewControllerWithIdentifier("Truck Search")
+            break;
+        default:
+            vc = self.storyboard!.instantiateViewControllerWithIdentifier("Construction")
+            break;
         }
-        buildAppStore()
-        tableView.reloadData()
+        self.showViewController(vc as! UIViewController, sender: vc)
+        AppTable.deselectRowAtIndexPath(indexPath, animated: true)
     }
+    
+    //cell click add function:
+    /*
+     for element in currentapps
+     {
+     let currentCell = tableView.cellForRowAtIndexPath(indexPath)! as! AppTableViewCell
+     if (currentCell.Title.text == element.title)
+     {
+     element.selected = true
+     }
+     }
+     buildAppStore()
+     tableView.reloadData()
+    */
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
         var uName: String = ""
@@ -182,7 +198,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             fillAppArray(&currentapps)
         }
         buildAppStore()
-        sortarray(&currentapps)
+//        sortarray(&currentapps)
     }
     
     func fillAppArray(inout currentapps: [App])
@@ -226,26 +242,26 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
     }
     
-    func sortarray(inout currentapps: [App])
-    {
-        headers = []
-        headered = []
-        for element in currentapps {
-            if (!headers.contains(element.header) && !element.selected)
-            {
-                headers.append(element.header)
-            }
-        }
-        for header in headers
-        {
-            for element in currentapps
-            {
-                if (element.header == header)
-                {
-                    headered.append(element)
-                }
-            }
-        }
-//        currentapps = headered
-    }
+//    func sortarray(inout currentapps: [App])
+//    {
+//        headers = []
+//        headered = []
+//        for element in currentapps {
+//            if (!headers.contains(element.header) && !element.selected)
+//            {
+//                headers.append(element.header)
+//            }
+//        }
+//        for header in headers
+//        {
+//            for element in currentapps
+//            {
+//                if (element.header == header)
+//                {
+//                    headered.append(element)
+//                }
+//            }
+//        }
+////        currentapps = headered
+//    }
 }
