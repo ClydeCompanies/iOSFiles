@@ -27,6 +27,8 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         super.viewDidLoad()
         loadApps()
         // Do any additional setup after loading the view.
+        
+        AppTable.tableFooterView = UIView(frame: CGRectZero)
     }
 
     override func didReceiveMemoryWarning() {
