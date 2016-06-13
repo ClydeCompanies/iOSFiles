@@ -43,11 +43,16 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ecU-pb-ez5">
                                 <rect key="frame" x="83" y="441" width="208" height="30"/>
-                                <color key="backgroundColor" red="0.48627450980392156" green="0.50588235294117645" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.59999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="19"/>
                                 <state key="normal" title="LOGIN">
                                     <color key="titleColor" red="0.0078431372549019607" green="0.11764705882352941" blue="0.29019607843137257" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="LoginButtonPress:" destination="Hu7-dF-iQo" eventType="touchUpInside" id="zmI-UK-847"/>
                                 </connections>
@@ -102,7 +107,7 @@
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0sw-u9-yaG">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <color key="barTintColor" red="0.48627450980392156" green="0.50588235294117645" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" red="0.4392156862745098" green="0.44313725490196076" blue="0.42352941176470588" alpha="1" colorSpace="calibratedRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
@@ -219,7 +224,7 @@
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dPX-Ub-ycB">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <color key="barTintColor" red="0.48627450980392156" green="0.50588235294117645" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" white="0.53000000000000003" alpha="1" colorSpace="calibratedWhite"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
@@ -344,7 +349,7 @@
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iTz-yT-3y9">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <color key="barTintColor" red="0.48627450980392156" green="0.50588235294117645" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" red="0.51372549020000002" green="0.50980392159999999" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
@@ -449,7 +454,7 @@
                         <subviews>
                             <navigationBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iGU-71-61M">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <color key="barTintColor" red="0.48627450979999998" green="0.50588235290000005" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" red="0.51372549020000002" green="0.50980392159999999" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
@@ -604,7 +609,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="k27-TV-1WN"/>
                                 </constraints>
-                                <color key="barTintColor" red="0.48627450979999998" green="0.50588235290000005" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" red="0.51372549020000002" green="0.50980392159999999" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
@@ -949,7 +954,7 @@
                             </label>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JeW-Bj-0mR">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <color key="barTintColor" red="0.48627450979999998" green="0.50588235290000005" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="barTintColor" red="0.47450980392156861" green="0.47058823529411764" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
@@ -996,6 +1001,6 @@
         <image name="person-generic" width="659" height="659"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="b95-nF-XaH"/>
+        <segue reference="trZ-pE-0lw"/>
     </inferredMetricsTieBreakers>
 </document>
