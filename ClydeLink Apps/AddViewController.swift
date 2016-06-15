@@ -88,10 +88,31 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         loadApps()
-            let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
-                cell.Title.text = self.appStore[indexPath.row].title
-                cell.accessoryType = UITableViewCellAccessoryType.None;
-        
+        let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
+        cell.Title.text = self.appStore[indexPath.row].title
+        cell.accessoryType = UITableViewCellAccessoryType.None;
+        if let icon = appStore[indexPath.row].icon as? String {
+            let url = NSURL(string: "\(icon)")!
+            if let data = NSData(contentsOfURL: url){
+                if icon != "UNDEFINED" {
+                    let myImage = UIImage(data: data)
+                    cell.Icon.image = myImage
+                } else {
+                    cell.Icon.image = UIImage(named: "generic-icon")
+                }
+            }
+            else
+            {
+                cell.Icon.image = UIImage(named: "generic-icon")
+            }
+        }
+        if appStore[indexPath.row].selected {
+            cell.addButton.hidden = true
+        }
+        else
+        {
+            cell.addButton.hidden = false
+        }
             return cell
     }
     
@@ -203,10 +224,10 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         for element in currentapps
         {
-            if !element.selected
-            {
+//            if !element.selected
+//            {
                 appStore.append(element)
-            }
+//            }
         }
     }
     

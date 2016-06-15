@@ -13,6 +13,8 @@ class App: NSObject, NSCoding {
     var link: String = ""  // ex: "vehiclesearch"
     var permissions: Int = 0
     var selected: Bool = false
+    var icon: String = "" // ex: "http://myicons.com/icon3.png" or "UNDEFINED"
+    
     init(h: String, t: String, l: String, p: Int, s: Bool)
     {
         self.header = h
@@ -20,6 +22,16 @@ class App: NSObject, NSCoding {
         self.link = l
         self.permissions = p
         self.selected = s
+        self.icon = "UNDEFINED"
+    }
+    init(h: String, t: String, l: String, p: Int, s: Bool, i: String)
+    {
+        self.header = h
+        self.title = t
+        self.link = l
+        self.permissions = p
+        self.selected = s
+        self.icon = i
     }
     required init(coder aDecoder: NSCoder) {
         if let header = aDecoder.decodeObjectForKey("header") as? String {
@@ -36,6 +48,9 @@ class App: NSObject, NSCoding {
         }
         if let selected = aDecoder.decodeObjectForKey("selected") as? Bool {
             self.selected = selected
+        }
+        if let icon = aDecoder.decodeObjectForKey("icon") as? String {
+            self.icon = icon
         }
     }
     
@@ -54,6 +69,9 @@ class App: NSObject, NSCoding {
         }
         if let selected: Bool = self.selected {
             _aCoder.encodeObject(selected, forKey: "selected")
+        }
+        if let icon: String = self.icon {
+            _aCoder.encodeObject(icon, forKey: "icon")
         }
     }
 }

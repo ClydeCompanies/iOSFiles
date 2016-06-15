@@ -12,6 +12,7 @@ class AppTableViewCell: UITableViewCell {  // Controls the content that is added
     
     @IBOutlet weak var Title: UILabel!
     
+    @IBOutlet weak var Icon: UIImageView!
     
     
     override func awakeFromNib() {

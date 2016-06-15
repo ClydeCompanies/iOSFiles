@@ -95,6 +95,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
             
             cell.Title.text = self.appButtons[indexPath.row].title
+            if let icon = appButtons[indexPath.row].icon as? String {
+                let url = NSURL(string: "\(icon)")!
+                if let data = NSData(contentsOfURL: url){
+                    if icon != "UNDEFINED" {
+                        let myImage = UIImage(data: data)
+                        cell.Icon.image = myImage
+                    } else {
+                        cell.Icon.image = UIImage(named: "generic-icon")
+                    }
+                }
+                else
+                {
+                    cell.Icon.image = UIImage(named: "generic-icon")
+                }
+            }
             return cell
         
     }
@@ -207,7 +222,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         {
             AppTable.setEditing(true,animated: true)
             leftButton.title = "Done"
-            rightButton.title = "Add"
+            rightButton.title = "All"
         } else if (leftButton.title == "Done")
         {
             AppTable.setEditing(false,animated: true)

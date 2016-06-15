@@ -16,7 +16,7 @@ class AddTableViewCell: UITableViewCell {
     //outlet for title  called "Title"
     @IBOutlet weak var Title: UILabel!
     @IBOutlet weak var addButton: UIButton!
-    //outlet for button called "AddFeature"
+    @IBOutlet weak var Icon: UIImageView!
     
     @IBAction func addButton(sender: AnyObject) {
         if let data = prefs.objectForKey("userapps") as? NSData {
@@ -41,6 +41,7 @@ class AddTableViewCell: UITableViewCell {
         prefs.setObject(appData, forKey: "userapps")
         prefs.synchronize()
         addButton.hidden = true
+        //display "Added!" text instead
     }
     
     override func awakeFromNib() {
@@ -60,10 +61,10 @@ class AddTableViewCell: UITableViewCell {
         
         for element in currentapps
         {
-            if !element.selected
-            {
+//            if !element.selected
+//            {
                 appStore.append(element)
-            }
+//            }
         }
         
     }
