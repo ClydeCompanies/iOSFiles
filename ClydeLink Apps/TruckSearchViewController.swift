@@ -76,7 +76,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             return
         }
         
-        activityIndicator.startAnimating()
+        self.activityIndicator.startAnimating()
         activityIndicator.hidden = false
         
         Employees = []
@@ -136,8 +136,8 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
                     if (mydata == nil)
                     {
-                        self.activityIndicator.stopAnimating()  // Ends spinner
-                        self.activityIndicator.hidden = true
+//                        self.activityIndicator.stopAnimating()  // Ends spinner
+//                        self.activityIndicator.hidden = true
                         self.flag = 1
                         self.ResultsTable.reloadData()
                         
@@ -154,15 +154,17 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                     //                self.activityIndicator.stopAnimating()  // Ends spinner
                     //                self.activityIndicator.hidden = true  // Hides spinner
                     self.ResultsTable.reloadData()  // Reloads Table View cells as results
+                    self.activityIndicator.stopAnimating()  // Ends spinner
                 }
                 
             }
             task.resume()
             
-            self.activityIndicator.stopAnimating()  // Ends spinner
-            self.activityIndicator.hidden = true
+            
+//            self.activityIndicator.hidden = true
             self.dismissKeyboard()  // Dismisses keyboard after the search
             self.ResultsTable.reloadData()  // Reloads Table View cells as results
+            
             
             
         }
