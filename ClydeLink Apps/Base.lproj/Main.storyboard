@@ -229,7 +229,7 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="ClydeLink" id="4Aa-1P-VPL">
+                                    <navigationItem title="Favorites" id="4Aa-1P-VPL">
                                         <barButtonItem key="leftBarButtonItem" title="Edit" style="plain" id="8xk-rp-KG3">
                                             <color key="tintColor" red="0.0078431372549019607" green="0.11764705882352941" blue="0.29019607843137257" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
@@ -286,20 +286,30 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRQ-Gd-ALD">
-                                                    <rect key="frame" x="8" y="19" width="359" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rRQ-Gd-ALD">
+                                                    <rect key="frame" x="44" y="19" width="323" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rG7-hx-N0I">
+                                                    <rect key="frame" x="8" y="16" width="28" height="28"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="rG7-hx-N0I" secondAttribute="height" multiplier="1:1" id="WBV-ea-bNr"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="rRQ-Gd-ALD" firstAttribute="leading" secondItem="vfT-MO-gzV" secondAttribute="leading" constant="8" id="HkO-7V-blY"/>
+                                                <constraint firstItem="rRQ-Gd-ALD" firstAttribute="leading" secondItem="vfT-MO-gzV" secondAttribute="leading" constant="44" id="HkO-7V-blY"/>
+                                                <constraint firstItem="rG7-hx-N0I" firstAttribute="top" secondItem="vfT-MO-gzV" secondAttribute="topMargin" constant="8" id="J2D-JM-SLz"/>
+                                                <constraint firstItem="rRQ-Gd-ALD" firstAttribute="leading" secondItem="rG7-hx-N0I" secondAttribute="trailing" constant="8" symbolic="YES" id="Tk2-ic-69T"/>
                                                 <constraint firstItem="rRQ-Gd-ALD" firstAttribute="centerY" secondItem="vfT-MO-gzV" secondAttribute="centerY" id="j7L-50-jIq"/>
                                                 <constraint firstAttribute="trailing" secondItem="rRQ-Gd-ALD" secondAttribute="trailing" constant="8" id="mzR-WG-h1h"/>
+                                                <constraint firstItem="rG7-hx-N0I" firstAttribute="leading" secondItem="vfT-MO-gzV" secondAttribute="leadingMargin" id="svJ-O7-5AO"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
+                                            <outlet property="Icon" destination="rG7-hx-N0I" id="xGg-5L-HZ6"/>
                                             <outlet property="Title" destination="rRQ-Gd-ALD" id="C6d-IT-H1o"/>
                                         </connections>
                                     </tableViewCell>
@@ -440,10 +450,10 @@
             </objects>
             <point key="canvasLocation" x="288.5" y="1133.5"/>
         </scene>
-        <!--Add-->
+        <!--All-->
         <scene sceneID="403-9D-2dM">
             <objects>
-                <viewController storyboardIdentifier="Add" title="Add" id="koz-q1-BkM" customClass="AddViewController" customModule="ClydeLink_Apps" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="All" title="All" id="koz-q1-BkM" customClass="AddViewController" customModule="ClydeLink_Apps" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VVy-VT-CB9"/>
                         <viewControllerLayoutGuide type="bottom" id="yXy-GW-N3W"/>
@@ -530,23 +540,31 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iES-QO-cTa">
-                                                    <rect key="frame" x="8" y="19" width="324" height="21"/>
+                                                    <rect key="frame" x="44" y="19" width="288" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Po-Bp-IZw">
+                                                    <rect key="frame" x="8" y="16" width="28" height="28"/>
+                                                </imageView>
                                             </subviews>
                                             <color key="tintColor" red="0.0078431372550000003" green="0.066666666669999999" blue="0.1764705882" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
+                                                <constraint firstItem="5Po-Bp-IZw" firstAttribute="centerY" secondItem="iES-QO-cTa" secondAttribute="centerY" id="0rV-hK-smQ"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="k4B-Ap-0AE" secondAttribute="bottom" constant="10" id="1Ua-SV-6T8"/>
+                                                <constraint firstItem="5Po-Bp-IZw" firstAttribute="top" secondItem="X7R-IQ-YiP" secondAttribute="topMargin" constant="8" id="3zA-sp-dmX"/>
                                                 <constraint firstItem="iES-QO-cTa" firstAttribute="centerY" secondItem="X7R-IQ-YiP" secondAttribute="centerY" id="6jP-OW-rvW"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="k4B-Ap-0AE" secondAttribute="trailing" constant="5" id="GlY-d7-PXk"/>
-                                                <constraint firstItem="iES-QO-cTa" firstAttribute="leading" secondItem="X7R-IQ-YiP" secondAttribute="leading" constant="8" id="T12-xh-7zq"/>
+                                                <constraint firstItem="iES-QO-cTa" firstAttribute="leading" secondItem="5Po-Bp-IZw" secondAttribute="trailing" constant="8" symbolic="YES" id="PuL-dN-MC5"/>
+                                                <constraint firstItem="iES-QO-cTa" firstAttribute="leading" secondItem="X7R-IQ-YiP" secondAttribute="leading" constant="44" id="T12-xh-7zq"/>
                                                 <constraint firstItem="k4B-Ap-0AE" firstAttribute="top" secondItem="X7R-IQ-YiP" secondAttribute="topMargin" constant="11" id="stC-7G-pZq"/>
-                                                <constraint firstAttribute="trailing" secondItem="iES-QO-cTa" secondAttribute="trailing" constant="8" id="t30-c3-J4g"/>
+                                                <constraint firstAttribute="trailing" secondItem="iES-QO-cTa" secondAttribute="trailing" constant="43" id="t30-c3-J4g"/>
+                                                <constraint firstItem="5Po-Bp-IZw" firstAttribute="leading" secondItem="X7R-IQ-YiP" secondAttribute="leadingMargin" id="v7l-kw-RL6"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
+                                            <outlet property="Icon" destination="5Po-Bp-IZw" id="YPE-Mz-bET"/>
                                             <outlet property="Title" destination="iES-QO-cTa" id="RCl-Wd-g3i"/>
                                             <outlet property="addButton" destination="k4B-Ap-0AE" id="xIS-x3-4oG"/>
                                         </connections>
