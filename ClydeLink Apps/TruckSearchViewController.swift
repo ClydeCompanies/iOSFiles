@@ -209,12 +209,8 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         else {
             let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("RESULT", forIndexPath: indexPath) as! TruckSearchTableViewCell
         
-            if let cName = Employees[indexPath.row]["CompanyName"] as? String {
-                cell.companyLabel.text = cName
-            }
-            if let name = Employees[indexPath.row]["EmployeeName"] as? String {
-                cell.nameLabel.text = name
-            }
+                cell.companyLabel.text = Employees[indexPath.row]["CompanyName"] as? String
+                cell.nameLabel.text = Employees[indexPath.row]["EmployeeName"] as? String
             if let mobile = Employees[indexPath.row]["PhoneNumber"] as? String {
                 if (mobile == "")
                 {
@@ -227,15 +223,9 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 let phonenumber = mobile.stringByReplacingOccurrencesOfString("[^0-9]", withString: "", options: NSStringCompareOptions.RegularExpressionSearch, range:nil);
                 cell.phoneNumber.text = phonenumber
             }
-            if let jobTitle = Employees[indexPath.row]["JobTitle"] as? String {
-                cell.titleLabel.text = jobTitle
-            }
-            if let tNumber = Employees[indexPath.row]["TruckNumber"] as? String {
-                cell.truckLabel.text = tNumber
-            }
-            if let Supervisor = Employees[indexPath.row]["SupervisorName"] as? String {
-                cell.supervisorLabel.text = Supervisor
-            }
+                cell.titleLabel.text = Employees[indexPath.row]["JobTitle"] as? String
+                cell.truckLabel.text = Employees[indexPath.row]["TruckNumber"] as? String
+                cell.supervisorLabel.text = Employees[indexPath.row]["SupervisorName"] as? String
             if (Employees[indexPath.row]["Synced"] as? Int) == 0 {
                 turnRed(cell)
             } else {
@@ -243,7 +233,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             }
             if let ePhoto = Employees[indexPath.row]["PicLocation"] as? String {  // Save complete URL of picture location, and save it to the table
                 
-                let url = NSURL(string: "https://clydewap.clydeinc.com/images/Medium/\(ePhoto)")!
+                let url = NSURL(string: "https://clydewap.clydeinc.com/images/Small/\(ePhoto)")!
                 if let data = NSData(contentsOfURL: url){
                     let myImage = UIImage(data: data)
                     cell.employeePhoto.image = myImage
