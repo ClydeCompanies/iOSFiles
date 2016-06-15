@@ -62,14 +62,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
         var uName: String = ""
-        if (prefs.stringForKey("username") != nil)
+        if (prefs.stringForKey("username") != nil && prefs.stringForKey("username") != "")
         {
-            uName = prefs.stringForKey("username")!
+            uName = "Logged in as " + prefs.stringForKey("username")!
+        } else {
+            uName = "Not logged in"
         }
         
-        let loggedIn: String = "Logged in as " + uName
-        
-        return loggedIn
+        return uName
         
     }
     
@@ -203,6 +203,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
         let buttonpressed = self.appButtons[indexPath.row]
         var vc : AnyObject! = nil
+        
+        //Log in
+        if "" == prefs.stringForKey("username") {
+            let loginViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Login")
+            loginViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+            presentViewController(loginViewController, animated: true, completion: nil)
+            
+            let popoverPresentationController = loginViewController.popoverPresentationController
+            
+        }
+        
         switch (buttonpressed.link)
         {
             case "vehiclesearch":
@@ -212,6 +223,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 vc = self.storyboard!.instantiateViewControllerWithIdentifier("Construction")
                 break;
         }
+        
+        
+        
         self.showViewController(vc as! UIViewController, sender: vc)
         AppTable.deselectRowAtIndexPath(indexPath, animated: true)
         
