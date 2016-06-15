@@ -7,10 +7,13 @@
 
 import UIKit
 
-class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {  // Provides backend code for both the TruckSearchViewController, but also the DataSource and Delegate for the ResultsTable embedded within it
+class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {  // Provides backend code for both the TruckSearchViewController, but also the DataSource and Delegate for the ResultsTable embedded within it
     
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    
+    @IBOutlet weak var txtValue: UITextField!
     
     var Employees: Array<AnyObject> = []  // Array that holds information retrieved from server in POST query of Truck Search
     
@@ -32,11 +35,19 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         ResultsTable.tableFooterView = UIView(frame: CGRectZero)
         
         activityIndicator.hidden = true
+        
+        txtValue.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {   //delegate method
+        textField.resignFirstResponder()
+        Search()
+        return true
     }
     
 /*    @IBAction func ChangeSearchButtonPress(sender: AnyObject) {  // Runs when text is pressed signifying a change in search parameters
@@ -59,10 +70,8 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             TextBox.reloadInputViews()
         }
     } */
-
     
-    @IBAction func SearchClick(sender: AnyObject) {  // Program reaction to a click on the search button, initially if the search box is empty, will have no effect, otherwise will query the database for information
-        
+    func Search() {
         if (TextBox.text == "") {
             return
         }
@@ -95,68 +104,73 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             nameSearched = TextBox.text!
         }
         
-    if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
-
-        let request = NSMutableURLRequest(URL: url)
-        
-//        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
-        request.HTTPMethod = "POST"
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
-            guard error == nil && data != nil else { // check for fundamental networking error
-                print("error=\(error)")
-                self.flag = 1
-                
-                let alertController = UIAlertController(title: "Error", message:
-                    "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                self.presentViewController(alertController, animated: true, completion: nil)
-                
-                
-                return
-            }
+        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
             
-            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
-                print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                print("response = \(response)")
-            }
+            let request = NSMutableURLRequest(URL: url)
             
-            let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
-            
-            print(mydata)  // Direct response from server printed to console, for testing
-
-            dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
-                if (mydata == nil)
-                {
-                    self.activityIndicator.stopAnimating()  // Ends spinner
-                    self.activityIndicator.hidden = true
+            //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
+            request.HTTPMethod = "POST"
+            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+                guard error == nil && data != nil else { // check for fundamental networking error
+                    print("error=\(error)")
                     self.flag = 1
-                    self.ResultsTable.reloadData()
                     
                     let alertController = UIAlertController(title: "Error", message:
                         "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
                     alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                    
                     self.presentViewController(alertController, animated: true, completion: nil)
+                    
                     
                     return
                 }
                 
-                self.Employees = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
-//                self.activityIndicator.stopAnimating()  // Ends spinner
-//                self.activityIndicator.hidden = true  // Hides spinner
-                self.ResultsTable.reloadData()  // Reloads Table View cells as results
+                if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(response)")
+                }
+                
+                let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
+                
+                print(mydata)  // Direct response from server printed to console, for testing
+                
+                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+                    if (mydata == nil)
+                    {
+                        self.activityIndicator.stopAnimating()  // Ends spinner
+                        self.activityIndicator.hidden = true
+                        self.flag = 1
+                        self.ResultsTable.reloadData()
+                        
+                        let alertController = UIAlertController(title: "Error", message:
+                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
+                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                        
+                        self.presentViewController(alertController, animated: true, completion: nil)
+                        
+                        return
+                    }
+                    
+                    self.Employees = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
+                    //                self.activityIndicator.stopAnimating()  // Ends spinner
+                    //                self.activityIndicator.hidden = true  // Hides spinner
+                    self.ResultsTable.reloadData()  // Reloads Table View cells as results
+                }
+                
             }
+            task.resume()
+            
+            self.activityIndicator.stopAnimating()  // Ends spinner
+            self.activityIndicator.hidden = true
+            self.dismissKeyboard()  // Dismisses keyboard after the search
+            self.ResultsTable.reloadData()  // Reloads Table View cells as results
+            
             
         }
-        task.resume()
-        
-        self.activityIndicator.stopAnimating()  // Ends spinner
-        self.activityIndicator.hidden = true
-        self.dismissKeyboard()  // Dismisses keyboard after the search
-        self.ResultsTable.reloadData()  // Reloads Table View cells as results
-        
-
     }
+
+    
+    @IBAction func SearchClick(sender: AnyObject) {  // Program reaction to a click on the search button, initially if the search box is empty, will have no effect, otherwise will query the database for information
+        Search()
     }
     
     
