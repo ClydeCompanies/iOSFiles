@@ -235,20 +235,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if (leftButton.title == "Edit")
         {
             AppTable.setEditing(true,animated: true)
-            leftButton.title = "Done"
-            rightButton.title = "All"
-        } else if (leftButton.title == "Done")
+            leftButton.title = "All"
+            rightButton.title = "Done"
+        } else {
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("All")
+            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func settingsButton(sender: AnyObject) {  // Settings button pressed
+        if (rightButton.title == "Done")
         {
             AppTable.setEditing(false,animated: true)
             leftButton.title = "Edit"
             rightButton.title = "Settings"
         }
-    }
-    
-    
-    @IBAction func settingsButton(sender: AnyObject) {  // Settings button pressed
-        let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier(rightButton.title!)
+        else {
+        let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Settings")
         self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+        }
     }
     
     func loadChecked()
