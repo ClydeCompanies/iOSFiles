@@ -96,7 +96,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.Title.text = self.appButtons[indexPath.row].title
             if let icon = appButtons[indexPath.row].icon as? String {
-                let url = NSURL(string: "\(icon)")!
+                let url = NSURL(string: "https://clydewap.clydeinc.com/images/small/icons/\(icon)")!
                 if let data = NSData(contentsOfURL: url){
                     if icon != "UNDEFINED" {
                         let myImage = UIImage(data: data)
@@ -264,28 +264,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func fillAppArray(inout currentapps: [App])
     {
-        let debug = true
-        //              HEADER                          TITLE                           LINK      PERMISSIONS SELECTED
-        currentapps.append(
-        App(h:"Accounting and Credit Apps", t: "Create New Customer Account",l: "newcustomeraccount",  p: 4, s: debug))
-        currentapps.append(
-        App(h: "Accounting and Credit Apps",t: "Credit Dashboard",           l: "creditdashboard",     p: 4, s: debug))
-        
-        currentapps.append(
-        App(h: "Employee Apps",             t: "New Hire",                   l: "newhire",             p: 4, s: debug))
-        currentapps.append(
-        App(h: "Employee Apps",             t: "Expense Reimbursement",      l: "expensereimbursement",p: 4, s: debug))
-        
-        currentapps.append(
-        App(h: "Equipment Apps",           t: "Vehicle Search",              l: "vehiclesearch",       p: 4, s: debug))
-        currentapps.append(
-        App(h: "Equipment Apps",           t: "Equipment Search",            l: "equipmentsearch",     p: 4, s: debug))
-        
-        currentapps.append(
-        App(h: "Human Resources Apps",     t: "Training Request Form",       l: "trainingrequestform", p: 4, s: debug))
-        currentapps.append(
-        App(h: "Human Resources Apps",     t: "Employee Directory",          l: "employeedirectory",   p: 4, s: debug))
-        
+        currentapps = []
         //Convert function
         let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
         prefs.setObject(appData, forKey: "userapps")

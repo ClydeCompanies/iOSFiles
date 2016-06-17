@@ -16,12 +16,10 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
     var currentapps: Array = [App]()
-    var appStore: Array = [App]()
-//    var selected: Array = [App]()
-//    var headers: Array = [String]()
-//    var headered: Array = [App]()
+    var Apps: Array = [AnyObject]()
+    var AppStore: [App] = []
     
-//    var headersused: Int = 1
+    var flag: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,22 +36,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     
     @IBAction func DoneSelected(sender: AnyObject) {
-        for element in appStore
-        {
-            if (element.selected)
-            {
-                for element2 in currentapps
-                {
-                    if (element.title == element2.title)
-                    {
-                        currentapps.removeAtIndex(currentapps.indexOf(element2)!)
-                        element.selected = true
-                        currentapps.append(element)
-                        break
-                    }
-                }
-            }
-        }
         let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
         prefs.setObject(appData, forKey: "userapps")
         prefs.synchronize()
@@ -65,7 +47,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     @IBAction func addButtonClicked(sender: AnyObject) {
         loadApps()
-        
     }
     
 
@@ -87,12 +68,11 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        loadApps()
         let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
-        cell.Title.text = self.appStore[indexPath.row].title
+        cell.Title.text = self.Apps[indexPath.row]["Title"] as? String
         cell.accessoryType = UITableViewCellAccessoryType.None;
-        if let icon = appStore[indexPath.row].icon as? String {
-            let url = NSURL(string: "\(icon)")!
+        if let icon = Apps[indexPath.row]["Icon"] as? String {
+            let url = NSURL(string: "https://clydewap.clydeinc.com/images/small/icons/\(icon)")!
             if let data = NSData(contentsOfURL: url){
                 if icon != "UNDEFINED" {
                     let myImage = UIImage(data: data)
@@ -106,7 +86,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                 cell.Icon.image = UIImage(named: "generic-icon")
             }
         }
-        if appStore[indexPath.row].selected {
+        if Apps[indexPath.row]["Selected"] as? String == "true" {
             cell.addButton.hidden = true
         }
         else
@@ -117,7 +97,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.appStore.count
+        return self.Apps.count
     }
     
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -140,10 +120,9 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
-        //appStore[indexPath.row].selected = !appStore[indexPath.row].selected
-        let buttonpressed = self.appStore[indexPath.row]
+        let buttonpressed = self.Apps[indexPath.row]
         var vc : AnyObject! = nil
-        switch (buttonpressed.link)
+        switch (buttonpressed["Link"] as! String)
         {
         case "vehiclesearch":
             vc = self.storyboard!.instantiateViewControllerWithIdentifier("Truck Search")
@@ -155,20 +134,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         self.showViewController(vc as! UIViewController, sender: vc)
         AppTable.deselectRowAtIndexPath(indexPath, animated: true)
     }
-    
-    //cell click add function:
-    /*
-     for element in currentapps
-     {
-     let currentCell = tableView.cellForRowAtIndexPath(indexPath)! as! AppTableViewCell
-     if (currentCell.Title.text == element.title)
-     {
-     element.selected = true
-     }
-     }
-     buildAppStore()
-     tableView.reloadData()
-    */
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
         var uName: String = ""
@@ -183,77 +148,77 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func loadApps() {
+        if (AppStore.count == 0) {
+            fillAppArray()
+        }
+        buildAppStore()
         if let data = prefs.objectForKey("userapps") as? NSData {
             currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
         } else {
-            currentapps = []
-            fillAppArray(&currentapps)
+            currentapps = AppStore
         }
-        buildAppStore()
-//        sortarray(&currentapps)
     }
     
-    func fillAppArray(inout currentapps: [App])
+    func fillAppArray()
     {
-        let debug = false
-        //              HEADER                          TITLE                           LINK      PERMISSIONS SELECTED
-        currentapps.append(
-            App(h: "Accounting and Credit Apps",t: "Create New Customer Account",l: "newcustomeraccount",  p: 4, s: debug))
-        currentapps.append(
-            App(h: "Accounting and Credit Apps",t: "Credit Dashboard",           l: "creditdashboard",     p: 4, s: debug))
+        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+            
+            let request = NSMutableURLRequest(URL: url)
+            
+            request.HTTPMethod = "POST"
+            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+                guard error == nil && data != nil else { // check for fundamental networking error
+                    print("error=\(error)")
+                    self.flag = 1
+                    
+                    let alertController = UIAlertController(title: "Error", message:
+                        "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                    
+                    
+                    return
+                }
+                
+                if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(response)")
+                }
+                
+                let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
+                
+                print(mydata)  // Direct response from server printed to console, for testing
+                
+                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+                    if (mydata == nil)
+                    {
+                        self.flag = 1
+                        self.AppTable.reloadData()
+                        
+                        let alertController = UIAlertController(title: "Error", message:
+                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
+                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                        self.presentViewController(alertController, animated: true, completion: nil)
+                        return
+                    }
+                    self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
+                    self.AppTable.reloadData()
+                    print("\n\n\n\n\nApps: \(self.Apps.count)")
+                }
+            }
+            task.resume()  // Reloads Table View cells as results
+        }
+//        let appData = NSKeyedArchiver.archivedDataWithRootObject(Apps)
+//        prefs.setObject(appData, forKey: "syncedappstore")
+//        prefs.synchronize()
         
-        currentapps.append(
-            App(h: "Employee Apps",             t: "New Hire",                   l: "newhire",             p: 4, s: debug))
-        currentapps.append(
-            App(h: "Employee Apps",             t: "Expense Reimbursement",      l: "expensereimbursement",p: 4, s: debug))
-        
-        currentapps.append(
-            App(h: "Equipment Apps",           t: "Vehicle Search",              l: "vehiclesearch",       p: 4, s: debug))
-        currentapps.append(
-            App(h: "Equipment Apps",           t: "Equipment Search",            l: "equipmentsearch",     p: 4, s: debug))
-        
-        currentapps.append(
-            App(h: "Human Resources Apps",     t: "Training Request Form",       l: "trainingrequestform", p: 4, s: debug))
-        currentapps.append(
-            App(h: "Human Resources Apps",     t: "Employee Directory",          l: "employeedirectory",   p: 4, s: debug))
-        
-        let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
-        prefs.setObject(appData, forKey: "userapps")
-        prefs.synchronize()
     }
     
     func buildAppStore() {
-        appStore = []
-        
-        for element in currentapps
+        AppStore = []
+        for element in Apps
         {
-//            if !element.selected
-//            {
-                appStore.append(element)
-//            }
+            AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,p: (element["Permissions"] as? Int)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!))
         }
     }
-    
-//    func sortarray(inout currentapps: [App])
-//    {
-//        headers = []
-//        headered = []
-//        for element in currentapps {
-//            if (!headers.contains(element.header) && !element.selected)
-//            {
-//                headers.append(element.header)
-//            }
-//        }
-//        for header in headers
-//        {
-//            for element in currentapps
-//            {
-//                if (element.header == header)
-//                {
-//                    headered.append(element)
-//                }
-//            }
-//        }
-////        currentapps = headered
-//    }
 }

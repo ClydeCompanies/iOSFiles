@@ -13,18 +13,11 @@ class App: NSObject, NSCoding {
     var link: String = ""  // ex: "vehiclesearch"
     var permissions: Int = 0
     var selected: Bool = false
-    var icon: String = "" // ex: "http://myicons.com/icon3.png" or "UNDEFINED"
+    var icon: String = "" // ex: "icon3.png" or "UNDEFINED"
+    var URL: String = "" // ex: "http://www.clydelink.com/forms/communications/Pages/TrainingRequests.aspx" or "UNDEFINED"
+    var order: Double = 0.0 // ex: 4.2
     
-    init(h: String, t: String, l: String, p: Int, s: Bool)
-    {
-        self.header = h
-        self.title = t
-        self.link = l
-        self.permissions = p
-        self.selected = s
-        self.icon = "UNDEFINED"
-    }
-    init(h: String, t: String, l: String, p: Int, s: Bool, i: String)
+    init(h: String, t: String, l: String, p: Int, s: Bool, i: String, u: String, o: Double)
     {
         self.header = h
         self.title = t
@@ -32,7 +25,10 @@ class App: NSObject, NSCoding {
         self.permissions = p
         self.selected = s
         self.icon = i
+        self.URL = u
+        self.order = o
     }
+    
     required init(coder aDecoder: NSCoder) {
         if let header = aDecoder.decodeObjectForKey("header") as? String {
             self.header = header
@@ -51,6 +47,12 @@ class App: NSObject, NSCoding {
         }
         if let icon = aDecoder.decodeObjectForKey("icon") as? String {
             self.icon = icon
+        }
+        if let URL = aDecoder.decodeObjectForKey("URL") as? String {
+            self.URL = URL
+        }
+        if let order = aDecoder.decodeObjectForKey("order") as? Double {
+            self.order = order
         }
     }
     
@@ -72,6 +74,12 @@ class App: NSObject, NSCoding {
         }
         if let icon: String = self.icon {
             _aCoder.encodeObject(icon, forKey: "icon")
+        }
+        if let URL: String = self.URL {
+            _aCoder.encodeObject(URL, forKey: "URL")
+        }
+        if let order: Double = self.order {
+            _aCoder.encodeObject(order, forKey: "order")
         }
     }
 }
