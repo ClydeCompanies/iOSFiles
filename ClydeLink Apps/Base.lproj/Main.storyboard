@@ -751,9 +751,9 @@
                                                                         <constraint firstAttribute="width" constant="27" id="fWK-v3-gsK"/>
                                                                         <constraint firstAttribute="height" constant="17" id="hhR-ka-fCd"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                     <state key="normal" title="Call">
-                                                                        <color key="titleColor" red="0.0078431372550000003" green="0.066666666669999999" blue="0.1764705882" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="titleColor" red="0.0004047529727" green="0.47005809430000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                     </state>
                                                                     <connections>
                                                                         <action selector="mobileClick:" destination="klI-Uu-nFR" eventType="touchUpInside" id="slQ-k1-m0Y"/>
@@ -1032,6 +1032,6 @@
         <image name="person-generic" width="659" height="659"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="trZ-pE-0lw"/>
+        <segue reference="b95-nF-XaH"/>
     </inferredMetricsTieBreakers>
 </document>

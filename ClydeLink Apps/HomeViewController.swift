@@ -29,10 +29,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         for element in currentapps
         {
-            if (element.selected)
-            {
-                self.appButtons.append(element)
-            }
+            self.appButtons.append(element)
         }
         
         AppTable.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
@@ -120,9 +117,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             {
                 if (element.title == appButtons[indexPath.row].title)
                 {
-                    element.selected = false
+//                    element.selected = false
                     currentapps.removeAtIndex(currentapps.indexOf(element)!)
-                    currentapps.append(element)
+//                    currentapps.append(element)
                     break
                 }
             }

@@ -89,16 +89,16 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                 cell.Icon.image = UIImage(named: "generic-icon")
             }
         }
-        var index: Int = 0
+        var found: Bool = false
         for el in currentapps
         {
             if (el.title == Apps[indexPath.row]["Title"] as? String)
             {
-                index = currentapps.indexOf(el)!
+                found = true
                 break
             }
         }
-        if currentapps[index].selected {
+        if found {
             cell.addButton.hidden = true
         }
         else
