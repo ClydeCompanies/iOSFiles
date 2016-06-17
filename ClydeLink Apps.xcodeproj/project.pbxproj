@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3834F4181D013513006E9EFA /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3834F4171D013513006E9EFA /* App.swift */; };
 		38783BBA1D09E4BC003987C5 /* AddTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38783BB91D09E4BC003987C5 /* AddTableViewCell.swift */; };
+		5C318C1BF731E0310AE7B32C /* Pods_ClydeLink_Apps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA20FB538F39EE79DF4255AF /* Pods_ClydeLink_Apps.framework */; };
 		91007C721CEE32EF006C8EED /* TruckSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */; };
 		911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16C01CE24AA20062527E /* ConstructionViewController.swift */; };
 		911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */; };
@@ -50,6 +51,7 @@
 /* Begin PBXFileReference section */
 		3834F4171D013513006E9EFA /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		38783BB91D09E4BC003987C5 /* AddTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTableViewCell.swift; sourceTree = "<group>"; };
+		5E0E40B11429CEB88B7FE540 /* Pods-ClydeLink Apps.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClydeLink Apps.release.xcconfig"; path = "Pods/Target Support Files/Pods-ClydeLink Apps/Pods-ClydeLink Apps.release.xcconfig"; sourceTree = "<group>"; };
 		91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchTableViewCell.swift; sourceTree = "<group>"; };
 		911E16C01CE24AA20062527E /* ConstructionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructionViewController.swift; sourceTree = "<group>"; };
 		911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchViewController.swift; sourceTree = "<group>"; };
@@ -75,6 +77,8 @@
 		919D7D571CEA71BB00055A0A /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		91C237E61D04F91E00E00B0B /* AddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		91E215C41CFE6E980031B75F /* TruckSearchNRTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchNRTableViewCell.swift; sourceTree = "<group>"; };
+		CA20FB538F39EE79DF4255AF /* Pods_ClydeLink_Apps.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClydeLink_Apps.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD3753A9AAB92958456A78F1 /* Pods-ClydeLink Apps.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClydeLink Apps.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ClydeLink Apps/Pods-ClydeLink Apps.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C318C1BF731E0310AE7B32C /* Pods_ClydeLink_Apps.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +107,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D698BCCDA1DC07F02F9F050 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DD3753A9AAB92958456A78F1 /* Pods-ClydeLink Apps.debug.xcconfig */,
+				5E0E40B11429CEB88B7FE540 /* Pods-ClydeLink Apps.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		9133DEB41CE1307300F8330E = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +123,8 @@
 				9133DED41CE1307300F8330E /* ClydeLink AppsTests */,
 				9133DEDF1CE1307300F8330E /* ClydeLink AppsUITests */,
 				9133DEBE1CE1307300F8330E /* Products */,
+				8D698BCCDA1DC07F02F9F050 /* Pods */,
+				920AB1EDB7BABE860C18A410 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -175,6 +191,14 @@
 			name = "View Controllers";
 			sourceTree = "<group>";
 		};
+		920AB1EDB7BABE860C18A410 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CA20FB538F39EE79DF4255AF /* Pods_ClydeLink_Apps.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -182,9 +206,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9133DEE51CE1307300F8330E /* Build configuration list for PBXNativeTarget "ClydeLink Apps" */;
 			buildPhases = (
+				3A0C0B5A725A5BF0B5476474 /* [CP] Check Pods Manifest.lock */,
 				9133DEB91CE1307300F8330E /* Sources */,
 				9133DEBA1CE1307300F8330E /* Frameworks */,
 				9133DEBB1CE1307300F8330E /* Resources */,
+				F23771EC125163E4336BF830 /* [CP] Embed Pods Frameworks */,
+				46E1D42E00A7445D39DE96C0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -301,6 +328,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3A0C0B5A725A5BF0B5476474 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		46E1D42E00A7445D39DE96C0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ClydeLink Apps/Pods-ClydeLink Apps-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F23771EC125163E4336BF830 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ClydeLink Apps/Pods-ClydeLink Apps-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9133DEB91CE1307300F8330E /* Sources */ = {
@@ -462,6 +537,7 @@
 		};
 		9133DEE61CE1307300F8330E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DD3753A9AAB92958456A78F1 /* Pods-ClydeLink Apps.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -478,6 +554,7 @@
 		};
 		9133DEE71CE1307300F8330E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5E0E40B11429CEB88B7FE540 /* Pods-ClydeLink Apps.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

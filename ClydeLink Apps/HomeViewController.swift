@@ -95,7 +95,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
             
             cell.Title.text = self.appButtons[indexPath.row].title
-            if let icon = appButtons[indexPath.row].icon as? String {
+        if let icon: String = appButtons[indexPath.row].icon {
                 let url = NSURL(string: "\(icon)")!
                 if let data = NSData(contentsOfURL: url){
                     if icon != "UNDEFINED" {
