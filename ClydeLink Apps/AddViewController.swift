@@ -172,11 +172,14 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
         var uName: String = ""
-        if (prefs.stringForKey("username") != nil)
+        if (prefs.stringForKey("username") != nil && prefs.stringForKey("username") != "")
         {
-            uName = prefs.stringForKey("username")!
+            uName = "Logged in as " + prefs.stringForKey("username")!
+        } else {
+            uName = "Not logged in"
         }
-        return "Logged in as " + uName
+        
+        return uName
     }
     
     func loadApps() {
