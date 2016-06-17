@@ -239,7 +239,7 @@
                                         <barButtonItem key="rightBarButtonItem" title="Settings" style="plain" id="v0G-3K-BWl">
                                             <color key="tintColor" red="0.0078431372549019607" green="0.11764705882352941" blue="0.29019607843137257" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
-                                                <action selector="settingsButton:" destination="Auj-ne-zK8" id="XYV-5c-aQz"/>
+                                                <action selector="settingsButton:" destination="Auj-ne-zK8" id="0q0-OD-dUi"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -365,17 +365,17 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Settings" id="wRs-8n-syZ">
-                                        <barButtonItem key="leftBarButtonItem" title="Done" style="plain" id="LuJ-1o-bQH">
+                                        <barButtonItem key="leftBarButtonItem" title="Sign Out" style="plain" id="2zA-2n-cwM">
+                                            <color key="tintColor" red="0.0078431372550000003" green="0.066666666669999999" blue="0.1764705882" alpha="1" colorSpace="calibratedRGB"/>
+                                            <connections>
+                                                <action selector="SignOut:" destination="eJr-qm-Kqb" id="MYo-LN-exP"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" style="plain" id="LuJ-1o-bQH">
                                             <color key="tintColor" red="0.0078431372549019607" green="0.11764705882352941" blue="0.29019607843137257" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="DoneButtonPress:" destination="Uud-XT-j5E" id="EOp-5T-3BU"/>
                                                 <segue destination="Auj-ne-zK8" kind="presentation" animates="NO" modalTransitionStyle="crossDissolve" id="trZ-pE-0lw"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Sign Out" style="plain" id="2zA-2n-cwM">
-                                            <color key="tintColor" red="0.0078431372550000003" green="0.066666666669999999" blue="0.1764705882" alpha="1" colorSpace="calibratedRGB"/>
-                                            <connections>
-                                                <action selector="SignOut:" destination="eJr-qm-Kqb" id="MYo-LN-exP"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -470,7 +470,7 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="ClydeLink" id="cat-QP-qOA">
-                                        <barButtonItem key="leftBarButtonItem" title="Done" style="plain" id="foq-Ea-wWu">
+                                        <barButtonItem key="rightBarButtonItem" title="Done" style="plain" id="foq-Ea-wWu">
                                             <color key="tintColor" red="0.0078431372550000003" green="0.066666666669999999" blue="0.1764705882" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="DoneSelected:" destination="koz-q1-BkM" id="ohu-dO-te2"/>
@@ -1020,6 +1020,6 @@
         <image name="person-generic" width="659" height="659"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="b95-nF-XaH"/>
+        <segue reference="trZ-pE-0lw"/>
     </inferredMetricsTieBreakers>
 </document>
