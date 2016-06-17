@@ -11,6 +11,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
 
     
     @IBOutlet weak var AppTable: UITableView!
+    @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
     
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
@@ -36,9 +37,9 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     
     @IBAction func DoneSelected(sender: AnyObject) {
-        let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
-        prefs.setObject(appData, forKey: "userapps")
-        prefs.synchronize()
+//        let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
+//        prefs.setObject(appData, forKey: "userapps")
+//        prefs.synchronize()
 
         let vc : UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
         //vc.setEditing(true, animated: true)
@@ -46,7 +47,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     @IBAction func addButtonClicked(sender: AnyObject) {
-        loadApps()
+        
     }
     
 
@@ -68,6 +69,8 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        self.ActivityIndicator.stopAnimating()
+        loadApps()
         let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
         cell.Title.text = self.Apps[indexPath.row]["Title"] as? String
         cell.accessoryType = UITableViewCellAccessoryType.None;
@@ -86,7 +89,16 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                 cell.Icon.image = UIImage(named: "generic-icon")
             }
         }
-        if Apps[indexPath.row]["Selected"] as? String == "true" {
+        var index: Int = 0
+        for el in currentapps
+        {
+            if (el.title == Apps[indexPath.row]["Title"] as? String)
+            {
+                index = currentapps.indexOf(el)!
+                break
+            }
+        }
+        if currentapps[index].selected {
             cell.addButton.hidden = true
         }
         else
@@ -151,7 +163,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         if (AppStore.count == 0) {
             fillAppArray()
         }
-        buildAppStore()
         if let data = prefs.objectForKey("userapps") as? NSData {
             currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
         } else {
@@ -208,9 +219,10 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             }
             task.resume()  // Reloads Table View cells as results
         }
-//        let appData = NSKeyedArchiver.archivedDataWithRootObject(Apps)
-//        prefs.setObject(appData, forKey: "syncedappstore")
-//        prefs.synchronize()
+        buildAppStore()
+        let appData = NSKeyedArchiver.archivedDataWithRootObject(AppStore)
+        prefs.setObject(appData, forKey: "syncedappstore")
+        prefs.synchronize()
         
     }
     

@@ -11,7 +11,7 @@ class AddTableViewCell: UITableViewCell {
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
     var currentapps: Array = [App]()
-    var appStore: Array = [App]()
+    var AppStore: Array = [App]()
 
     //outlet for title  called "Title"
     @IBOutlet weak var Title: UILabel!
@@ -22,11 +22,15 @@ class AddTableViewCell: UITableViewCell {
         if let data = prefs.objectForKey("userapps") as? NSData {
             currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
         }
-        for element in currentapps
+        if let data = prefs.objectForKey("syncedappstore") as? NSData {
+            AppStore = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
+        }
+        for element in AppStore
         {
-            if (Title.text == element.title)
+            if (Title.text! == element.title)
             {
-                currentapps.removeAtIndex(currentapps.indexOf(element)!)
+                print("Found:")
+                print(element.title)
                 element.selected = true
                 currentapps.append(element)
                 break
@@ -57,13 +61,13 @@ class AddTableViewCell: UITableViewCell {
     
     
     func buildAppStore() {
-        appStore = []
+        AppStore = []
         
         for element in currentapps
         {
 //            if !element.selected
 //            {
-                appStore.append(element)
+                AppStore.append(element)
 //            }
         }
         
