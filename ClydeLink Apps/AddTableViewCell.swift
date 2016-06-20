@@ -13,7 +13,6 @@ class AddTableViewCell: UITableViewCell {
     var currentapps: Array = [App]()
     var AppStore: Array = [App]()
 
-    //outlet for title  called "Title"
     @IBOutlet weak var Title: UILabel!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var Icon: UIImageView!
@@ -29,17 +28,11 @@ class AddTableViewCell: UITableViewCell {
         {
             if (Title.text! == element.title)
             {
-                print("Found:")
-                print(element.title)
                 element.selected = true
                 currentapps.append(element)
                 break
             }
             
-        }
-        for i in currentapps
-        {
-            print(i.title + ", " + String(i.selected))
         }
         let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
         prefs.setObject(appData, forKey: "userapps")
@@ -65,10 +58,7 @@ class AddTableViewCell: UITableViewCell {
         
         for element in currentapps
         {
-//            if !element.selected
-//            {
                 AppStore.append(element)
-//            }
         }
         
     }

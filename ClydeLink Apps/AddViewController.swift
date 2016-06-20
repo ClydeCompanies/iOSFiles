@@ -70,11 +70,11 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         self.ActivityIndicator.stopAnimating()
-        loadApps()
+//        loadApps()
         let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
-        cell.Title.text = self.Apps[indexPath.row]["Title"] as? String
+        cell.Title.text = self.AppStore[indexPath.row].title
         cell.accessoryType = UITableViewCellAccessoryType.None;
-        if let icon = Apps[indexPath.row]["Icon"] as? String {
+        if let icon = AppStore[indexPath.row].icon as? String{
             let url = NSURL(string: "https://clydewap.clydeinc.com/images/small/icons/\(icon)")!
             if let data = NSData(contentsOfURL: url){
                 if icon != "UNDEFINED" {
@@ -92,7 +92,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         var found: Bool = false
         for el in currentapps
         {
-            if (el.title == Apps[indexPath.row]["Title"] as? String)
+            if (el.title == AppStore[indexPath.row].title)
             {
                 found = true
                 break
@@ -109,7 +109,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.Apps.count
+        return self.AppStore.count
     }
     
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -161,12 +161,22 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func loadApps() {
         if (AppStore.count == 0) {
-            fillAppArray()
+            if let data = prefs.objectForKey("syncedappstore") as? NSData {
+                AppStore = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
+                sortArray()
+                if (AppStore.count == 0)
+                {
+                    fillAppArray()
+                }
+                AppTable.reloadData()
+            } else {
+                fillAppArray()
+            }
         }
         if let data = prefs.objectForKey("userapps") as? NSData {
             currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
         } else {
-            currentapps = AppStore
+            currentapps = []
         }
     }
     
@@ -186,8 +196,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                         "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
                     alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
                     self.presentViewController(alertController, animated: true, completion: nil)
-                    
-                    
                     return
                 }
                 
@@ -198,7 +206,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                 
                 let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
                 
-                print(mydata)  // Direct response from server printed to console, for testing
+//                print(mydata)  // Direct response from server printed to console, for testing
                 
                 dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
                     if (mydata == nil)
@@ -214,16 +222,12 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                     }
                     self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
                     self.AppTable.reloadData()
-                    print("\n\n\n\n\nApps: \(self.Apps.count)")
                 }
             }
             task.resume()  // Reloads Table View cells as results
         }
-        buildAppStore()
-        let appData = NSKeyedArchiver.archivedDataWithRootObject(AppStore)
-        prefs.setObject(appData, forKey: "syncedappstore")
-        prefs.synchronize()
-        
+        self.buildAppStore()
+        AppTable.reloadData()
     }
     
     func buildAppStore() {
@@ -232,5 +236,37 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         {
             AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,p: (element["Permissions"] as? Int)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!))
         }
+        sortArray()
+    }
+    func sortArray()
+    {
+//        print("Unsorted")
+//        for el in AppStore
+//        {
+//            print(el.title + ", " + String(el.order))
+//        }
+        var sorted: [App] = []
+        for _ in AppStore
+        {
+            var min: App = App(h: "1", t: "1", l: "1", p: 1, s: true, i: "1", u: "1", o: 99)
+            for el in AppStore
+            {
+                if (el.order < min.order)
+                {
+                    min = el
+                }
+            }
+            sorted.append(min)
+            AppStore.removeAtIndex(AppStore.indexOf(min)!)
+        }
+        AppStore = sorted
+//        print("\nSorted")
+//        for el in AppStore
+//        {
+//            print(el.title + ", " + String(el.order))
+//        }
+        let appData = NSKeyedArchiver.archivedDataWithRootObject(AppStore)
+        prefs.setObject(appData, forKey: "syncedappstore")
+        prefs.synchronize()
     }
 }

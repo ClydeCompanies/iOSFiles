@@ -117,9 +117,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             {
                 if (element.title == appButtons[indexPath.row].title)
                 {
-//                    element.selected = false
                     currentapps.removeAtIndex(currentapps.indexOf(element)!)
-//                    currentapps.append(element)
                     break
                 }
             }
@@ -128,11 +126,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             prefs.synchronize()
             appButtons.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-            print("***")
-            for element in currentapps
-            {
-                print(element.title)
-            }
         }
     }
     
