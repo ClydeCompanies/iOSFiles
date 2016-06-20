@@ -7,12 +7,19 @@
 
 import UIKit
 
-class ConstructionViewController: UIViewController {  // Simple ViewController designed to be a placeholder for other HTML queries and Segues that will be developed in the future
+class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simple ViewController designed to be a placeholder for other HTML queries and Segues that will be developed in the future
 
+    
+    @IBOutlet weak var WebView: UIWebView!
+    
+    let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        loadAddressURL()
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,6 +29,19 @@ class ConstructionViewController: UIViewController {  // Simple ViewController d
     
     @IBOutlet weak var Back: UIButton!
     
+    // MARK: - Web View
+//    
+//    func webViewDidStartLoad(webView: UIWebView) {
+//        <#code#>
+//    }
+    
+    func loadAddressURL() {
+        let link = prefs.stringForKey("selectedButton")
+        print(link)
+        let requestURL = NSURL(string: link!)
+        let request = NSURLRequest(URL: requestURL!)
+        WebView.loadRequest(request)
+    }
 
     /*
     // MARK: - Navigation

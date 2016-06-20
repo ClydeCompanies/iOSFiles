@@ -200,7 +200,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             loginViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             presentViewController(loginViewController, animated: true, completion: nil)
             
-            let popoverPresentationController = loginViewController.popoverPresentationController
+            _ = loginViewController.popoverPresentationController
+            
+            
             
         }
         
@@ -214,7 +216,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 break;
         }
         
-        
+        prefs.setObject(buttonpressed.URL, forKey: "selectedButton")
         
         self.showViewController(vc as! UIViewController, sender: vc)
         AppTable.deselectRowAtIndexPath(indexPath, animated: true)

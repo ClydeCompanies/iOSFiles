@@ -143,6 +143,9 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             vc = self.storyboard!.instantiateViewControllerWithIdentifier("Construction")
             break;
         }
+        
+        prefs.setObject(buttonpressed["URL"], forKey: "selectedButton")
+        
         self.showViewController(vc as! UIViewController, sender: vc)
         AppTable.deselectRowAtIndexPath(indexPath, animated: true)
     }
