@@ -38,7 +38,6 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         userName.text = uName
         LastSync.text = prefs.objectForKey("lastsync") as? String
         
-        printTimeSince()
         // Do any additional setup after loading the view.
     }
 
@@ -59,55 +58,14 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         let date = NSDate()
         
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "MM-dd-yyyy"
-        prefs.setObject(dateFormatter.stringFromDate(date) /* + timeFormatter.stringFromDate(date) */, forKey: "lastsync")
-        prefs.synchronize()
-        printTimeSince()
-    }
-    
-    func printTimeSince()
-    {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "MM-dd-yyyy"
+        dateFormatter.dateFormat = "MMM d, yyyy"
         
         let timeFormatter = NSDateFormatter()
-        timeFormatter.dateFormat = "HH:mm"
+        timeFormatter.dateFormat = "h:mm"
         
-        let calendar = NSCalendar.autoupdatingCurrentCalendar()
-        calendar.timeZone = NSTimeZone.systemTimeZone()
-        
-        
-        //Find out a way to include time too
-        
-        if let startDate = dateFormatter.dateFromString((prefs.objectForKey("lastsync") as? String)!) {
-            let components = calendar.components([ .Month, .Day, .Hour, .Minute ],
-                                                 fromDate: startDate, toDate: NSDate(), options: [])
-            let months = components.month
-            let days = components.day
-//            let hours = components.hour
-//            let minutes = components.minute
-            var text: String = ""
-            if (months > 0)
-            {
-                text += "\(months) months and "
-            }
-            if (days > 0)
-            {
-                text += "\(days) days ago"
-            } else {
-                if (months==0)
-                {
-                    text += "Just now"
-                }
-            }
-//            if (hours > 0)
-//            {
-//                text += "\(hours) hours, and "
-//            }
-//            text += "\(minutes) minutes"
-            LastSync.text = text
-        }
-
+        prefs.setObject(dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
+        prefs.synchronize()
+        LastSync.text = prefs.objectForKey("lastsync") as? String
     }
     
     func getAppStore()
