@@ -525,22 +525,15 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="HeaderCell" rowHeight="90" id="2pH-9B-Npc" customClass="HeaderTableViewCell" customModule="ClydeLink_Apps" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="90"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="HeaderCell" rowHeight="40" id="2pH-9B-Npc" customClass="HeaderTableViewCell" customModule="ClydeLink_Apps" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2pH-9B-Npc" id="wbN-Kr-Vjp">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="89"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="39"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epN-LN-ASF">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
-                                                    <color key="backgroundColor" red="0.0078431372550000003" green="0.066666666669999999" blue="0.1764705882" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eww-ju-bhK">
-                                                    <rect key="frame" x="8" y="48" width="359" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eww-ju-bhK">
+                                                    <rect key="frame" x="8" y="9" width="359" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -548,22 +541,17 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="eww-ju-bhK" firstAttribute="leading" secondItem="wbN-Kr-Vjp" secondAttribute="leading" constant="8" id="LYt-zW-PoT"/>
-                                                <constraint firstItem="epN-LN-ASF" firstAttribute="top" secondItem="wbN-Kr-Vjp" secondAttribute="top" id="RHU-IY-b7z"/>
-                                                <constraint firstItem="epN-LN-ASF" firstAttribute="leading" secondItem="wbN-Kr-Vjp" secondAttribute="leading" id="UKo-M5-o9s"/>
-                                                <constraint firstItem="eww-ju-bhK" firstAttribute="top" secondItem="epN-LN-ASF" secondAttribute="bottom" constant="18" id="dad-8u-kY2"/>
-                                                <constraint firstItem="epN-LN-ASF" firstAttribute="centerX" secondItem="eww-ju-bhK" secondAttribute="centerX" id="h8K-JQ-oge"/>
                                                 <constraint firstAttribute="trailing" secondItem="eww-ju-bhK" secondAttribute="trailing" constant="8" id="iAK-8H-XNH"/>
-                                                <constraint firstItem="eww-ju-bhK" firstAttribute="centerY" secondItem="wbN-Kr-Vjp" secondAttribute="centerY" constant="14" id="noJ-So-efs"/>
+                                                <constraint firstItem="eww-ju-bhK" firstAttribute="centerY" secondItem="wbN-Kr-Vjp" secondAttribute="centerY" id="noJ-So-efs"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <outlet property="Header" destination="epN-LN-ASF" id="vyh-wq-v8h"/>
                                             <outlet property="Title" destination="eww-ju-bhK" id="WF3-bD-Pkd"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="AppCell" editingAccessoryType="checkmark" rowHeight="60" id="TcI-Cm-YGT" customClass="AddTableViewCell" customModule="ClydeLink_Apps" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="118" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="68" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TcI-Cm-YGT" id="X7R-IQ-YiP">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
@@ -618,10 +606,6 @@
                                     <outlet property="delegate" destination="koz-q1-BkM" id="EPy-hw-1iZ"/>
                                 </connections>
                             </tableView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="e5H-8n-KJY">
-                                <rect key="frame" x="20" y="32" width="20" height="20"/>
-                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -643,7 +627,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vLG-6q-gOV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="884.5" y="1133.5"/>
+            <point key="canvasLocation" x="884.5" y="1163.5"/>
         </scene>
         <!--Truck Search-->
         <scene sceneID="rkE-WY-zGe">

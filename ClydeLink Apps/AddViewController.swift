@@ -75,7 +75,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         cell.Title.text = self.AppStore[indexPath.row].title
         cell.accessoryType = UITableViewCellAccessoryType.None;
         if let icon = AppStore[indexPath.row].icon as? String{
-            let url = NSURL(string: "https://clydewap.clydeinc.com/images/small/icons/\(icon)")!
+            let url = NSURL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
             if let data = NSData(contentsOfURL: url){
                 if icon != "UNDEFINED" {
                     let myImage = UIImage(data: data)
