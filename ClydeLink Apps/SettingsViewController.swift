@@ -63,7 +63,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         let timeFormatter = NSDateFormatter()
         timeFormatter.dateFormat = "h:mm"
         
-        prefs.setObject(dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
+        prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
         prefs.synchronize()
         LastSync.text = prefs.objectForKey("lastsync") as? String
     }
