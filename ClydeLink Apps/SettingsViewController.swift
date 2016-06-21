@@ -112,6 +112,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,p: (element["Permissions"] as? Int)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!))
         }
         sortArray()
+        updateCurrentApps()
     }
     
     func sortArray()
@@ -136,6 +137,26 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         
     }
     
+    func updateCurrentApps()
+    {
+        if let data = prefs.objectForKey("userapps") as? NSData {
+            let currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
+            for el in currentapps
+            {
+                for element in AppStore
+                {
+                    if (el.link == element.link)
+                    {
+                        el.title = element.title
+                        break
+                    }
+                }
+            }
+            let data = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
+            prefs.setObject(data, forKey: "userapps")
+            prefs.synchronize()
+        }
+    }
     
     
     
