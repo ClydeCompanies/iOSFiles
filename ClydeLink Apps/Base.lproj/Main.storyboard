@@ -462,11 +462,7 @@
                                     <action selector="SyncButton:" destination="eJr-qm-Kqb" eventType="touchUpInside" id="ouI-Q1-QJm"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="AUC-pA-cuX">
-                                <rect key="frame" x="227" y="270" width="20" height="20"/>
-                                <color key="color" red="0.023529411760000001" green="0.08235294118" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Last Sync: unavailable" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CwQ-hL-pPe">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No previous sync data" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CwQ-hL-pPe">
                                 <rect key="frame" x="129" y="303" width="117" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="C7g-ki-rt4"/>
@@ -483,15 +479,21 @@
                                     </mask>
                                 </variation>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="AUC-pA-cuX">
+                                <rect key="frame" x="278" y="270" width="20" height="20"/>
+                                <color key="color" red="0.023529411760000001" green="0.08235294118" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="CN3-WD-cqD" firstAttribute="top" secondItem="R3S-xg-xbE" secondAttribute="top" id="03W-UH-7BP"/>
                             <constraint firstItem="CwQ-hL-pPe" firstAttribute="trailing" secondItem="R3S-xg-xbE" secondAttribute="trailing" id="3YN-ed-38C"/>
+                            <constraint firstItem="AUC-pA-cuX" firstAttribute="centerY" secondItem="NpV-kV-9re" secondAttribute="centerY" id="3qw-xL-rBv"/>
                             <constraint firstItem="2p9-Tp-m7K" firstAttribute="top" secondItem="LEB-67-y5M" secondAttribute="bottom" constant="20" id="4wz-MT-Wpl"/>
                             <constraint firstAttribute="trailing" secondItem="iTz-yT-3y9" secondAttribute="trailing" id="5SI-Pm-1AC"/>
                             <constraint firstItem="NpV-kV-9re" firstAttribute="trailing" secondItem="AUC-pA-cuX" secondAttribute="trailing" id="5V2-f1-PXs"/>
                             <constraint firstItem="NpV-kV-9re" firstAttribute="centerY" secondItem="AUC-pA-cuX" secondAttribute="centerY" id="6S1-tF-Vqe"/>
+                            <constraint firstItem="AUC-pA-cuX" firstAttribute="trailing" secondItem="NpV-kV-9re" secondAttribute="trailing" constant="-8" id="6S6-Ek-krW"/>
                             <constraint firstItem="CwQ-hL-pPe" firstAttribute="centerX" secondItem="NpV-kV-9re" secondAttribute="centerX" id="6nI-fg-thm"/>
                             <constraint firstItem="NpV-kV-9re" firstAttribute="baseline" secondItem="CwQ-hL-pPe" secondAttribute="baseline" id="7dZ-xV-ndU"/>
                             <constraint firstItem="ThA-bc-iJj" firstAttribute="leading" secondItem="SiZ-Mn-GVQ" secondAttribute="leadingMargin" id="BqC-cl-T5V"/>
@@ -532,7 +534,9 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="w2J-GJ-f3L"/>
                                 <exclude reference="5V2-f1-PXs"/>
+                                <exclude reference="6S1-tF-Vqe"/>
                                 <exclude reference="7dZ-xV-ndU"/>
                                 <exclude reference="cJu-IN-8j1"/>
                                 <exclude reference="kzA-Bd-miL"/>
