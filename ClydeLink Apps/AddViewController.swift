@@ -94,7 +94,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        self.ActivityIndicator.stopAnimating()
+//        self.ActivityIndicator.stopAnimating()
 //        loadApps()
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
             cell.Title.text = self.AppStore[indexPath.row + AppNumber[indexPath.section]].title

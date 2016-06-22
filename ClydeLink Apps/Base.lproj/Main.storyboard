@@ -603,10 +603,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </navigationBar>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="e5H-8n-KJY">
-                                <rect key="frame" x="20" y="32" width="20" height="20"/>
-                                <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fKb-Ft-zNY">
                                 <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -699,14 +695,11 @@
                             <constraint firstItem="fKb-Ft-zNY" firstAttribute="leading" secondItem="LcH-kQ-Mgn" secondAttribute="leadingMargin" constant="-20" id="FhM-lg-TRh"/>
                             <constraint firstAttribute="trailingMargin" secondItem="iGU-71-61M" secondAttribute="trailing" constant="-20" id="JY5-vl-YBh"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fKb-Ft-zNY" secondAttribute="trailing" constant="-20" id="QKF-36-LxI"/>
-                            <constraint firstItem="e5H-8n-KJY" firstAttribute="leading" secondItem="LcH-kQ-Mgn" secondAttribute="leadingMargin" constant="4" id="gEh-q6-97s"/>
                             <constraint firstItem="iGU-71-61M" firstAttribute="leading" secondItem="LcH-kQ-Mgn" secondAttribute="leadingMargin" constant="-20" id="gWE-GN-sYN"/>
-                            <constraint firstItem="e5H-8n-KJY" firstAttribute="centerY" secondItem="iGU-71-61M" secondAttribute="centerY" id="wbx-W6-wJC"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="ActivityIndicator" destination="e5H-8n-KJY" id="nAb-PI-rmV"/>
                         <outlet property="AppTable" destination="fKb-Ft-zNY" id="wM3-jr-87r"/>
                     </connections>
                 </viewController>
