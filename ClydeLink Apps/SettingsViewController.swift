@@ -25,10 +25,10 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     override func viewDidLoad() {
         super.viewDidLoad()
         if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
-            versionNumber.text = version
+            versionNumber.text = "Version: " + version
         }
         if let build = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
-            buildNumber.text = build
+            buildNumber.text = "Build: " + build
         }
         var uName: String = "Username"
         if (prefs.stringForKey("username") != nil)
