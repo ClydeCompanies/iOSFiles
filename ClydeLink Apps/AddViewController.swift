@@ -128,7 +128,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
-        return 1;
+        return 4;
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
