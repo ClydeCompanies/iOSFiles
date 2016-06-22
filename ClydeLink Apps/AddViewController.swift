@@ -132,9 +132,9 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
-        let buttonpressed = self.Apps[indexPath.row]
+        let buttonpressed = self.AppStore[indexPath.row]
         var vc : AnyObject! = nil
-        switch (buttonpressed["Link"] as! String)
+        switch (buttonpressed.link)
         {
         case "vehiclesearch":
             vc = self.storyboard!.instantiateViewControllerWithIdentifier("Truck Search")
@@ -144,7 +144,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             break;
         }
         
-        prefs.setObject(buttonpressed["URL"], forKey: "selectedButton")
+        prefs.setObject(buttonpressed.URL, forKey: "selectedButton")
         
         self.showViewController(vc as! UIViewController, sender: vc)
         AppTable.deselectRowAtIndexPath(indexPath, animated: true)
@@ -209,7 +209,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                 
                 let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
                 
-//                print(mydata)  // Direct response from server printed to console, for testing
+                print(mydata)  // Direct response from server printed to console, for testing
                 
                 dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
                     if (mydata == nil)
@@ -224,6 +224,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                         return
                     }
                     self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
+                    self.buildAppStore()
                     self.AppTable.reloadData()
                 }
             }
