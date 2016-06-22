@@ -19,6 +19,9 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     var currentapps: Array = [App]()
     var Apps: Array = [AnyObject]()
     var AppStore: [App] = []
+    var AppHeaders: [String] = ["Accounting and Credit", "Employee", "Equipment", "Human Resources"]
+    var AppNumber: [Int] = [0,0,0,0,0]
+    var sectionOpen: [Bool] =  [false,false,false,false,false]
     
     var flag: Int = 0
     
@@ -28,6 +31,28 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         // Do any additional setup after loading the view.
         
         AppTable.tableFooterView = UIView(frame: CGRectZero)
+        var apps: Int = 0
+        var currentApp: String = ""
+        for element in AppStore {
+            if (currentApp == "")
+            {
+                currentApp = element.header
+                apps+=1
+                continue
+            }
+            if (element.header == currentApp)
+            {
+                apps += 1
+                continue
+            }
+            else
+            {
+                self.AppNumber[Int(floor(element.order)) - 1] = apps + AppNumber[Int(floor(element.order)) - 2]
+                currentApp = element.header
+                apps = 1
+                continue
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,45 +96,60 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         self.ActivityIndicator.stopAnimating()
 //        loadApps()
-        let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
-        cell.Title.text = self.AppStore[indexPath.row].title
-        cell.accessoryType = UITableViewCellAccessoryType.None;
-        if let icon = AppStore[indexPath.row].icon as? String{
-            let url = NSURL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
-            if let data = NSData(contentsOfURL: url){
-                if icon != "UNDEFINED" {
-                    let myImage = UIImage(data: data)
-                    cell.Icon.image = myImage
-                } else {
+            let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
+            cell.Title.text = self.AppStore[indexPath.row + AppNumber[indexPath.section]].title
+            cell.accessoryType = UITableViewCellAccessoryType.None;
+            if let icon = AppStore[indexPath.row + AppNumber[indexPath.section]].icon as? String{
+                let url = NSURL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
+                if let data = NSData(contentsOfURL: url){
+                    if icon != "UNDEFINED" {
+                        let myImage = UIImage(data: data)
+                        cell.Icon.image = myImage
+                    } else {
+                        cell.Icon.image = UIImage(named: "generic-icon")
+                    }
+                }
+                else
+                {
                     cell.Icon.image = UIImage(named: "generic-icon")
                 }
             }
+            var found: Bool = false
+            for el in currentapps
+            {
+                if (el.title == AppStore[indexPath.row + AppNumber[indexPath.section]].title)
+                {
+                    found = true
+                    break
+                }
+            }
+            if found {
+                cell.addButton.hidden = true
+            }
             else
             {
-                cell.Icon.image = UIImage(named: "generic-icon")
+                cell.addButton.hidden = false
             }
-        }
-        var found: Bool = false
-        for el in currentapps
-        {
-            if (el.title == AppStore[indexPath.row].title)
-            {
-                found = true
-                break
-            }
-        }
-        if found {
-            cell.addButton.hidden = true
-        }
-        else
-        {
-            cell.addButton.hidden = false
-        }
-            return cell
+        AppCount += 1
+                return cell
+        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.AppStore.count
+        var count: Int = 0
+        for el in AppStore
+        {
+            if (el.header == AppHeaders[section])
+            {
+                count += 1
+            }
+        }
+        if (sectionOpen[section] == false)
+        {
+            count = 0
+        }
+        
+        return count
     }
     
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -118,17 +158,38 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         header.textLabel!
             .textColor = UIColor.blackColor()
-        header.textLabel!.font = UIFont.boldSystemFontOfSize(12)
+        header.textLabel!.font = UIFont.boldSystemFontOfSize(20)
         header.textLabel!.frame = header.frame
-        header.textLabel!.textAlignment = NSTextAlignment.Left
+        header.textLabel!.textAlignment = NSTextAlignment.Center
+        header.textLabel!.text = AppHeaders[section]
+        let pic = UIImageView()
+        pic.frame = CGRectMake(header.frame.width - 40, 10, 25, 25)
+        pic.image = UIImage(named: "down-arrow")
+        
+        let btn = UIButton(type: UIButtonType.Custom) as UIButton
+        btn.frame = CGRectMake(0, 0, header.frame.width, header.frame.height)
+        btn.addTarget(self, action: #selector(AddViewController.pressed), forControlEvents: .TouchUpInside)
+        btn.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        btn.tag = section
+        
+        header.addSubview(pic)
+        header.addSubview(btn)
+        
+        
     }
     
+    func pressed(sender: UIButton)
+    {
+        sectionOpen[sender.tag] = !sectionOpen[sender.tag]
+        self.AppTable.reloadData()
+    }
+
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 18
+        return 40
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
-        return 4;
+        return 4
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
