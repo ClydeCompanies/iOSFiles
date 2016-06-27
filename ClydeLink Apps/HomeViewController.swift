@@ -195,16 +195,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var vc : AnyObject! = nil
         
         //Log in
-        if "" == prefs.stringForKey("username") {
-            let loginViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Login")
-            loginViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
-            presentViewController(loginViewController, animated: true, completion: nil)
-            
-            _ = loginViewController.popoverPresentationController
-            
-            
-            
-        }
+//        if "" == prefs.stringForKey("username") {
+//            let loginViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Login")
+//            loginViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+//            presentViewController(loginViewController, animated: true, completion: nil)
+//            
+//            _ = loginViewController.popoverPresentationController
+//            
+//            
+//            
+//        }
         
         switch (buttonpressed.link)
         {
