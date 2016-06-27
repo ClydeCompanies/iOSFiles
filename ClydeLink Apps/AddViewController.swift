@@ -73,7 +73,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     @IBAction func addButtonClicked(sender: AnyObject) {
-        
+        loadApps()
     }
     
 
@@ -96,7 +96,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 //        self.ActivityIndicator.stopAnimating()
-//        loadApps()
+//            loadApps()
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
             cell.Title.text = self.AppStore[indexPath.row + AppNumber[indexPath.section]].title
             cell.accessoryType = UITableViewCellAccessoryType.None;
