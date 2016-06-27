@@ -9,22 +9,19 @@ import UIKit
 
 class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simple ViewController designed to be a placeholder for other HTML queries and Segues that will be developed in the future
 
+    @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var WebView: UIWebView!
-    
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
     @IBOutlet weak var NavBar: UINavigationBar!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
         loadAddressURL()
-        let pageTitle = WebView.stringByEvaluatingJavaScriptFromString("document.title")
-        NavBar.topItem?.title = pageTitle
-        
-        print(WebView.stringByEvaluatingJavaScriptFromString("document.domain"))
         
     }
 
@@ -67,6 +64,9 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         return true
     }
     
+    func webViewDidFinishLoad(webView: UIWebView) {
+        self.ActivityIndicator.stopAnimating()
+    }
 
     /*
     // MARK: - Navigation
