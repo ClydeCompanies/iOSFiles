@@ -1080,17 +1080,21 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </navigationBar>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mdf-oI-m6j">
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mdf-oI-m6j">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="mdf-oI-m6j" firstAttribute="leading" secondItem="3YV-KJ-69g" secondAttribute="leading" id="1f6-50-Vpu"/>
+                            <constraint firstAttribute="trailing" secondItem="mdf-oI-m6j" secondAttribute="trailing" id="28M-Kn-pSP"/>
                             <constraint firstItem="JeW-Bj-0mR" firstAttribute="top" secondItem="VI0-Rg-hpd" secondAttribute="bottom" id="52r-Jp-XTh"/>
+                            <constraint firstItem="dxN-RG-LUO" firstAttribute="top" secondItem="mdf-oI-m6j" secondAttribute="bottom" id="7Qh-6d-Ql5"/>
                             <constraint firstItem="JeW-Bj-0mR" firstAttribute="leading" secondItem="3YV-KJ-69g" secondAttribute="leading" id="BL4-c9-Txz"/>
                             <constraint firstAttribute="trailing" secondItem="JeW-Bj-0mR" secondAttribute="trailing" id="Jex-k3-2ng"/>
                             <constraint firstAttribute="trailing" secondItem="JeW-Bj-0mR" secondAttribute="trailing" id="O0R-FL-8iJ"/>
+                            <constraint firstItem="mdf-oI-m6j" firstAttribute="top" secondItem="JeW-Bj-0mR" secondAttribute="bottom" id="dXa-NV-m8c"/>
                             <constraint firstItem="JeW-Bj-0mR" firstAttribute="top" secondItem="VI0-Rg-hpd" secondAttribute="bottom" id="g4N-TI-MCb"/>
                             <constraint firstItem="JeW-Bj-0mR" firstAttribute="leading" secondItem="3YV-KJ-69g" secondAttribute="leading" id="sR3-bx-GwK"/>
                         </constraints>
@@ -1111,6 +1115,6 @@
         <image name="person-generic" width="659" height="659"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="trZ-pE-0lw"/>
+        <segue reference="OV6-fr-Jkh"/>
     </inferredMetricsTieBreakers>
 </document>

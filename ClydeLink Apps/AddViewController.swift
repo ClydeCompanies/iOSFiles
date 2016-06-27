@@ -53,6 +53,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                 continue
             }
         }
+//        print(AppNumber)
     }
 
     override func didReceiveMemoryWarning() {
