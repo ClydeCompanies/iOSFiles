@@ -140,16 +140,22 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     func updateCurrentApps()
     {
         if let data = prefs.objectForKey("userapps") as? NSData {
-            let currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
+            var currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
             for el in currentapps
             {
+                var found: Bool = false
                 for element in AppStore
                 {
                     if (el.link == element.link)
                     {
                         el.title = element.title
+                        found = true
                         break
                     }
+                }
+                if (!found)
+                {
+                    currentapps.removeAtIndex(currentapps.indexOf(el)!)
                 }
             }
             let data = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
