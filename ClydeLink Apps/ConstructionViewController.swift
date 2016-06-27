@@ -13,6 +13,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     @IBOutlet weak var WebView: UIWebView!
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
+    @IBOutlet weak var NavBar: UINavigationBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,11 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         // Do any additional setup after loading the view.
         
         loadAddressURL()
+        let pageTitle = WebView.stringByEvaluatingJavaScriptFromString("document.title")
+        NavBar.topItem?.title = pageTitle
+        
+        print(WebView.stringByEvaluatingJavaScriptFromString("document.domain"))
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,9 +37,10 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     
     // MARK: - Web View
 //    
-//    func webViewDidStartLoad(webView: UIWebView) {
-//        <#code#>
-//    }
+    func webViewDidStartLoad(webView: UIWebView) {
+        
+        print(WebView.request!.URL?.absoluteString)
+    }
     
     func loadAddressURL() {
         let link = prefs.stringForKey("selectedButton")
@@ -41,7 +48,24 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         let requestURL = NSURL(string: link!)
         let request = NSURLRequest(URL: requestURL!)
         WebView.loadRequest(request)
+        
+        
     }
+    
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        
+        print("Test")
+        print(request.URL!.host)
+        
+        if (request.URL?.host == "fs.clydeinc.com")
+        {
+            let value: NSString = WebView.stringByEvaluatingJavaScriptFromString("document.getElementById('cred_userid_inputtext').value")!;
+            prefs.setObject(value, forKey: "username")
+            print(prefs.objectForKey("username"))
+        }
+        return true
+    }
+    
 
     /*
     // MARK: - Navigation
