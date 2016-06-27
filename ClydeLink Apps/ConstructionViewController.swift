@@ -34,10 +34,13 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     
     // MARK: - Web View
 //    
-//    func webViewDidStartLoad(webView: UIWebView) {
-//        
-//        print(WebView.request!.URL?.absoluteString)
-//    }
+    func webViewDidStartLoad(webView: UIWebView) {
+        if (WebView.request != nil)
+        {
+            print("URL = " + webView.request!.URL!.absoluteString)
+        }
+        
+    }
     
     func loadAddressURL() {
         let link = prefs.stringForKey("selectedButton")
@@ -51,10 +54,15 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         
-//        print(webView.request!.URL!.host)
-        if (request.URL?.host == "fs.clydeinc.com")
+        if (WebView.request != nil)
         {
+            print("URL = " + webView.request!.URL!.absoluteString)
+        }
+        if (request.URL?.absoluteString == "fs.clydeinc.com")
+        {
+            
             let value: NSString = WebView.stringByEvaluatingJavaScriptFromString("document.getElementById('cred_userid_inputtext').value")!;
+            
             if (prefs.stringForKey("username") == "")
             {
                 prefs.setObject(value, forKey: "username")

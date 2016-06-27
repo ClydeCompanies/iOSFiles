@@ -1087,7 +1087,7 @@
                                     <outlet property="delegate" destination="0DF-CZ-aJg" id="Vpa-5Z-OOe"/>
                                 </connections>
                             </webView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hwb-je-tr8">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hwb-je-tr8">
                                 <rect key="frame" x="336" y="31" width="20" height="20"/>
                                 <color key="color" red="0.023529411760000001" green="0.08235294118" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
