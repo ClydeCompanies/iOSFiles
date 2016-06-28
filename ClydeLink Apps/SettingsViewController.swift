@@ -14,6 +14,9 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var LastSync: UILabel!
     @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var CompanyName: UILabel!
+    @IBOutlet weak var JobTitle: UILabel!
+    @IBOutlet weak var UserPicture: UIImageView!
     
     var EmployeeInfo: Array<AnyObject> = []
     
@@ -38,7 +41,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         {
             uName = prefs.stringForKey("username")!
         }
-        userName.text = uName
+//        userName.text = uName
         let lastsync = prefs.objectForKey("lastsync") as? String
         if (lastsync != nil)
         {
@@ -212,6 +215,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                 
                 let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
                 
+                print(" My Data: ")
                 print(mydata)  // Direct response from server printed to console, for testing
                 
                 dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
@@ -231,6 +235,27 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                     }
                     
                     self.EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
+                    let employeedata = NSKeyedArchiver.archivedDataWithRootObject(self.EmployeeInfo)
+                    self.prefs.setObject(employeedata, forKey: "userinfo")
+                    
+                    //CompanyName
+                    //CompanyNumber
+                    //JobTitle
+                    //PicLocation
+                    //UserName
+                    self.userName.text = self.EmployeeInfo[0]["UserName"] as? String
+                    self.JobTitle.text = self.EmployeeInfo[0]["JobTitle"] as? String
+                    self.CompanyName.text = self.EmployeeInfo[0]["CompanyName"] as? String
+                    
+                    if let data = NSData(contentsOfURL: NSURL(string: "\(self.EmployeeInfo[0]["PicLocation"] as? String)")!){
+                        let myImage = UIImage(data: data)
+                        self.UserPicture.image = myImage
+                    }
+                    else
+                    {
+                        self.UserPicture.image = UIImage(named: "person-generic")
+                    }
+                    
                 }
                 
             }
@@ -238,7 +263,6 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             
             
         }
-        
         
         
     }
