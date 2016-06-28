@@ -1,0 +1,23 @@
+PODS:
+  - ADALiOS (1.2.2)
+  - Office365/Discovery (0.9.1):
+    - ADALiOS (= 1.2.2)
+    - Office365/OData
+  - Office365/OData (0.9.1):
+    - ADALiOS (= 1.2.2)
+  - Office365/Outlook (0.9.1):
+    - ADALiOS (= 1.2.2)
+    - Office365/OData
+
+DEPENDENCIES:
+  - ADALiOS (~> 1.2.1)
+  - Office365/Discovery (= 0.9.1)
+  - Office365/Outlook (= 0.9.1)
+
+SPEC CHECKSUMS:
+  ADALiOS: c32489782fa3b646cfaa581b9e84e394396fc6ac
+  Office365: 91c861e9fb7d073914214e04b30458b44f890395
+
+PODFILE CHECKSUM: ff92fa31881541846ab550efeb6dc693ff0ce6be
+
+COCOAPODS: 1.0.1
