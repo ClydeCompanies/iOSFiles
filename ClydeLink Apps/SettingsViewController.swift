@@ -15,7 +15,10 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     @IBOutlet weak var LastSync: UILabel!
     @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
     
+    var EmployeeInfo: Array<AnyObject> = []
     
+    var baseController = Office365ClientFetcher()
+    var serviceEndpointLookup = NSMutableDictionary()
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
     var flag:Int=0;
@@ -41,6 +44,8 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         {
             LastSync.text = lastsync
         }
+        
+        loadUserInfo()
         // Do any additional setup after loading the view.
     }
 
@@ -51,8 +56,13 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     
     @IBAction func SignOut(sender: AnyObject) {
         prefs.setObject("", forKey: "username")
+        let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
+        authenticationManager.clearCredentials()
+        
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
         self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+        
+        
     }
     
     @IBAction func SyncButton(sender: AnyObject) {
@@ -162,6 +172,75 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             prefs.setObject(data, forKey: "userapps")
             prefs.synchronize()
         }
+    }
+    
+    func loadUserInfo() {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
+        userDefaults.synchronize()
+        
+        let userEmail = userDefaults.stringForKey("LogInUser")!
+        var parts = userEmail.componentsSeparatedByString("@")
+        
+        let uName: String = String(format:"%@", parts[0])
+        
+        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetUserProfile?username=\(uName)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+            
+            let request = NSMutableURLRequest(URL: url)
+            
+            //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
+            request.HTTPMethod = "POST"
+            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+                guard error == nil && data != nil else { // check for fundamental networking error
+                    print("error=\(error)")
+                    self.flag = 1
+                    
+                    let alertController = UIAlertController(title: "Error", message:
+                        "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                    
+                    
+                    return
+                }
+                
+                if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(response)")
+                }
+                
+                let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
+                
+                print(mydata)  // Direct response from server printed to console, for testing
+                
+                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+                    if (mydata == nil)
+                    {
+                        //                        self.activityIndicator.stopAnimating()  // Ends spinner
+                        //                        self.activityIndicator.hidden = true
+                        self.flag = 1
+                        
+                        let alertController = UIAlertController(title: "Error", message:
+                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
+                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                        
+                        self.presentViewController(alertController, animated: true, completion: nil)
+                        
+                        return
+                    }
+                    
+                    self.EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
+                }
+                
+            }
+            task.resume()
+            
+            
+        }
+        
+        
+        
     }
     
     

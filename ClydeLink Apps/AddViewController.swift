@@ -226,7 +226,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         var uName: String = ""
         if (prefs.stringForKey("username") != nil && prefs.stringForKey("username") != "")
         {
-            uName = "Logged in as " + prefs.stringForKey("username")!
+            uName = "Logged in as " + prefs.stringForKey("usernmae")!
         } else {
             uName = "Not logged in"
         }
