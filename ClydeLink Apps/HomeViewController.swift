@@ -14,6 +14,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var rightButton: UIBarButtonItem!
     @IBOutlet weak var AppTable: UITableView!
     
+    var test: String = "TEST"
+    
     var appButtons: Array = [App]()
     
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
@@ -21,8 +23,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
     var currentapps: Array = [App]()
     
-//    var baseController = Office365ClientFetcher()
-//    var serviceEndpointLookup = NSMutableDictionary()
+    var baseController = Office365ClientFetcher()
+    var serviceEndpointLookup = NSMutableDictionary()
     
     override func viewDidLoad() {  // Runs when the view loads
         super.viewDidLoad()
@@ -197,7 +199,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var vc : AnyObject! = nil
         
         //Log in
-//       connectToOffice365()
+       connectToOffice365()
         
         switch (buttonpressed.link)
         {
@@ -273,7 +275,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
-    /*
+    
      func connectToOffice365() {
      // Connect to the service by discovering the service endpoints and authorizing
      // the application to access the user's email. This will store the user's
@@ -315,14 +317,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
      let userEmail = userDefaults.stringForKey("LogInUser")!
      var parts = userEmail.componentsSeparatedByString("@")
      
-     self.headerLabel.text = String(format:"Hi %@!", parts[0])
-     self.headerLabel.hidden = false
-     self.mainContentTextView.hidden = false
-     self.emailTextField.text = userEmail
-     self.statusTextView.text = ""
-     self.disconnectButton.enabled = true
-     self.sendMailButton.hidden = false
-     self.emailTextField.hidden = false
+     self.test = String(format:"Hi %@!", parts[0])
+//     self.headerLabel.hidden = false
+//     self.mainContentTextView.hidden = false
+//     self.emailTextField.text = userEmail
+//     self.statusTextView.text = ""
+//     self.disconnectButton.enabled = true
+//     self.sendMailButton.hidden = false
+//     self.emailTextField.hidden = false
      }
      }
      
@@ -337,7 +339,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
      
      servicesTask.resume()
      }
-     } */
+     }
 
     
     

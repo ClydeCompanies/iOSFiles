@@ -13,6 +13,8 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     @IBOutlet weak var AppTable: UITableView!
     @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
     
+    var test: String = "TEST"
+    
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
@@ -25,8 +27,8 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     var flag: Int = 0
     
-//    var baseController = Office365ClientFetcher()
-//    var serviceEndpointLookup = NSMutableDictionary()
+    var baseController = Office365ClientFetcher()
+    var serviceEndpointLookup = NSMutableDictionary()
 
     
     override func viewDidLoad() {
@@ -200,6 +202,10 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
         let buttonpressed = self.AppStore[indexPath.row]
         var vc : AnyObject! = nil
+        
+//        Log In
+        connectToOffice365()
+        
         switch (buttonpressed.link)
         {
         case "vehiclesearch":
@@ -339,70 +345,77 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         prefs.setObject(appData, forKey: "syncedappstore")
         prefs.synchronize()
     }
+    
+    
+    func connectToOffice365() {
+        // Connect to the service by discovering the service endpoints and authorizing
+        // the application to access the user's email. This will store the user's
+        // service URLs in a property list to be accessed when calls are made to the
+        // service. This results in two calls: one to authenticate, and one to get the
+        // URLs. ADAL will cache the access and refresh tokens so you won't need to
+        // provide credentials unless you sign out.
+        
+        // Get the discovery client. First time this is ran you will be prompted
+        // to provide your credentials which will authenticate you with the service.
+        // The application will get an access token in the response.
+        
+        baseController.fetchDiscoveryClient { (discoveryClient) -> () in
+            let servicesInfoFetcher = discoveryClient.getservices()
+            
+            // Call the Discovery Service and get back an array of service endpoint information
+            
+            let servicesTask = servicesInfoFetcher.readWithCallback{(serviceEndPointObjects:[AnyObject]!, error:MSODataException!) -> Void in
+                let serviceEndpoints = serviceEndPointObjects as! [MSDiscoveryServiceInfo]
+                
+                if (serviceEndpoints.count > 0) {
+                    // Here is where we cache the service URLs returned by the Discovery Service. You may not
+                    // need to call the Discovery Service again until either this cache is removed, or you
+                    // get an error that indicates that the endpoint is no longer valid.
+                    
+                    var serviceEndpointLookup = [NSObject: AnyObject]()
+                    
+                    for serviceEndpoint in serviceEndpoints {
+                        serviceEndpointLookup[serviceEndpoint.capability] = serviceEndpoint.serviceEndpointUri
+                    }
+                    
+                    // Keep track of the service endpoints in the user defaults
+                    let userDefaults = NSUserDefaults.standardUserDefaults()
+                    
+                    userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
+                    userDefaults.synchronize()
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        let userEmail = userDefaults.stringForKey("LogInUser")!
+                        var parts = userEmail.componentsSeparatedByString("@")
+                        
+                        self.test = String(format:"Hi %@!", parts[0])
+                        //                    self.headerLabel.hidden = false
+                        //                    self.mainContentTextView.hidden = false
+                        //                    self.emailTextField.text = userEmail
+                        //                    self.statusTextView.text = ""
+                        //                    self.disconnectButton.enabled = true
+                        //                    self.sendMailButton.hidden = false
+                        //                    self.emailTextField.hidden = false
+                    }
+                }
+                    
+                else {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        NSLog("Error in the authentication: %@", error)
+                        let alert: UIAlertView = UIAlertView(title: "Error", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", delegate: self, cancelButtonTitle: "OK")
+                        alert.show()
+                    }
+                }
+            }
+            
+            servicesTask.resume()
+        }
+    }
+    
+    
+    
+    
 }
 
-/*
-func connectToOffice365() {
-    // Connect to the service by discovering the service endpoints and authorizing
-    // the application to access the user's email. This will store the user's
-    // service URLs in a property list to be accessed when calls are made to the
-    // service. This results in two calls: one to authenticate, and one to get the
-    // URLs. ADAL will cache the access and refresh tokens so you won't need to
-    // provide credentials unless you sign out.
-    
-    // Get the discovery client. First time this is ran you will be prompted
-    // to provide your credentials which will authenticate you with the service.
-    // The application will get an access token in the response.
-    
-    baseController.fetchDiscoveryClient { (discoveryClient) -> () in
-        let servicesInfoFetcher = discoveryClient.getservices()
-        
-        // Call the Discovery Service and get back an array of service endpoint information
-        
-        let servicesTask = servicesInfoFetcher.readWithCallback{(serviceEndPointObjects:[AnyObject]!, error:MSODataException!) -> Void in
-            let serviceEndpoints = serviceEndPointObjects as! [MSDiscoveryServiceInfo]
-            
-            if (serviceEndpoints.count > 0) {
-                // Here is where we cache the service URLs returned by the Discovery Service. You may not
-                // need to call the Discovery Service again until either this cache is removed, or you
-                // get an error that indicates that the endpoint is no longer valid.
-                
-                var serviceEndpointLookup = [NSObject: AnyObject]()
-                
-                for serviceEndpoint in serviceEndpoints {
-                    serviceEndpointLookup[serviceEndpoint.capability] = serviceEndpoint.serviceEndpointUri
-                }
-                
-                // Keep track of the service endpoints in the user defaults
-                let userDefaults = NSUserDefaults.standardUserDefaults()
-                
-                userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
-                userDefaults.synchronize()
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    let userEmail = userDefaults.stringForKey("LogInUser")!
-                    var parts = userEmail.componentsSeparatedByString("@")
-                    
-                    self.headerLabel.text = String(format:"Hi %@!", parts[0])
-                    self.headerLabel.hidden = false
-                    self.mainContentTextView.hidden = false
-                    self.emailTextField.text = userEmail
-                    self.statusTextView.text = ""
-                    self.disconnectButton.enabled = true
-                    self.sendMailButton.hidden = false
-                    self.emailTextField.hidden = false
-                }
-            }
-                
-            else {
-                dispatch_async(dispatch_get_main_queue()) {
-                    NSLog("Error in the authentication: %@", error)
-                    let alert: UIAlertView = UIAlertView(title: "Error", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", delegate: self, cancelButtonTitle: "OK")
-                    alert.show()
-                }
-            }
-        }
-        
-        servicesTask.resume()
-    }
-} */
+
+
