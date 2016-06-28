@@ -231,6 +231,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                     }
                     
                     self.EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
+                    prefs.setObject(self.EmployeeInfo, forKey: "userinfo")
                 }
                 
             }
@@ -239,7 +240,12 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             
         }
         
-        
+        //CompanyName
+        //CompanyNumber
+        //JobTitle
+        //PicLocation
+        //UserName
+        userName.text = EmployeeInfo["UserName"] as? String
         
     }
     
