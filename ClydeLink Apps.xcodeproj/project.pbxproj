@@ -19,6 +19,8 @@
 		9133DECB1CE1307300F8330E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */; };
 		9133DED61CE1307300F8330E /* ClydeLink_AppsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DED51CE1307300F8330E /* ClydeLink_AppsTests.swift */; };
 		9133DEE11CE1307300F8330E /* ClydeLink_AppsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */; };
+		9152B3D81D22F1A20064723D /* O365ClientFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9152B3D71D22F1A20064723D /* O365ClientFetcher.swift */; };
+		9152B3DA1D22F1B90064723D /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9152B3D91D22F1B90064723D /* AuthenticationManager.swift */; };
 		9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5AD1CE780C300C24D8F /* LoginViewController.swift */; };
 		9195A5B31CE78CCD00C24D8F /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B11CE78CCD00C24D8F /* DataModel.xcdatamodeld */; };
 		9195A5B51CE7908B00C24D8F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B41CE7908B00C24D8F /* HomeViewController.swift */; };
@@ -66,6 +68,8 @@
 		9133DEDC1CE1307300F8330E /* ClydeLink AppsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ClydeLink AppsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClydeLink_AppsUITests.swift; sourceTree = "<group>"; };
 		9133DEE21CE1307300F8330E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9152B3D71D22F1A20064723D /* O365ClientFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = O365ClientFetcher.swift; sourceTree = "<group>"; };
+		9152B3D91D22F1B90064723D /* AuthenticationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		9195A5AD1CE780C300C24D8F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9195A5B21CE78CCD00C24D8F /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		9195A5B41CE7908B00C24D8F /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -126,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				3834F4171D013513006E9EFA /* App.swift */,
+				9152B3DB1D22F1C50064723D /* Office365 */,
 				9195A5BC1CE7FAEC00C24D8F /* View Controllers */,
 				9133DEC41CE1307300F8330E /* Main.storyboard */,
 				9133DEC71CE1307300F8330E /* Assets.xcassets */,
@@ -152,6 +157,15 @@
 				9133DEE21CE1307300F8330E /* Info.plist */,
 			);
 			path = "ClydeLink AppsUITests";
+			sourceTree = "<group>";
+		};
+		9152B3DB1D22F1C50064723D /* Office365 */ = {
+			isa = PBXGroup;
+			children = (
+				9152B3D91D22F1B90064723D /* AuthenticationManager.swift */,
+				9152B3D71D22F1A20064723D /* O365ClientFetcher.swift */,
+			);
+			name = Office365;
 			sourceTree = "<group>";
 		};
 		9195A5BC1CE7FAEC00C24D8F /* View Controllers */ = {
@@ -310,6 +324,7 @@
 				9195A5B91CE7AC1000C24D8F /* AppTableViewCell.swift in Sources */,
 				91007C721CEE32EF006C8EED /* TruckSearchTableViewCell.swift in Sources */,
 				9195A5B71CE7A0EA00C24D8F /* HeaderTableViewCell.swift in Sources */,
+				9152B3DA1D22F1B90064723D /* AuthenticationManager.swift in Sources */,
 				91E215C51CFE6E980031B75F /* TruckSearchNRTableViewCell.swift in Sources */,
 				911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */,
 				91C237E71D04F91E00E00B0B /* AddViewController.swift in Sources */,
@@ -321,6 +336,7 @@
 				9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */,
 				9195A5BB1CE7F74E00C24D8F /* EditViewController.swift in Sources */,
 				38783BBA1D09E4BC003987C5 /* AddTableViewCell.swift in Sources */,
+				9152B3D81D22F1A20064723D /* O365ClientFetcher.swift in Sources */,
 				911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */,
 				919D7D581CEA71BB00055A0A /* SettingsViewController.swift in Sources */,
 			);
