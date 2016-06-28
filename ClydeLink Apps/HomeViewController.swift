@@ -67,11 +67,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
         userDefaults.synchronize()
-        
-        let userEmail = userDefaults.stringForKey("LogInUser")!
-        var parts = userEmail.componentsSeparatedByString("@")
-        
-        self.test = String(format:"%@", parts[0])
+        if userDefaults.stringForKey("LogInUser") != nil {
+            let userEmail = userDefaults.stringForKey("LogInUser")!
+            var parts = userEmail.componentsSeparatedByString("@")
+            
+            self.test = String(format:"%@", parts[0])
+        } else {
+            userDefaults.setObject("Admin", forKey: "LogInUser")
+        }
         
         if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetUserProfile?username=\(self.test)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
             
