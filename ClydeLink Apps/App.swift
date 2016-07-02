@@ -13,7 +13,7 @@ class App: NSObject, NSCoding {
     var link: String = ""  // ex: "vehiclesearch"
     var permissions: Int = 0
     var selected: Bool = false
-    var icon: String = "" // ex: "icon3.png" or "UNDEFINED"
+    var icon: String! = "" // ex: "icon3.png" or "UNDEFINED"
     var URL: String = "" // ex: "http://www.clydelink.com/forms/communications/Pages/TrainingRequests.aspx" or "UNDEFINED"
     var order: Double = 0.0 // ex: 4.2
     

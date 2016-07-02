@@ -50,27 +50,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         return true
     }
     
-/*    @IBAction func ChangeSearchButtonPress(sender: AnyObject) {  // Runs when text is pressed signifying a change in search parameters
-        if (SearchCriteria.text == "Fleet Number:")  // If current search criteria is Truck, change it to Employee
-        {
-            SearchCriteria.text = "Employee Name:"
-            SearchStart.text = ""
-            ChangeSearch.setTitle("Search by Truck Number", forState: UIControlState.Normal)
-            TextBox.keyboardType = UIKeyboardType.Default
-            TextBox.autocapitalizationType = .Words
-            TextBox.reloadInputViews()
-        }
-        else{  // Do the opposite! (Change search parameter to
-            SearchCriteria.text = "Fleet Number:"
-            SearchStart.text = "01 -"
-            ChangeSearch.setTitle("Search by Employee Name", forState: UIControlState.Normal)
-            TextBox.reloadInputViews()
-            TextBox.keyboardType = UIKeyboardType.NumberPad
-            TextBox.autocapitalizationType = .None
-            TextBox.reloadInputViews()
-        }
-    } */
-    
     func Search() {
         if (TextBox.text == "") {
             return
@@ -136,8 +115,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
                     if (mydata == nil)
                     {
-//                        self.activityIndicator.stopAnimating()  // Ends spinner
-//                        self.activityIndicator.hidden = true
                         self.flag = 1
                         self.ResultsTable.reloadData()
                         
@@ -151,8 +128,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                     }
                     
                     self.Employees = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
-                    //                self.activityIndicator.stopAnimating()  // Ends spinner
-                    //                self.activityIndicator.hidden = true  // Hides spinner
                     self.ResultsTable.reloadData()  // Reloads Table View cells as results
                     self.activityIndicator.stopAnimating()  // Ends spinner
                 }
@@ -160,8 +135,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             }
             task.resume()
             
-            
-//            self.activityIndicator.hidden = true
             self.dismissKeyboard()  // Dismisses keyboard after the search
             self.ResultsTable.reloadData()  // Reloads Table View cells as results
             

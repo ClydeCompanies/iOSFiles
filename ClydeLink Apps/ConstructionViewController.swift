@@ -34,7 +34,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     
     // MARK: - Web View
 //    
-    func webViewDidStartLoad(webView: UIWebView) {
+    func webViewDidStartLoad(webView: UIWebView) {  // Start loading web page
         if (WebView.request != nil)
         {
             print("URL = " + webView.request!.URL!.absoluteString)
@@ -72,7 +72,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         return true
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(webView: UIWebView) {  // Web Page is displayed, stop activity indicator
         self.ActivityIndicator.stopAnimating()
     }
 
