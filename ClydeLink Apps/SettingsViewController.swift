@@ -70,33 +70,30 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     
     @IBAction func SyncButton(sender: AnyObject) {
         ActivityIndicator.startAnimating()
+        
+        flag = 0
+        
         getAppStore()
-        let date = NSDate()
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "MMM d, yyyy"
         
-        let timeFormatter = NSDateFormatter()
-        timeFormatter.dateFormat = "h:mm"
-        
-        prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
-        prefs.synchronize()
-        LastSync.text = prefs.objectForKey("lastsync") as? String
     }
     
     func getAppStore()
     {
+        
         if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
             let request = NSMutableURLRequest(URL: url)
             request.HTTPMethod = "POST"
             let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
                 guard error == nil && data != nil else {
                     print("error=\(error)")
+                    self.flag = 1
                     return
                 }
                 if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
                     print("response = \(response)")
+                    self.flag = 1
                 }
                 let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
                 dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
@@ -105,6 +102,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                         let alertController = UIAlertController(title: "Error", message:
                             "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
                         alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                        self.flag = 1
                         self.presentViewController(alertController, animated: true, completion: nil)
                         return
                     }
@@ -152,6 +150,22 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     
     func updateCurrentApps()
     {
+        defer {
+            let date = NSDate()
+            
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "MMM d, yyyy"
+            
+            let timeFormatter = NSDateFormatter()
+            timeFormatter.dateFormat = "h:mm"
+            if (flag == 0)
+            {
+                prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
+                prefs.synchronize()
+                LastSync.text = prefs.objectForKey("lastsync") as? String
+            }
+        }
+        
         if let data = prefs.objectForKey("userapps") as? NSData {
             var currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
             for el in currentapps
@@ -175,6 +189,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             prefs.setObject(data, forKey: "userapps")
             prefs.synchronize()
         }
+        
     }
     
     func loadUserInfo() {
