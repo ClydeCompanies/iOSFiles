@@ -387,7 +387,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var vc : AnyObject! = nil
         
         //Log in
-       connectToOffice365()
+        connectToOffice365()
         
         switch (buttonpressed.link)
         {

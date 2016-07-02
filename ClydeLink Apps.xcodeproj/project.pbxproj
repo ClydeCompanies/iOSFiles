@@ -143,15 +143,13 @@
 		9133DEBF1CE1307300F8330E /* ClydeLink Apps */ = {
 			isa = PBXGroup;
 			children = (
-				3834F4171D013513006E9EFA /* App.swift */,
+				9152B3DF1D28563D0064723D /* TableView Cells */,
 				9152B3DB1D22F1C50064723D /* Office365 */,
 				9195A5BC1CE7FAEC00C24D8F /* View Controllers */,
-				9133DEC41CE1307300F8330E /* Main.storyboard */,
-				9133DEC71CE1307300F8330E /* Assets.xcassets */,
-				9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */,
-				9133DECC1CE1307300F8330E /* Info.plist */,
-				9195A5B11CE78CCD00C24D8F /* DataModel.xcdatamodeld */,
 				9152B3DD1D22F4F50064723D /* Supporting Files */,
+				9152B3E01D28568F0064723D /* Auxiliary Files */,
+				9133DEC41CE1307300F8330E /* Main.storyboard */,
+				9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */,
 			);
 			path = "ClydeLink Apps";
 			sourceTree = "<group>";
@@ -186,24 +184,42 @@
 		9152B3DD1D22F4F50064723D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9133DEC01CE1307300F8330E /* AppDelegate.swift */,
+				3834F4171D013513006E9EFA /* App.swift */,
 				9152B3DE1D22F54F0064723D /* O365-Connect-Bridging-Header.h */,
+				9133DEC71CE1307300F8330E /* Assets.xcassets */,
+				9133DECC1CE1307300F8330E /* Info.plist */,
+				9195A5B11CE78CCD00C24D8F /* DataModel.xcdatamodeld */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9152B3DF1D28563D0064723D /* TableView Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9195A5B81CE7AC1000C24D8F /* AppTableViewCell.swift */,
+				38783BB91D09E4BC003987C5 /* AddTableViewCell.swift */,
+				91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */,
+				91E215C41CFE6E980031B75F /* TruckSearchNRTableViewCell.swift */,
+			);
+			name = "TableView Cells";
+			sourceTree = "<group>";
+		};
+		9152B3E01D28568F0064723D /* Auxiliary Files */ = {
+			isa = PBXGroup;
+			children = (
+				9195A5AD1CE780C300C24D8F /* LoginViewController.swift */,
+			);
+			name = "Auxiliary Files";
 			sourceTree = "<group>";
 		};
 		9195A5BC1CE7FAEC00C24D8F /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9133DEC01CE1307300F8330E /* AppDelegate.swift */,
 				911E16C01CE24AA20062527E /* ConstructionViewController.swift */,
 				911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */,
-				9195A5AD1CE780C300C24D8F /* LoginViewController.swift */,
 				9195A5B41CE7908B00C24D8F /* HomeViewController.swift */,
-				9195A5B81CE7AC1000C24D8F /* AppTableViewCell.swift */,
-				38783BB91D09E4BC003987C5 /* AddTableViewCell.swift */,
 				919D7D571CEA71BB00055A0A /* SettingsViewController.swift */,
-				91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */,
-				91E215C41CFE6E980031B75F /* TruckSearchNRTableViewCell.swift */,
 				91C237E61D04F91E00E00B0B /* AddViewController.swift */,
 			);
 			name = "View Controllers";
