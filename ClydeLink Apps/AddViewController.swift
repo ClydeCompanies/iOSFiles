@@ -34,7 +34,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         loadApps()
-        // Do any additional setup after loading the view.
         
         AppTable.tableFooterView = UIView(frame: CGRectZero)
         var apps: Int = 0
@@ -389,13 +388,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                         var parts = userEmail.componentsSeparatedByString("@")
                         
                         self.test = String(format:"Hi %@!", parts[0])
-                        //                    self.headerLabel.hidden = false
-                        //                    self.mainContentTextView.hidden = false
-                        //                    self.emailTextField.text = userEmail
-                        //                    self.statusTextView.text = ""
-                        //                    self.disconnectButton.enabled = true
-                        //                    self.sendMailButton.hidden = false
-                        //                    self.emailTextField.hidden = false
                     }
                 }
                     

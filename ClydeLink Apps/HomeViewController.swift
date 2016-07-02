@@ -34,6 +34,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         loadChecked()
         
+        test = "TEST"
+        
         for element in currentapps
         {
             self.appButtons.append(element)
@@ -190,9 +192,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let userEmail = userDefaults.stringForKey("LogInUser")!
             var parts = userEmail.componentsSeparatedByString("@")
             
-            self.test = String(format:"%@", parts[0])
-        } else {
-            userDefaults.setObject("", forKey: "LogInUser")
+            self.test = String(parts[0])
         }
         
         if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetUserProfile?username=\(self.test)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
@@ -239,15 +239,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         
-        var uName: String = ""
-        if (self.test != "TEST")
+        if (userDefaults.stringForKey("LogInUser") == nil)
         {
-            uName = "Logged in as " + self.test
-        } else {
-            uName = "Not logged in"
+            return "Not logged in"
         }
-        
-        return uName
+        else if (self.test != "TEST")
+        {
+            return "Logged in as " + self.test
+        }
+        else {
+            return "Unrecognized Username"
+        }
         
     }
     
@@ -497,13 +499,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
      var parts = userEmail.componentsSeparatedByString("@")
      
      self.test = String(format:"Hi %@!", parts[0])
-//     self.headerLabel.hidden = false
-//     self.mainContentTextView.hidden = false
-//     self.emailTextField.text = userEmail
-//     self.statusTextView.text = ""
-//     self.disconnectButton.enabled = true
-//     self.sendMailButton.hidden = false
-//     self.emailTextField.hidden = false
      }
      }
      

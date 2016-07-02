@@ -101,7 +101,7 @@ class Office365ClientFetcher {
                 // Display an alert in case of an error
                 dispatch_async(dispatch_get_main_queue()) {
                     NSLog("Error in the authentication")
-                    let alert: UIAlertView = UIAlertView(title: "Error", message: "Authentication failed. Check the log for errors.", delegate: self, cancelButtonTitle: "OK")
+                    let alert: UIAlertView = UIAlertView(title: "Error", message: "Authentication failed.", delegate: self, cancelButtonTitle: "OK")
                     alert.show()
                 }
             }
