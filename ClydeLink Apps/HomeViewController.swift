@@ -14,18 +14,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var rightButton: UIBarButtonItem!
     @IBOutlet weak var AppTable: UITableView!
     
-    var test: String = "TEST"
+    var test: String = "TEST" // Used for receiving username
     
-    var Apps: [AnyObject] = []
-    var AppStore: [App] = []
-    var flag: Int = 0
+    var Apps: [AnyObject] = []  // Saves list of uncompiled apps, saved as raw data
+    var AppStore: [App] = []  // Saves list of all apps
+    var flag: Int = 0  // Saves any errors as 1
     
-    var appButtons: Array = [App]()
+    var appButtons: Array = [App]()  // Holds clickable buttons
     
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
-    var currentapps: Array = [App]()
+    var currentapps: Array = [App]()  // Holds currently selected apps
     
     var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
@@ -46,23 +46,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         print(prefs.boolForKey("launchedBefore"))
         if prefs.boolForKey("launchedBefore") {
             //Not first Launch
-            print("YES")
         }
         else {
             //Sync
             getAppStore()
-            let date = NSDate()
-            
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "MMM d, yyyy"
-            
-            let timeFormatter = NSDateFormatter()
-            timeFormatter.dateFormat = "h:mm"
-            
-            prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
-            prefs.setBool(true, forKey: "launchedBefore")
-            prefs.synchronize()
-            print("NO")
         }
         
     }
@@ -92,6 +79,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                         alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
                         self.presentViewController(alertController, animated: true, completion: nil)
                         return
+                    } else {
+                        let date = NSDate()
+                        
+                        let dateFormatter = NSDateFormatter()
+                        dateFormatter.dateFormat = "MMM d, yyyy"
+                        
+                        let timeFormatter = NSDateFormatter()
+                        timeFormatter.dateFormat = "h:mm"
+                        
+                        self.prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
+                        self.prefs.setBool(true, forKey: "launchedBefore")
+                        self.prefs.synchronize()
                     }
                     self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
                     self.buildAppStore()
@@ -103,7 +102,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.buildAppStore()
     }
     
-    func buildAppStore() {
+    func buildAppStore() {  // Convert raw data into more easily accessible appstore
         AppStore = []
         for element in Apps
         {
@@ -113,8 +112,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         updateCurrentApps()
     }
     
-    func sortArray()
-    {
+    func sortArray() {  // Get accurate order of apps based on "order" from individual apps
         var sorted: [App] = []
         for _ in AppStore
         {
@@ -135,8 +133,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    func updateCurrentApps()
-    {
+    func updateCurrentApps() {  // If any names of apps have changed, or if apps were no longer supported, update the user's library
         if let data = prefs.objectForKey("userapps") as? NSData {
             var currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
             for el in currentapps
@@ -228,18 +225,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
                     if (mydata == nil)
                     {
-                        //                        self.activityIndicator.stopAnimating()  // Ends spinner
-                        //                        self.activityIndicator.hidden = true
-                        
-                        
                         let alertController = UIAlertController(title: "Error", message:
                             "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
                         alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
                         
                         self.presentViewController(alertController, animated: true, completion: nil)
-                        
-                        
-                        
                         return
                     }
                 }
@@ -283,7 +273,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
             
             cell.Title.text = self.appButtons[indexPath.row].title
-            if let icon = appButtons[indexPath.row].icon as? String {
+            if let icon = appButtons[indexPath.row].icon {
                 let url = NSURL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
                 if let data = NSData(contentsOfURL: url){
                     if icon != "UNDEFINED" {
@@ -325,7 +315,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         return .None
     }
     
-    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {  // All apps are moveable
         return true
     }
     
@@ -333,6 +323,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let itemToMove = appButtons[fromIndexPath.row]
         appButtons.removeAtIndex(fromIndexPath.row)
         appButtons.insert(itemToMove, atIndex: toIndexPath.row)
+//        currentapps.removeAtIndex(fromIndexPath.row)
+//        currentapps.insert(itemToMove, atIndex: toIndexPath.row)
         var fromindex: Int = 0
         for element in currentapps
         {
