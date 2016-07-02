@@ -187,13 +187,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
         
-        userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
-        userDefaults.synchronize()
+//        userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
+//        userDefaults.synchronize()
         if userDefaults.stringForKey("LogInUser") != nil {
             let userEmail = userDefaults.stringForKey("LogInUser")!
             var parts = userEmail.componentsSeparatedByString("@")
             
-            self.test = String(format:"%@", parts[0])
+            self.test = String(parts[0])
         } else {
             userDefaults.setObject("", forKey: "LogInUser")
         }

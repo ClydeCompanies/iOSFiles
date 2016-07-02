@@ -14,7 +14,6 @@
 		911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16C01CE24AA20062527E /* ConstructionViewController.swift */; };
 		911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */; };
 		9133DEC11CE1307300F8330E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DEC01CE1307300F8330E /* AppDelegate.swift */; };
-		9133DEC31CE1307300F8330E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DEC21CE1307300F8330E /* ViewController.swift */; };
 		9133DEC61CE1307300F8330E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9133DEC41CE1307300F8330E /* Main.storyboard */; };
 		9133DEC81CE1307300F8330E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9133DEC71CE1307300F8330E /* Assets.xcassets */; };
 		9133DECB1CE1307300F8330E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */; };
@@ -60,7 +59,6 @@
 		911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchViewController.swift; sourceTree = "<group>"; };
 		9133DEBD1CE1307300F8330E /* ClydeLink Apps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ClydeLink Apps.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9133DEC01CE1307300F8330E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9133DEC21CE1307300F8330E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9133DEC51CE1307300F8330E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9133DEC71CE1307300F8330E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9133DECA1CE1307300F8330E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -201,7 +199,6 @@
 			isa = PBXGroup;
 			children = (
 				9133DEC01CE1307300F8330E /* AppDelegate.swift */,
-				9133DEC21CE1307300F8330E /* ViewController.swift */,
 				911E16C01CE24AA20062527E /* ConstructionViewController.swift */,
 				911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */,
 				9195A5AD1CE780C300C24D8F /* LoginViewController.swift */,
@@ -498,7 +495,6 @@
 				911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */,
 				91C237E71D04F91E00E00B0B /* AddViewController.swift in Sources */,
 				3834F4181D013513006E9EFA /* App.swift in Sources */,
-				9133DEC31CE1307300F8330E /* ViewController.swift in Sources */,
 				9195A5B51CE7908B00C24D8F /* HomeViewController.swift in Sources */,
 				9195A5B31CE78CCD00C24D8F /* DataModel.xcdatamodeld in Sources */,
 				9133DEC11CE1307300F8330E /* AppDelegate.swift in Sources */,
