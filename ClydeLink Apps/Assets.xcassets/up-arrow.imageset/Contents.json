@@ -4,6 +4,14 @@
       "idiom" : "universal",
       "filename" : "icon-ios7-arrow-up-512.png",
       "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {
