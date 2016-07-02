@@ -14,8 +14,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var rightButton: UIBarButtonItem!
     @IBOutlet weak var AppTable: UITableView!
     
-    var test: String = "TEST"
-    
+    var test: String = ""
     var Apps: [AnyObject] = []
     var AppStore: [App] = []
     var flag: Int = 0
@@ -33,6 +32,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {  // Runs when the view loads
         super.viewDidLoad()
         loadChecked()
+        
+        test = "TEST"
         
         for element in currentapps
         {
@@ -187,15 +188,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
         
-//        userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
-//        userDefaults.synchronize()
+        userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
+        userDefaults.synchronize()
         if userDefaults.stringForKey("LogInUser") != nil {
             let userEmail = userDefaults.stringForKey("LogInUser")!
             var parts = userEmail.componentsSeparatedByString("@")
             
             self.test = String(parts[0])
-        } else {
-            userDefaults.setObject("", forKey: "LogInUser")
         }
         
         if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetUserProfile?username=\(self.test)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
@@ -249,15 +248,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         
-        var uName: String = ""
-        if (self.test != "TEST")
+        if (userDefaults.stringForKey("LogInUser") == nil)
         {
-            uName = "Logged in as " + self.test
-        } else {
-            uName = "Not logged in"
+            return "Not logged in"
         }
-        
-        return uName
+        else if (self.test != "TEST")
+        {
+            return "Logged in as " + self.test
+        }
+        else {
+            return "Unrecognized Username"
+        }
         
     }
     
@@ -505,13 +506,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
      var parts = userEmail.componentsSeparatedByString("@")
      
      self.test = String(format:"Hi %@!", parts[0])
-//     self.headerLabel.hidden = false
-//     self.mainContentTextView.hidden = false
-//     self.emailTextField.text = userEmail
-//     self.statusTextView.text = ""
-//     self.disconnectButton.enabled = true
-//     self.sendMailButton.hidden = false
-//     self.emailTextField.hidden = false
      }
      }
      

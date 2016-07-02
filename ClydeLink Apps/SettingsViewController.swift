@@ -58,13 +58,14 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     }
     
     @IBAction func SignOut(sender: AnyObject) {
-        prefs.setObject("", forKey: "username")
+        prefs.setObject(nil, forKey: "username")
+        prefs.setObject(nil, forKey: "LogInUser")
         let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
         authenticationManager.clearCredentials()
         
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
         self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
-        
+        prefs.synchronize()
         
     }
     

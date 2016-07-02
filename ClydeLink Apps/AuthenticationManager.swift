@@ -32,7 +32,8 @@ import Foundation
 // You will set your application's clientId and redirect URI. You get
 // these when you register your application in Azure AD.
 let REDIRECT_URL_STRING = "http://clydelinkapps"
-let CLIENT_ID           = "246603d1-d281-458a-be4f-b4a1e8d912ef"
+//let CLIENT_ID           = "246603d1-d281-458a-be4f-b4a1e8d912ef"
+let CLIENT_ID           = "caba98a9-83d6-491a-823f-f5e51a77f188"
 let AUTHORITY           = "https://login.microsoftonline.com/common"
 
 class AuthenticationManager {
