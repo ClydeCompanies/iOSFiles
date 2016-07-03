@@ -13,19 +13,19 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     @IBOutlet weak var AppTable: UITableView!
     @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
     
-    var test: String = "TEST"
+    var test: String = "TEST"  // Holds users name
     
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
-    var currentapps: Array = [App]()
-    var Apps: Array = [AnyObject]()
-    var AppStore: [App] = []
-    var AppHeaders: [String] = ["Accounting and Credit", "Employee", "Equipment", "Human Resources"]
-    var AppNumber: [Int] = [0,0,0,0,0]
-    var sectionOpen: [Bool] =  [false,false,false,false,false]
+    var currentapps: Array = [App]()  // Holds user's selected apps
+    var Apps: Array = [AnyObject]()  // Holds raw data for AppStore
+    var AppStore: [App] = []  // Holds all available Apps
+    var AppHeaders: [String] = ["Accounting and Credit", "Employee", "Equipment", "Human Resources"]  // Holds headers
+    var AppNumber: [Int] = [0,0,0,0,0]  // Holds number of apps in each section
+    var sectionOpen: [Bool] =  [false,false,false,false,false]  // Holds values for which sections are expanded
     
-    var flag: Int = 0
+    var flag: Int = 0  // Keeps track of any errors
     
     var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
@@ -38,7 +38,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         AppTable.tableFooterView = UIView(frame: CGRectZero)
         var apps: Int = 0
         var currentApp: String = ""
-        for element in AppStore {
+        for element in AppStore {  // Load app numbers
             if (currentApp == "")
             {
                 currentApp = element.header
@@ -67,7 +67,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     
-    @IBAction func DoneSelected(sender: AnyObject) {
+    @IBAction func DoneSelected(sender: AnyObject) {  // Done button selected
 //        let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
 //        prefs.setObject(appData, forKey: "userapps")
 //        prefs.synchronize()
@@ -77,7 +77,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         self.presentViewController(vc, animated: true, completion: nil)
     }
     
-    @IBAction func addButtonClicked(sender: AnyObject) {
+    @IBAction func addButtonClicked(sender: AnyObject) {  // Add button clicked for an app
         loadApps()
     }
     
@@ -99,7 +99,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         return .None
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Returns each cell
 //        self.ActivityIndicator.stopAnimating()
 //            loadApps()
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
@@ -141,7 +141,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns number of cells in each category
         var count: Int = 0
         for el in AppStore
         {
@@ -185,7 +185,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func pressed(sender: UIButton)
-    {
+    {  // Opens each section
         sectionOpen[sender.tag] = !sectionOpen[sender.tag]
         self.AppTable.reloadData()
     }
@@ -195,7 +195,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
-        return 4
+        return AppHeaders.count
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
@@ -233,7 +233,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         return uName
     }
     
-    func loadApps() {
+    func loadApps() {  // Get all apps
         if (AppStore.count == 0) {
             if let data = prefs.objectForKey("syncedappstore") as? NSData {
                 AppStore = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
@@ -255,7 +255,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func fillAppArray()
-    {
+    {  // Get apps from online database
         if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
             
             let request = NSMutableURLRequest(URL: url)
@@ -305,7 +305,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         AppTable.reloadData()
     }
     
-    func buildAppStore() {
+    func buildAppStore() {  // Convert raw data to more accessible AppStore
         AppStore = []
         for element in Apps
         {
@@ -314,7 +314,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         sortArray()
     }
     func sortArray()
-    {
+    {  // Sort array based on individual apps' "order" property
 //        print("Unsorted")
 //        for el in AppStore
 //        {

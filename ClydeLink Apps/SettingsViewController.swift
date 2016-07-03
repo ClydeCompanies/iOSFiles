@@ -18,23 +18,23 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     @IBOutlet weak var JobTitle: UILabel!
     @IBOutlet weak var UserPicture: UIImageView!
     
-    var EmployeeInfo: Array<AnyObject> = []
+    var EmployeeInfo: Array<AnyObject> = []  // Holds information about current user
     
     var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
-    var flag:Int=0;
-    var AppStore: [App] = []
-    var Apps: [AnyObject] = []
+    var flag:Int=0;  // Keeps track of any errors
+    var AppStore: [App] = []  // Holds all apps
+    var Apps: [AnyObject] = []  // Holds raw data of AppStore
     
-    override func viewDidLoad() {
+    override func viewDidLoad() {  // Runs when view loads
         super.viewDidLoad()
         if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
-            versionNumber.text = "Version: " + version
+            versionNumber.text = "Version: " + version  // Version number as found in project info
         }
         if let build = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
-            buildNumber.text = "Build: " + build
+            buildNumber.text = "Build: " + build  // Build Number as found in project info
         }
         var uName: String = "Username"
         if (prefs.stringForKey("username") != nil)
@@ -57,7 +57,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func SignOut(sender: AnyObject) {
+    @IBAction func SignOut(sender: AnyObject) {  // Sign out button clicked
         prefs.setObject(nil, forKey: "username")
         prefs.setObject(nil, forKey: "LogInUser")
         let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
@@ -69,7 +69,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         
     }
     
-    @IBAction func SyncButton(sender: AnyObject) {
+    @IBAction func SyncButton(sender: AnyObject) {  // Sync button clicked
         ActivityIndicator.startAnimating()
         
         flag = 0
@@ -80,7 +80,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     }
     
     func getAppStore()
-    {
+    {  // Load apps from online database
         
         if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
             let request = NSMutableURLRequest(URL: url)
@@ -106,6 +106,20 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                         self.flag = 1
                         self.presentViewController(alertController, animated: true, completion: nil)
                         return
+                    } else {
+                        let date = NSDate()
+                        
+                        let dateFormatter = NSDateFormatter()
+                        dateFormatter.dateFormat = "MMM d, yyyy"
+                        
+                        let timeFormatter = NSDateFormatter()
+                        timeFormatter.dateFormat = "h:mm"
+                        if (flag == 0)
+                        {
+                            prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
+                            prefs.synchronize()
+                            LastSync.text = prefs.objectForKey("lastsync") as? String
+                        }
                     }
                     self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
                     self.buildAppStore()
@@ -117,7 +131,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         self.buildAppStore()
     }
     
-    func buildAppStore() {
+    func buildAppStore() {  // Convert raw data into more accessible AppStore
         AppStore = []
         for element in Apps
         {
@@ -128,7 +142,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     }
     
     func sortArray()
-    {
+    {  // Sort array based on individual apps' "order" property
         var sorted: [App] = []
         for _ in AppStore
         {
@@ -150,22 +164,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     }
     
     func updateCurrentApps()
-    {
-        defer {
-            let date = NSDate()
-            
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "MMM d, yyyy"
-            
-            let timeFormatter = NSDateFormatter()
-            timeFormatter.dateFormat = "h:mm"
-            if (flag == 0)
-            {
-                prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
-                prefs.synchronize()
-                LastSync.text = prefs.objectForKey("lastsync") as? String
-            }
-        }
+    {  // Updates the user's selected apps due to changes in online database
         
         if let data = prefs.objectForKey("userapps") as? NSData {
             var currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
@@ -193,7 +192,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         
     }
     
-    func loadUserInfo() {
+    func loadUserInfo() {  // Get user's information
         let userDefaults = NSUserDefaults.standardUserDefaults()
         
         userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
