@@ -114,11 +114,11 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                         
                         let timeFormatter = NSDateFormatter()
                         timeFormatter.dateFormat = "h:mm"
-                        if (flag == 0)
+                        if (self.flag == 0)
                         {
-                            prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
-                            prefs.synchronize()
-                            LastSync.text = prefs.objectForKey("lastsync") as? String
+                            self.prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
+                            self.prefs.synchronize()
+                            self.LastSync.text = self.prefs.objectForKey("lastsync") as? String
                         }
                     }
                     self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array

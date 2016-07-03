@@ -382,20 +382,24 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         //Log in
         connectToOffice365()
         
-        switch (buttonpressed.link)
+        
+        if (prefs.stringForKey("LogInUser") != nil)
         {
-            case "vehiclesearch":
-                vc = self.storyboard!.instantiateViewControllerWithIdentifier("Truck Search")
-                break;
-            default:
-                vc = self.storyboard!.instantiateViewControllerWithIdentifier("Construction")
-                break;
+            switch (buttonpressed.link)
+            {
+                case "vehiclesearch":
+                    vc = self.storyboard!.instantiateViewControllerWithIdentifier("Truck Search")
+                    break;
+                default:
+                    vc = self.storyboard!.instantiateViewControllerWithIdentifier("Construction")
+                    break;
+            }
+            
+            prefs.setObject(buttonpressed.URL, forKey: "selectedButton")
+            
+            self.showViewController(vc as! UIViewController, sender: vc)
+            AppTable.deselectRowAtIndexPath(indexPath, animated: true)
         }
-        
-        prefs.setObject(buttonpressed.URL, forKey: "selectedButton")
-        
-        self.showViewController(vc as! UIViewController, sender: vc)
-        AppTable.deselectRowAtIndexPath(indexPath, animated: true)
         
     }
     
