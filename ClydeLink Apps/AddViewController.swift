@@ -222,6 +222,10 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             self.showViewController(vc as! UIViewController, sender: vc)
             AppTable.deselectRowAtIndexPath(indexPath, animated: true)
         }
+        else
+        {
+            AppTable.cellForRowAtIndexPath(indexPath)?.selected = false
+        }
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu

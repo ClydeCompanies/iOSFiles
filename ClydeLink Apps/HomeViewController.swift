@@ -400,6 +400,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.showViewController(vc as! UIViewController, sender: vc)
             AppTable.deselectRowAtIndexPath(indexPath, animated: true)
         }
+        else
+        {
+            AppTable.cellForRowAtIndexPath(indexPath)?.selected = false
+        }
         
     }
     
