@@ -1127,8 +1127,8 @@
                                     <outlet property="delegate" destination="0DF-CZ-aJg" id="Vpa-5Z-OOe"/>
                                 </connections>
                             </webView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hwb-je-tr8">
-                                <rect key="frame" x="336" y="31" width="20" height="20"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="hwb-je-tr8">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
                                 <color key="color" red="0.023529411760000001" green="0.08235294118" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
                         </subviews>
@@ -1139,13 +1139,13 @@
                             <constraint firstItem="JeW-Bj-0mR" firstAttribute="top" secondItem="VI0-Rg-hpd" secondAttribute="bottom" id="52r-Jp-XTh"/>
                             <constraint firstItem="dxN-RG-LUO" firstAttribute="top" secondItem="mdf-oI-m6j" secondAttribute="bottom" id="7Qh-6d-Ql5"/>
                             <constraint firstItem="JeW-Bj-0mR" firstAttribute="leading" secondItem="3YV-KJ-69g" secondAttribute="leading" id="BL4-c9-Txz"/>
+                            <constraint firstItem="hwb-je-tr8" firstAttribute="centerX" secondItem="JeW-Bj-0mR" secondAttribute="centerX" id="Bzk-Dj-f1D"/>
                             <constraint firstAttribute="trailing" secondItem="JeW-Bj-0mR" secondAttribute="trailing" id="Jex-k3-2ng"/>
                             <constraint firstAttribute="trailing" secondItem="JeW-Bj-0mR" secondAttribute="trailing" id="O0R-FL-8iJ"/>
-                            <constraint firstItem="hwb-je-tr8" firstAttribute="top" secondItem="VI0-Rg-hpd" secondAttribute="bottom" constant="11" id="XDI-TQ-pWh"/>
                             <constraint firstItem="mdf-oI-m6j" firstAttribute="top" secondItem="JeW-Bj-0mR" secondAttribute="bottom" id="dXa-NV-m8c"/>
                             <constraint firstItem="JeW-Bj-0mR" firstAttribute="top" secondItem="VI0-Rg-hpd" secondAttribute="bottom" id="g4N-TI-MCb"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="hwb-je-tr8" secondAttribute="trailing" constant="3" id="gyz-k4-egO"/>
                             <constraint firstItem="JeW-Bj-0mR" firstAttribute="leading" secondItem="3YV-KJ-69g" secondAttribute="leading" id="sR3-bx-GwK"/>
+                            <constraint firstItem="hwb-je-tr8" firstAttribute="centerY" secondItem="3YV-KJ-69g" secondAttribute="centerY" id="zh3-9Q-d5S"/>
                         </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
@@ -1165,6 +1165,6 @@
         <image name="person-generic" width="659" height="659"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="trZ-pE-0lw"/>
+        <segue reference="OV6-fr-Jkh"/>
     </inferredMetricsTieBreakers>
 </document>
