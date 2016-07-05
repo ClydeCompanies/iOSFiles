@@ -203,10 +203,10 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         var vc : AnyObject! = nil
         
 //        Log In
-        connectToOffice365()
+//        connectToOffice365()
         
-        if (prefs.stringForKey("LogInUser") != nil)
-        {
+//        if (prefs.stringForKey("username") != nil)
+//        {
             switch (buttonpressed.link)
             {
             case "vehiclesearch":
@@ -221,11 +221,11 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             
             self.showViewController(vc as! UIViewController, sender: vc)
             AppTable.deselectRowAtIndexPath(indexPath, animated: true)
-        }
-        else
-        {
-            AppTable.cellForRowAtIndexPath(indexPath)?.selected = false
-        }
+//        }
+//        else
+//        {
+//            AppTable.cellForRowAtIndexPath(indexPath)?.selected = false
+//        }
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu

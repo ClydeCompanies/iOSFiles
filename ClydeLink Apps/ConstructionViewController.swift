@@ -89,12 +89,13 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             }
             print("****")
             print("USERNAME")
-            print(prefs.objectForKey("username"))
+            print(prefs.stringForKey("username"))
             print("****")
+            prefs.synchronize()
         }
-        else{
-            prefs.setObject("", forKey: "username")
-        }
+//        else{
+//            prefs.setObject("", forKey: "username")
+//        }
         
         self.ActivityIndicator.stopAnimating()
     }
