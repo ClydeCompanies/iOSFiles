@@ -161,7 +161,10 @@ class SyncNow: NSObject {
         timeFormatter.dateFormat = "h:mm"
         if (self.flag == 0 && syncnow == 1)
         {
-            self.prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
+            var lastdate: [String!] = []
+            lastdate.append(dateFormatter.stringFromDate(date))
+            lastdate.append(timeFormatter.stringFromDate(date))
+            self.prefs.setObject(lastdate, forKey: "lastsync")
             self.prefs.synchronize()
         }
         done = 1

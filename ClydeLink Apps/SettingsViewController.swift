@@ -42,11 +42,12 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
 //            uName = prefs.stringForKey("username")!
 //        }
 //        userName.text = uName
-        let lastsync = prefs.objectForKey("lastsync") as? String
-        if (lastsync != nil)
-        {
-            LastSync.text = lastsync
-        }
+        var lastdate = prefs.objectForKey("lastsync") as? [String]
+        
+        let lastsync = "Last Sync: " + lastdate![0] + " " + lastdate![1]
+        
+        LastSync.text = lastsync
+        
         
         loadUserInfo()
         // Do any additional setup after loading the view.
@@ -59,6 +60,8 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     
     @IBAction func SignOut(sender: AnyObject) {  // Sign out button clicked
         let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        
         
         alert.addAction(UIAlertAction(title: "Confirm", style: .Default, handler: { (action: UIAlertAction!) in
             self.prefs.setObject("", forKey: "username")
@@ -75,6 +78,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction!) in
             print("Phew!")
         }))
+        
         
         presentViewController(alert, animated: true, completion: nil)
         
@@ -93,7 +97,15 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             //Wait
         }
         ActivityIndicator.stopAnimating()
-        self.LastSync.text = self.prefs.objectForKey("lastsync") as? String
+        
+        
+        var lastdate = prefs.objectForKey("lastsync") as? [String]
+        
+        let lastsync = "Last Sync: " + lastdate![0] + " " + lastdate![1]
+        
+        LastSync.text = lastsync
+    
+    
     }
 
     func loadUserInfo() {  // Get user's information

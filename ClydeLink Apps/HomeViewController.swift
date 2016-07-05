@@ -17,7 +17,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var test: String = "TEST" // Used for receiving username
     
     var flag: Int = 0  // Saves any errors as 1
-    let synced: SyncNow = SyncNow()
+    var synced: SyncNow = SyncNow()
     
     var appButtons: Array = [App]()  // Holds clickable buttons
     
@@ -45,15 +45,41 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (!prefs.boolForKey("launchedbefore"))
         {
-            let synced = SyncNow(sync: 1)
+            synced = SyncNow(sync: 1)
             while (synced.done != 1)
             {
                 //Wait
             }
-        } else {
-            //Not first launch
             prefs.setBool(true, forKey: "launchedbefore")
             prefs.synchronize()
+        } else {
+            //Not first launch
+        }
+        
+        //LastSync
+        let lastsync = prefs.objectForKey("lastsync")
+        let calendar: NSCalendar = NSCalendar.currentCalendar()
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "MMM d, yyyy"
+        let date1 = calendar.startOfDayForDate(dateFormatter.dateFromString(lastsync![0]! as! String)!)
+        let date2 = calendar.startOfDayForDate(NSDate())
+        
+        let flags = NSCalendarUnit.Day
+        let components = calendar.components(flags, fromDate: date1, toDate: date2, options: [])
+        
+        if (components.day >= 7)
+        {
+            let alert = UIAlertController(title: "Sync Now?", message: "It has been 7 days since your last sync.", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            alert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
+                self.synced = SyncNow(sync: 1)
+            }))
+            
+            alert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { (action: UIAlertAction!) in
+                
+            }))
+            
+            presentViewController(alert, animated: true, completion: nil)
         }
         
     }
