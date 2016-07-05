@@ -105,7 +105,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
             cell.Title.text = self.AppStore[indexPath.row + AppNumber[indexPath.section]].title
             cell.accessoryType = UITableViewCellAccessoryType.None;
-            if let icon = AppStore[indexPath.row + AppNumber[indexPath.section]].icon as? String{
+            if let icon = AppStore[indexPath.row + AppNumber[indexPath.section]].icon {
                 let url = NSURL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
                 if let data = NSData(contentsOfURL: url){
                     if icon != "UNDEFINED" {

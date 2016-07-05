@@ -36,11 +36,11 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         if let build = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
             buildNumber.text = "Build: " + build  // Build Number as found in project info
         }
-        var uName: String = "Username"
-        if (prefs.stringForKey("username") != nil)
-        {
-            uName = prefs.stringForKey("username")!
-        }
+//        var uName: String = "Username"
+//        if (prefs.stringForKey("username") != nil)
+//        {
+//            uName = prefs.stringForKey("username")!
+//        }
 //        userName.text = uName
         let lastsync = prefs.objectForKey("lastsync") as? String
         if (lastsync != nil)
