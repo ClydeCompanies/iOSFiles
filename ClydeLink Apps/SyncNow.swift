@@ -15,30 +15,37 @@ class SyncNow: NSObject {
     var Apps: [AnyObject] = []
     var AppStore: [App] = []
     var currentapps: [App] = []
-    var syncnow: Int = 0
     var done: Int = 0
+    var syncnow: Int = 0
     
-    init(sync: Int) {
+    override init() {
         super.init()
+        syncnow = 0
         done = 0
         flag = 0
-        getAppStore(sync)
+        getAppStore()
+    }
+    init(sync: Int) {
+        super.init()
+        syncnow = 1
+        done = 0
+        flag = 0
+        fillAppArray()
     }
     
-    func getAppStore(sync: Int)
+    func getAppStore()
     {  // Load apps from online database
-        syncnow = sync
         if let data = prefs.objectForKey("syncedappstore") as? NSData {
             AppStore = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
             sortArray()
             if (AppStore.count == 0)
             {
-                fillAppArray(syncnow)
+                fillAppArray()
             } else {
                 
             }
         } else {
-            fillAppArray(syncnow)
+            fillAppArray()
         }
         if let data = prefs.objectForKey("userapps") as? NSData {
             currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
@@ -48,7 +55,7 @@ class SyncNow: NSObject {
         }
         
     }
-    func fillAppArray(sync: Int) {
+    func fillAppArray() {
         if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
             let request = NSMutableURLRequest(URL: url)
             request.HTTPMethod = "POST"
@@ -133,16 +140,12 @@ class SyncNow: NSObject {
                     if (el.link == element.link)
                     {
                         el.title = element.title
-                        print("Found")
                         found = true
                         break
                     }
                 }
                 if (!found)
                 {
-                    print("Uh oh")
-                    print("AppStore:")
-                    print(AppStore)
                     currentapps.removeAtIndex(currentapps.indexOf(el)!)
                 }
             }

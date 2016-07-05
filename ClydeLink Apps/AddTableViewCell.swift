@@ -10,31 +10,25 @@ import UIKit
 class AddTableViewCell: UITableViewCell {
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
-    var currentapps: Array = [App]()
-    var AppStore: Array = [App]()
-
+    let synced: SyncNow = SyncNow()
+    
     @IBOutlet weak var Title: UILabel!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var Icon: UIImageView!
     
     @IBAction func addButton(sender: AnyObject) {
-        if let data = prefs.objectForKey("userapps") as? NSData {
-            currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
-        }
-        if let data = prefs.objectForKey("syncedappstore") as? NSData {
-            AppStore = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
-        }
-        for element in AppStore
+        let synced: SyncNow = SyncNow()
+        for element in synced.AppStore
         {
             if (Title.text! == element.title)
             {
                 element.selected = true
-                currentapps.append(element)
+                synced.currentapps.append(element)
                 break
             }
             
         }
-        let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
+        let appData = NSKeyedArchiver.archivedDataWithRootObject(synced.currentapps)
         prefs.setObject(appData, forKey: "userapps")
         prefs.synchronize()
         addButton.hidden = true
@@ -52,14 +46,4 @@ class AddTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    
-    func buildAppStore() {
-        AppStore = []
-        
-        for element in currentapps
-        {
-                AppStore.append(element)
-        }
-        
-    }
 }
