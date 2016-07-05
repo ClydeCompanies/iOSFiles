@@ -2,8 +2,7 @@
 //  SyncNow.swift
 //  ClydeLink Apps
 //
-//  Created by JFed on 7/5/16.
-//  Copyright © 2016 XLR8 Development LLC. All rights reserved.
+//  Created by XLR8 Development LLC on 6/5/16.
 //
 
 import UIKit

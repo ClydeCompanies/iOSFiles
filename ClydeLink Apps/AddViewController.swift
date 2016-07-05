@@ -204,15 +204,9 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
         
         let synced: SyncNow = SyncNow()
+        let buttonrow = AppNumber[indexPath.section]
         
-        var buttonrow = 0
-        
-        for i in 0 ..< indexPath.row
-        {
-            buttonrow += AppNumber[i]
-        }
-        
-        let buttonpressed = self.AppStore[indexPath.row + buttonrow]
+        let buttonpressed = synced.AppStore[indexPath.row + buttonrow]
         var vc : AnyObject! = nil
         var alreadyowns: Bool = false
         
