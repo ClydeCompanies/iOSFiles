@@ -58,11 +58,11 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         if (WebView.request != nil)
         {
             print("URL = " + webView.request!.URL!.absoluteString)
-            
-            if (webView.request!.URL?.absoluteString != "login.microsoftonline.com")
-            {
-                prefs.setObject("", forKey: "username")
-            }
+//            
+//            if (webView.request!.URL?.absoluteString != "login.microsoftonline.com")
+//            {
+//                prefs.setObject("", forKey: "username")
+//            }
         }
         
 //        if (request.URL?.absoluteString == "fs.clydeinc.com")

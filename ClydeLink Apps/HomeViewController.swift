@@ -55,13 +55,23 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             //Not first launch
         }
-        
+        var lastsync: [String] = []
         //LastSync
-        let lastsync = prefs.objectForKey("lastsync")
         let calendar: NSCalendar = NSCalendar.currentCalendar()
         let dateFormatter = NSDateFormatter()
+        let timeFormatter = NSDateFormatter()
+        timeFormatter.dateFormat = "h:mm"
         dateFormatter.dateFormat = "MMM d, yyyy"
-        let date1 = calendar.startOfDayForDate(dateFormatter.dateFromString(lastsync![0]! as! String)!)
+        
+        if ((prefs.objectForKey("lastsync") as? String)?.containsString("Last") != nil) {
+            lastsync.append("Jan 1, 1990")
+            lastsync.append("12:00")
+        }
+        else{
+            lastsync = (prefs.objectForKey("lastsync") as? [String])!
+        }
+        
+        let date1 = calendar.startOfDayForDate(dateFormatter.dateFromString(lastsync[0])!)
         let date2 = calendar.startOfDayForDate(NSDate())
         
         let flags = NSCalendarUnit.Day
