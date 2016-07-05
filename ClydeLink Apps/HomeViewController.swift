@@ -79,70 +79,79 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
+
+//        userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
+//        userDefaults.synchronize()
+//        if userDefaults.stringForKey("LogInUser") != nil {
+//            let userEmail = userDefaults.stringForKey("LogInUser")!
+//            var parts = userEmail.componentsSeparatedByString("@")
+//            
+//            self.test = String(parts[0])
+//        }
         
-        userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
         userDefaults.synchronize()
-        if userDefaults.stringForKey("LogInUser") != nil {
-            let userEmail = userDefaults.stringForKey("LogInUser")!
+        if (userDefaults.stringForKey("username") != nil)
+        {
+            let userEmail = userDefaults.stringForKey("username")!
             var parts = userEmail.componentsSeparatedByString("@")
-            
             self.test = String(parts[0])
         }
-        
-        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetUserProfile?username=\(self.test)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
-            
-            let request = NSMutableURLRequest(URL: url)
-            
-            //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
-            request.HTTPMethod = "POST"
-            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
-                guard error == nil && data != nil else { // check for fundamental networking error
-                    print("error=\(error)")
-                    
-                    let alertController = UIAlertController(title: "Error", message:
-                        "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                    self.presentViewController(alertController, animated: true, completion: nil)
-                    
-                    return
-                }
-                
-                if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
-                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print("response = \(response)")
-                }
-                
-                let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
-                
-//                print(mydata)  // Direct response from server printed to console, for testing
-                
-                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
-                    if (mydata == nil)
-                    {
-                        let alertController = UIAlertController(title: "Error", message:
-                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                        
-                        self.presentViewController(alertController, animated: true, completion: nil)
-                        return
-                    }
-                }
-                
-            }
-            task.resume()
-        }
-        
-        
-        if (userDefaults.stringForKey("LogInUser") == nil)
+        else
         {
-            return "Not logged in"
+            self.test = ""
         }
-        else if (self.test != "TEST")
+        
+//        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetUserProfile?username=\(self.test)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+//            
+//            let request = NSMutableURLRequest(URL: url)
+//            
+//            //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
+//            request.HTTPMethod = "POST"
+//            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+//                guard error == nil && data != nil else { // check for fundamental networking error
+//                    print("error=\(error)")
+//                    
+//                    let alertController = UIAlertController(title: "Error", message:
+//                        "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
+//                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+//                    self.presentViewController(alertController, animated: true, completion: nil)
+//                    
+//                    return
+//                }
+//                
+//                if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+//                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+//                    print("response = \(response)")
+//                }
+//                
+//                let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
+//                
+//                print(mydata)  // Direct response from server printed to console, for testing
+//                
+//                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+//                    if (mydata == nil)
+//                    {
+//                        let alertController = UIAlertController(title: "Error", message:
+//                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
+//                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+//                        
+//                        self.presentViewController(alertController, animated: true, completion: nil)
+//                        return
+//                    }
+//                }
+//                
+//            }
+//            task.resume()
+//        }
+        
+        
+        if (self.test != "")
         {
             return "Logged in as " + self.test
         }
         else {
-            return "Unrecognized Username"
+            print(" \(self.test)")
+            return "Not Logged In"
         }
         
     }
@@ -273,11 +282,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var vc : AnyObject! = nil
         
         //Log in
-        connectToOffice365()
+//        connectToOffice365()
+        print(prefs.stringForKey("username"))
         
-        
-        if (prefs.stringForKey("LogInUser") != nil)
-        {
+//        if (prefs.stringForKey("username") != nil)
+//        {
             switch (buttonpressed.link)
             {
                 case "vehiclesearch":
@@ -292,11 +301,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             self.showViewController(vc as! UIViewController, sender: vc)
             AppTable.deselectRowAtIndexPath(indexPath, animated: true)
-        }
-        else
-        {
-            AppTable.cellForRowAtIndexPath(indexPath)?.selected = false
-        }
+//        }
+//        else
+//        {
+//            
+//            AppTable.cellForRowAtIndexPath(indexPath)?.selected = false
+//        }
         
     }
     
@@ -351,50 +361,58 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
      // to provide your credentials which will authenticate you with the service.
      // The application will get an access token in the response.
      
-     baseController.fetchDiscoveryClient { (discoveryClient) -> () in
-     let servicesInfoFetcher = discoveryClient.getservices()
-     
-     // Call the Discovery Service and get back an array of service endpoint information
-     
-     let servicesTask = servicesInfoFetcher.readWithCallback{(serviceEndPointObjects:[AnyObject]!, error:MSODataException!) -> Void in
-     let serviceEndpoints = serviceEndPointObjects as! [MSDiscoveryServiceInfo]
-     
-     if (serviceEndpoints.count > 0) {
-     // Here is where we cache the service URLs returned by the Discovery Service. You may not
-     // need to call the Discovery Service again until either this cache is removed, or you
-     // get an error that indicates that the endpoint is no longer valid.
-     
-     var serviceEndpointLookup = [NSObject: AnyObject]()
-     
-     for serviceEndpoint in serviceEndpoints {
-     serviceEndpointLookup[serviceEndpoint.capability] = serviceEndpoint.serviceEndpointUri
-     }
-     
-     // Keep track of the service endpoints in the user defaults
-     let userDefaults = NSUserDefaults.standardUserDefaults()
-     
-     userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
-     userDefaults.synchronize()
-     
-     dispatch_async(dispatch_get_main_queue()) {
-     let userEmail = userDefaults.stringForKey("LogInUser")!
-     var parts = userEmail.componentsSeparatedByString("@")
-     
-     self.test = String(format:"Hi %@!", parts[0])
-     }
-     }
-     
-     else {
-     dispatch_async(dispatch_get_main_queue()) {
-     NSLog("Error in the authentication: %@", error)
-     let alert: UIAlertView = UIAlertView(title: "Error", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", delegate: self, cancelButtonTitle: "OK")
-     alert.show()
-     }
-     }
-     }
-     
-     servicesTask.resume()
-     }
+         baseController.fetchDiscoveryClient
+        {
+            (discoveryClient) -> () in
+             let servicesInfoFetcher = discoveryClient.getservices()
+             
+             // Call the Discovery Service and get back an array of service endpoint information
+             
+             let servicesTask = servicesInfoFetcher.readWithCallback
+             {
+                (serviceEndPointObjects:[AnyObject]!, error:MSODataException!) -> Void in
+                 let serviceEndpoints = serviceEndPointObjects as! [MSDiscoveryServiceInfo]
+                 
+                 if (serviceEndpoints.count > 0)
+                 {
+                     // Here is where we cache the service URLs returned by the Discovery Service. You may not
+                     // need to call the Discovery Service again until either this cache is removed, or you
+                     // get an error that indicates that the endpoint is no longer valid.
+                     
+                     var serviceEndpointLookup = [NSObject: AnyObject]()
+                     
+                     for serviceEndpoint in serviceEndpoints
+                     {
+                        serviceEndpointLookup[serviceEndpoint.capability] = serviceEndpoint.serviceEndpointUri
+                     }
+                     
+                     // Keep track of the service endpoints in the user defaults
+                     let userDefaults = NSUserDefaults.standardUserDefaults()
+                     
+                     userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
+                     userDefaults.synchronize()
+                     
+                     dispatch_async(dispatch_get_main_queue())
+                     {
+                         let userEmail = userDefaults.stringForKey("LogInUser")!
+                         var parts = userEmail.componentsSeparatedByString("@")
+                         
+                         self.test = String(format:"Hi %@!", parts[0])
+                     }
+                 }
+                 else
+                 {
+                     dispatch_async(dispatch_get_main_queue())
+                     {
+                         NSLog("Error in the authentication: %@", error)
+                         let alert: UIAlertView = UIAlertView(title: "Error", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", delegate: self, cancelButtonTitle: "OK")
+                         alert.show()
+                     }
+                 }
+             }
+                
+                servicesTask.resume()
+         }
      }
 
     

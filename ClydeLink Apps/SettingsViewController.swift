@@ -58,8 +58,8 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     }
     
     @IBAction func SignOut(sender: AnyObject) {  // Sign out button clicked
-        prefs.setObject(nil, forKey: "username")
-        prefs.setObject(nil, forKey: "LogInUser")
+        prefs.setObject("", forKey: "username")
+        prefs.setObject("", forKey: "LogInUser")
         let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
         authenticationManager.clearCredentials()
         
