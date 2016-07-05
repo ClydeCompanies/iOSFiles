@@ -72,11 +72,18 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     @IBAction func SyncButton(sender: AnyObject) {  // Sync button clicked
         ActivityIndicator.startAnimating()
         
-        flag = 0
+//        flag = 0
         
-        getAppStore()
-        
-        
+//        getAppStore()
+        let synced = SyncNow(sync: 1)
+        while (synced.done != 1)
+        {
+//            print(synced.done)
+            //Wait
+        }
+        print(synced.done)
+        ActivityIndicator.stopAnimating()
+        self.LastSync.text = self.prefs.objectForKey("lastsync") as? String
     }
     
     func getAppStore()
