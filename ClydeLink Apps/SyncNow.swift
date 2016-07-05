@@ -15,30 +15,28 @@ class SyncNow: NSObject {
     var Apps: [AnyObject] = []
     var AppStore: [App] = []
     var currentapps: [App] = []
-    var syncnow: Int = 0
     var done: Int = 0
     
-    init(sync: Int) {
+    override init() {
         super.init()
         done = 0
         flag = 0
-        getAppStore(sync)
+        getAppStore()
     }
     
-    func getAppStore(sync: Int)
+    func getAppStore()
     {  // Load apps from online database
-        syncnow = sync
         if let data = prefs.objectForKey("syncedappstore") as? NSData {
             AppStore = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
             sortArray()
             if (AppStore.count == 0)
             {
-                fillAppArray(syncnow)
+                fillAppArray()
             } else {
                 
             }
         } else {
-            fillAppArray(syncnow)
+            fillAppArray()
         }
         if let data = prefs.objectForKey("userapps") as? NSData {
             currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
@@ -48,7 +46,7 @@ class SyncNow: NSObject {
         }
         
     }
-    func fillAppArray(sync: Int) {
+    func fillAppArray() {
         if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
             let request = NSMutableURLRequest(URL: url)
             request.HTTPMethod = "POST"
@@ -153,7 +151,7 @@ class SyncNow: NSObject {
         
         let timeFormatter = NSDateFormatter()
         timeFormatter.dateFormat = "h:mm"
-        if (self.flag == 0 && syncnow == 1)
+        if (self.flag == 0)
         {
             self.prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
             self.prefs.synchronize()

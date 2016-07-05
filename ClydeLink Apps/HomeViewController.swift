@@ -16,27 +16,24 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var test: String = "TEST" // Used for receiving username
     
-    var Apps: [AnyObject] = []  // Saves list of uncompiled apps, saved as raw data
-    var AppStore: [App] = []  // Saves list of all apps
     var flag: Int = 0  // Saves any errors as 1
+    let synced: SyncNow = SyncNow()
     
     var appButtons: Array = [App]()  // Holds clickable buttons
     
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
-    var currentapps: Array = [App]()  // Holds currently selected apps
     
     var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
     
     override func viewDidLoad() {  // Runs when the view loads
         super.viewDidLoad()
-        loadChecked()
         
         test = "TEST"
         
-        for element in currentapps
+        for element in synced.currentapps
         {
             self.appButtons.append(element)
         }
@@ -45,124 +42,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         AppTable.tableFooterView = UIView(frame: CGRectZero)
         
-        print(prefs.boolForKey("launchedBefore"))
-        if prefs.boolForKey("launchedBefore") {
-            //Not first Launch
-        }
-        else {
-            //Sync
-            getAppStore()
-        }
-        
     }
-    
-    
-    //Sync if first launch
-    func getAppStore()
-    {
-        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
-            let request = NSMutableURLRequest(URL: url)
-            request.HTTPMethod = "POST"
-            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
-                guard error == nil && data != nil else {
-                    print("error=\(error)")
-                    return
-                }
-                if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
-                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print("response = \(response)")
-                }
-                let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
-                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
-                    if (mydata == nil)
-                    {
-                        let alertController = UIAlertController(title: "Error", message:
-                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                        self.presentViewController(alertController, animated: true, completion: nil)
-                        return
-                    } else {
-                        let date = NSDate()
-                        
-                        let dateFormatter = NSDateFormatter()
-                        dateFormatter.dateFormat = "MMM d, yyyy"
-                        
-                        let timeFormatter = NSDateFormatter()
-                        timeFormatter.dateFormat = "h:mm"
-                        
-                        self.prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
-                        self.prefs.setBool(true, forKey: "launchedBefore")
-                        self.prefs.synchronize()
-                    }
-                    self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
-                    self.buildAppStore()
-                    
-                }
-            }
-            task.resume()  // Reloads Table View cells as results
-        }
-        self.buildAppStore()
-    }
-    
-    func buildAppStore() {  // Convert raw data into more easily accessible appstore
-        AppStore = []
-        for element in Apps
-        {
-            AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,p: (element["Permissions"] as? Int)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!))
-        }
-        sortArray()
-        updateCurrentApps()
-    }
-    
-    func sortArray() {  // Get accurate order of apps based on "order" from individual apps
-        var sorted: [App] = []
-        for _ in AppStore
-        {
-            var min: App = App(h: "1", t: "1", l: "1", p: 1, s: true, i: "1", u: "1", o: 99)
-            for el in AppStore
-            {
-                if (el.order < min.order)
-                {
-                    min = el
-                }
-            }
-            sorted.append(min)
-            AppStore.removeAtIndex(AppStore.indexOf(min)!)
-        }
-        let appData = NSKeyedArchiver.archivedDataWithRootObject(sorted)
-        prefs.setObject(appData, forKey: "syncedappstore")
-        prefs.synchronize()
-        
-    }
-    
-    func updateCurrentApps() {  // If any names of apps have changed, or if apps were no longer supported, update the user's library
-        if let data = prefs.objectForKey("userapps") as? NSData {
-            var currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
-            for el in currentapps
-            {
-                var found: Bool = false
-                for element in AppStore
-                {
-                    if (el.link == element.link)
-                    {
-                        el.title = element.title
-                        found = true
-                        break
-                    }
-                }
-                if (!found)
-                {
-                    currentapps.removeAtIndex(currentapps.indexOf(el)!)
-                }
-            }
-            let data = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
-            prefs.setObject(data, forKey: "userapps")
-            prefs.synchronize()
-        }
-    }
-
-    
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -220,7 +100,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
                 
-                print(mydata)  // Direct response from server printed to console, for testing
+//                print(mydata)  // Direct response from server printed to console, for testing
                 
                 dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
                     if (mydata == nil)
@@ -270,7 +150,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Determines which buttons should be header buttons and which chould carry on to other views
-        loadChecked()
         
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
             
@@ -296,15 +175,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {  // Delete the selected app
         if editingStyle == .Delete {
-            for element in currentapps
+            for element in synced.currentapps
             {
                 if (element.title == appButtons[indexPath.row].title)
                 {
-                    currentapps.removeAtIndex(currentapps.indexOf(element)!)
+                    synced.currentapps.removeAtIndex(synced.currentapps.indexOf(element)!)
                     break
                 }
             }
-            let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
+            let appData = NSKeyedArchiver.archivedDataWithRootObject(synced.currentapps)
             prefs.setObject(appData, forKey: "userapps")
             prefs.synchronize()
             appButtons.removeAtIndex(indexPath.row)
@@ -328,10 +207,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        currentapps.removeAtIndex(fromIndexPath.row)
 //        currentapps.insert(itemToMove, atIndex: toIndexPath.row)
         var fromindex: Int = 0
-        for element in currentapps
+        for element in synced.currentapps
         {
             if (element.title == itemToMove.title) {
-                fromindex = currentapps.indexOf(element)!
+                fromindex = synced.currentapps.indexOf(element)!
             }
         }
         
@@ -350,14 +229,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         
-        for element in currentapps
+        for element in synced.currentapps
         {
             if (element.title == appButtons[fromIndexPath.row + change].title) {
-                toindex = currentapps.indexOf(element)!
+                toindex = synced.currentapps.indexOf(element)!
             }
         }
-        currentapps.removeAtIndex(fromindex)
-        if (toindex + change >= currentapps.count)
+        synced.currentapps.removeAtIndex(fromindex)
+        if (toindex + change >= synced.currentapps.count)
         {
             change = 0
         }
@@ -365,8 +244,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         {
             change = 0
         }
-        currentapps.insert(itemToMove, atIndex: toindex + change)
-        let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
+        synced.currentapps.insert(itemToMove, atIndex: toindex + change)
+        let appData = NSKeyedArchiver.archivedDataWithRootObject(synced.currentapps)
         prefs.setObject(appData, forKey: "userapps")
         prefs.synchronize()
     }
@@ -432,25 +311,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func loadChecked()
-    {  // Find the array for visible buttons
-        if let data = prefs.objectForKey("userapps") as? NSData {
-            currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
-        } else {
-            currentapps = []
-            fillAppArray(&currentapps)
-        }
-        sortarray(&currentapps)
-    }
-    
-    func fillAppArray(inout currentapps: [App])
-    {
-        currentapps = []
-        //Convert function
-        let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
-        prefs.setObject(appData, forKey: "userapps")
-        prefs.synchronize()
-    }
     func sortarray(inout currentapps: [App])
     {
         for element in currentapps

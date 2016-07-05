@@ -8,7 +8,7 @@
 import UIKit
 
 class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     
     @IBOutlet weak var AppTable: UITableView!
     @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
@@ -18,9 +18,10 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
-    var currentapps: Array = [App]()  // Holds user's selected apps
-    var Apps: Array = [AnyObject]()  // Holds raw data for AppStore
-    var AppStore: [App] = []  // Holds all available Apps
+    //    var currentapps: Array = [App]()  // Holds user's selected apps
+    //    var Apps: Array = [AnyObject]()  // Holds raw data for AppStore
+    //    var AppStore: [App] = []  // Holds all available Apps
+    let synced: SyncNow = SyncNow()
     var AppHeaders: [String] = ["Accounting and Credit", "Employee", "Equipment", "Human Resources"]  // Holds headers
     var AppNumber: [Int] = [0,0,0,0,0]  // Holds number of apps in each section
     var sectionOpen: [Bool] =  [false,false,false,false,false]  // Holds values for which sections are expanded
@@ -29,7 +30,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +39,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         AppTable.tableFooterView = UIView(frame: CGRectZero)
         var apps: Int = 0
         var currentApp: String = ""
-        for element in AppStore {  // Load app numbers
+        for element in synced.AppStore {  // Load app numbers
             if (currentApp == "")
             {
                 currentApp = element.header
@@ -58,9 +59,9 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                 continue
             }
         }
-//        print(AppNumber)
+        //        print(AppNumber)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -68,10 +69,10 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     
     @IBAction func DoneSelected(sender: AnyObject) {  // Done button selected
-//        let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
-//        prefs.setObject(appData, forKey: "userapps")
-//        prefs.synchronize()
-
+        //        let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
+        //        prefs.setObject(appData, forKey: "userapps")
+        //        prefs.synchronize()
+        
         let vc : UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
         //vc.setEditing(true, animated: true)
         self.presentViewController(vc, animated: true, completion: nil)
@@ -79,18 +80,19 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     @IBAction func addButtonClicked(sender: AnyObject) {  // Add button clicked for an app
         loadApps()
+        self.AppTable.reloadData()
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
     
     
     // MARK: Table View Functions
@@ -100,50 +102,51 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Returns each cell
-//        self.ActivityIndicator.stopAnimating()
-//            loadApps()
-            let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
-            cell.Title.text = self.AppStore[indexPath.row + AppNumber[indexPath.section]].title
-            cell.accessoryType = UITableViewCellAccessoryType.None;
-            if let icon = AppStore[indexPath.row + AppNumber[indexPath.section]].icon {
-                let url = NSURL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
-                if let data = NSData(contentsOfURL: url){
-                    if icon != "UNDEFINED" {
-                        let myImage = UIImage(data: data)
-                        cell.Icon.image = myImage
-                    } else {
-                        cell.Icon.image = UIImage(named: "generic-icon")
-                    }
-                }
-                else
-                {
+        //        self.ActivityIndicator.stopAnimating()
+        //            loadApps()
+        let synced: SyncNow = SyncNow()
+        let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
+        cell.Title.text = synced.AppStore[indexPath.row + AppNumber[indexPath.section]].title
+        cell.accessoryType = UITableViewCellAccessoryType.None;
+        if let icon = synced.AppStore[indexPath.row + AppNumber[indexPath.section]].icon {
+            let url = NSURL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
+            if let data = NSData(contentsOfURL: url){
+                if icon != "UNDEFINED" {
+                    let myImage = UIImage(data: data)
+                    cell.Icon.image = myImage
+                } else {
                     cell.Icon.image = UIImage(named: "generic-icon")
                 }
             }
-            var found: Bool = false
-            for el in currentapps
-            {
-                if (el.title == AppStore[indexPath.row + AppNumber[indexPath.section]].title)
-                {
-                    found = true
-                    break
-                }
-            }
-            if found {
-                cell.addButton.hidden = true
-            }
             else
             {
-                cell.addButton.hidden = false
+                cell.Icon.image = UIImage(named: "generic-icon")
             }
+        }
+        var found: Bool = false
+        for el in synced.currentapps
+        {
+            if (el.title == synced.AppStore[indexPath.row + AppNumber[indexPath.section]].title)
+            {
+                found = true
+                break
+            }
+        }
+        if found {
+            cell.addButton.hidden = true
+        }
+        else
+        {
+            cell.addButton.hidden = false
+        }
         AppCount += 1
-                return cell
+        return cell
         
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns number of cells in each category
         var count: Int = 0
-        for el in AppStore
+        for el in synced.AppStore
         {
             if (el.header == AppHeaders[section])
             {
@@ -189,7 +192,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         sectionOpen[sender.tag] = !sectionOpen[sender.tag]
         self.AppTable.reloadData()
     }
-
+    
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
@@ -199,10 +202,10 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
-        let buttonpressed = self.AppStore[indexPath.row]
+        let buttonpressed = synced.AppStore[indexPath.row]
         var vc : AnyObject! = nil
         
-//        Log In
+        //        Log In
         connectToOffice365()
         
         if (prefs.stringForKey("LogInUser") != nil)
@@ -241,116 +244,15 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func loadApps() {  // Get all apps
-        if (AppStore.count == 0) {
-            if let data = prefs.objectForKey("syncedappstore") as? NSData {
-                AppStore = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
-                sortArray()
-                if (AppStore.count == 0)
-                {
-                    fillAppArray()
-                }
-                AppTable.reloadData()
-            } else {
-                fillAppArray()
-            }
+        let synced = SyncNow()
+        while (synced.done != 1)
+        {
+            //Wait
         }
-        if let data = prefs.objectForKey("userapps") as? NSData {
-            currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
-        } else {
-            currentapps = []
-        }
-    }
-    
-    func fillAppArray()
-    {  // Get apps from online database
-        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
-            
-            let request = NSMutableURLRequest(URL: url)
-            
-            request.HTTPMethod = "POST"
-            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
-                guard error == nil && data != nil else { // check for fundamental networking error
-                    print("error=\(error)")
-                    self.flag = 1
-                    
-                    let alertController = UIAlertController(title: "Error", message:
-                        "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                    self.presentViewController(alertController, animated: true, completion: nil)
-                    return
-                }
-                
-                if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
-                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print("response = \(response)")
-                }
-                
-                let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
-                
-                print(mydata)  // Direct response from server printed to console, for testing
-                
-                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
-                    if (mydata == nil)
-                    {
-                        self.flag = 1
-                        self.AppTable.reloadData()
-                        
-                        let alertController = UIAlertController(title: "Error", message:
-                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                        self.presentViewController(alertController, animated: true, completion: nil)
-                        return
-                    }
-                    self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
-                    self.buildAppStore()
-                    self.AppTable.reloadData()
-                }
-            }
-            task.resume()  // Reloads Table View cells as results
-        }
-        self.buildAppStore()
+        
         AppTable.reloadData()
     }
     
-    func buildAppStore() {  // Convert raw data to more accessible AppStore
-        AppStore = []
-        for element in Apps
-        {
-            AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,p: (element["Permissions"] as? Int)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!))
-        }
-        sortArray()
-    }
-    func sortArray()
-    {  // Sort array based on individual apps' "order" property
-//        print("Unsorted")
-//        for el in AppStore
-//        {
-//            print(el.title + ", " + String(el.order))
-//        }
-        var sorted: [App] = []
-        for _ in AppStore
-        {
-            var min: App = App(h: "1", t: "1", l: "1", p: 1, s: true, i: "1", u: "1", o: 99)
-            for el in AppStore
-            {
-                if (el.order < min.order)
-                {
-                    min = el
-                }
-            }
-            sorted.append(min)
-            AppStore.removeAtIndex(AppStore.indexOf(min)!)
-        }
-        AppStore = sorted
-//        print("\nSorted")
-//        for el in AppStore
-//        {
-//            print(el.title + ", " + String(el.order))
-//        }
-        let appData = NSKeyedArchiver.archivedDataWithRootObject(AppStore)
-        prefs.setObject(appData, forKey: "syncedappstore")
-        prefs.synchronize()
-    }
     
     
     func connectToOffice365() {

@@ -75,7 +75,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
 //        flag = 0
         
 //        getAppStore()
-        let synced = SyncNow(sync: 1)
+        let synced = SyncNow()
         while (synced.done != 1)
         {
             //Wait
