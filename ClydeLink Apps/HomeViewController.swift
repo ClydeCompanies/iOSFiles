@@ -42,6 +42,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         AppTable.tableFooterView = UIView(frame: CGRectZero)
         
+        
+        if (!prefs.boolForKey("launchedbefore"))
+        {
+            let synced = SyncNow(sync: 1)
+            while (synced.done != 1)
+            {
+                //Wait
+            }
+        } else {
+            //Not first launch
+            prefs.setBool(true, forKey: "launchedbefore")
+            prefs.synchronize()
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {

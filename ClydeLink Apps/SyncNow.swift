@@ -16,12 +16,21 @@ class SyncNow: NSObject {
     var AppStore: [App] = []
     var currentapps: [App] = []
     var done: Int = 0
+    var syncnow: Int = 0
     
     override init() {
         super.init()
+        syncnow = 0
         done = 0
         flag = 0
         getAppStore()
+    }
+    init(sync: Int) {
+        super.init()
+        syncnow = 1
+        done = 0
+        flag = 0
+        fillAppArray()
     }
     
     func getAppStore()
@@ -151,7 +160,7 @@ class SyncNow: NSObject {
         
         let timeFormatter = NSDateFormatter()
         timeFormatter.dateFormat = "h:mm"
-        if (self.flag == 0)
+        if (self.flag == 0 && syncnow == 1)
         {
             self.prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
             self.prefs.synchronize()

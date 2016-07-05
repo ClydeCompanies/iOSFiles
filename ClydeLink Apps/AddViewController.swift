@@ -20,7 +20,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
     //    var currentapps: Array = [App]()  // Holds user's selected apps
     //    var Apps: Array = [AnyObject]()  // Holds raw data for AppStore
-    //    var AppStore: [App] = []  // Holds all available Apps
+    var AppStore: [App] = []  // Holds all available Apps
     let synced: SyncNow = SyncNow()
     var AppHeaders: [String] = ["Accounting and Credit", "Employee", "Equipment", "Human Resources"]  // Holds headers
     var AppNumber: [Int] = [0,0,0,0,0]  // Holds number of apps in each section
@@ -202,8 +202,35 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
-        let buttonpressed = synced.AppStore[indexPath.row]
+        
+        let synced: SyncNow = SyncNow()
+        
+        var buttonrow = 0
+        
+        for i in 0 ..< indexPath.row
+        {
+            buttonrow += AppNumber[i]
+        }
+        
+        let buttonpressed = self.AppStore[indexPath.row + buttonrow]
         var vc : AnyObject! = nil
+        var alreadyowns: Bool = false
+        
+        for element in synced.currentapps {
+            if (element.title == buttonpressed.title)
+            {
+                alreadyowns = true
+                break
+            }
+        }
+        
+        if (!alreadyowns) {
+            synced.currentapps.append(buttonpressed)
+            let appData = NSKeyedArchiver.archivedDataWithRootObject(synced.currentapps)
+            prefs.setObject(appData, forKey: "userapps")
+            prefs.synchronize()
+        }
+        
         
         //        Log In
         connectToOffice365()
@@ -214,10 +241,13 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             {
             case "vehiclesearch":
                 vc = self.storyboard!.instantiateViewControllerWithIdentifier("Truck Search")
-                break;
+                break
             default:
+                print("***")
+                print(buttonpressed.link)
+                print("***")
                 vc = self.storyboard!.instantiateViewControllerWithIdentifier("Construction")
-                break;
+                break
             }
             
             prefs.setObject(buttonpressed.URL, forKey: "selectedButton")
