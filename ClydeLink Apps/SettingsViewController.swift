@@ -168,15 +168,22 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                         self.JobTitle.text = self.EmployeeInfo[0]["JobTitle"] as? String
                         self.CompanyName.text = self.EmployeeInfo[0]["CompanyName"] as? String
                         
-                        self.picLocation = (self.EmployeeInfo[0]["PicLocation"] as? String)!
-                        if let data = NSData(contentsOfURL: NSURL(string: "https://clydewap.clydeinc.com/images/Small/\(self.picLocation)")!)
+                        if (self.EmployeeInfo[0]["PicLocation"] is NSNull)
                         {
-                            let myImage = UIImage(data: data)
-                            self.UserPicture.image = myImage
+                            self.UserPicture.image = UIImage(named: "person-generic")
                         }
                         else
                         {
-                            self.UserPicture.image = UIImage(named: "person-generic")
+                            self.picLocation = (self.EmployeeInfo[0]["PicLocation"] as? String)!
+                            if let data = NSData(contentsOfURL: NSURL(string: "https://clydewap.clydeinc.com/images/Small/\(self.picLocation)")!)
+                            {
+                                let myImage = UIImage(data: data)
+                                self.UserPicture.image = myImage
+                            }
+                            else
+                            {
+                                self.UserPicture.image = UIImage(named: "person-generic")
+                            }
                         }
                         
                     }

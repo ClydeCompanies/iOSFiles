@@ -58,18 +58,29 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         if (WebView.request != nil)
         {
             print("URL = " + webView.request!.URL!.absoluteString)
-        }
-        if (request.URL?.absoluteString == "fs.clydeinc.com")
-        {
             
-            let value: NSString = WebView.stringByEvaluatingJavaScriptFromString("document.getElementById('cred_userid_inputtext').value")!;
-            
-            if (prefs.stringForKey("username") == "")
+            if (webView.request!.URL?.absoluteString != "login.microsoftonline.com")
             {
-                prefs.setObject(value, forKey: "username")
+                prefs.setObject("", forKey: "username")
             }
-            print(prefs.objectForKey("username"))
         }
+        
+//        if (request.URL?.absoluteString == "fs.clydeinc.com")
+//        {
+//            
+//            let value: NSString = WebView.stringByEvaluatingJavaScriptFromString("document.getElementById('cred_userid_inputtext').value")!;
+//            
+//            if (prefs.stringForKey("username") == "")
+//            {
+//                prefs.setObject(value, forKey: "username")
+//            }
+//            print(prefs.objectForKey("username"))
+//        }
+        
+//        if (request.URL?.absoluteString == "fs.clydeinc.com")
+//        {
+//            prefs.setObject("", forKey: "username")
+//        }
         return true
     }
     
@@ -93,10 +104,6 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             print(prefs.stringForKey("username"))
             print("****")
             prefs.synchronize()
-        }
-        if (false)
-        {
-            prefs.setObject("", forKey: "username")
         }
 //        else{
 //            prefs.setObject("", forKey: "username")
