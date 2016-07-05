@@ -94,6 +94,10 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             print("****")
             prefs.synchronize()
         }
+        if (false)
+        {
+            prefs.setObject("", forKey: "username")
+        }
 //        else{
 //            prefs.setObject("", forKey: "username")
 //        }
