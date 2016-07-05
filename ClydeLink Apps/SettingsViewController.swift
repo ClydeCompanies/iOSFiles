@@ -20,6 +20,8 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     
     var EmployeeInfo: Array<AnyObject> = []  // Holds information about current user
     
+    var picLocation: String = ""
+    
     var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
     
@@ -178,9 +180,14 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                         self.JobTitle.text = self.EmployeeInfo[0]["JobTitle"] as? String
                         self.CompanyName.text = self.EmployeeInfo[0]["CompanyName"] as? String
                         
-                        if (self.EmployeeInfo[0]["PicLocation"] != nil)
+                        if (self.EmployeeInfo[0]["PicLocation"] is NSNull)
                         {
-                            if let data = NSData(contentsOfURL: NSURL(string: (self.EmployeeInfo[0]["PicLocation"] as? String)!)!)
+                            self.UserPicture.image = UIImage(named: "person-generic")
+                        }
+                        else
+                        {
+                            self.picLocation = (self.EmployeeInfo[0]["PicLocation"] as? String)!
+                            if let data = NSData(contentsOfURL: NSURL(string: "https://clydewap.clydeinc.com/images/Small/\(self.picLocation)")!)
                             {
                                 let myImage = UIImage(data: data)
                                 self.UserPicture.image = myImage
@@ -189,10 +196,6 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                             {
                                 self.UserPicture.image = UIImage(named: "person-generic")
                             }
-                        }
-                        else
-                        {
-                            self.UserPicture.image = UIImage(named: "person-generic")
                         }
                         
                     }
