@@ -60,14 +60,26 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     }
     
     @IBAction func SignOut(sender: AnyObject) {  // Sign out button clicked
-        prefs.setObject("", forKey: "username")
-        prefs.setObject("", forKey: "LogInUser")
-        let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
-        authenticationManager.clearCredentials()
+        let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertControllerStyle.Alert)
         
-        let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
-        self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
-        prefs.synchronize()
+        alert.addAction(UIAlertAction(title: "Confirm", style: .Default, handler: { (action: UIAlertAction!) in
+            self.prefs.setObject("", forKey: "username")
+            self.prefs.setObject("", forKey: "LogInUser")
+            self.prefs.setObject([], forKey: "userapps")
+            let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
+            authenticationManager.clearCredentials()
+            
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
+            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+            self.prefs.synchronize()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction!) in
+            print("Phew!")
+        }))
+        
+        presentViewController(alert, animated: true, completion: nil)
+        
         
     }
     
