@@ -82,7 +82,8 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             let urlComponents = NSURLComponents(string: webView.request!.URL!.absoluteString)
             let queryItems = urlComponents?.queryItems
             let param1 = queryItems?.filter({$0.name == "username"}).first
-            
+            print("PARAM: ")
+            print(param1)
             if (param1 != nil)
             {
                 prefs.setObject(param1?.value!, forKey: "username")
