@@ -133,16 +133,12 @@ class SyncNow: NSObject {
                     if (el.link == element.link)
                     {
                         el.title = element.title
-                        print("Found")
                         found = true
                         break
                     }
                 }
                 if (!found)
                 {
-                    print("Uh oh")
-                    print("AppStore:")
-                    print(AppStore)
                     currentapps.removeAtIndex(currentapps.indexOf(el)!)
                 }
             }
