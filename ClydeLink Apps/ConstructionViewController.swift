@@ -39,6 +39,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         {
             print("URL = " + webView.request!.URL!.absoluteString)
         }
+        ActivityIndicator.startAnimating()
         
     }
     
@@ -72,7 +73,29 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         return true
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {  // Web Page is displayed, stop activity indicator
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        print("Response = " + webView.request!.URL!.absoluteString)
+        if (webView.request!.URL!.absoluteString.containsString("fs.clydeinc.com"))
+        {
+            //get the username employee is trying to login with from the url
+            let urlComponents = NSURLComponents(string: webView.request!.URL!.absoluteString)
+            let queryItems = urlComponents?.queryItems
+            let param1 = queryItems?.filter({$0.name == "username"}).first
+            
+            if (param1 != nil)
+            {
+                prefs.setObject(param1?.value!, forKey: "username")
+            }
+            print("****")
+            print("USERNAME")
+            print(prefs.objectForKey("username"))
+            print("****")
+        }
+        else{
+            prefs.setObject("", forKey: "username")
+        }
+        
         self.ActivityIndicator.stopAnimating()
     }
 
