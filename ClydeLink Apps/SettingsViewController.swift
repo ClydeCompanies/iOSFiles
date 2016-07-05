@@ -157,6 +157,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             AppStore.removeAtIndex(AppStore.indexOf(min)!)
         }
         let appData = NSKeyedArchiver.archivedDataWithRootObject(sorted)
+        AppStore = sorted
         prefs.setObject(appData, forKey: "syncedappstore")
         prefs.synchronize()
         if (AppStore != []) {
@@ -177,6 +178,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                     if (el.link == element.link)
                     {
                         el.title = element.title
+                        print("Found")
                         found = true
                         break
                     }
