@@ -20,6 +20,7 @@ class SyncNow: NSObject {
     
     init(sync: Int) {
         super.init()
+        done = 0
         flag = 0
         getAppStore(sync)
     }
@@ -33,15 +34,19 @@ class SyncNow: NSObject {
             if (AppStore.count == 0)
             {
                 fillAppArray(syncnow)
+            } else {
+                
             }
         } else {
             fillAppArray(syncnow)
         }
         if let data = prefs.objectForKey("userapps") as? NSData {
             currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
+            done = 1
         } else {
             currentapps = []
         }
+        
     }
     func fillAppArray(sync: Int) {
         if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
@@ -65,26 +70,18 @@ class SyncNow: NSObject {
                         self.flag = 1
                         return
                     } else {
-                        let date = NSDate()
                         
-                        let dateFormatter = NSDateFormatter()
-                        dateFormatter.dateFormat = "MMM d, yyyy"
-                        
-                        let timeFormatter = NSDateFormatter()
-                        timeFormatter.dateFormat = "h:mm"
-                        if (self.flag == 0 && sync == 1)
-                        {
-                            self.prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
-                            self.prefs.synchronize()
-                        }
+                        //If
                     }
                     self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
                     self.buildAppStore()
                 }
             }
+            
+            self.buildAppStore()
             task.resume()  // Reloads Table View cells as results
         }
-        self.buildAppStore()
+        
     }
     
     func buildAppStore() {  // Convert raw data into more accessible AppStore
@@ -118,6 +115,8 @@ class SyncNow: NSObject {
         prefs.synchronize()
         if (AppStore != []) {
             updateCurrentApps()
+        } else {
+            done = 1
         }
     }
     
@@ -150,6 +149,18 @@ class SyncNow: NSObject {
             let data = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
             prefs.setObject(data, forKey: "userapps")
             prefs.synchronize()
+        }
+        let date = NSDate()
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "MMM d, yyyy"
+        
+        let timeFormatter = NSDateFormatter()
+        timeFormatter.dateFormat = "h:mm"
+        if (self.flag == 0 && syncnow == 1)
+        {
+            self.prefs.setObject("Last Sync: " + dateFormatter.stringFromDate(date) + " " + timeFormatter.stringFromDate(date), forKey: "lastsync")
+            self.prefs.synchronize()
         }
         done = 1
     }

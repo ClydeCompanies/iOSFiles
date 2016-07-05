@@ -78,8 +78,11 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         let synced = SyncNow(sync: 1)
         while (synced.done != 1)
         {
+//            print(synced.done)
             //Wait
         }
+        print(synced.done)
+        ActivityIndicator.stopAnimating()
         self.LastSync.text = self.prefs.objectForKey("lastsync") as? String
     }
     
@@ -208,7 +211,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
         userDefaults.synchronize()
         
-        let userEmail = /*userDefaults.stringForKey("username")!*/ "training0"
+        let userEmail = userDefaults.stringForKey("username")!
         var parts = userEmail.componentsSeparatedByString("@")
         
         let uName: String = String(format:"%@", parts[0])
