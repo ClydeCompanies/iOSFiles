@@ -72,11 +72,15 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     @IBAction func SyncButton(sender: AnyObject) {  // Sync button clicked
         ActivityIndicator.startAnimating()
         
-        flag = 0
+//        flag = 0
         
-        getAppStore()
-        
-        
+//        getAppStore()
+        let synced = SyncNow(sync: 1)
+        while (synced.done != 1)
+        {
+            //Wait
+        }
+        self.LastSync.text = self.prefs.objectForKey("lastsync") as? String
     }
     
     func getAppStore()
@@ -204,7 +208,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
         userDefaults.synchronize()
         
-        let userEmail = userDefaults.stringForKey("LogInUser")!
+        let userEmail = /*userDefaults.stringForKey("username")!*/ "training0"
         var parts = userEmail.componentsSeparatedByString("@")
         
         let uName: String = String(format:"%@", parts[0])
@@ -254,7 +258,6 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                         
                         return
                     }
-                    
                     self.EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
                     let employeedata = NSKeyedArchiver.archivedDataWithRootObject(self.EmployeeInfo)
                     self.prefs.setObject(employeedata, forKey: "userinfo")
