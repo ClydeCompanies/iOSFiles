@@ -203,62 +203,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
         
-        let synced: SyncNow = SyncNow()
-        
-        var buttonrow = 0
-        
-        for i in 0 ..< indexPath.row
-        {
-            buttonrow += AppNumber[i]
-        }
-        
-        let buttonpressed = self.AppStore[indexPath.row + buttonrow]
-        var vc : AnyObject! = nil
-        var alreadyowns: Bool = false
-        
-        for element in synced.currentapps {
-            if (element.title == buttonpressed.title)
-            {
-                alreadyowns = true
-                break
-            }
-        }
-        
-        if (!alreadyowns) {
-            synced.currentapps.append(buttonpressed)
-            let appData = NSKeyedArchiver.archivedDataWithRootObject(synced.currentapps)
-            prefs.setObject(appData, forKey: "userapps")
-            prefs.synchronize()
-        }
-        
-        
-//        Log In
-//        connectToOffice365()
-        
-//        if (prefs.stringForKey("username") != nil)
-//        {
-            switch (buttonpressed.link)
-            {
-            case "vehiclesearch":
-                vc = self.storyboard!.instantiateViewControllerWithIdentifier("Truck Search")
-                break
-            default:
-                print("***")
-                print(buttonpressed.link)
-                print("***")
-                vc = self.storyboard!.instantiateViewControllerWithIdentifier("Construction")
-                break
-            }
-            
-            prefs.setObject(buttonpressed.URL, forKey: "selectedButton")
-            
-            self.showViewController(vc as! UIViewController, sender: vc)
-            AppTable.deselectRowAtIndexPath(indexPath, animated: true)
-//        }
-//        else
-//        {
-//            AppTable.cellForRowAtIndexPath(indexPath)?.selected = false
-//        }
+        AppTable.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
