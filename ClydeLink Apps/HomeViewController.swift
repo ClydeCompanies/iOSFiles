@@ -50,7 +50,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         for el in synced.currentapps
         {
             //*********************** Change this **************************
-            if (prefs.arrayForKey("permissions")!.contains(el.title) == false && prefs.arrayForKey("permissions")!.contains(el.header) == false && el.header != "All")
+            if (prefs.arrayForKey("permissions")!.contains(el.title) == false && prefs.arrayForKey("permissions")!.contains(el.header) == false && el.header.caseInsensitiveCompare("ALL") == NSComparisonResult.OrderedSame)
             {
                 synced.currentapps.removeAtIndex(synced.currentapps.indexOf(el)!)
             }
