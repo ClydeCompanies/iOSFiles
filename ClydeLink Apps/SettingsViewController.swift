@@ -44,6 +44,13 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
 //            uName = prefs.stringForKey("username")!
 //        }
 //        userName.text = uName
+        
+        if (prefs.stringForKey("username") == "")
+        {
+            userName.text = "Not logged in"
+            JobTitle.text = ""
+            CompanyName.text = ""
+        }
         var lastdate = prefs.objectForKey("lastsync") as? [String]
         
         let lastsync = "Last Sync: " + lastdate![0] + " " + lastdate![1]

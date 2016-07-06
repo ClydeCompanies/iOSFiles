@@ -144,8 +144,6 @@ class SyncNow: NSObject {
                 AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,p: (element["Permissions"] as? Int)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!))
             }
         }
-        print("***")
-        print(AppStore.count)
         complete()
     }
     

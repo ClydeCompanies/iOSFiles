@@ -50,13 +50,12 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         synced = SyncNow()
         
         AppHeaders = (prefs.arrayForKey("headers") as? [String])!
-        print(AppHeaders)
+        
         for _ in AppHeaders
         {
             sectionOpen.append(false)
         }
         
-        print(sectionOpen)
         
         AppTable.tableFooterView = UIView(frame: CGRectZero)
         var apps: Int = 0
