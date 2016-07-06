@@ -22,9 +22,9 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     //    var Apps: Array = [AnyObject]()  // Holds raw data for AppStore
     var AppStore: [App] = []  // Holds all available Apps
     let synced: SyncNow = SyncNow()
-    var AppHeaders: [String] = ["Accounting and Credit", "Employee", "Equipment", "Human Resources"]  // Holds headers
-    var AppNumber: [Int] = [0,0,0,0,0]  // Holds number of apps in each section
-    var sectionOpen: [Bool] =  [false,false,false,false,false]  // Holds values for which sections are expanded
+    var AppHeaders: [String] = []  // Holds headers
+    var AppNumber: [Int] = [0]  // Holds number of apps in each section
+    var sectionOpen: [Bool] =  [false]  // Holds values for which sections are expanded
     
     var flag: Int = 0  // Keeps track of any errors
     
@@ -34,12 +34,20 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         loadApps()
+        
+        
         
         AppTable.tableFooterView = UIView(frame: CGRectZero)
         var apps: Int = 0
         var currentApp: String = ""
         for element in synced.AppStore {  // Load app numbers
+            if (!AppHeaders.contains(element.header))
+            {
+                AppHeaders.append(element.header)
+                sectionOpen.append(false)
+            }
             if (currentApp == "")
             {
                 currentApp = element.header
@@ -53,7 +61,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             }
             else
             {
-                self.AppNumber[Int(floor(element.order)) - 1] = apps + AppNumber[Int(floor(element.order)) - 2]
+                self.AppNumber.append(self.AppNumber.last! + apps)
                 currentApp = element.header
                 apps = 1
                 continue
