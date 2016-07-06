@@ -107,6 +107,44 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     override func viewDidAppear(animated: Bool) {
+//        prefs.synchronize()
+//        if (prefs.stringForKey("username") == "")
+//        {
+//            AppTable.reloadData()
+//        }
+        
+        if (prefs.stringForKey("username") == "")
+        {
+            
+            let alert = UIAlertController(title: "Log In", message: "Please log in to view apps", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            alert.addAction(UIAlertAction(title: "Log In", style: .Default, handler: { (action: UIAlertAction!) in
+                self.prefs.setObject("Loading...", forKey: "username")
+                self.connectToOffice365({
+                    var uName: String = ""
+                    uName = self.prefs.stringForKey("LogInUser")!
+                    self.prefs.synchronize()
+                    print("Username Added: \(uName)")
+                    
+                    self.prefs.setObject(uName, forKey: "username")
+                    self.prefs.synchronize()
+                    
+                    if (self.prefs.stringForKey("username") == "Loading...")
+                    {
+                        self.prefs.setObject("", forKey: "username")
+                    }
+                    self.AppTable.reloadData()
+                    
+                })
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Not Now", style: .Cancel, handler: { (action: UIAlertAction!) in
+                
+            }))
+            
+            presentViewController(alert, animated: true, completion: nil)
+        }
+        
         if (components.day >= 7)
         {
             let alert = UIAlertController(title: "Sync Now?", message: "It has been 7 days since your last sync.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -504,7 +542,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
-     func connectToOffice365() {
+    func connectToOffice365(complete: () -> Void) {
      // Connect to the service by discovering the service endpoints and authorizing
      // the application to access the user's email. This will store the user's
      // service URLs in a property list to be accessed when calls are made to the
@@ -553,6 +591,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                          var parts = userEmail.componentsSeparatedByString("@")
                          
                          self.test = String(format:"Hi %@!", parts[0])
+                        complete()
                      }
                  }
                  else
@@ -564,10 +603,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                          alert.show()
                      }
                  }
+                
+                
              }
                 
                 servicesTask.resume()
+            
          }
+        
      }
 
     
