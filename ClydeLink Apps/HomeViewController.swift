@@ -85,6 +85,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             prefs.setObject(["Vehicle Search", "New Hire", "Fleet Search"], forKey: "permissions")
         }
         
+//        print(prefs.)
+        
+        for el in synced.currentapps
+        {
+            if (prefs.arrayForKey("permissions")!.contains(el.title) == false)
+            {
+                synced.currentapps.removeAtIndex(synced.currentapps.indexOf(el)!)
+            }
+        }
+        let appData = NSKeyedArchiver.archivedDataWithRootObject(synced.currentapps)
+        prefs.setObject(appData, forKey: "userapps")
+        prefs.synchronize()
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -136,7 +149,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        }
         
         userDefaults.synchronize()
-        if (userDefaults.stringForKey("username") != nil)
+        if (userDefaults.stringForKey("username") != "")
         {
             let userEmail = userDefaults.stringForKey("username")!
             var parts = userEmail.componentsSeparatedByString("@")

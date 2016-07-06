@@ -9,6 +9,7 @@ import UIKit
 
 class SettingsViewController: UIViewController {  // Basics of Settings screen, will be added to when decision has been made as to how we must proceed with the development of the screen
 
+    @IBOutlet weak var SignOutButton: UIBarButtonItem!
     @IBOutlet weak var versionNumber: UILabel!
     @IBOutlet weak var buildNumber: UILabel!
     @IBOutlet weak var userName: UILabel!
@@ -38,18 +39,13 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         if let build = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
             buildNumber.text = "Build: " + build  // Build Number as found in project info
         }
-//        var uName: String = "Username"
-//        if (prefs.stringForKey("username") != nil)
-//        {
-//            uName = prefs.stringForKey("username")!
-//        }
-//        userName.text = uName
         
         if (prefs.stringForKey("username") == "")
         {
             userName.text = "Not logged in"
             JobTitle.text = ""
             CompanyName.text = ""
+            SignOutButton = nil
         }
         var lastdate = prefs.objectForKey("lastsync") as? [String]
         
@@ -76,6 +72,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             self.prefs.setObject("", forKey: "username")
             self.prefs.setObject("", forKey: "LogInUser")
             self.prefs.setObject([], forKey: "userapps")
+            self.prefs.setObject(nil, forKey: "permissions")
             let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
             authenticationManager.clearCredentials()
             

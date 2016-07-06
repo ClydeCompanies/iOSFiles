@@ -173,7 +173,6 @@ class SyncNow: NSObject {
         prefs.setObject(appData, forKey: "syncedappstore")
         
         if (AppHeaders.count > 0) {
-            print("* " + String(AppHeaders))
             prefs.setObject(AppHeaders, forKey: "headers")
         }
         prefs.synchronize()

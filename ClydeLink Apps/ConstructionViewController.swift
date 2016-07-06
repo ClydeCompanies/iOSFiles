@@ -48,7 +48,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     func webViewDidStartLoad(webView: UIWebView) {  // Start loading web page
         if (WebView.request != nil)
         {
-            print("URL = " + webView.request!.URL!.absoluteString)
+//            print("URL = " + webView.request!.URL!.absoluteString)
         }
         ActivityIndicator.startAnimating()
         
@@ -68,8 +68,8 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         
         if (WebView.request != nil)
         {
-            print("URL = " + webView.request!.URL!.absoluteString)
-//            
+//            print("URL = " + webView.request!.URL!.absoluteString)
+//
 //            if (webView.request!.URL?.absoluteString != "login.microsoftonline.com")
 //            {
 //                prefs.setObject("", forKey: "username")
@@ -97,7 +97,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     
     
     func webViewDidFinishLoad(webView: UIWebView) {
-        print("Response = " + webView.request!.URL!.absoluteString)
+//        print("Response = " + webView.request!.URL!.absoluteString)
 //        let link = prefs.stringForKey("selectedButton")
         if (webView.request!.URL!.absoluteString.containsString("fs.clydeinc.com"))
         {
@@ -105,22 +105,82 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             let urlComponents = NSURLComponents(string: webView.request!.URL!.absoluteString)
             let queryItems = urlComponents?.queryItems
             let param1 = queryItems?.filter({$0.name == "username"}).first
-            print("PARAM: ")
-            print(param1)
+//            print("PARAM: ")
+//            print(param1)
             if (param1 != nil)
             {
                 tempUser = (param1?.value!)!
             }
-            print("****")
-            print("USERNAME")
-            print(prefs.stringForKey("username"))
-            print("****")
+          
             prefs.synchronize()
         }
-        if (webView.request!.URL!.absoluteString.containsString("https://clydelink.sharepoint.com/apps"))
+        if (webView.request!.URL!.absoluteString.containsString("https://clydelink.sharepoint.com/apps") && prefs.stringForKey("username") == "")
         {
             print("SAVED")
             prefs.setObject(tempUser, forKey: "username")
+            let userEmail = tempUser
+            var parts = userEmail.componentsSeparatedByString("@")
+            tempUser = String(parts[0])
+            
+            
+            if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetUserProfile?username=\(tempUser)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+                
+                let request = NSMutableURLRequest(URL: url)
+                
+                //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
+                request.HTTPMethod = "POST"
+                let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+                    guard error == nil && data != nil else { // check for fundamental networking error
+                        print("error=\(error)")
+//                        self.flag = 1
+                        
+                        let alertController = UIAlertController(title: "Error", message:
+                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
+                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                        self.presentViewController(alertController, animated: true, completion: nil)
+                        
+                        
+                        return
+                    }
+                    
+                    if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+                        print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                        print("response = \(response)")
+                    }
+                    
+                    let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
+                    
+                    print(" My Data: ")
+                    print(mydata)  // Direct response from server printed to console, for testing
+                    
+                    dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+                        if (mydata == nil)
+                        {
+                            //                        self.activityIndicator.stopAnimating()  // Ends spinner
+                            //                        self.activityIndicator.hidden = true
+//                            self.flag = 1
+                            
+                            let alertController = UIAlertController(title: "Error", message:
+                                "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
+                            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                            
+                            self.presentViewController(alertController, animated: true, completion: nil)
+                            
+                            return
+                        }
+                        
+                        let EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
+                        let employeedata = NSKeyedArchiver.archivedDataWithRootObject(EmployeeInfo)
+                        self.prefs.setObject(employeedata, forKey: "userinfo")
+                        let perm = EmployeeInfo[0]["Permissions"]
+                        self.prefs.setObject(perm, forKey: "permissions")
+                        print(self.prefs.arrayForKey("permissions"))
+                        self.prefs.synchronize()
+                    }
+                    
+                }
+                task.resume()
+            }
         }
         
 //        else{

@@ -580,6 +580,7 @@
                         <outlet property="CompanyName" destination="ofx-PZ-pdQ" id="w41-c6-5MN"/>
                         <outlet property="JobTitle" destination="agZ-de-xoX" id="A5g-G0-PSI"/>
                         <outlet property="LastSync" destination="CwQ-hL-pPe" id="hse-oq-Utz"/>
+                        <outlet property="SignOutButton" destination="2zA-2n-cwM" id="7mv-lI-m0T"/>
                         <outlet property="UserPicture" destination="CN3-WD-cqD" id="72M-vd-gbM"/>
                         <outlet property="buildNumber" destination="YYS-Lx-6Eg" id="E1j-fe-ypz"/>
                         <outlet property="userName" destination="gPu-jM-94K" id="1Hf-hB-GFf"/>
