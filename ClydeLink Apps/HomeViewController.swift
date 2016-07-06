@@ -10,6 +10,8 @@ import UIKit
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     
+    @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var LoggingIn: UILabel!
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var rightButton: UIBarButtonItem!
     @IBOutlet weak var AppTable: UITableView!
@@ -34,6 +36,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {  // Runs when the view loads
         super.viewDidLoad()
+        
+        LoggingIn.hidden = true
         
         test = "TEST"
         
@@ -120,6 +124,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             alert.addAction(UIAlertAction(title: "Log In", style: .Default, handler: { (action: UIAlertAction!) in
                 self.prefs.setObject("Loading...", forKey: "username")
+                self.ActivityIndicator.startAnimating()
+                self.LoggingIn.hidden = false
                 self.connectToOffice365({
                     var uName: String = ""
                     uName = self.prefs.stringForKey("LogInUser")!
@@ -134,6 +140,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                         self.prefs.setObject("", forKey: "username")
                     }
                     self.AppTable.reloadData()
+                    self.LoggingIn.hidden = true
+                    self.ActivityIndicator.stopAnimating()
                     
                 })
             }))
