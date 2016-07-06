@@ -15,6 +15,8 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
     @IBOutlet weak var NavBar: UINavigationBar!
     
+    var tempUser: String = ""
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -22,7 +24,16 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         // Do any additional setup after loading the view.
         
         loadAddressURL()
-        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        if ((WebView.request?.URL?.absoluteString.containsString("http")) == nil)
+        {
+            ActivityIndicator.stopAnimating()
+            
+            let vc : UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
+            self.presentViewController(vc, animated: true, completion: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,6 +98,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     
     func webViewDidFinishLoad(webView: UIWebView) {
         print("Response = " + webView.request!.URL!.absoluteString)
+//        let link = prefs.stringForKey("selectedButton")
         if (webView.request!.URL!.absoluteString.containsString("fs.clydeinc.com"))
         {
             //get the username employee is trying to login with from the url
@@ -97,7 +109,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             print(param1)
             if (param1 != nil)
             {
-                prefs.setObject(param1?.value!, forKey: "username")
+                tempUser = (param1?.value!)!
             }
             print("****")
             print("USERNAME")
@@ -105,11 +117,18 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             print("****")
             prefs.synchronize()
         }
+        if (webView.request!.URL!.absoluteString.containsString("https://clydelink.sharepoint.com/apps"))
+        {
+            print("SAVED")
+            prefs.setObject(tempUser, forKey: "username")
+        }
+        
 //        else{
 //            prefs.setObject("", forKey: "username")
 //        }
         
         self.ActivityIndicator.stopAnimating()
+        
     }
 
     /*
