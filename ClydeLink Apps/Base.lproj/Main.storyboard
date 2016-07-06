@@ -354,42 +354,23 @@
                                     <outlet property="delegate" destination="Auj-ne-zK8" id="rU5-DU-S83"/>
                                 </connections>
                             </tableView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="HWf-x7-bWo">
-                                <rect key="frame" x="191" y="314" width="20" height="20"/>
-                            </activityIndicatorView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logging in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nFk-GJ-ppE">
-                                <rect key="frame" x="121" y="313" width="64" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="64" id="Xai-8I-W5R"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="HtZ-SP-8Uh" firstAttribute="top" secondItem="dPX-Ub-ycB" secondAttribute="bottom" id="0Sf-5i-jhi"/>
                             <constraint firstItem="Yl3-Sc-rk8" firstAttribute="top" secondItem="HtZ-SP-8Uh" secondAttribute="bottom" id="1rn-Ek-EVf"/>
-                            <constraint firstItem="HWf-x7-bWo" firstAttribute="leading" secondItem="nFk-GJ-ppE" secondAttribute="trailing" constant="6" id="4fM-9A-osu"/>
                             <constraint firstAttribute="trailing" secondItem="HtZ-SP-8Uh" secondAttribute="trailing" id="6dp-oP-TYl"/>
-                            <constraint firstItem="nFk-GJ-ppE" firstAttribute="centerY" secondItem="HWf-x7-bWo" secondAttribute="centerY" id="OYu-gn-v7u"/>
                             <constraint firstItem="dPX-Ub-ycB" firstAttribute="leading" secondItem="93t-kv-mhd" secondAttribute="leading" id="OqH-r5-Rdn"/>
-                            <constraint firstItem="nFk-GJ-ppE" firstAttribute="leading" secondItem="93t-kv-mhd" secondAttribute="leading" constant="121" id="WAM-MA-ZGo"/>
                             <constraint firstItem="HtZ-SP-8Uh" firstAttribute="leading" secondItem="93t-kv-mhd" secondAttribute="leading" id="X3U-9Z-J5Y"/>
                             <constraint firstItem="dPX-Ub-ycB" firstAttribute="top" secondItem="cZ6-uW-2Us" secondAttribute="bottom" id="byj-CR-Oo6"/>
                             <constraint firstAttribute="trailing" secondItem="dPX-Ub-ycB" secondAttribute="trailing" id="hSF-RF-pO7"/>
-                            <constraint firstItem="Yl3-Sc-rk8" firstAttribute="top" secondItem="nFk-GJ-ppE" secondAttribute="bottom" constant="289" id="lyA-WU-69p"/>
-                            <constraint firstItem="nFk-GJ-ppE" firstAttribute="bottom" secondItem="HWf-x7-bWo" secondAttribute="bottom" id="sdL-W6-WMv"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="ActivityIndicator" destination="HWf-x7-bWo" id="jgx-oZ-x0o"/>
                         <outlet property="AppTable" destination="HtZ-SP-8Uh" id="KHG-cT-qUG"/>
-                        <outlet property="LoggingIn" destination="nFk-GJ-ppE" id="Crb-ZR-zVo"/>
                         <outlet property="leftButton" destination="8xk-rp-KG3" id="xtt-Sk-g6F"/>
                         <outlet property="rightButton" destination="v0G-3K-BWl" id="2bB-Vb-8nd"/>
                     </connections>
@@ -663,7 +644,7 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="ClydeLink" id="cat-QP-qOA">
+                                    <navigationItem title="All Apps" id="cat-QP-qOA">
                                         <barButtonItem key="rightBarButtonItem" title="Done" style="plain" id="foq-Ea-wWu">
                                             <color key="tintColor" red="0.0078431372550000003" green="0.066666666669999999" blue="0.1764705882" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>

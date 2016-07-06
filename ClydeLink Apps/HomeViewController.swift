@@ -9,9 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    
-    @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var LoggingIn: UILabel!
+
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var rightButton: UIBarButtonItem!
     @IBOutlet weak var AppTable: UITableView!
@@ -24,7 +22,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var appButtons: Array = [App]()  // Holds clickable buttons
     
     var NoFavorite: Int = 0
-    
+    var finalEdit: Bool = false
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
@@ -37,8 +35,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {  // Runs when the view loads
         super.viewDidLoad()
         
-        LoggingIn.hidden = true
-        
+        finalEdit = false
         if (prefs.stringForKey("username") == "Loading...")
         {
             prefs.setObject("", forKey: "username")
@@ -268,7 +265,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of all the buttons needed
-        if (self.appButtons.count == 0)
+        if (self.appButtons.count == 0 && finalEdit == false)
         {
             NoFavorite = 1
             return 1
@@ -307,6 +304,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {  // Delete the selected app
         if editingStyle == .Delete {
+            if (appButtons.count == 1)
+            {
+                finalEdit = true
+            }
             for element in synced.currentapps
             {
                 if (element.title == appButtons[indexPath.row].title)
@@ -320,6 +321,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             prefs.synchronize()
             appButtons.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            
         }
     }
     
@@ -441,11 +443,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func settingsButton(sender: AnyObject) {  // Settings button pressed
+        finalEdit = false
         if (rightButton.title == "Done")
         {
             AppTable.setEditing(false,animated: true)
             leftButton.title = "Edit"
             rightButton.title = "Settings"
+            self.AppTable.reloadData()
         }
         else {
         let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Settings")
