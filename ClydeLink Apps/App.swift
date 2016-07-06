@@ -11,35 +11,24 @@ class App: NSObject, NSCoding {
     var header: String = ""  // ex: "Equipment Apps"
     var title: String = ""  // ex: "Vehicle Search"
     var link: String = ""  // ex: "vehiclesearch"
-    var permissions: Int = 0
     var selected: Bool = false
-    var icon: String! = "" // ex: "icon3.png" or "UNDEFINED"
-    var URL: String = "" // ex: "http://www.clydelink.com/forms/communications/Pages/TrainingRequests.aspx" or "UNDEFINED"
+    var icon: String! = ""  // ex: "icon3.png" or ""
+    var URL: String = ""  // ex: "http://www.clydelink.com/forms/communications/Pages/TrainingRequests.aspx" or "UNDEFINED"
     var order: Double = 0.0 // ex: 4.2
+    var redirect: String = ""  // ex: "http://itunes.com/link-to-app" or ""
     
-    init(h: String, t: String, l: String, p: Int, s: Bool, i: String, u: String, o: Double)
+    
+    init(h: String, t: String, l: String, s: Bool, i: String, u: String, o: Double, r: String)
     {
         self.header = h
         self.title = t
         self.link = l
-        self.permissions = p
         self.selected = s
         self.icon = i
         self.URL = u
         self.order = o
+        self.redirect = r
     }
-    
-//    override init()
-//    {
-//        self.header = ""
-//        self.title = ""
-//        self.link = ""
-//        self.permissions = 0
-//        self.selected = true
-//        self.icon = ""
-//        self.URL = ""
-//        self.order = 0.0
-//    }
     
     required init(coder aDecoder: NSCoder) {
         if let header = aDecoder.decodeObjectForKey("header") as? String {
@@ -50,9 +39,6 @@ class App: NSObject, NSCoding {
         }
         if let link = aDecoder.decodeObjectForKey("link") as? String {
             self.link = link
-        }
-        if let permissions = aDecoder.decodeObjectForKey("permissions") as? Int {
-            self.permissions = permissions
         }
         if let selected = aDecoder.decodeObjectForKey("selected") as? Bool {
             self.selected = selected
@@ -66,6 +52,9 @@ class App: NSObject, NSCoding {
         if let order = aDecoder.decodeObjectForKey("order") as? Double {
             self.order = order
         }
+        if let redirect = aDecoder.decodeObjectForKey("redirect") as? String {
+            self.redirect = redirect
+        }
     }
     
     func encodeWithCoder(_aCoder: NSCoder) {
@@ -78,9 +67,6 @@ class App: NSObject, NSCoding {
         if let link: String = self.link {
             _aCoder.encodeObject(link, forKey: "link")
         }
-        if let permissions: Int = self.permissions {
-            _aCoder.encodeObject(permissions, forKey: "permissions")
-        }
         if let selected: Bool = self.selected {
             _aCoder.encodeObject(selected, forKey: "selected")
         }
@@ -92,6 +78,9 @@ class App: NSObject, NSCoding {
         }
         if let order: Double = self.order {
             _aCoder.encodeObject(order, forKey: "order")
+        }
+        if let redirect: String = self.redirect {
+            _aCoder.encodeObject(redirect, forKey: "redirect")
         }
     }
 }
