@@ -121,15 +121,10 @@ class SyncNow: NSObject {
                     }
                 
                     self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
-                for el in self.Apps {
-                    print("**")
-                    print(el)
-                }
                     complete()
 //                }
             }
             
-//            self.buildAppStore()
             task.resume()  // Reloads Table View cells as results
         }
         
@@ -141,7 +136,7 @@ class SyncNow: NSObject {
             for element in Apps
             {
                 
-                AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,p: (element["Permissions"] as? Int)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!))
+                AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!,r: /*(element["Redirect"] as? String)!*/""))
             }
         }
         complete()
@@ -157,7 +152,7 @@ class SyncNow: NSObject {
             {
                 AppHeaders.append(element.header)
             }
-            var min: App = App(h: "1", t: "1", l: "1", p: 1, s: true, i: "1", u: "1", o: 99)
+            var min: App = App(h: "1", t: "1", l: "1", s: true, i: "1", u: "1", o: 99, r: "1")
             for el in AppStore
             {
                 if (el.order < min.order)
