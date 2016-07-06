@@ -197,6 +197,8 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
                 }
                 task.resume()
             }
+            let vc = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
+            self.showViewController(vc, sender: vc)
         }
         
 //        else{
