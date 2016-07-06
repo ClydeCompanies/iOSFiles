@@ -45,7 +45,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             userName.text = "Not logged in"
             JobTitle.text = ""
             CompanyName.text = ""
-            SignOutButton = nil
+            SignOutButton.enabled = false
         }
         var lastdate = prefs.objectForKey("lastsync") as? [String]
         
