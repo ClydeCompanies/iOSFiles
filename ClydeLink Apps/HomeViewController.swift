@@ -35,6 +35,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         test = "TEST"
         
+        for el in synced.currentapps
+        {
+            if (prefs.arrayForKey("permissions")!.contains(el.title) == false)
+            {
+                synced.currentapps.removeAtIndex(synced.currentapps.indexOf(el)!)
+            }
+        }
+        let appData = NSKeyedArchiver.archivedDataWithRootObject(synced.currentapps)
+        prefs.setObject(appData, forKey: "userapps")
+        prefs.synchronize()
+        
         for element in synced.currentapps
         {
             self.appButtons.append(element)
@@ -87,16 +98,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
 //        print(prefs.)
         
-        for el in synced.currentapps
-        {
-            if (prefs.arrayForKey("permissions")!.contains(el.title) == false)
-            {
-                synced.currentapps.removeAtIndex(synced.currentapps.indexOf(el)!)
-            }
-        }
-        let appData = NSKeyedArchiver.archivedDataWithRootObject(synced.currentapps)
-        prefs.setObject(appData, forKey: "userapps")
-        prefs.synchronize()
+        
         
     }
     
