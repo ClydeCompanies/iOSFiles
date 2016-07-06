@@ -156,7 +156,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         var appCell: App = synced.AppStore[indexPath.row + extra + AppNumber[indexPath.section]]
         //*********************** Change this **************************
-        if (appCell.header.caseInsensitiveCompare("ALL") == NSComparisonResult.OrderedSame) {
+        if (appCell.header != "All") {
             while (prefs.arrayForKey("permissions")!.contains(appCell.title) == false && prefs.arrayForKey("permissions")!.contains(appCell.header) == false)
             {
                 extra += 1
@@ -207,7 +207,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         for el in synced.AppStore
         {
             //*********************** Change this **************************
-            if (el.header == AppHeaders[section] && (prefs.arrayForKey("permissions")!.contains(el.title) || prefs.arrayForKey("permissions")!.contains(el.header) || el.header.caseInsensitiveCompare("ALL") == NSComparisonResult.OrderedSame))
+            if (el.header == AppHeaders[section] && (prefs.arrayForKey("permissions")!.contains(el.title) || prefs.arrayForKey("permissions")!.contains(el.header) || el.header == "All"))
             {
                 count += 1
             }
