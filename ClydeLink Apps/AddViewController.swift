@@ -24,6 +24,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
+    var NoApps: Int = 0
     
     var extra: Int = 0
     
@@ -49,6 +50,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         loadApps()
         synced = SyncNow()
         
+        NoApps = 0
         AppHeaders = (prefs.arrayForKey("headers") as? [String])!
         
         for _ in AppHeaders
@@ -127,6 +129,15 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         //        self.ActivityIndicator.stopAnimating()
         //            loadApps()
         synced = SyncNow()
+        
+        if (NoApps == 1)
+        {
+            let cell = self.AppTable.dequeueReusableCellWithIdentifier("BlankAddCell", forIndexPath: indexPath) as! BlankAddTableViewCell
+            
+            return cell
+        }
+        
+        
         if (indexPath.row == 0)
         {
             extra = 0
@@ -189,6 +200,12 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         if (sectionOpen[section] == false)
         {
             count = 0
+        }
+        
+        if (count == 0 && sectionOpen[section] == true)
+        {
+            count = 1
+            NoApps = 1
         }
         
         return count

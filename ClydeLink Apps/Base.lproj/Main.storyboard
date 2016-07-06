@@ -735,6 +735,28 @@
                                             <outlet property="addButton" destination="k4B-Ap-0AE" id="xIS-x3-4oG"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="BlankAddCell" rowHeight="60" id="iJh-dr-Ukk" customClass="BlankAddTableViewCell" customModule="ClydeLink_Apps" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="128" width="375" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iJh-dr-Ukk" id="xiD-Gi-0lm">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Apps" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HaZ-79-hVF">
+                                                    <rect key="frame" x="8" y="19" width="359" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.57999999999999996" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="HaZ-79-hVF" firstAttribute="leading" secondItem="xiD-Gi-0lm" secondAttribute="leadingMargin" id="Bhf-Gx-Nyr"/>
+                                                <constraint firstItem="HaZ-79-hVF" firstAttribute="centerY" secondItem="xiD-Gi-0lm" secondAttribute="centerY" id="XuZ-Nr-OIW"/>
+                                                <constraint firstItem="HaZ-79-hVF" firstAttribute="trailing" secondItem="xiD-Gi-0lm" secondAttribute="trailingMargin" id="aJy-Sd-NiJ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </tableViewCell>
                                 </prototypes>
                                 <sections/>
                                 <connections>

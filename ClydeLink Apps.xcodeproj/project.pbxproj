@@ -23,6 +23,7 @@
 		9133DEE11CE1307300F8330E /* ClydeLink_AppsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */; };
 		9152B3D81D22F1A20064723D /* O365ClientFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9152B3D71D22F1A20064723D /* O365ClientFetcher.swift */; };
 		9152B3DA1D22F1B90064723D /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9152B3D91D22F1B90064723D /* AuthenticationManager.swift */; };
+		9170518D1D2D6FD7001B2680 /* BlankAddTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9170518C1D2D6FD7001B2680 /* BlankAddTableViewCell.swift */; };
 		9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5AD1CE780C300C24D8F /* LoginViewController.swift */; };
 		9195A5B31CE78CCD00C24D8F /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B11CE78CCD00C24D8F /* DataModel.xcdatamodeld */; };
 		9195A5B51CE7908B00C24D8F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B41CE7908B00C24D8F /* HomeViewController.swift */; };
@@ -74,6 +75,7 @@
 		9152B3D71D22F1A20064723D /* O365ClientFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = O365ClientFetcher.swift; sourceTree = "<group>"; };
 		9152B3D91D22F1B90064723D /* AuthenticationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		9152B3DE1D22F54F0064723D /* O365-Connect-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "O365-Connect-Bridging-Header.h"; sourceTree = "<group>"; };
+		9170518C1D2D6FD7001B2680 /* BlankAddTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlankAddTableViewCell.swift; sourceTree = "<group>"; };
 		9195A5AD1CE780C300C24D8F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9195A5B21CE78CCD00C24D8F /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		9195A5B41CE7908B00C24D8F /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
