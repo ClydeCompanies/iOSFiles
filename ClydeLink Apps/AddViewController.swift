@@ -229,10 +229,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func loadApps() {  // Get all apps
         let synced = SyncNow()
-        while (synced.done != 1)
-        {
-            //Wait
-        }
+        
         
         AppTable.reloadData()
     }
