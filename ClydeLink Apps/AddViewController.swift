@@ -7,6 +7,13 @@
 
 import UIKit
 
+
+extension Array {
+    func contains<T where T : Equatable>(obj: T) -> Bool {
+        return self.filter({$0 as? T == obj}).count > 0
+    }
+}
+
 class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
@@ -16,6 +23,9 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     var test: String = "TEST"  // Holds users name
     
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
+    
+    
+    var extra: Int = 0
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
     //    var currentapps: Array = [App]()  // Holds user's selected apps
@@ -30,6 +40,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
+
     
     
     override func viewDidLoad() {
@@ -113,10 +124,21 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         //        self.ActivityIndicator.stopAnimating()
         //            loadApps()
         let synced: SyncNow = SyncNow()
+        if (indexPath.row == 0)
+        {
+            extra = 0
+        }
+        var appCell: App = synced.AppStore[indexPath.row + extra + AppNumber[indexPath.section]]
+        while (prefs.arrayForKey("permissions")!.contains(appCell.title) == false)
+        {
+            extra += 1
+            appCell = synced.AppStore[indexPath.row + extra + AppNumber[indexPath.section]]
+        }
+        
         let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
-        cell.Title.text = synced.AppStore[indexPath.row + AppNumber[indexPath.section]].title
+        cell.Title.text = appCell.title
         cell.accessoryType = UITableViewCellAccessoryType.None;
-        if let icon = synced.AppStore[indexPath.row + AppNumber[indexPath.section]].icon {
+        if let icon = appCell.icon {
             let url = NSURL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
             if let data = NSData(contentsOfURL: url){
                 if icon != "UNDEFINED" {
@@ -134,7 +156,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         var found: Bool = false
         for el in synced.currentapps
         {
-            if (el.title == synced.AppStore[indexPath.row + AppNumber[indexPath.section]].title)
+            if (el.title == appCell.title)
             {
                 found = true
                 break
@@ -156,7 +178,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         var count: Int = 0
         for el in synced.AppStore
         {
-            if (el.header == AppHeaders[section])
+            if (el.header == AppHeaders[section] && prefs.arrayForKey("permissions")!.contains(el.title))
             {
                 count += 1
             }
@@ -228,11 +250,11 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func loadApps() {  // Get all apps
-        let synced = SyncNow()
-        while (synced.done != 1)
-        {
-            //Wait
-        }
+//        let synced = SyncNow()
+//        while (synced.done != 1)
+//        {
+//            //Wait
+//        }
         
         AppTable.reloadData()
     }
