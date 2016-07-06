@@ -27,6 +27,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
+    var components: AnyObject = ""
     
     override func viewDidLoad() {  // Runs when the view loads
         super.viewDidLoad()
@@ -63,9 +64,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         timeFormatter.dateFormat = "h:mm"
         dateFormatter.dateFormat = "MMM d, yyyy"
         
-        if ((prefs.objectForKey("lastsync") as? String)?.containsString("Last") != nil) {
+        if (prefs.objectForKey("lastsync") as? String  != nil) {
             lastsync.append("Jan 1, 1990")
             lastsync.append("12:00")
+            prefs.setObject(lastsync, forKey: "lastsync")
+            prefs.synchronize()
         }
         else{
             lastsync = (prefs.objectForKey("lastsync") as? [String])!
@@ -75,8 +78,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let date2 = calendar.startOfDayForDate(NSDate())
         
         let flags = NSCalendarUnit.Day
-        let components = calendar.components(flags, fromDate: date1, toDate: date2, options: [])
+        components = calendar.components(flags, fromDate: date1, toDate: date2, options: [])
         
+        
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
         if (components.day >= 7)
         {
             let alert = UIAlertController(title: "Sync Now?", message: "It has been 7 days since your last sync.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -91,7 +99,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             presentViewController(alert, animated: true, completion: nil)
         }
-        
     }
 
     override func didReceiveMemoryWarning() {
