@@ -46,13 +46,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (!prefs.boolForKey("launchedbefore"))
         {
-            synced = SyncNow(sync: 1)
-            while (synced.done != 1)
-            {
-                //Wait
-            }
-            prefs.setBool(true, forKey: "launchedbefore")
-            prefs.synchronize()
+            synced = SyncNow(sync: 1, complete: {
+                self.prefs.setBool(true, forKey: "launchedbefore")
+                self.prefs.synchronize()
+            })
+            
         } else {
             //Not first launch
         }
@@ -90,7 +88,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let alert = UIAlertController(title: "Sync Now?", message: "It has been 7 days since your last sync.", preferredStyle: UIAlertControllerStyle.Alert)
             
             alert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
-                self.synced = SyncNow(sync: 1)
+                self.synced = SyncNow(sync: 1, complete: {})
             }))
             
             alert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { (action: UIAlertAction!) in

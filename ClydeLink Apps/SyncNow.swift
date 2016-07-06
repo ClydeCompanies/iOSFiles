@@ -22,39 +22,79 @@ class SyncNow: NSObject {
         syncnow = 0
         done = 0
         flag = 0
-        getAppStore()
+        getAppStore({
+            self.buildAppStore({
+                self.sortArray({
+                    self.updateCurrentApps({
+                        return
+                    })
+                })
+            })
+        })
     }
-    init(sync: Int) {
+    init(sync: Int, complete: () -> Void) {
         super.init()
         syncnow = 1
         done = 0
         flag = 0
-        fillAppArray()
+        fillAppArray({
+            self.buildAppStore({
+                self.sortArray({
+                    self.updateCurrentApps({
+                        complete()
+                    })
+                })
+            })
+        })
+        
     }
     
-    func getAppStore()
+    func getAppStore(complete: () -> Void)
     {  // Load apps from online database
+        var success: Bool = false
         if let data = prefs.objectForKey("syncedappstore") as? NSData {
             AppStore = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
-            sortArray()
+            sortArray({
+                self.updateCurrentApps({
+                    return
+                })
+            })
             if (AppStore.count == 0)
             {
-                fillAppArray()
+                fillAppArray({
+                    self.buildAppStore({
+                        self.sortArray({
+                            self.updateCurrentApps({
+                                return
+                            })
+                        })
+                    })
+                })
             } else {
-                
+                success = true
             }
         } else {
-            fillAppArray()
+            fillAppArray({
+                self.buildAppStore({
+                    self.sortArray({
+                        self.updateCurrentApps({
+                            return
+                        })
+                    })
+                })
+            })
         }
         if let data = prefs.objectForKey("userapps") as? NSData {
             currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
-            done = 1
         } else {
             currentapps = []
         }
-        
+        if (success)
+        {
+            complete()
+        }
     }
-    func fillAppArray() {
+    func fillAppArray(complete: () -> Void) {
         if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
             let request = NSMutableURLRequest(URL: url)
             request.HTTPMethod = "POST"
@@ -70,36 +110,35 @@ class SyncNow: NSObject {
                     self.flag = 1
                 }
                 let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
-                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+//                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+                
                     if (mydata == nil)
                     {
                         self.flag = 1
-                        return
-                    } else {
-                        
-                        //If
                     }
+                
                     self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
-                    self.buildAppStore()
-                }
+                
+                    complete()
+//                }
             }
             
-            self.buildAppStore()
+//            self.buildAppStore()
             task.resume()  // Reloads Table View cells as results
         }
         
     }
     
-    func buildAppStore() {  // Convert raw data into more accessible AppStore
+    func buildAppStore(complete: () -> Void) {  // Convert raw data into more accessible AppStore
         AppStore = []
         for element in Apps
         {
             AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,p: (element["Permissions"] as? Int)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!))
         }
-        sortArray()
+        complete()
     }
     
-    func sortArray()
+    func sortArray(complete: () -> Void)
     {  // Sort array based on individual apps' "order" property
         var sorted: [App] = []
         for _ in AppStore
@@ -119,14 +158,10 @@ class SyncNow: NSObject {
         AppStore = sorted
         prefs.setObject(appData, forKey: "syncedappstore")
         prefs.synchronize()
-        if (AppStore != []) {
-            updateCurrentApps()
-        } else {
-            done = 1
-        }
+        complete()
     }
     
-    func updateCurrentApps()
+    func updateCurrentApps(complete: () -> Void)
     {  // Updates the user's selected apps due to changes in online database
         
         if let data = prefs.objectForKey("userapps") as? NSData {
@@ -167,7 +202,7 @@ class SyncNow: NSObject {
             self.prefs.setObject(lastdate, forKey: "lastsync")
             self.prefs.synchronize()
         }
-        done = 1
+        complete()
     }
     
     required init?(coder aDecoder: NSCoder) {

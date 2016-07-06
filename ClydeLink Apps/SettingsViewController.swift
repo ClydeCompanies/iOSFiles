@@ -93,21 +93,17 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
 //        flag = 0
         
 //        getAppStore()
-        let synced = SyncNow(sync: 1)
-        while (synced.done != 1)
-        {
-            //Wait
-        }
-        ActivityIndicator.stopAnimating()
+        let synced = SyncNow(sync: 1, complete: {
+            self.ActivityIndicator.stopAnimating()
+            
+            var lastdate = self.prefs.objectForKey("lastsync") as? [String]
+            
+            let lastsync = "Last Sync: " + lastdate![0] + " " + lastdate![1]
+            
+            self.LastSync.text = lastsync
+
+        })
         
-        
-        var lastdate = prefs.objectForKey("lastsync") as? [String]
-        
-        let lastsync = "Last Sync: " + lastdate![0] + " " + lastdate![1]
-        
-        LastSync.text = lastsync
-    
-    
     }
 
     func loadUserInfo() {  // Get user's information
