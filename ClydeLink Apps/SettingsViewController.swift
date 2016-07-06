@@ -46,7 +46,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             JobTitle.text = ""
             CompanyName.text = ""
             SignOutButton.enabled = false
-            prefs.setObject(["New Hire"], forKey: "permissions")
+            prefs.setObject([], forKey: "permissions")
         }
         var lastdate = prefs.objectForKey("lastsync") as? [String]
         
@@ -73,7 +73,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             self.prefs.setObject("", forKey: "username")
             self.prefs.setObject("", forKey: "LogInUser")
             self.prefs.setObject([], forKey: "userapps")
-            self.prefs.setObject(["New Hire"], forKey: "permissions")
+            self.prefs.setObject([], forKey: "permissions")
             let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
             authenticationManager.clearCredentials()
             
@@ -196,17 +196,12 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                         var permissions: [String] = []
                         if (!(self.EmployeeInfo[0]["Permissions"] is NSNull)) {
                             let rawpermissions = self.EmployeeInfo[0]["Permissions"] as! Array<AnyObject>
-    //                        if (rawpermissions.count == 0)
-    //                        {
-    //                            permissions.append("New Hire") /*= ["Vehicle Search", "New Hire", "Fleet Search"]*/
-    //                        } else {
                             if (!(rawpermissions is [String])) {
                                 for permission in rawpermissions {
                                     print(permission)
                                     permissions.append((permission["Group"]) as! String)
                                 }
                             }
-    //                        }
                             self.prefs.setObject(permissions, forKey: "permissions")
                             
                             print(self.prefs.arrayForKey("permissions"))

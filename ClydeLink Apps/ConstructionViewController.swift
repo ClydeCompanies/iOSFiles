@@ -172,28 +172,25 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
                         let EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
                         let employeedata = NSKeyedArchiver.archivedDataWithRootObject(EmployeeInfo)
                         self.prefs.setObject(employeedata, forKey: "userinfo")
-                        let perm = EmployeeInfo[0]["Permissions"]
-                        self.prefs.setObject(perm, forKey: "permissions")
-                        print(self.prefs.arrayForKey("permissions"))
+                        
+                        
+                        
                         self.prefs.synchronize()
-                        
-                        
                         var permissions: [String] = []
-                        let rawpermissions = self.prefs.arrayForKey("permissions")
-                        if (rawpermissions == nil)
-                        {
-                            permissions.append("New Hire") /*= ["Vehicle Search", "New Hire", "Fleet Search"]*/
-                        } else {
+                        if (!(EmployeeInfo[0]["Permissions"] is NSNull)) {
+                            let rawpermissions = EmployeeInfo[0]["Permissions"] as! Array<AnyObject>
                             if (!(rawpermissions is [String])) {
-                                for permission in rawpermissions! {
+                                for permission in rawpermissions {
                                     print(permission)
                                     permissions.append((permission["Group"]) as! String)
                                 }
                             }
+                            self.prefs.setObject(permissions, forKey: "permissions")
+                            
+                            
+                        } else {
+                            self.prefs.setObject([],forKey: "permissions")
                         }
-                        self.prefs.setObject(permissions, forKey: "permissions")
-                        
-                        print(self.prefs.arrayForKey("permissions"))
                         
                     }
                     

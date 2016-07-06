@@ -34,7 +34,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {  // Runs when the view loads
         super.viewDidLoad()
-        
+        if (prefs.stringForKey("username") == "Loading...")
+        {
+            prefs.setObject("", forKey: "username")
+        }
         test = "TEST"
         
         NoFavorite = 0
@@ -94,7 +97,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let flags = NSCalendarUnit.Day
         components = calendar.components(flags, fromDate: date1, toDate: date2, options: [])
         
-        
+        if (prefs.arrayForKey("permissions") == nil)
+        {
+            prefs.setObject([], forKey: "permissions")
+        }
         
     }
     
@@ -126,7 +132,87 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                         self.prefs.setObject("", forKey: "username")
                     }
                     self.AppTable.reloadData()
+                    self.prefs.synchronize()
                     
+                    let userEmail = uName
+                    var parts = userEmail.componentsSeparatedByString("@")
+                    uName = String(parts[0])
+                    
+                    if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetUserProfile?username=\(uName)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+                        
+                        let request = NSMutableURLRequest(URL: url)
+                        
+                        //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
+                        request.HTTPMethod = "POST"
+                        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+                            guard error == nil && data != nil else { // check for fundamental networking error
+                                print("error=\(error)")
+                                //                        self.flag = 1
+                                
+                                let alertController = UIAlertController(title: "Error", message:
+                                    "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
+                                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                                self.presentViewController(alertController, animated: true, completion: nil)
+                                
+                                
+                                return
+                            }
+                            
+                            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+                                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                                print("response = \(response)")
+                            }
+                            
+                            let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
+                            
+                            print(" My Data: ")
+                            print(mydata)  // Direct response from server printed to console, for testing
+                            
+                            dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+                                if (mydata == nil)
+                                {
+                                    //                        self.activityIndicator.stopAnimating()  // Ends spinner
+                                    //                        self.activityIndicator.hidden = true
+                                    //                            self.flag = 1
+                                    
+                                    let alertController = UIAlertController(title: "Error", message:
+                                        "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
+                                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                                    
+                                    self.presentViewController(alertController, animated: true, completion: nil)
+                                    
+                                    return
+                                }
+                                
+                                let EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
+                                let employeedata = NSKeyedArchiver.archivedDataWithRootObject(EmployeeInfo)
+                                self.prefs.setObject(employeedata, forKey: "userinfo")
+                                
+                                
+                                
+                                self.prefs.synchronize()
+                                var permissions: [String] = []
+                                if (!(EmployeeInfo[0]["Permissions"] is NSNull)) {
+                                    let rawpermissions = EmployeeInfo[0]["Permissions"] as! Array<AnyObject>
+                                    if (!(rawpermissions is [String])) {
+                                        for permission in rawpermissions {
+                                            print(permission)
+                                            permissions.append((permission["Group"]) as! String)
+                                        }
+                                    }
+                                    self.prefs.setObject(permissions, forKey: "permissions")
+                                    
+                                    
+                                } else {
+                                    self.prefs.setObject([],forKey: "permissions")
+                                }
+                                
+                            }
+                            
+                        }
+                        task.resume()
+                    }
+
                 })
             }))
             
