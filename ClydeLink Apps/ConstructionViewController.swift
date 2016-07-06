@@ -31,6 +31,17 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         {
             ActivityIndicator.stopAnimating()
             
+            if UIApplication.sharedApplication().canOpenURL((WebView.request?.URL)!)
+            {
+                UIApplication.sharedApplication().openURL((WebView.request?.URL)!)
+                
+            } else {
+                //redirect to safari because the user doesn't have Instagram
+                print("App not installed")
+                UIApplication.sharedApplication().openURL(NSURL(string: prefs.stringForKey("redirectbutton")!)!)
+                
+            }
+            
             let vc : UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
             self.presentViewController(vc, animated: true, completion: nil)
         }
@@ -76,22 +87,6 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
 //            }
         }
         
-//        if (request.URL?.absoluteString == "fs.clydeinc.com")
-//        {
-//            
-//            let value: NSString = WebView.stringByEvaluatingJavaScriptFromString("document.getElementById('cred_userid_inputtext').value")!;
-//            
-//            if (prefs.stringForKey("username") == "")
-//            {
-//                prefs.setObject(value, forKey: "username")
-//            }
-//            print(prefs.objectForKey("username"))
-//        }
-        
-//        if (request.URL?.absoluteString == "fs.clydeinc.com")
-//        {
-//            prefs.setObject("", forKey: "username")
-//        }
         return true
     }
     
@@ -197,6 +192,9 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
                 }
                 task.resume()
             }
+            
+            
+            
             let vc = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
             self.showViewController(vc, sender: vc)
         }

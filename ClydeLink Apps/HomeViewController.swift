@@ -419,7 +419,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             
             prefs.setObject(buttonpressed.URL, forKey: "selectedButton")
-            
+            prefs.setObject(buttonpressed.redirect, forKey: "redirectbutton")
             self.showViewController(vc as! UIViewController, sender: vc)
             AppTable.deselectRowAtIndexPath(indexPath, animated: true)
 //        }
