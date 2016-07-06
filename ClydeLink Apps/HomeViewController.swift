@@ -324,7 +324,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         //Log in
 //        connectToOffice365()
-        print(prefs.stringForKey("username"))
         
 //        if (prefs.stringForKey("username") != nil)
 //        {
