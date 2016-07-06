@@ -36,6 +36,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {  // Runs when the view loads
         super.viewDidLoad()
+        
+        LoggingIn.hidden = true
+        
         if (prefs.stringForKey("username") == "Loading...")
         {
             prefs.setObject("", forKey: "username")
@@ -43,7 +46,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         test = "TEST"
         
         NoFavorite = 0
-        
+        if (prefs.arrayForKey("permissions") == nil)
+        {
+            prefs.setObject([], forKey: "permissions")
+        }
         for el in synced.currentapps
         {
             if (prefs.arrayForKey("permissions")!.contains(el.title) == false)
@@ -137,6 +143,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     }
                     self.AppTable.reloadData()
                     self.prefs.synchronize()
+                    self.LoggingIn.hidden = true
+                    self.ActivityIndicator.stopAnimating()
                     
                     let userEmail = uName
                     var parts = userEmail.componentsSeparatedByString("@")
