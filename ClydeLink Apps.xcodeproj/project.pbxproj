@@ -149,12 +149,12 @@
 		9133DEBF1CE1307300F8330E /* ClydeLink Apps */ = {
 			isa = PBXGroup;
 			children = (
-				9133DEC41CE1307300F8330E /* Main.storyboard */,
 				9152B3DF1D28563D0064723D /* TableView Cells */,
 				9152B3DB1D22F1C50064723D /* Office365 */,
 				9195A5BC1CE7FAEC00C24D8F /* View Controllers */,
 				9152B3DD1D22F4F50064723D /* Supporting Files */,
 				9152B3E01D28568F0064723D /* Auxiliary Files */,
+				9133DEC41CE1307300F8330E /* Main.storyboard */,
 				9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */,
 			);
 			path = "ClydeLink Apps";

@@ -432,7 +432,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if (leftButton.title == "Edit")
         {
             AppTable.setEditing(true,animated: true)
-            leftButton.title = "All"
+            leftButton.title = "Add"
             rightButton.title = "Done"
         } else {
             let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("All")
