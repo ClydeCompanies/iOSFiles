@@ -26,6 +26,11 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>clydelink.sharepoint.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 			<key>www.cyldeinc.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
