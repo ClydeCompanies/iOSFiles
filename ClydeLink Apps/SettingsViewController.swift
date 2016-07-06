@@ -176,9 +176,16 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                         //JobTitle
                         //PicLocation
                         //UserName
+                        
                         self.userName.text = self.EmployeeInfo[0]["UserName"] as? String
+                        if (self.userName.text == nil) { self.userName.text = "Unknown User" }
+                        
                         self.JobTitle.text = self.EmployeeInfo[0]["JobTitle"] as? String
+//                        if (self.JobTitle.text == "") { self.JobTitle.text = "n/a" }
+                        
                         self.CompanyName.text = self.EmployeeInfo[0]["CompanyName"] as? String
+//                        if (self.CompanyName.text == "") { self.CompanyName.text = "n/a" }
+                        
                         
                         if (self.EmployeeInfo[0]["PicLocation"] is NSNull)
                         {
