@@ -176,6 +176,25 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
                         self.prefs.setObject(perm, forKey: "permissions")
                         print(self.prefs.arrayForKey("permissions"))
                         self.prefs.synchronize()
+                        
+                        
+                        var permissions: [String] = []
+                        let rawpermissions = self.prefs.arrayForKey("permissions")
+                        if (rawpermissions == nil)
+                        {
+                            permissions.append("New Hire") /*= ["Vehicle Search", "New Hire", "Fleet Search"]*/
+                        } else {
+                            if (!(rawpermissions is [String])) {
+                                for permission in rawpermissions! {
+                                    print(permission)
+                                    permissions.append((permission["Group"]) as! String)
+                                }
+                            }
+                        }
+                        self.prefs.setObject(permissions, forKey: "permissions")
+                        
+                        print(self.prefs.arrayForKey("permissions"))
+                        
                     }
                     
                 }

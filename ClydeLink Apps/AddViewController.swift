@@ -155,7 +155,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             extra = 0
         }
         var appCell: App = synced.AppStore[indexPath.row + extra + AppNumber[indexPath.section]]
-        while (prefs.arrayForKey("permissions")!.contains(appCell.title) == false)
+        while (prefs.arrayForKey("permissions")!.contains(appCell.title) == false && prefs.arrayForKey("permissions")!.contains(appCell.header) == false)
         {
             extra += 1
             appCell = synced.AppStore[indexPath.row + extra + AppNumber[indexPath.section]]
@@ -204,7 +204,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         var count: Int = 0
         for el in synced.AppStore
         {
-            if (el.header == AppHeaders[section] && prefs.arrayForKey("permissions")!.contains(el.title))
+            if (el.header == AppHeaders[section] && (prefs.arrayForKey("permissions")!.contains(el.title) || prefs.arrayForKey("permissions")!.contains(el.header)))
             {
                 count += 1
             }

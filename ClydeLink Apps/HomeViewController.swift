@@ -95,14 +95,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         components = calendar.components(flags, fromDate: date1, toDate: date2, options: [])
         
         
-        if (prefs.arrayForKey("permissions") == nil)
-        {
-            prefs.setObject(["Vehicle Search", "New Hire", "Fleet Search"], forKey: "permissions")
-        }
-        
-
-        
-        
         
     }
     
