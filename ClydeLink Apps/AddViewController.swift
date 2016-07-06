@@ -24,7 +24,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
-    var NoApps: Int = 0
+    var NoApps: [Int] = [0]
     
     var extra: Int = 0
     
@@ -50,12 +50,13 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         loadApps()
         synced = SyncNow()
         
-        NoApps = 0
+//        NoApps = 0
         AppHeaders = (prefs.arrayForKey("headers") as? [String])!
         
         for _ in AppHeaders
         {
             sectionOpen.append(false)
+            NoApps.append(0)
         }
         
         
@@ -125,12 +126,23 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         return .None
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if (NoApps[indexPath.section] == 1)
+        {
+            return 40.0
+        }
+        else
+        {
+            return 60.0
+        }
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Returns each cell
         //        self.ActivityIndicator.stopAnimating()
         //            loadApps()
         synced = SyncNow()
         
-        if (NoApps == 1)
+        if (NoApps[indexPath.section] == 1)
         {
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("BlankAddCell", forIndexPath: indexPath) as! BlankAddTableViewCell
             
@@ -201,12 +213,16 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         {
             count = 0
         }
-        
+        if (count != 0)
+        {
+            NoApps[section] = 0
+        }
         if (count == 0 && sectionOpen[section] == true)
         {
             count = 1
-            NoApps = 1
+            NoApps[section] = 1
         }
+        
         
         return count
     }
