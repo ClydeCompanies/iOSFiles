@@ -21,6 +21,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var appButtons: Array = [App]()  // Holds clickable buttons
     
+    var NoFavorite: Int = 0
+    
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
     let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
@@ -34,6 +36,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         test = "TEST"
+        
+        NoFavorite = 0
         
         for el in synced.currentapps
         {
@@ -96,7 +100,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             prefs.setObject(["Vehicle Search", "New Hire", "Fleet Search"], forKey: "permissions")
         }
         
-//        print(prefs.)
+
         
         
         
@@ -229,12 +233,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of all the buttons needed
-        
-        return self.appButtons.count
+        if (self.appButtons.count == 0)
+        {
+            NoFavorite = 1
+            return 1
+        } else {
+            return self.appButtons.count
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Determines which buttons should be header buttons and which chould carry on to other views
-        
+        if (NoFavorite == 1)
+        {
+            let cell = self.AppTable.dequeueReusableCellWithIdentifier("BlankFavorite", forIndexPath: indexPath) as! BlankFavoriteTableViewCell
+            return cell
+        }
             let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
             
             cell.Title.text = self.appButtons[indexPath.row].title
@@ -276,11 +289,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {  // Allow Delete
-        if self.AppTable.editing {return .Delete}
+        if (self.AppTable.editing && self.NoFavorite == 0) {return .Delete}
         return .None
     }
     
     func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {  // All apps are moveable
+        if (self.NoFavorite == 0) {return true}
+        return false
+    }
+    
+    func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if (NoFavorite == 1)
+        {
+            return false
+        }
         return true
     }
     
@@ -335,7 +357,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {  // Gives the height for each row
-        return 60.0
+        if (NoFavorite == 0) {return 60.0}
+        return 80.0
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press

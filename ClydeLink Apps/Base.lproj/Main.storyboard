@@ -313,6 +313,39 @@
                                             <outlet property="Title" destination="rRQ-Gd-ALD" id="C6d-IT-H1o"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="BlankFavorite" rowHeight="80" id="T6f-5E-Bcs" customClass="BlankFavoriteTableViewCell" customModule="ClydeLink_Apps" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="148" width="375" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T6f-5E-Bcs" id="twM-Mv-dwf">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="79"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To add favorites, click Edit &gt; Add" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eZw-o3-vCR">
+                                                    <rect key="frame" x="8" y="41" width="359" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Favorites" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ljn-CU-nSZ">
+                                                    <rect key="frame" x="8" y="11" width="359" height="40"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ljn-CU-nSZ" firstAttribute="leading" secondItem="twM-Mv-dwf" secondAttribute="leading" constant="8" id="2n1-oo-5SO"/>
+                                                <constraint firstItem="ljn-CU-nSZ" firstAttribute="trailing" secondItem="eZw-o3-vCR" secondAttribute="trailing" id="3Sb-fU-O7V"/>
+                                                <constraint firstItem="ljn-CU-nSZ" firstAttribute="top" secondItem="twM-Mv-dwf" secondAttribute="topMargin" constant="3" id="9Gy-z2-ZRb"/>
+                                                <constraint firstAttribute="trailing" secondItem="ljn-CU-nSZ" secondAttribute="trailing" constant="8" id="Daw-9t-xGh"/>
+                                                <constraint firstItem="ljn-CU-nSZ" firstAttribute="leading" secondItem="eZw-o3-vCR" secondAttribute="leading" id="Dza-bM-3fa"/>
+                                                <constraint firstItem="ljn-CU-nSZ" firstAttribute="centerY" secondItem="twM-Mv-dwf" secondAttribute="centerY" constant="-8.5" id="IH7-Dz-Qdg"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="eZw-o3-vCR" secondAttribute="bottom" constant="9" id="Tdl-RD-AUC"/>
+                                                <constraint firstItem="eZw-o3-vCR" firstAttribute="top" secondItem="twM-Mv-dwf" secondAttribute="topMargin" constant="33" id="rxV-HJ-kRS"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </tableViewCell>
                                 </prototypes>
                                 <sections/>
                                 <connections>

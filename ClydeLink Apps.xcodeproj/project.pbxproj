@@ -10,6 +10,7 @@
 		3834F4181D013513006E9EFA /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3834F4171D013513006E9EFA /* App.swift */; };
 		385E68B21D2C1CD300302062 /* SyncNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385E68B11D2C1CD300302062 /* SyncNow.swift */; };
 		38783BBA1D09E4BC003987C5 /* AddTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38783BB91D09E4BC003987C5 /* AddTableViewCell.swift */; };
+		389CDE4B1D2D705000CD7CDB /* BlankFavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389CDE4A1D2D705000CD7CDB /* BlankFavoriteTableViewCell.swift */; };
 		86687D908CC8DE4C9F281255 /* libPods-ClydeLink Apps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEAD1024F626AF684359573E /* libPods-ClydeLink Apps.a */; };
 		91007C721CEE32EF006C8EED /* TruckSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */; };
 		911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16C01CE24AA20062527E /* ConstructionViewController.swift */; };
@@ -53,6 +54,7 @@
 		3834F4171D013513006E9EFA /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		385E68B11D2C1CD300302062 /* SyncNow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncNow.swift; sourceTree = "<group>"; };
 		38783BB91D09E4BC003987C5 /* AddTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTableViewCell.swift; sourceTree = "<group>"; };
+		389CDE4A1D2D705000CD7CDB /* BlankFavoriteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlankFavoriteTableViewCell.swift; sourceTree = "<group>"; };
 		5BAC453A2475999DCD032640 /* Pods-ClydeLink Apps.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClydeLink Apps.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ClydeLink Apps/Pods-ClydeLink Apps.debug.xcconfig"; sourceTree = "<group>"; };
 		91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchTableViewCell.swift; sourceTree = "<group>"; };
 		911E16C01CE24AA20062527E /* ConstructionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstructionViewController.swift; sourceTree = "<group>"; };
@@ -145,12 +147,12 @@
 		9133DEBF1CE1307300F8330E /* ClydeLink Apps */ = {
 			isa = PBXGroup;
 			children = (
+				9133DEC41CE1307300F8330E /* Main.storyboard */,
 				9152B3DF1D28563D0064723D /* TableView Cells */,
 				9152B3DB1D22F1C50064723D /* Office365 */,
 				9195A5BC1CE7FAEC00C24D8F /* View Controllers */,
 				9152B3DD1D22F4F50064723D /* Supporting Files */,
 				9152B3E01D28568F0064723D /* Auxiliary Files */,
-				9133DEC41CE1307300F8330E /* Main.storyboard */,
 				9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */,
 			);
 			path = "ClydeLink Apps";
@@ -204,6 +206,7 @@
 				38783BB91D09E4BC003987C5 /* AddTableViewCell.swift */,
 				91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */,
 				91E215C41CFE6E980031B75F /* TruckSearchNRTableViewCell.swift */,
+				389CDE4A1D2D705000CD7CDB /* BlankFavoriteTableViewCell.swift */,
 			);
 			name = "TableView Cells";
 			sourceTree = "<group>";
@@ -514,6 +517,7 @@
 				9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */,
 				38783BBA1D09E4BC003987C5 /* AddTableViewCell.swift in Sources */,
 				9152B3D81D22F1A20064723D /* O365ClientFetcher.swift in Sources */,
+				389CDE4B1D2D705000CD7CDB /* BlankFavoriteTableViewCell.swift in Sources */,
 				911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */,
 				919D7D581CEA71BB00055A0A /* SettingsViewController.swift in Sources */,
 			);
