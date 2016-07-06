@@ -208,6 +208,7 @@
 				38783BB91D09E4BC003987C5 /* AddTableViewCell.swift */,
 				91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */,
 				91E215C41CFE6E980031B75F /* TruckSearchNRTableViewCell.swift */,
+				9170518C1D2D6FD7001B2680 /* BlankAddTableViewCell.swift */,
 				389CDE4A1D2D705000CD7CDB /* BlankFavoriteTableViewCell.swift */,
 			);
 			name = "TableView Cells";
@@ -519,6 +520,7 @@
 				9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */,
 				38783BBA1D09E4BC003987C5 /* AddTableViewCell.swift in Sources */,
 				9152B3D81D22F1A20064723D /* O365ClientFetcher.swift in Sources */,
+				9170518D1D2D6FD7001B2680 /* BlankAddTableViewCell.swift in Sources */,
 				389CDE4B1D2D705000CD7CDB /* BlankFavoriteTableViewCell.swift in Sources */,
 				911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */,
 				919D7D581CEA71BB00055A0A /* SettingsViewController.swift in Sources */,
