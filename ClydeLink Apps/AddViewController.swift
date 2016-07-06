@@ -31,7 +31,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     //    var currentapps: Array = [App]()  // Holds user's selected apps
     //    var Apps: Array = [AnyObject]()  // Holds raw data for AppStore
     var AppStore: [App] = []  // Holds all available Apps
-    let synced: SyncNow = SyncNow()
+    var synced: SyncNow = SyncNow()
     var AppHeaders: [String] = []  // Holds headers
     var AppNumber: [Int] = [0]  // Holds number of apps in each section
     var sectionOpen: [Bool] =  [false]  // Holds values for which sections are expanded
@@ -47,6 +47,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         super.viewDidLoad()
         
         loadApps()
+        synced = SyncNow()
         
         AppHeaders = (prefs.arrayForKey("headers") as? [String])!
         print(AppHeaders)
@@ -60,6 +61,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         AppTable.tableFooterView = UIView(frame: CGRectZero)
         var apps: Int = 0
         var currentApp: String = ""
+//        print(synced.AppStore.count)
         for element in synced.AppStore {  // Load app numbers
             if (currentApp == "")
             {
@@ -125,7 +127,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Returns each cell
         //        self.ActivityIndicator.stopAnimating()
         //            loadApps()
-        let synced: SyncNow = SyncNow()
+        synced = SyncNow()
         if (indexPath.row == 0)
         {
             extra = 0
@@ -252,7 +254,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func loadApps() {  // Get all apps
-        let synced = SyncNow()
+        synced = SyncNow()
         
         AppTable.reloadData()
     }
