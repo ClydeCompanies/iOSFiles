@@ -155,12 +155,14 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             extra = 0
         }
         var appCell: App = synced.AppStore[indexPath.row + extra + AppNumber[indexPath.section]]
-        while (prefs.arrayForKey("permissions")!.contains(appCell.title) == false && prefs.arrayForKey("permissions")!.contains(appCell.header) == false)
-        {
-            extra += 1
-            appCell = synced.AppStore[indexPath.row + extra + AppNumber[indexPath.section]]
+        //*********************** Change this **************************
+        if (appCell.header != "ALL") {
+            while (prefs.arrayForKey("permissions")!.contains(appCell.title) == false && prefs.arrayForKey("permissions")!.contains(appCell.header) == false)
+            {
+                extra += 1
+                appCell = synced.AppStore[indexPath.row + extra + AppNumber[indexPath.section]]
+            }
         }
-        
         let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
         cell.Title.text = appCell.title
         cell.accessoryType = UITableViewCellAccessoryType.None;
@@ -204,7 +206,8 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         var count: Int = 0
         for el in synced.AppStore
         {
-            if (el.header == AppHeaders[section] && (prefs.arrayForKey("permissions")!.contains(el.title) || prefs.arrayForKey("permissions")!.contains(el.header)))
+            //*********************** Change this **************************
+            if (el.header == AppHeaders[section] && (prefs.arrayForKey("permissions")!.contains(el.title) || prefs.arrayForKey("permissions")!.contains(el.header) || el.header == "ALL"))
             {
                 count += 1
             }

@@ -49,7 +49,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         for el in synced.currentapps
         {
-            if (prefs.arrayForKey("permissions")!.contains(el.title) == false && prefs.arrayForKey("permissions")!.contains(el.header) == false)
+            //*********************** Change this **************************
+            if (prefs.arrayForKey("permissions")!.contains(el.title) == false && prefs.arrayForKey("permissions")!.contains(el.header) == false && el.header != "ALL")
             {
                 synced.currentapps.removeAtIndex(synced.currentapps.indexOf(el)!)
             }
