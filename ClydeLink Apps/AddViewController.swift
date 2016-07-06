@@ -48,17 +48,19 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         loadApps()
         
+        AppHeaders = (prefs.arrayForKey("headers") as? [String])!
+        print(AppHeaders)
+        for _ in AppHeaders
+        {
+            sectionOpen.append(false)
+        }
         
+        print(sectionOpen)
         
         AppTable.tableFooterView = UIView(frame: CGRectZero)
         var apps: Int = 0
         var currentApp: String = ""
         for element in synced.AppStore {  // Load app numbers
-            if (!AppHeaders.contains(element.header))
-            {
-                AppHeaders.append(element.header)
-                sectionOpen.append(false)
-            }
             if (currentApp == "")
             {
                 currentApp = element.header
@@ -250,11 +252,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func loadApps() {  // Get all apps
-//        let synced = SyncNow()
-//        while (synced.done != 1)
-//        {
-//            //Wait
-//        }
+        let synced = SyncNow()
         
         AppTable.reloadData()
     }

@@ -16,6 +16,7 @@ class SyncNow: NSObject {
     var currentapps: [App] = []
     var done: Int = 0
     var syncnow: Int = 0
+    var AppHeaders: [String] = []
     
     override init() {
         super.init()
@@ -109,16 +110,21 @@ class SyncNow: NSObject {
                     print("response = \(response)")
                     self.flag = 1
                 }
+                
+                
                 let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
 //                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
-                
+//                    print(mydata)
                     if (mydata == nil)
                     {
                         self.flag = 1
                     }
                 
                     self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
-                
+                for el in self.Apps {
+                    print("**")
+                    print(el)
+                }
                     complete()
 //                }
             }
@@ -131,18 +137,26 @@ class SyncNow: NSObject {
     
     func buildAppStore(complete: () -> Void) {  // Convert raw data into more accessible AppStore
         AppStore = []
+        
         for element in Apps
         {
+            
             AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,p: (element["Permissions"] as? Int)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!))
         }
+        
         complete()
     }
     
     func sortArray(complete: () -> Void)
     {  // Sort array based on individual apps' "order" property
+        AppHeaders = []
         var sorted: [App] = []
-        for _ in AppStore
+        for element in AppStore
         {
+            if (!AppHeaders.contains(element.header))
+            {
+                AppHeaders.append(element.header)
+            }
             var min: App = App(h: "1", t: "1", l: "1", p: 1, s: true, i: "1", u: "1", o: 99)
             for el in AppStore
             {
@@ -157,7 +171,13 @@ class SyncNow: NSObject {
         let appData = NSKeyedArchiver.archivedDataWithRootObject(sorted)
         AppStore = sorted
         prefs.setObject(appData, forKey: "syncedappstore")
+        
+        if (AppHeaders.count > 0) {
+            print("* " + String(AppHeaders))
+            prefs.setObject(AppHeaders, forKey: "headers")
+        }
         prefs.synchronize()
+//        print(AppHeaders)
         complete()
     }
     

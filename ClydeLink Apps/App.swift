@@ -29,17 +29,17 @@ class App: NSObject, NSCoding {
         self.order = o
     }
     
-    override init()
-    {
-        self.header = ""
-        self.title = ""
-        self.link = ""
-        self.permissions = 0
-        self.selected = true
-        self.icon = ""
-        self.URL = ""
-        self.order = 0.0
-    }
+//    override init()
+//    {
+//        self.header = ""
+//        self.title = ""
+//        self.link = ""
+//        self.permissions = 0
+//        self.selected = true
+//        self.icon = ""
+//        self.URL = ""
+//        self.order = 0.0
+//    }
     
     required init(coder aDecoder: NSCoder) {
         if let header = aDecoder.decodeObjectForKey("header") as? String {
