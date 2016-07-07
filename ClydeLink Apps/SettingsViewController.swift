@@ -6,7 +6,29 @@
 //
 
 import UIKit
-protocol progressBarDelegate {
+public extension UIView {
+    
+    /**
+     Fade in a view with a duration
+     
+     - parameter duration: custom animation duration
+     */
+    func fadeIn(duration duration: NSTimeInterval) {
+        UIView.animateWithDuration(duration, animations: {
+            self.alpha = 1.0
+        })
+    }
+    
+    /**
+     Fade out a view with a duration
+     
+     - parameter duration: custom animation duration
+     */
+    func fadeOut(duration duration: NSTimeInterval) {
+        UIView.animateWithDuration(duration, animations: {
+            self.alpha = 0.0
+        })
+    }
     
 }
 class SettingsViewController: UIViewController {  // Basics of Settings screen, will be added to when decision has been made as to how we must proceed with the development of the screen
@@ -108,10 +130,8 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     @IBAction func SyncButton(sender: AnyObject) {  // Sync button clicked
         ActivityIndicator.startAnimating()
         
-//        flag = 0
-        
-//        getAppStore()
         ProgressBar.progress = 0.0
+        ProgressBar.alpha = 1
         ProgressBar.hidden = false
         synced = SyncNow(sync: 1, complete: {
             dispatch_async(dispatch_get_main_queue()) {
@@ -122,12 +142,12 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                 let lastsync = "Last Sync: " + lastdate![0] + " " + lastdate![1]
                 
                 self.LastSync.text = lastsync
-            
-                self.ProgressBar.setProgress(1, animated: true)
                 
+                
+                self.ProgressBar.setProgress(1, animated: true)
+                self.ProgressBar.fadeOut(duration: 3.0)
                 
             }
-            self.ProgressBar.hidden = true
         })
         
     }

@@ -156,7 +156,9 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         var appCell: App = synced.AppStore[indexPath.row + extra + AppNumber[indexPath.section]]
         //*********************** Change this **************************
+//        print("* " + String(appCell.order) + ", " + appCell.header + ", " + appCell.title + " *")
         if (appCell.header.lowercaseString != "all") {
+            
             while (prefs.arrayForKey("permissions")!.contains(appCell.title) == false && prefs.arrayForKey("permissions")!.contains(appCell.header) == false)
             {
                 extra += 1
