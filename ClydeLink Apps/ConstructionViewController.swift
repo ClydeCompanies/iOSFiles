@@ -36,7 +36,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
                 UIApplication.sharedApplication().openURL((WebView.request?.URL)!)
                 
             } else {
-                //redirect to safari because the user doesn't have Instagram
+                
                 print("App not installed")
                 UIApplication.sharedApplication().openURL(NSURL(string: prefs.stringForKey("redirectbutton")!)!)
                 

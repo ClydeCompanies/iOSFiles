@@ -122,16 +122,18 @@ class SyncNow: NSObject {
                 let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
 //                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
 //                    print(mydata)
-                    if (mydata == nil)
-                    {
-                        self.flag = 1
-                    }
-                    self.progress = 0.4
+                if (mydata == nil)
+                {
+                    self.flag = 1
+                } else {
+                    print(mydata)
+                }
+                self.progress = 0.4
                 NSNotificationCenter.defaultCenter().postNotificationName("TEST", object: nil, userInfo: ["progress":self.progress])
-                    self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
-                    self.progress = 0.5
+                self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
+                self.progress = 0.5
                 NSNotificationCenter.defaultCenter().postNotificationName("TEST", object: nil, userInfo: ["progress":self.progress])
-                    complete()
+                complete()
 //                }
             }
             
@@ -146,7 +148,7 @@ class SyncNow: NSObject {
             for element in Apps
             {
                 
-                AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!,r: /*(element["Redirect"] as? String)!*/""))
+                AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!,r: (element["Redirect"] as? String)!))
                 progress += 0.1 / Float(Apps.count)
                 NSNotificationCenter.defaultCenter().postNotificationName("TEST", object: nil, userInfo: ["progress":self.progress])
                 
