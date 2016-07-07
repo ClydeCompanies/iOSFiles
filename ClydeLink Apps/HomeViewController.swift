@@ -20,6 +20,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var flag: Int = 0  // Saves any errors as 1
     var synced: SyncNow = SyncNow()
     
+    
     var appButtons: Array = [App]()  // Holds clickable buttons
     
     var NoFavorite: Int = 0

@@ -59,6 +59,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         activityIndicator.hidden = false
         
         Employees = []
+        ResultsTable.reloadData()
         
         if (TextBox.text == ":-)") {
             let alertController = UIAlertController(title: "You Win!", message:

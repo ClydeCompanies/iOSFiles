@@ -184,7 +184,9 @@ class SyncNow: NSObject {
         let appData = NSKeyedArchiver.archivedDataWithRootObject(sorted)
         AppStore = sorted
         prefs.setObject(appData, forKey: "syncedappstore")
-        
+        for el in AppStore {
+            print(String(el.order) + ", " + el.header + ", " + el.title)
+        }
         if (AppHeaders.count > 0) {
             prefs.setObject(AppHeaders, forKey: "headers")
         }
