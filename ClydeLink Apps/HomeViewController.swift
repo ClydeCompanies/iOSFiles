@@ -133,6 +133,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //            AppTable.reloadData()
 //        }
         
+        if (isConnectedToNetwork() == false)
+        {
+            let alert = UIAlertController(title: "No Connection", message: "You are not connected to the internet.", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            alert.addAction(UIAlertAction(title: "Try Again", style: .Default, handler: { (action: UIAlertAction!) in
+                let vc = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
+                self.presentViewController(vc, animated: false, completion: nil)
+            }))
+            
+            presentViewController(alert, animated: true, completion: nil)
+        }
+        
         if (prefs.stringForKey("username") == "")
         {
             
