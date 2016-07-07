@@ -126,6 +126,13 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                         
                         return
                     }
+                    if (mydata!.count == 0)
+                    {
+                        self.flag = 1
+                        self.ResultsTable.reloadData()
+                        
+                        return
+                    }
                     
                     self.Employees = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
                     self.ResultsTable.reloadData()  // Reloads Table View cells as results
