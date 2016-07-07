@@ -6,10 +6,13 @@
 //
 
 import UIKit
-
+protocol progressBarDelegate {
+    
+}
 class SettingsViewController: UIViewController {  // Basics of Settings screen, will be added to when decision has been made as to how we must proceed with the development of the screen
 
     @IBOutlet weak var SignOutButton: UIBarButtonItem!
+    @IBOutlet weak var ProgressBar: UIProgressView!
     @IBOutlet weak var versionNumber: UILabel!
     @IBOutlet weak var buildNumber: UILabel!
     @IBOutlet weak var userName: UILabel!
@@ -22,7 +25,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     var EmployeeInfo: Array<AnyObject> = []  // Holds information about current user
     
     var picLocation: String = ""
-    
+    var synced: SyncNow = SyncNow()
     var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
     
@@ -31,8 +34,11 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     var AppStore: [App] = []  // Holds all apps
     var Apps: [AnyObject] = []  // Holds raw data of AppStore
     
+    
+    
     override func viewDidLoad() {  // Runs when view loads
         super.viewDidLoad()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:#selector(SettingsViewController.updateProgressBar(_:)), name: "TEST", object: nil)
         if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
             versionNumber.text = "Version: " + version  // Version number as found in project info
         }
@@ -92,21 +98,36 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         
     }
     
+    func updateProgressBar(notification: NSNotification)
+    {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.ProgressBar.setProgress((notification.userInfo!.first?.1 as? Float)!, animated: true)
+        }
+    }
+    
     @IBAction func SyncButton(sender: AnyObject) {  // Sync button clicked
         ActivityIndicator.startAnimating()
         
 //        flag = 0
         
 //        getAppStore()
-        let synced = SyncNow(sync: 1, complete: {
-            self.ActivityIndicator.stopAnimating()
+        ProgressBar.progress = 0.0
+        ProgressBar.hidden = false
+        synced = SyncNow(sync: 1, complete: {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.ActivityIndicator.stopAnimating()
+                
+                var lastdate = self.prefs.objectForKey("lastsync") as? [String]
+                
+                let lastsync = "Last Sync: " + lastdate![0] + " " + lastdate![1]
+                
+                self.LastSync.text = lastsync
             
-            var lastdate = self.prefs.objectForKey("lastsync") as? [String]
-            
-            let lastsync = "Last Sync: " + lastdate![0] + " " + lastdate![1]
-            
-            self.LastSync.text = lastsync
-
+                self.ProgressBar.setProgress(1, animated: true)
+                
+                
+            }
+            self.ProgressBar.hidden = true
         })
         
     }
