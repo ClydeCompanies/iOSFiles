@@ -31,16 +31,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         {
             ActivityIndicator.stopAnimating()
             
-            if UIApplication.sharedApplication().canOpenURL((WebView.request?.URL)!)
-            {
-                UIApplication.sharedApplication().openURL((WebView.request?.URL)!)
-                
-            } else {
-                
-                print("App not installed")
-                UIApplication.sharedApplication().openURL(NSURL(string: prefs.stringForKey("redirectbutton")!)!)
-                
-            }
+            
             
             let vc : UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
             self.presentViewController(vc, animated: true, completion: nil)
@@ -67,10 +58,22 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     
     func loadAddressURL() {
         let link = prefs.stringForKey("selectedButton")
-//        print(link)
+        
+        //        print(link)
         let requestURL = NSURL(string: link!)
         let request = NSURLRequest(URL: requestURL!)
-        WebView.loadRequest(request)
+
+        if (UIApplication.sharedApplication().canOpenURL(requestURL!))
+        {
+            WebView.loadRequest(request)
+
+        } else {
+
+            print("App not installed")
+            UIApplication.sharedApplication().openURL(NSURL(string: prefs.stringForKey("redirectbutton")!)!)
+            
+        }
+//        WebView.loadRequest(request)
         
         
     }
