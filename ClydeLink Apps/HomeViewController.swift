@@ -88,8 +88,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if (!prefs.boolForKey("launchedbefore"))
         {
             synced = SyncNow(sync: 1, complete: {
-                self.prefs.setBool(true, forKey: "launchedbefore")
-                self.prefs.synchronize()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.prefs.setBool(true, forKey: "launchedbefore")
+                    self.prefs.synchronize()
+                }
             })
             
         } else {
@@ -103,7 +105,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         timeFormatter.dateFormat = "h:mm"
         dateFormatter.dateFormat = "MMM d, yyyy"
         
-        if (prefs.objectForKey("lastsync") as? String  != nil) {
+        if (prefs.objectForKey("lastsync") == nil) {
             lastsync.append("Jan 1, 1990")
             lastsync.append("12:00")
             prefs.setObject(lastsync, forKey: "lastsync")
@@ -216,6 +218,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        }
         
         userDefaults.synchronize()
+        if (userDefaults.objectForKey("username") == nil)
+        {
+            userDefaults.setObject("", forKey: "username")
+        }
         if (userDefaults.stringForKey("username") != "")
         {
             let userEmail = userDefaults.stringForKey("username")!
