@@ -99,9 +99,7 @@ class SyncNow: NSObject {
     }
     func fillAppArray(complete: () -> Void) {
         if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
-            progress = 0.1
-            NSNotificationCenter.defaultCenter().postNotificationName("TEST", object: nil, userInfo: ["progress":self.progress])
-
+            notify()
             let request = NSMutableURLRequest(URL: url)
             request.HTTPMethod = "POST"
             let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
@@ -110,14 +108,13 @@ class SyncNow: NSObject {
                     self.flag = 1
                     return
                 }
-                self.progress = 0.2
-                NSNotificationCenter.defaultCenter().postNotificationName("TEST", object: nil, userInfo: ["progress":self.progress])
+                self.notify()
                 if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
                     print("response = \(response)")
                     self.flag = 1
                 }
-                
+                self.notify()
                 
                 let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
 //                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
@@ -128,11 +125,9 @@ class SyncNow: NSObject {
                 } else {
                     print(mydata)
                 }
-                self.progress = 0.4
-                NSNotificationCenter.defaultCenter().postNotificationName("TEST", object: nil, userInfo: ["progress":self.progress])
+                self.notify()
                 self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
-                self.progress = 0.5
-                NSNotificationCenter.defaultCenter().postNotificationName("TEST", object: nil, userInfo: ["progress":self.progress])
+                self.notify()
                 complete()
 //                }
             }
@@ -149,12 +144,9 @@ class SyncNow: NSObject {
             {
                 
                 AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!,r: (element["Redirect"] as? String)!))
-                progress += 0.1 / Float(Apps.count)
-                NSNotificationCenter.defaultCenter().postNotificationName("TEST", object: nil, userInfo: ["progress":self.progress])
-                
             }
         }
-        
+        self.notify()
         complete()
     }
     
@@ -179,8 +171,7 @@ class SyncNow: NSObject {
             sorted.append(min)
             AppStore.removeAtIndex(AppStore.indexOf(min)!)
         }
-        progress = 0.8
-        NSNotificationCenter.defaultCenter().postNotificationName("TEST", object: nil, userInfo: ["progress":self.progress])
+        self.notify()
         let appData = NSKeyedArchiver.archivedDataWithRootObject(sorted)
         AppStore = sorted
         prefs.setObject(appData, forKey: "syncedappstore")
@@ -216,8 +207,7 @@ class SyncNow: NSObject {
                 {
                     currentapps.removeAtIndex(currentapps.indexOf(el)!)
                 }
-                progress += 0.2 / Float(currentapps.count)
-                NSNotificationCenter.defaultCenter().postNotificationName("TEST", object: nil, userInfo: ["progress":self.progress])
+                self.notify()
             }
             let data = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
             prefs.setObject(data, forKey: "userapps")
@@ -238,6 +228,7 @@ class SyncNow: NSObject {
             self.prefs.setObject(lastdate, forKey: "lastsync")
             self.prefs.synchronize()
         }
+        self.notify()
         complete()
     }
     
@@ -245,4 +236,7 @@ class SyncNow: NSObject {
 //        fatalError("init(coder:) has not been implemented")
     }
 
+    func notify() {
+        NSNotificationCenter.defaultCenter().postNotificationName("TEST", object: nil)
+    }
 }

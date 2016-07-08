@@ -24,7 +24,7 @@ public extension UIView {
      
      - parameter duration: custom animation duration
      */
-    func fadeOut(duration duration: NSTimeInterval) {
+    func fadeOut(duration: NSTimeInterval) {
         UIView.animateWithDuration(duration, animations: {
             self.alpha = 0.0
         })
@@ -60,14 +60,14 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     
     override func viewDidLoad() {  // Runs when view loads
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector:#selector(SettingsViewController.updateProgressBar(_:)), name: "TEST", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:#selector(SettingsViewController.updateProgressBar/*(_:)*/), name: "TEST", object: nil)
         if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
             versionNumber.text = "Version: " + version  // Version number as found in project info
         }
         if let build = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
             buildNumber.text = "Build: " + build  // Build Number as found in project info
         }
-        
+        ProgressBar.progress = 0.0
         if (prefs.stringForKey("username") == "")
         {
             userName.text = "Not logged in"
@@ -123,14 +123,14 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     func updateProgressBar(notification: NSNotification)
     {
         dispatch_async(dispatch_get_main_queue()) {
-            self.ProgressBar.setProgress((notification.userInfo!.first?.1 as? Float)!, animated: true)
+            self.ProgressBar.setProgress(/*(notification.userInfo!.first?.1 as? Float)!*/ 0.1 + self.ProgressBar.progress, animated: true)
         }
     }
     
     @IBAction func SyncButton(sender: AnyObject) {  // Sync button clicked
+        ProgressBar.setProgress(0.0, animated: false)
         ActivityIndicator.startAnimating()
         
-        ProgressBar.progress = 0.0
         ProgressBar.alpha = 1
         ProgressBar.hidden = false
         synced = SyncNow(sync: 1, complete: {
@@ -145,7 +145,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                 
                 
                 self.ProgressBar.setProgress(1, animated: true)
-                self.ProgressBar.fadeOut(duration: 3.0)
+                self.ProgressBar.fadeOut(3.0)
                 
             }
         })
