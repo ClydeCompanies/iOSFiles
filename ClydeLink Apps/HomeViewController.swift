@@ -137,7 +137,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if (prefs.stringForKey("username") == "")
         {
             
-            let alert = UIAlertController(title: "Log In", message: "Please log in to view apps", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "Log In", message: "Please log in to view apps", preferredStyle: .Alert)
             
             alert.addAction(UIAlertAction(title: "Log In", style: .Default, handler: { (action: UIAlertAction!) in
                 
@@ -159,7 +159,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (components.day >= 7)
         {
-            let alert = UIAlertController(title: "Sync Now?", message: "It has been 7 days since your last sync.", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "Sync Now?", message: "It has been 7 days since your last sync.", preferredStyle: .Alert)
             
             alert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
                 self.synced = SyncNow(sync: 1, complete: {})
@@ -637,8 +637,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                      dispatch_async(dispatch_get_main_queue())
                      {
                          NSLog("Error in the authentication: %@", error)
-                         let alert: UIAlertView = UIAlertView(title: "Error", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", delegate: self, cancelButtonTitle: "OK")
-                         alert.show()
+                        let alert: UIAlertController = UIAlertController(title: "ERROR", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", preferredStyle: .Alert)
+                        //                        let alert: UIAlertController = UIAlertController(title: "Error", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", delegate: self, cancelButtonTitle: "OK")
+                        let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                        alert.addAction(defaultAction)
+                        self.presentViewController(alert, animated: true, completion: nil)
                      }
                  }
                 

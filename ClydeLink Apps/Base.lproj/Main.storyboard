@@ -674,7 +674,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="39"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eww-ju-bhK">
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eww-ju-bhK">
                                                     <rect key="frame" x="53" y="9" width="269" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -682,8 +682,9 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="eww-ju-bhK" firstAttribute="leading" secondItem="wbN-Kr-Vjp" secondAttribute="leading" constant="8" id="LYt-zW-PoT"/>
-                                                <constraint firstAttribute="trailing" secondItem="eww-ju-bhK" secondAttribute="trailing" constant="8" id="iAK-8H-XNH"/>
+                                                <constraint firstItem="eww-ju-bhK" firstAttribute="leading" secondItem="wbN-Kr-Vjp" secondAttribute="leading" constant="53" id="LYt-zW-PoT"/>
+                                                <constraint firstAttribute="trailing" secondItem="eww-ju-bhK" secondAttribute="trailing" constant="53" id="iAK-8H-XNH"/>
+                                                <constraint firstItem="eww-ju-bhK" firstAttribute="centerY" secondItem="wbN-Kr-Vjp" secondAttribute="centerY" id="vKd-Zw-UlE"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1228,6 +1229,6 @@
         <image name="person-generic" width="659" height="659"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="trZ-pE-0lw"/>
+        <segue reference="b95-nF-XaH"/>
     </inferredMetricsTieBreakers>
 </document>
