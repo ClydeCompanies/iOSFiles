@@ -236,6 +236,13 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         
         let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
         
+        for view in header.subviews{
+            if (view is UIImageView)
+            {
+                view.removeFromSuperview()
+            }
+        }
+        
         header.textLabel!
             .textColor = UIColor.blackColor()
         header.textLabel!.font = UIFont.boldSystemFontOfSize(20)
@@ -245,6 +252,12 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         let pic = UIImageView()
         pic.frame = CGRectMake(header.frame.width - 40, 10, 25, 25)
         pic.image = UIImage(named: "down-arrow")
+        pic.removeFromSuperview()
+        
+        let uppic = UIImageView()
+        uppic.frame = CGRectMake(header.frame.width - 40, 10, 25, 25)
+        uppic.image = UIImage(named: "up-arrow")
+        uppic.removeFromSuperview()
         
         let btn = UIButton(type: UIButtonType.Custom) as UIButton
         btn.frame = CGRectMake(0, 0, header.frame.width, header.frame.height)
@@ -252,7 +265,17 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         btn.setTitleColor(UIColor.blackColor(), forState: .Normal)
         btn.tag = section
         
-        header.addSubview(pic)
+        if (sectionOpen[section])
+        {
+            header.addSubview(pic)
+            pic.transform = CGAffineTransformMakeRotation((180.0 * CGFloat(M_PI)) / 180.0)
+        }
+        else
+        {
+            header.addSubview(pic)
+        }
+        
+        
         header.addSubview(btn)
         
         
