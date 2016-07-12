@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 public extension UIView {
     
     /**
@@ -292,6 +293,15 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
+    */
+    
+    
+    /*      ****CHECK IF USER IS USING IPAD****
+     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+     /* do something specifically for iPad. */
+     } else {
+     /* do something specifically for iPhone or iPod touch. */
+     }
     */
 
 }

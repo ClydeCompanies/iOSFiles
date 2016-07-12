@@ -70,7 +70,12 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         } else {
 
             print("App not installed")
-            UIApplication.sharedApplication().openURL(NSURL(string: prefs.stringForKey("redirectbutton")!)!)
+            
+            if (prefs.stringForKey("redirectbutton") != "") {
+                UIApplication.sharedApplication().openURL(NSURL(string: prefs.stringForKey("redirectbutton")!)!)
+            } else {
+                //**ErrorMessage**
+            }
             
         }
 //        WebView.loadRequest(request)
