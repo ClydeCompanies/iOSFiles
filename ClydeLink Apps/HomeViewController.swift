@@ -517,7 +517,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             let uName: String = String(format:"%@", parts[0])
             
-            if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetUserProfile?username=\(uName)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+            if let url = NSURL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile?username=\(uName)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
                 
                 let request = NSMutableURLRequest(URL: url)
                 

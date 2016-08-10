@@ -98,7 +98,7 @@ class SyncNow: NSObject {
         }
     }
     func fillAppArray(complete: () -> Void) {
-        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
+        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
             notify()
             let request = NSMutableURLRequest(URL: url)
             request.HTTPMethod = "POST"

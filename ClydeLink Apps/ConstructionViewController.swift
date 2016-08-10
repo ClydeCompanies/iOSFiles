@@ -58,7 +58,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     
     func loadAddressURL() {
         let link = prefs.stringForKey("selectedButton")
-        
+        print(link)
         //        print(link)
         let requestURL = NSURL(string: link!)
         let request = NSURLRequest(URL: requestURL!)
@@ -126,7 +126,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             tempUser = String(parts[0])
             
             
-            if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetUserProfile?username=\(tempUser)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+            if let url = NSURL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile?username=\(tempUser)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
                 
                 let request = NSMutableURLRequest(URL: url)
                 

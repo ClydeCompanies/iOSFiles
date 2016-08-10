@@ -164,7 +164,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             
             let uName: String = String(format:"%@", parts[0])
             
-            if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetUserProfile?username=\(uName)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+            if let url = NSURL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile?username=\(uName)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
                 
                 let request = NSMutableURLRequest(URL: url)
                 
@@ -192,8 +192,9 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                     let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
                     
                     print(" My Data: ")
+                    print("*********************")
                     print(mydata)  // Direct response from server printed to console, for testing
-                    
+                    print("*********************")
                     dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
                         if (mydata == nil)
                         {
