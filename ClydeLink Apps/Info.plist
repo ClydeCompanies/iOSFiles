@@ -24,6 +24,9 @@
 	<array>
 		<string>csodmobile</string>
 		<string>mspbi-intunemam</string>
+		<string>adpmobile</string>
+		<string>regenceapp</string>
+		<string>heqmobile</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
