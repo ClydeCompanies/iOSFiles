@@ -84,7 +84,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             nameSearched = TextBox.text!
         }
         
-        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
             
             let request = NSMutableURLRequest(URL: url)
             
@@ -124,6 +124,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                         alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
                         
                         self.presentViewController(alertController, animated: true, completion: nil)
+                        self.activityIndicator.stopAnimating()
                         
                         return
                     }
