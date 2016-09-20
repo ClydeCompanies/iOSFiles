@@ -31,56 +31,56 @@ class App: NSObject, NSCoding {
     }
     
     required init(coder aDecoder: NSCoder) {
-        if let header = aDecoder.decodeObjectForKey("header") as? String {
+        if let header = aDecoder.decodeObject(forKey: "header") as? String {
             self.header = header
         }
-        if let title = aDecoder.decodeObjectForKey("title") as? String {
+        if let title = aDecoder.decodeObject(forKey: "title") as? String {
             self.title = title
         }
-        if let link = aDecoder.decodeObjectForKey("link") as? String {
+        if let link = aDecoder.decodeObject(forKey: "link") as? String {
             self.link = link
         }
-        if let selected = aDecoder.decodeObjectForKey("selected") as? Bool {
+        if let selected = aDecoder.decodeObject(forKey: "selected") as? Bool {
             self.selected = selected
         }
-        if let icon = aDecoder.decodeObjectForKey("icon") as? String {
+        if let icon = aDecoder.decodeObject(forKey: "icon") as? String {
             self.icon = icon
         }
-        if let URL = aDecoder.decodeObjectForKey("URL") as? String {
+        if let URL = aDecoder.decodeObject(forKey: "URL") as? String {
             self.URL = URL
         }
-        if let order = aDecoder.decodeObjectForKey("order") as? Double {
+        if let order = aDecoder.decodeObject(forKey: "order") as? Double {
             self.order = order
         }
-        if let redirect = aDecoder.decodeObjectForKey("redirect") as? String {
+        if let redirect = aDecoder.decodeObject(forKey: "redirect") as? String {
             self.redirect = redirect
         }
     }
     
-    func encodeWithCoder(_aCoder: NSCoder) {
+    func encode(with _aCoder: NSCoder) {
         if let header: String = self.header {
-            _aCoder.encodeObject(header, forKey: "header")
+            _aCoder.encode(header, forKey: "header")
         }
         if let title: String = self.title {
-            _aCoder.encodeObject(title, forKey: "title")
+            _aCoder.encode(title, forKey: "title")
         }
         if let link: String = self.link {
-            _aCoder.encodeObject(link, forKey: "link")
+            _aCoder.encode(link, forKey: "link")
         }
         if let selected: Bool = self.selected {
-            _aCoder.encodeObject(selected, forKey: "selected")
+            _aCoder.encode(selected, forKey: "selected")
         }
         if let icon: String = self.icon {
-            _aCoder.encodeObject(icon, forKey: "icon")
+            _aCoder.encode(icon, forKey: "icon")
         }
         if let URL: String = self.URL {
-            _aCoder.encodeObject(URL, forKey: "URL")
+            _aCoder.encode(URL, forKey: "URL")
         }
         if let order: Double = self.order {
-            _aCoder.encodeObject(order, forKey: "order")
+            _aCoder.encode(order, forKey: "order")
         }
         if let redirect: String = self.redirect {
-            _aCoder.encodeObject(redirect, forKey: "redirect")
+            _aCoder.encode(redirect, forKey: "redirect")
         }
     }
 }

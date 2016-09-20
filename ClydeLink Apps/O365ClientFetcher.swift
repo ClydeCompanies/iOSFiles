@@ -40,7 +40,7 @@ class Office365ClientFetcher {
     // from the cookie cache and use that to get a new access and refresh token.
 
         
-    func fetchOutlookClient(completionHandler:((outlookClient: MSOutlookClient) -> Void)) {
+    func fetchOutlookClient(_ completionHandler:@escaping ((_ outlookClient: MSOutlookClient) -> Void)) {
         // Get an instance of the authentication controller.
         let authenticationManager = AuthenticationManager.sharedInstance
         
@@ -55,9 +55,9 @@ class Office365ClientFetcher {
             (authenticated:Bool) -> Void in
 
             if (authenticated) {
-                let userDefaults = NSUserDefaults.standardUserDefaults()
+                let userDefaults = UserDefaults.standard
                 
-                if let serviceEndpoints = userDefaults.dictionaryForKey("O365ServiceEndpoints") {
+                if let serviceEndpoints = userDefaults.dictionary(forKey: "O365ServiceEndpoints") {
                     if let serviceEndpointUrl: AnyObject = serviceEndpoints["Mail"] {
                         // Gets the MSOutlookClient with the URL for the Mail service.
                         let outlookClient = MSOutlookClient(url: serviceEndpointUrl as! String, dependencyResolver: authenticationManager.dependencyResolver)
@@ -67,7 +67,7 @@ class Office365ClientFetcher {
             }
             else {
                 // Display an alert in case of an error
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     NSLog("Error in the authentication")
                     let alert = UIAlertView(title: "Error", message: "Authentication failed.", delegate: self, cancelButtonTitle: "OK")
                     alert.show()
@@ -77,7 +77,7 @@ class Office365ClientFetcher {
     }
 
     // Gets the DiscoveryClient which is used to discover the service endpoints
-    func fetchDiscoveryClient(completionHandler:((discoveryClient: MSDiscoveryClient) -> Void)) {
+    func fetchDiscoveryClient(_ completionHandler:@escaping ((_ discoveryClient: MSDiscoveryClient) -> Void)) {
         
     // Get an instance of the authentication controller.
     let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
@@ -99,7 +99,7 @@ class Office365ClientFetcher {
             }
             else {
                 // Display an alert in case of an error
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     NSLog("Error in the authentication")
                     let alert: UIAlertView = UIAlertView(title: "Error", message: "Authentication failed.", delegate: self, cancelButtonTitle: "OK")
                     alert.show()

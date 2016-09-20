@@ -9,7 +9,7 @@ import UIKit
 
 
 extension Array {
-    func contains<T where T : Equatable>(obj: T) -> Bool {
+    func contains<T>(_ obj: T) -> Bool where T : Equatable {
         return self.filter({$0 as? T == obj}).count > 0
     }
 }
@@ -28,7 +28,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     var extra: Int = 0
     
-    let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
+    let prefs = UserDefaults.standard  // Current user preferences
     //    var currentapps: Array = [App]()  // Holds user's selected apps
     //    var Apps: Array = [AnyObject]()  // Holds raw data for AppStore
     var AppStore: [App] = []  // Holds all available Apps
@@ -51,7 +51,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         synced = SyncNow()
         
 //        NoApps = 0
-        AppHeaders = (prefs.arrayForKey("headers") as? [String])!
+        AppHeaders = (prefs.array(forKey: "headers") as? [String])!
         
         for _ in AppHeaders
         {
@@ -60,7 +60,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         
         
-        AppTable.tableFooterView = UIView(frame: CGRectZero)
+        AppTable.tableFooterView = UIView(frame: CGRect.zero)
         var apps: Int = 0
         var currentApp: String = ""
 //        print(synced.AppStore.count)
@@ -93,17 +93,17 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     
-    @IBAction func DoneSelected(sender: AnyObject) {  // Done button selected
+    @IBAction func DoneSelected(_ sender: AnyObject) {  // Done button selected
         //        let appData = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
         //        prefs.setObject(appData, forKey: "userapps")
         //        prefs.synchronize()
         
-        let vc : UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
+        let vc : UIViewController = self.storyboard!.instantiateViewController(withIdentifier: "Main")
         //vc.setEditing(true, animated: true)
-        self.presentViewController(vc, animated: true, completion: nil)
+        self.present(vc, animated: true, completion: nil)
     }
     
-    @IBAction func addButtonClicked(sender: AnyObject) {  // Add button clicked for an app
+    @IBAction func addButtonClicked(_ sender: AnyObject) {  // Add button clicked for an app
         loadApps()
         self.AppTable.reloadData()
     }
@@ -122,12 +122,12 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     // MARK: Table View Functions
     
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {  // Disallow Delete
-        return .None
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {  // Disallow Delete
+        return .none
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if (NoApps[indexPath.section] == 1)
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (NoApps[(indexPath as NSIndexPath).section] == 1)
         {
             return 40.0
         }
@@ -137,40 +137,40 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Returns each cell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {  // Returns each cell
         //        self.ActivityIndicator.stopAnimating()
         //            loadApps()
         synced = SyncNow()
         
-        if (NoApps[indexPath.section] == 1)
+        if (NoApps[(indexPath as NSIndexPath).section] == 1)
         {
-            let cell = self.AppTable.dequeueReusableCellWithIdentifier("BlankAddCell", forIndexPath: indexPath) as! BlankAddTableViewCell
+            let cell = self.AppTable.dequeueReusableCell(withIdentifier: "BlankAddCell", for: indexPath) as! BlankAddTableViewCell
             
             return cell
         }
         
         
-        if (indexPath.row == 0)
+        if ((indexPath as NSIndexPath).row == 0)
         {
             extra = 0
         }
-        var appCell: App = synced.AppStore[indexPath.row + extra + AppNumber[indexPath.section]]
+        var appCell: App = synced.AppStore[(indexPath as NSIndexPath).row + extra + AppNumber[(indexPath as NSIndexPath).section]]
         //*********************** Change this **************************
 //        print("* " + String(appCell.order) + ", " + appCell.header + ", " + appCell.title + " *")
-        if (appCell.header.lowercaseString != "all") {
+        if (appCell.header.lowercased() != "all") {
             
-            while (prefs.arrayForKey("permissions")!.contains(appCell.title) == false && prefs.arrayForKey("permissions")!.contains(appCell.header) == false)
+            while (prefs.array(forKey: "permissions")!.contains(appCell.title) == false && prefs.array(forKey: "permissions")!.contains(appCell.header) == false)
             {
                 extra += 1
-                appCell = synced.AppStore[indexPath.row + extra + AppNumber[indexPath.section]]
+                appCell = synced.AppStore[(indexPath as NSIndexPath).row + extra + AppNumber[(indexPath as NSIndexPath).section]]
             }
         }
-        let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AddTableViewCell
+        let cell = self.AppTable.dequeueReusableCell(withIdentifier: "AppCell", for: indexPath) as! AddTableViewCell
         cell.Title.text = appCell.title
-        cell.accessoryType = UITableViewCellAccessoryType.None;
+        cell.accessoryType = UITableViewCellAccessoryType.none;
         if let icon = appCell.icon {
-            let url = NSURL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
-            if let data = NSData(contentsOfURL: url){
+            let url = URL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
+            if let data = try? Data(contentsOf: url){
                 if icon != "UNDEFINED" {
                     let myImage = UIImage(data: data)
                     cell.Icon.image = myImage
@@ -193,23 +193,23 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             }
         }
         if found {
-            cell.addButton.hidden = true
+            cell.addButton.isHidden = true
         }
         else
         {
-            cell.addButton.hidden = false
+            cell.addButton.isHidden = false
         }
         AppCount += 1
         return cell
         
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns number of cells in each category
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns number of cells in each category
         var count: Int = 0
         for el in synced.AppStore
         {
             //*********************** Change this **************************
-            if (el.header == AppHeaders[section] && (prefs.arrayForKey("permissions")!.contains(el.title) || prefs.arrayForKey("permissions")!.contains(el.header) || el.header.lowercaseString == "all"))
+            if (el.header == AppHeaders[section] && (prefs.array(forKey: "permissions")!.contains(el.title) || prefs.array(forKey: "permissions")!.contains(el.header) || el.header.lowercased() == "all"))
             {
                 count += 1
             }
@@ -232,7 +232,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         return count
     }
     
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         
         let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
         
@@ -244,31 +244,31 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         
         header.textLabel!
-            .textColor = UIColor.blackColor()
-        header.textLabel!.font = UIFont.boldSystemFontOfSize(20)
+            .textColor = UIColor.black
+        header.textLabel!.font = UIFont.boldSystemFont(ofSize: 20)
         header.textLabel!.frame = header.frame
-        header.textLabel!.textAlignment = NSTextAlignment.Center
+        header.textLabel!.textAlignment = NSTextAlignment.center
         header.textLabel!.text = AppHeaders[section]
         let pic = UIImageView()
-        pic.frame = CGRectMake(header.frame.width - 40, 10, 25, 25)
+        pic.frame = CGRect(x: header.frame.width - 40, y: 10, width: 25, height: 25)
         pic.image = UIImage(named: "down-arrow")
         pic.removeFromSuperview()
         
         let uppic = UIImageView()
-        uppic.frame = CGRectMake(header.frame.width - 40, 10, 25, 25)
+        uppic.frame = CGRect(x: header.frame.width - 40, y: 10, width: 25, height: 25)
         uppic.image = UIImage(named: "up-arrow")
         uppic.removeFromSuperview()
         
-        let btn = UIButton(type: UIButtonType.Custom) as UIButton
-        btn.frame = CGRectMake(0, 0, header.frame.width, header.frame.height)
-        btn.addTarget(self, action: #selector(AddViewController.pressed), forControlEvents: .TouchUpInside)
-        btn.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        let btn = UIButton(type: UIButtonType.custom) as UIButton
+        btn.frame = CGRect(x: 0, y: 0, width: header.frame.width, height: header.frame.height)
+        btn.addTarget(self, action: #selector(AddViewController.pressed), for: .touchUpInside)
+        btn.setTitleColor(UIColor.black, for: UIControlState())
         btn.tag = section
         
         if (sectionOpen[section])
         {
             header.addSubview(pic)
-            pic.transform = CGAffineTransformMakeRotation((180.0 * CGFloat(M_PI)) / 180.0)
+            pic.transform = CGAffineTransform(rotationAngle: (180.0 * CGFloat(M_PI)) / 180.0)
         }
         else
         {
@@ -281,31 +281,31 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         
     }
     
-    func pressed(sender: UIButton)
+    func pressed(_ sender: UIButton)
     {  // Opens each section
         sectionOpen[sender.tag] = !sectionOpen[sender.tag]
         self.AppTable.reloadData()
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
+    func numberOfSections(in tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
         return AppHeaders.count
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {  // Determine what to do with button press
        
-            AppTable.deselectRowAtIndexPath(indexPath, animated: true)
+            AppTable.deselectRow(at: indexPath, animated: true)
        
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
         var uName: String = ""
-        if (prefs.stringForKey("username") != nil && prefs.stringForKey("username") != "")
+        if (prefs.string(forKey: "username") != nil && prefs.string(forKey: "username") != "")
         {
-            uName = "Logged in as " + prefs.stringForKey("username")!
+            uName = "Logged in as " + prefs.string(forKey: "username")!
         } else {
             uName = "Not logged in"
         }
@@ -338,7 +338,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             
             // Call the Discovery Service and get back an array of service endpoint information
             
-            let servicesTask = servicesInfoFetcher.readWithCallback{(serviceEndPointObjects:[AnyObject]!, error:MSODataException!) -> Void in
+            let servicesTask = servicesInfoFetcher?.read{(serviceEndPointObjects:[AnyObject]!, error:MSODataException!) -> Void in
                 let serviceEndpoints = serviceEndPointObjects as! [MSDiscoveryServiceInfo]
                 
                 if (serviceEndpoints.count > 0) {
@@ -346,34 +346,34 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                     // need to call the Discovery Service again until either this cache is removed, or you
                     // get an error that indicates that the endpoint is no longer valid.
                     
-                    var serviceEndpointLookup = [NSObject: AnyObject]()
+                    var serviceEndpointLookup = [AnyHashable: Any]()
                     
                     for serviceEndpoint in serviceEndpoints {
                         serviceEndpointLookup[serviceEndpoint.capability] = serviceEndpoint.serviceEndpointUri
                     }
                     
                     // Keep track of the service endpoints in the user defaults
-                    let userDefaults = NSUserDefaults.standardUserDefaults()
+                    let userDefaults = UserDefaults.standard
                     
-                    userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
+                    userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
                     userDefaults.synchronize()
                     
-                    dispatch_async(dispatch_get_main_queue()) {
-                        let userEmail = userDefaults.stringForKey("LogInUser")!
-                        var parts = userEmail.componentsSeparatedByString("@")
+                    DispatchQueue.main.async {
+                        let userEmail = userDefaults.string(forKey: "LogInUser")!
+                        var parts = userEmail.components(separatedBy: "@")
                         
                         self.test = String(format:"Hi %@!", parts[0])
                     }
                 }
                     
                 else {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         NSLog("Error in the authentication: %@", error)
-                        let alert: UIAlertController = UIAlertController(title: "ERROR", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", preferredStyle: .Alert)
+                        let alert: UIAlertController = UIAlertController(title: "ERROR", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", preferredStyle: .alert)
 //                        let alert: UIAlertController = UIAlertController(title: "Error", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", delegate: self, cancelButtonTitle: "OK")
-                        let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                         alert.addAction(defaultAction)
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
             }

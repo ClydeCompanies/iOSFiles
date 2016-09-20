@@ -270,12 +270,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9133DEE81CE1307300F8330E /* Build configuration list for PBXNativeTarget "ClydeLink AppsTests" */;
 			buildPhases = (
-				FCE5FAF0DB49D16E2369D7FD /* [CP] Check Pods Manifest.lock */,
 				9133DECD1CE1307300F8330E /* Sources */,
 				9133DECE1CE1307300F8330E /* Frameworks */,
 				9133DECF1CE1307300F8330E /* Resources */,
-				AC07E675BC9A24268ACED366 /* [CP] Embed Pods Frameworks */,
-				BF3D46C40F278910029A3E94 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -291,11 +288,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9133DEEB1CE1307300F8330E /* Build configuration list for PBXNativeTarget "ClydeLink AppsUITests" */;
 			buildPhases = (
-				20CEC4452E06716D3942641A /* [CP] Check Pods Manifest.lock */,
 				9133DED81CE1307300F8330E /* Sources */,
 				9133DED91CE1307300F8330E /* Frameworks */,
 				9133DEDA1CE1307300F8330E /* Resources */,
-				B617A58A706560DD927B2E3C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -320,13 +315,16 @@
 					9133DEBC1CE1307300F8330E = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = BJ8N6ZWL59;
+						LastSwiftMigration = 0800;
 					};
 					9133DED01CE1307300F8330E = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 9133DEBC1CE1307300F8330E;
 					};
 					9133DEDB1CE1307300F8330E = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 9133DEBC1CE1307300F8330E;
 					};
 				};
@@ -379,21 +377,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		20CEC4452E06716D3942641A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
 		7D5B2DA1174A6026974FB1A1 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
@@ -407,51 +390,6 @@
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ClydeLink Apps/Pods-ClydeLink Apps-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AC07E675BC9A24268ACED366 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ClydeLink AppsTests/Pods-ClydeLink AppsTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B617A58A706560DD927B2E3C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ClydeLink AppsUITests/Pods-ClydeLink AppsUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BF3D46C40F278910029A3E94 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ClydeLink AppsTests/Pods-ClydeLink AppsTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C82982D61E6A9B209680E807 /* [CP] Check Pods Manifest.lock */ = {
@@ -482,21 +420,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ClydeLink Apps/Pods-ClydeLink Apps-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FCE5FAF0DB49D16E2369D7FD /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -675,6 +598,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ClydeLink Apps/O365-Connect-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -693,6 +617,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ClydeLink Apps/O365-Connect-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -705,6 +630,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-AppsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClydeLink Apps.app/ClydeLink Apps";
 			};
 			name = Debug;
@@ -717,6 +643,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-AppsTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClydeLink Apps.app/ClydeLink Apps";
 			};
 			name = Release;
@@ -728,6 +655,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-AppsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = "ClydeLink Apps";
 			};
 			name = Debug;
@@ -739,6 +667,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "XLR8.ClydeLink-AppsUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = "ClydeLink Apps";
 			};
 			name = Release;

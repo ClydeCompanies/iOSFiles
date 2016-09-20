@@ -12,7 +12,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var WebView: UIWebView!
-    let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
+    let prefs = UserDefaults.standard  // Current user preferences
     @IBOutlet weak var NavBar: UINavigationBar!
     
     var tempUser: String = ""
@@ -26,15 +26,15 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         loadAddressURL()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        if ((WebView.request?.URL?.absoluteString.containsString("http")) == nil)
+    override func viewDidAppear(_ animated: Bool) {
+        if ((WebView.request?.url?.absoluteString.contains("http")) == nil)
         {
             ActivityIndicator.stopAnimating()
             
             
             
-            let vc : UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
-            self.presentViewController(vc, animated: true, completion: nil)
+            let vc : UIViewController = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+            self.present(vc, animated: true, completion: nil)
         }
     }
 
@@ -47,7 +47,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     
     // MARK: - Web View
 //    
-    func webViewDidStartLoad(webView: UIWebView) {  // Start loading web page
+    func webViewDidStartLoad(_ webView: UIWebView) {  // Start loading web page
         if (WebView.request != nil)
         {
 //            print("URL = " + webView.request!.URL!.absoluteString)
@@ -57,13 +57,13 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     }
     
     func loadAddressURL() {
-        let link = prefs.stringForKey("selectedButton")
+        let link = prefs.string(forKey: "selectedButton")
         print(link)
         //        print(link)
-        let requestURL = NSURL(string: link!)
-        let request = NSURLRequest(URL: requestURL!)
+        let requestURL = URL(string: link!)
+        let request = URLRequest(url: requestURL!)
 
-        if (UIApplication.sharedApplication().canOpenURL(requestURL!))
+        if (UIApplication.shared.canOpenURL(requestURL!))
         {
             WebView.loadRequest(request)
 
@@ -71,8 +71,8 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
 
             print("App not installed")
             
-            if (prefs.stringForKey("redirectbutton") != "") {
-                UIApplication.sharedApplication().openURL(NSURL(string: prefs.stringForKey("redirectbutton")!)!)
+            if (prefs.string(forKey: "redirectbutton") != "") {
+                UIApplication.shared.openURL(URL(string: prefs.string(forKey: "redirectbutton")!)!)
             } else {
                 //**ErrorMessage**
             }
@@ -83,7 +83,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         
     }
     
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         
         if (WebView.request != nil)
         {
@@ -99,13 +99,13 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     }
     
     
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
 //        print("Response = " + webView.request!.URL!.absoluteString)
 //        let link = prefs.stringForKey("selectedButton")
-        if (webView.request!.URL!.absoluteString.containsString("fs.clydeinc.com"))
+        if (webView.request!.url!.absoluteString.contains("fs.clydeinc.com"))
         {
             //get the username employee is trying to login with from the url
-            let urlComponents = NSURLComponents(string: webView.request!.URL!.absoluteString)
+            let urlComponents = URLComponents(string: webView.request!.url!.absoluteString)
             let queryItems = urlComponents?.queryItems
             let param1 = queryItems?.filter({$0.name == "username"}).first
 //            print("PARAM: ")
@@ -117,46 +117,46 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
           
             prefs.synchronize()
         }
-        if (webView.request!.URL!.absoluteString.containsString("https://clydelink.sharepoint.com/apps") && prefs.stringForKey("username") == "")
+        if (webView.request!.url!.absoluteString.contains("https://clydelink.sharepoint.com/apps") && prefs.string(forKey: "username") == "")
         {
             print("SAVED")
-            prefs.setObject(tempUser, forKey: "username")
+            prefs.set(tempUser, forKey: "username")
             let userEmail = tempUser
-            var parts = userEmail.componentsSeparatedByString("@")
+            var parts = userEmail.components(separatedBy: "@")
             tempUser = String(parts[0])
             
             
-            if let url = NSURL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile?username=\(tempUser)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+            if let url = URL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile?username=\(tempUser)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
                 
-                let request = NSMutableURLRequest(URL: url)
+                let request = NSMutableURLRequest(url: url)
                 
                 //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
-                request.HTTPMethod = "POST"
-                let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+                request.httpMethod = "POST"
+                let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
                     guard error == nil && data != nil else { // check for fundamental networking error
                         print("error=\(error)")
 //                        self.flag = 1
                         
                         let alertController = UIAlertController(title: "Error", message:
-                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                        self.presentViewController(alertController, animated: true, completion: nil)
+                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
+                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+                        self.present(alertController, animated: true, completion: nil)
                         
                         
                         return
                     }
                     
-                    if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+                    if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
                         print("statusCode should be 200, but is \(httpStatus.statusCode)")
                         print("response = \(response)")
                     }
                     
-                    let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
+                    let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
                     
                     print(" My Data: ")
                     print(mydata)  // Direct response from server printed to console, for testing
                     
-                    dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+                    DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
                         if (mydata == nil)
                         {
                             //                        self.activityIndicator.stopAnimating()  // Ends spinner
@@ -164,17 +164,17 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
 //                            self.flag = 1
                             
                             let alertController = UIAlertController(title: "Error", message:
-                                "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                                "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
+                            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
                             
-                            self.presentViewController(alertController, animated: true, completion: nil)
+                            self.present(alertController, animated: true, completion: nil)
                             
                             return
                         }
                         
                         let EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
-                        let employeedata = NSKeyedArchiver.archivedDataWithRootObject(EmployeeInfo)
-                        self.prefs.setObject(employeedata, forKey: "userinfo")
+                        let employeedata = NSKeyedArchiver.archivedData(withRootObject: EmployeeInfo)
+                        self.prefs.set(employeedata, forKey: "userinfo")
                         
                         
                         
@@ -188,23 +188,23 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
                                     permissions.append((permission["Group"]) as! String)
                                 }
                             }
-                            self.prefs.setObject(permissions, forKey: "permissions")
+                            self.prefs.set(permissions, forKey: "permissions")
                             
                             
                         } else {
-                            self.prefs.setObject([],forKey: "permissions")
+                            self.prefs.set([],forKey: "permissions")
                         }
                         
                     }
                     
-                }
+                }) 
                 task.resume()
             }
             
             
             
-            let vc = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
-            self.showViewController(vc, sender: vc)
+            let vc = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+            self.show(vc, sender: vc)
         }
         
 //        else{

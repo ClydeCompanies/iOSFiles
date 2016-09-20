@@ -30,11 +30,11 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)  // Allows dismissal of keyboard on tap anywhere on screen besides the keyboard itself
         
-        ResultsTable.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+        ResultsTable.separatorStyle = UITableViewCellSeparatorStyle.singleLine
         
-        ResultsTable.tableFooterView = UIView(frame: CGRectZero)
+        ResultsTable.tableFooterView = UIView(frame: CGRect.zero)
         
-        activityIndicator.hidden = true
+        activityIndicator.isHidden = true
         
         txtValue.delegate = self
     }
@@ -44,7 +44,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         // Dispose of any resources that can be recreated.
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {   //delegate method
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {   //delegate method
         textField.resignFirstResponder()
         Search()
         return true
@@ -56,19 +56,19 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         }
         
         self.activityIndicator.startAnimating()
-        activityIndicator.hidden = false
+        activityIndicator.isHidden = false
         
         Employees = []
         ResultsTable.reloadData()
         
         if (TextBox.text == ":-)") {
             let alertController = UIAlertController(title: "You Win!", message:
-                "", preferredStyle: UIAlertControllerStyle.Alert)
-            alertController.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.Default,handler: nil))
+                "", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.default,handler: nil))
             
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true, completion: nil)
             self.activityIndicator.stopAnimating()  // Ends spinner
-            self.activityIndicator.hidden = true
+            self.activityIndicator.isHidden = true
             return
         }
         
@@ -84,46 +84,46 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             nameSearched = TextBox.text!
         }
         
-        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+        if let url = URL(string: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
             
-            let request = NSMutableURLRequest(URL: url)
+            let request = NSMutableURLRequest(url: url)
             
             //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
-            request.HTTPMethod = "POST"
-            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+            request.httpMethod = "POST"
+            let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
                 guard error == nil && data != nil else { // check for fundamental networking error
                     print("error=\(error)")
                     self.flag = 1
                     
                     let alertController = UIAlertController(title: "Error", message:
-                        "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                    self.presentViewController(alertController, animated: true, completion: nil)
+                        "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
+                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+                    self.present(alertController, animated: true, completion: nil)
                     
                     
                     return
                 }
                 
-                if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+                if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
                     print("response = \(response)")
                 }
                 
-                let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
+                let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
                 
                 print(mydata)  // Direct response from server printed to console, for testing
                 
-                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+                DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
                     if (mydata == nil)
                     {
                         self.flag = 1
                         self.ResultsTable.reloadData()
                         
                         let alertController = UIAlertController(title: "Error", message:
-                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
+                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
                         
-                        self.presentViewController(alertController, animated: true, completion: nil)
+                        self.present(alertController, animated: true, completion: nil)
                         self.activityIndicator.stopAnimating()
                         
                         return
@@ -141,7 +141,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                     self.activityIndicator.stopAnimating()  // Ends spinner
                 }
                 
-            }
+            }) 
             task.resume()
             
             self.dismissKeyboard()  // Dismisses keyboard after the search
@@ -153,7 +153,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     
-    @IBAction func SearchClick(sender: AnyObject) {  // Program reaction to a click on the search button, initially if the search box is empty, will have no effect, otherwise will query the database for information
+    @IBAction func SearchClick(_ sender: AnyObject) {  // Program reaction to a click on the search button, initially if the search box is empty, will have no effect, otherwise will query the database for information
         Search()
     }
     
@@ -170,7 +170,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     
     // MARK: Table View
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of the query result, showing how many table cells to create
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of the query result, showing how many table cells to create
         var numberOfRows: Int = 1
         if (Employees.count > numberOfRows)
         {
@@ -180,43 +180,43 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         return numberOfRows
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Creates each cell, by parsing through the data received from the Employees array which we returned from the database
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {  // Creates each cell, by parsing through the data received from the Employees array which we returned from the database
         if (Employees.count == 0)
         {
-            let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("NORESULT", forIndexPath: indexPath) as! TruckSearchNRTableViewCell
+            let cell = self.ResultsTable.dequeueReusableCell(withIdentifier: "NORESULT", for: indexPath) as! TruckSearchNRTableViewCell
             
             return cell
         }
             
         else {
-            let cell = self.ResultsTable.dequeueReusableCellWithIdentifier("RESULT", forIndexPath: indexPath) as! TruckSearchTableViewCell
+            let cell = self.ResultsTable.dequeueReusableCell(withIdentifier: "RESULT", for: indexPath) as! TruckSearchTableViewCell
         
-                cell.companyLabel.text = Employees[indexPath.row]["CompanyName"] as? String
-                cell.nameLabel.text = Employees[indexPath.row]["EmployeeName"] as? String
-            if let mobile = Employees[indexPath.row]["PhoneNumber"] as? String {
+                cell.companyLabel.text = Employees[(indexPath as NSIndexPath).row]["CompanyName"] as? String
+                cell.nameLabel.text = Employees[(indexPath as NSIndexPath).row]["EmployeeName"] as? String
+            if let mobile = Employees[(indexPath as NSIndexPath).row]["PhoneNumber"] as? String {
                 if (mobile == "")
                 {
-                    cell.mobileLabel.hidden = true
-                    cell.mobileTitle.hidden = true
+                    cell.mobileLabel.isHidden = true
+                    cell.mobileTitle.isHidden = true
                 } else {
-                    cell.mobileTitle.hidden = false
-                    cell.mobileLabel.hidden = false
+                    cell.mobileTitle.isHidden = false
+                    cell.mobileLabel.isHidden = false
                 }
-                let phonenumber = mobile.stringByReplacingOccurrencesOfString("[^0-9]", withString: "", options: NSStringCompareOptions.RegularExpressionSearch, range:nil);
+                let phonenumber = mobile.replacingOccurrences(of: "[^0-9]", with: "", options: NSString.CompareOptions.regularExpression, range:nil);
                 cell.phoneNumber.text = phonenumber
             }
-                cell.titleLabel.text = Employees[indexPath.row]["JobTitle"] as? String
-                cell.truckLabel.text = Employees[indexPath.row]["TruckNumber"] as? String
-                cell.supervisorLabel.text = Employees[indexPath.row]["SupervisorName"] as? String
-            if (Employees[indexPath.row]["Synced"] as? Int) == 0 {
+                cell.titleLabel.text = Employees[(indexPath as NSIndexPath).row]["JobTitle"] as? String
+                cell.truckLabel.text = Employees[(indexPath as NSIndexPath).row]["TruckNumber"] as? String
+                cell.supervisorLabel.text = Employees[(indexPath as NSIndexPath).row]["SupervisorName"] as? String
+            if (Employees[(indexPath as NSIndexPath).row]["Synced"] as? Int) == 0 {
                 turnRed(cell)
             } else {
                 turnBlack(cell)
             }
-            if let ePhoto = Employees[indexPath.row]["PicLocation"] as? String {  // Save complete URL of picture location, and save it to the table
+            if let ePhoto = Employees[(indexPath as NSIndexPath).row]["PicLocation"] as? String {  // Save complete URL of picture location, and save it to the table
                 
-                let url = NSURL(string: "https://clydewap.clydeinc.com/images/Small/\(ePhoto)")!
-                if let data = NSData(contentsOfURL: url){
+                let url = URL(string: "https://clydewap.clydeinc.com/images/Small/\(ePhoto)")!
+                if let data = try? Data(contentsOf: url){
                     let myImage = UIImage(data: data)
                     cell.employeePhoto.image = myImage
                 }
@@ -231,7 +231,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if (Employees.count > 0)
         {
@@ -245,33 +245,33 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     
-    func turnRed(cell:TruckSearchTableViewCell) {  // Turn all text labels in this cell to RED
-        cell.companyLabel.textColor = UIColor.redColor()
-        cell.nameLabel.textColor = UIColor.redColor()
-        cell.titleLabel.textColor = UIColor.redColor()
-        cell.truckLabel.textColor = UIColor.redColor()
-        cell.supervisorLabel.textColor = UIColor.redColor()
+    func turnRed(_ cell:TruckSearchTableViewCell) {  // Turn all text labels in this cell to RED
+        cell.companyLabel.textColor = UIColor.red
+        cell.nameLabel.textColor = UIColor.red
+        cell.titleLabel.textColor = UIColor.red
+        cell.truckLabel.textColor = UIColor.red
+        cell.supervisorLabel.textColor = UIColor.red
         
-        cell.companyTitle.textColor = UIColor.redColor()
-        cell.nameTitle.textColor = UIColor.redColor()
-        cell.mobileTitle.textColor = UIColor.redColor()
-        cell.titleTitle.textColor = UIColor.redColor()
-        cell.truckTitle.textColor = UIColor.redColor()
-        cell.supervisorTitle.textColor = UIColor.redColor()
+        cell.companyTitle.textColor = UIColor.red
+        cell.nameTitle.textColor = UIColor.red
+        cell.mobileTitle.textColor = UIColor.red
+        cell.titleTitle.textColor = UIColor.red
+        cell.truckTitle.textColor = UIColor.red
+        cell.supervisorTitle.textColor = UIColor.red
     }
-    func turnBlack(cell:TruckSearchTableViewCell) {  // Turn all text labels in this cell to black
-        cell.companyLabel.textColor = UIColor.blackColor()
-        cell.nameLabel.textColor = UIColor.blackColor()
-        cell.titleLabel.textColor = UIColor.blackColor()
-        cell.truckLabel.textColor = UIColor.blackColor()
-        cell.supervisorLabel.textColor = UIColor.blackColor()
+    func turnBlack(_ cell:TruckSearchTableViewCell) {  // Turn all text labels in this cell to black
+        cell.companyLabel.textColor = UIColor.black
+        cell.nameLabel.textColor = UIColor.black
+        cell.titleLabel.textColor = UIColor.black
+        cell.truckLabel.textColor = UIColor.black
+        cell.supervisorLabel.textColor = UIColor.black
         
-        cell.companyTitle.textColor = UIColor.blackColor()
-        cell.nameTitle.textColor = UIColor.blackColor()
-        cell.mobileTitle.textColor = UIColor.blackColor()
-        cell.titleTitle.textColor = UIColor.blackColor()
-        cell.truckTitle.textColor = UIColor.blackColor()
-        cell.supervisorTitle.textColor = UIColor.blackColor()
+        cell.companyTitle.textColor = UIColor.black
+        cell.nameTitle.textColor = UIColor.black
+        cell.mobileTitle.textColor = UIColor.black
+        cell.titleTitle.textColor = UIColor.black
+        cell.truckTitle.textColor = UIColor.black
+        cell.supervisorTitle.textColor = UIColor.black
     }
     
 }

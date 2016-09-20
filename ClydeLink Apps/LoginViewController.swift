@@ -9,7 +9,7 @@ import UIKit
 
 class LoginViewController: UIViewController {  // Basic ViewController for the Login Screen, will be added to when necessary to include implementation for Authentication. Currently stores username entered for use later in the application.
 
-    let prefs = NSUserDefaults.standardUserDefaults()  // Where we are saving the user defaults in the Application data on the phone
+    let prefs = UserDefaults.standard  // Where we are saving the user defaults in the Application data on the phone
     
     func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status and dismiss the keyboard
@@ -40,14 +40,14 @@ class LoginViewController: UIViewController {  // Basic ViewController for the L
     }
     */
 
-    @IBAction func LoginButtonPress(sender: AnyObject) {  // Transitions to new VC without any Authentication, simply for ease of testing until we solidify the means of auth that we are going to use
+    @IBAction func LoginButtonPress(_ sender: AnyObject) {  // Transitions to new VC without any Authentication, simply for ease of testing until we solidify the means of auth that we are going to use
         
-        let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
-        self.showViewController(vc as! UIViewController, sender: vc)
+        let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+        self.show(vc as! UIViewController, sender: vc)
         
         
         
-        prefs.setObject(Username.text, forKey: "username")
+        prefs.set(Username.text, forKey: "username")
         
     }
     

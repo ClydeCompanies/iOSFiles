@@ -9,14 +9,14 @@ import UIKit
 
 class AddTableViewCell: UITableViewCell {
     
-    let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
+    let prefs = UserDefaults.standard  // Current user preferences
     let synced: SyncNow = SyncNow()
     
     @IBOutlet weak var Title: UILabel!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var Icon: UIImageView!
     
-    @IBAction func addButton(sender: AnyObject) {
+    @IBAction func addButton(_ sender: AnyObject) {
         let synced: SyncNow = SyncNow()
         for element in synced.AppStore
         {
@@ -28,10 +28,10 @@ class AddTableViewCell: UITableViewCell {
             }
             
         }
-        let appData = NSKeyedArchiver.archivedDataWithRootObject(synced.currentapps)
-        prefs.setObject(appData, forKey: "userapps")
+        let appData = NSKeyedArchiver.archivedData(withRootObject: synced.currentapps)
+        prefs.set(appData, forKey: "userapps")
         prefs.synchronize()
-        addButton.hidden = true
+        addButton.isHidden = true
         //display "Added!" text instead
     }
     
@@ -40,7 +40,7 @@ class AddTableViewCell: UITableViewCell {
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

@@ -27,11 +27,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var finalEdit: Bool = false
     var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
-    let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
+    let prefs = UserDefaults.standard  // Current user preferences
     
     var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
-    var components: AnyObject = ""
+    var components: AnyObject = "" as AnyObject
     
 
     
@@ -39,27 +39,27 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         finalEdit = false
-        if (prefs.stringForKey("username") == "Loading...")
+        if (prefs.string(forKey: "username") == "Loading...")
         {
-            prefs.setObject("", forKey: "username")
+            prefs.set("", forKey: "username")
         }
         test = "TEST"
         
         NoFavorite = 0
-        if (prefs.arrayForKey("permissions") == nil)
+        if (prefs.array(forKey: "permissions") == nil)
         {
-            prefs.setObject([], forKey: "permissions")
+            prefs.set([], forKey: "permissions")
         }
         for el in synced.currentapps
         {
             //*********************** Change this **************************
-            if (prefs.arrayForKey("permissions")!.contains(el.title) == false && prefs.arrayForKey("permissions")!.contains(el.header) == false && el.header.lowercaseString != "all")
+            if (prefs.array(forKey: "permissions")!.contains(el.title) == false && prefs.array(forKey: "permissions")!.contains(el.header) == false && el.header.lowercased() != "all")
             {
-                synced.currentapps.removeAtIndex(synced.currentapps.indexOf(el)!)
+                synced.currentapps.remove(at: synced.currentapps.index(of: el)!)
             }
         }
-        let appData = NSKeyedArchiver.archivedDataWithRootObject(synced.currentapps)
-        prefs.setObject(appData, forKey: "userapps")
+        let appData = NSKeyedArchiver.archivedData(withRootObject: synced.currentapps)
+        prefs.set(appData, forKey: "userapps")
         prefs.synchronize()
         
         for element in synced.currentapps
@@ -67,16 +67,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.appButtons.append(element)
         }
         
-        AppTable.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+        AppTable.separatorStyle = UITableViewCellSeparatorStyle.singleLine
         
-        AppTable.tableFooterView = UIView(frame: CGRectZero)
+        AppTable.tableFooterView = UIView(frame: CGRect.zero)
         
         
-        if (!prefs.boolForKey("launchedbefore"))
+        if (!prefs.bool(forKey: "launchedbefore"))
         {
             synced = SyncNow(sync: 1, complete: {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.prefs.setBool(true, forKey: "launchedbefore")
+                DispatchQueue.main.async {
+                    self.prefs.set(true, forKey: "launchedbefore")
                     self.prefs.synchronize()
                 }
             })
@@ -86,36 +86,36 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         var lastsync: [String] = []
         //LastSync
-        let calendar: NSCalendar = NSCalendar.currentCalendar()
-        let dateFormatter = NSDateFormatter()
-        let timeFormatter = NSDateFormatter()
+        let calendar: Calendar = Calendar.current
+        let dateFormatter = DateFormatter()
+        let timeFormatter = DateFormatter()
         timeFormatter.dateFormat = "h:mm"
         dateFormatter.dateFormat = "MMM d, yyyy"
         
-        if (prefs.objectForKey("lastsync") == nil) {
+        if (prefs.object(forKey: "lastsync") == nil) {
             lastsync.append("Jan 1, 1990")
             lastsync.append("12:00")
-            prefs.setObject(lastsync, forKey: "lastsync")
+            prefs.set(lastsync, forKey: "lastsync")
             prefs.synchronize()
         }
         else{
-            lastsync = (prefs.objectForKey("lastsync") as? [String])!
+            lastsync = (prefs.object(forKey: "lastsync") as? [String])!
         }
         
-        let date1 = calendar.startOfDayForDate(dateFormatter.dateFromString(lastsync[0])!)
-        let date2 = calendar.startOfDayForDate(NSDate())
+        let date1 = calendar.startOfDay(for: dateFormatter.date(from: lastsync[0])!)
+        let date2 = calendar.startOfDay(for: Date())
         
-        let flags = NSCalendarUnit.Day
-        components = calendar.components(flags, fromDate: date1, toDate: date2, options: [])
+        let flags = NSCalendar.Unit.day
+        components = (calendar as NSCalendar).components(flags, from: date1, to: date2, options: [])
         
-        if (prefs.arrayForKey("permissions") == nil)
+        if (prefs.array(forKey: "permissions") == nil)
         {
-            prefs.setObject([], forKey: "permissions")
+            prefs.set([], forKey: "permissions")
         }
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
 //        prefs.synchronize()
 //        if (prefs.stringForKey("username") == "")
 //        {
@@ -124,52 +124,52 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (isConnectedToNetwork() == false)
         {
-            let alert = UIAlertController(title: "No Connection", message: "You are not connected to the internet.", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "No Connection", message: "You are not connected to the internet.", preferredStyle: UIAlertControllerStyle.alert)
             
-            alert.addAction(UIAlertAction(title: "Try Again", style: .Default, handler: { (action: UIAlertAction!) in
-                let vc = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
-                self.presentViewController(vc, animated: false, completion: nil)
+            alert.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { (action: UIAlertAction!) in
+                let vc = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+                self.present(vc, animated: false, completion: nil)
             }))
             
-            presentViewController(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
         
-        if (prefs.stringForKey("username") == "")
+        if (prefs.string(forKey: "username") == "")
         {
             
-            let alert = UIAlertController(title: "Log In", message: "Please log in to view apps", preferredStyle: .Alert)
+            let alert = UIAlertController(title: "Log In", message: "Please log in to view apps", preferredStyle: .alert)
             
-            alert.addAction(UIAlertAction(title: "Log In", style: .Default, handler: { (action: UIAlertAction!) in
+            alert.addAction(UIAlertAction(title: "Log In", style: .default, handler: { (action: UIAlertAction!) in
                 
                 
-                let vc = self.storyboard!.instantiateViewControllerWithIdentifier("Construction")
+                let vc = self.storyboard!.instantiateViewController(withIdentifier: "Construction")
                 
-                self.prefs.setObject("http://clydelink.sharepoint.com/apps", forKey: "selectedButton")
+                self.prefs.set("http://clydelink.sharepoint.com/apps", forKey: "selectedButton")
                 
-                self.showViewController(vc , sender: vc)
+                self.show(vc , sender: vc)
                 
             }))
             
-            alert.addAction(UIAlertAction(title: "Not Now", style: .Cancel, handler: { (action: UIAlertAction!) in
+            alert.addAction(UIAlertAction(title: "Not Now", style: .cancel, handler: { (action: UIAlertAction!) in
                 
             }))
             
-            presentViewController(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
         
         if (components.day >= 7)
         {
-            let alert = UIAlertController(title: "Sync Now?", message: "It has been 7 days since your last sync.", preferredStyle: .Alert)
+            let alert = UIAlertController(title: "Sync Now?", message: "It has been 7 days since your last sync.", preferredStyle: .alert)
             
-            alert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
                 self.synced = SyncNow(sync: 1, complete: {})
             }))
             
-            alert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: { (action: UIAlertAction!) in
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (action: UIAlertAction!) in
                 
             }))
             
-            presentViewController(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
     }
 
@@ -180,9 +180,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
         zeroAddress.sin_family = sa_family_t(AF_INET)
-        let defaultRouteReachability = withUnsafePointer(&zeroAddress) {
+        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
             SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
         }
         var flags = SCNetworkReachabilityFlags()
@@ -198,17 +198,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: - AppTable View
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
+    func numberOfSections(in tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
         return 1
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 18
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
         
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefaults = UserDefaults.standard
 
 //        userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
 //        userDefaults.synchronize()
@@ -220,14 +220,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        }
         
         userDefaults.synchronize()
-        if (userDefaults.objectForKey("username") == nil)
+        if (userDefaults.object(forKey: "username") == nil)
         {
-            userDefaults.setObject("", forKey: "username")
+            userDefaults.set("", forKey: "username")
         }
-        if (userDefaults.stringForKey("username") != "")
+        if (userDefaults.string(forKey: "username") != "")
         {
-            let userEmail = userDefaults.stringForKey("username")!
-            var parts = userEmail.componentsSeparatedByString("@")
+            let userEmail = userDefaults.string(forKey: "username")!
+            var parts = userEmail.components(separatedBy: "@")
             self.test = String(parts[0])
         }
         else
@@ -290,18 +290,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         
         let header: UITableViewHeaderFooterView = view as! UITableViewHeaderFooterView
         
         header.textLabel!
-            .textColor = UIColor.blackColor()
-        header.textLabel!.font = UIFont.boldSystemFontOfSize(12)
+            .textColor = UIColor.black
+        header.textLabel!.font = UIFont.boldSystemFont(ofSize: 12)
         header.textLabel!.frame = header.frame
-        header.textLabel!.textAlignment = NSTextAlignment.Left
+        header.textLabel!.textAlignment = NSTextAlignment.left
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of all the buttons needed
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of all the buttons needed
         if (self.appButtons.count == 0 && finalEdit == false)
         {
             NoFavorite = 1
@@ -311,18 +311,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {  // Determines which buttons should be header buttons and which chould carry on to other views
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {  // Determines which buttons should be header buttons and which chould carry on to other views
         if (NoFavorite == 1)
         {
-            let cell = self.AppTable.dequeueReusableCellWithIdentifier("BlankFavorite", forIndexPath: indexPath) as! BlankFavoriteTableViewCell
+            let cell = self.AppTable.dequeueReusableCell(withIdentifier: "BlankFavorite", for: indexPath) as! BlankFavoriteTableViewCell
             return cell
         }
-            let cell = self.AppTable.dequeueReusableCellWithIdentifier("AppCell", forIndexPath: indexPath) as! AppTableViewCell
+            let cell = self.AppTable.dequeueReusableCell(withIdentifier: "AppCell", for: indexPath) as! AppTableViewCell
             
-            cell.Title.text = self.appButtons[indexPath.row].title
-            if let icon = appButtons[indexPath.row].icon {
-                let url = NSURL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
-                if let data = NSData(contentsOfURL: url){
+            cell.Title.text = self.appButtons[(indexPath as NSIndexPath).row].title
+            if let icon = appButtons[(indexPath as NSIndexPath).row].icon {
+                let url = URL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
+                if let data = try? Data(contentsOf: url){
                     if icon != "UNDEFINED" {
                         let myImage = UIImage(data: data)
                         cell.Icon.image = myImage
@@ -339,40 +339,40 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {  // Delete the selected app
-        if editingStyle == .Delete {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {  // Delete the selected app
+        if editingStyle == .delete {
             if (appButtons.count == 1)
             {
                 finalEdit = true
             }
             for element in synced.currentapps
             {
-                if (element.title == appButtons[indexPath.row].title)
+                if (element.title == appButtons[(indexPath as NSIndexPath).row].title)
                 {
-                    synced.currentapps.removeAtIndex(synced.currentapps.indexOf(element)!)
+                    synced.currentapps.remove(at: synced.currentapps.index(of: element)!)
                     break
                 }
             }
-            let appData = NSKeyedArchiver.archivedDataWithRootObject(synced.currentapps)
-            prefs.setObject(appData, forKey: "userapps")
+            let appData = NSKeyedArchiver.archivedData(withRootObject: synced.currentapps)
+            prefs.set(appData, forKey: "userapps")
             prefs.synchronize()
-            appButtons.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            appButtons.remove(at: (indexPath as NSIndexPath).row)
+            tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
             
         }
     }
     
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {  // Allow Delete
-        if (self.AppTable.editing && self.NoFavorite == 0) {return .Delete}
-        return .None
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {  // Allow Delete
+        if (self.AppTable.isEditing && self.NoFavorite == 0) {return .delete}
+        return .none
     }
     
-    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {  // All apps are moveable
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {  // All apps are moveable
         if (self.NoFavorite == 0) {return true}
         return false
     }
     
-    func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         if (NoFavorite == 1)
         {
             return false
@@ -380,28 +380,28 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         return true
     }
     
-    func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {  // Move apps within table
-        let itemToMove = appButtons[fromIndexPath.row]
-        appButtons.removeAtIndex(fromIndexPath.row)
-        appButtons.insert(itemToMove, atIndex: toIndexPath.row)
+    func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to toIndexPath: IndexPath) {  // Move apps within table
+        let itemToMove = appButtons[(fromIndexPath as NSIndexPath).row]
+        appButtons.remove(at: (fromIndexPath as NSIndexPath).row)
+        appButtons.insert(itemToMove, at: (toIndexPath as NSIndexPath).row)
 //        currentapps.removeAtIndex(fromIndexPath.row)
 //        currentapps.insert(itemToMove, atIndex: toIndexPath.row)
         var fromindex: Int = 0
         for element in synced.currentapps
         {
             if (element.title == itemToMove.title) {
-                fromindex = synced.currentapps.indexOf(element)!
+                fromindex = synced.currentapps.index(of: element)!
             }
         }
         
         var toindex: Int = 0
         var change: Int = 0
         
-        if (toIndexPath.row > fromIndexPath.row)
+        if ((toIndexPath as NSIndexPath).row > (fromIndexPath as NSIndexPath).row)
         {
             //Down
             change = 1
-        } else if (toIndexPath.row < fromIndexPath.row){
+        } else if ((toIndexPath as NSIndexPath).row < (fromIndexPath as NSIndexPath).row){
             //Up
             change = -1
         } else {
@@ -411,11 +411,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         for element in synced.currentapps
         {
-            if (element.title == appButtons[fromIndexPath.row + change].title) {
-                toindex = synced.currentapps.indexOf(element)!
+            if (element.title == appButtons[(fromIndexPath as NSIndexPath).row + change].title) {
+                toindex = synced.currentapps.index(of: element)!
             }
         }
-        synced.currentapps.removeAtIndex(fromindex)
+        synced.currentapps.remove(at: fromindex)
         if (toindex + change >= synced.currentapps.count)
         {
             change = 0
@@ -424,19 +424,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         {
             change = 0
         }
-        synced.currentapps.insert(itemToMove, atIndex: toindex + change)
-        let appData = NSKeyedArchiver.archivedDataWithRootObject(synced.currentapps)
-        prefs.setObject(appData, forKey: "userapps")
+        synced.currentapps.insert(itemToMove, at: toindex + change)
+        let appData = NSKeyedArchiver.archivedData(withRootObject: synced.currentapps)
+        prefs.set(appData, forKey: "userapps")
         prefs.synchronize()
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {  // Gives the height for each row
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {  // Gives the height for each row
         if (NoFavorite == 0) {return 60.0}
         return 80.0
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {  // Determine what to do with button press
-        let buttonpressed = self.appButtons[indexPath.row]
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {  // Determine what to do with button press
+        let buttonpressed = self.appButtons[(indexPath as NSIndexPath).row]
         var vc : AnyObject! = nil
         
         //Log in
@@ -447,17 +447,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             switch (buttonpressed.link)
             {
                 case "vehiclesearch":
-                    vc = self.storyboard!.instantiateViewControllerWithIdentifier("Truck Search")
+                    vc = self.storyboard!.instantiateViewController(withIdentifier: "Truck Search")
                     break;
                 default:
-                    vc = self.storyboard!.instantiateViewControllerWithIdentifier("Construction")
+                    vc = self.storyboard!.instantiateViewController(withIdentifier: "Construction")
                     break;
             }
             
-            prefs.setObject(buttonpressed.URL, forKey: "selectedButton")
-            prefs.setObject(buttonpressed.redirect, forKey: "redirectbutton")
-            self.showViewController(vc as! UIViewController, sender: vc)
-            AppTable.deselectRowAtIndexPath(indexPath, animated: true)
+            prefs.set(buttonpressed.URL, forKey: "selectedButton")
+            prefs.set(buttonpressed.redirect, forKey: "redirectbutton")
+            self.show(vc as! UIViewController, sender: vc)
+            AppTable.deselectRow(at: indexPath, animated: true)
 //        }
 //        else
 //        {
@@ -467,19 +467,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    @IBAction func editTable(sender: AnyObject) {  // Edit button pressed
+    @IBAction func editTable(_ sender: AnyObject) {  // Edit button pressed
         if (leftButton.title == "Edit")
         {
             AppTable.setEditing(true,animated: true)
             leftButton.title = "Add"
             rightButton.title = "Done"
         } else {
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("All")
-            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "All")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
         }
     }
     
-    @IBAction func settingsButton(sender: AnyObject) {  // Settings button pressed
+    @IBAction func settingsButton(_ sender: AnyObject) {  // Settings button pressed
         finalEdit = false
         if (rightButton.title == "Done")
         {
@@ -489,65 +489,65 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.AppTable.reloadData()
         }
         else {
-        let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Settings")
-        self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+        let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Settings")
+        self.present(vc as! UIViewController, animated: true, completion: nil)
         }
     }
     
-    func sortarray(inout currentapps: [App])
+    func sortarray(_ currentapps: inout [App])
     {
         for element in currentapps
         {
             if (!element.selected)
             {
-                currentapps.removeAtIndex(currentapps.indexOf(element)!)
+                currentapps.remove(at: currentapps.index(of: element)!)
                 currentapps.append(element)
             }
         }
     }
     
     func loadUserInfo() {  // Get user's information
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefaults = UserDefaults.standard
         
-        userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
+        userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
         userDefaults.synchronize()
         
-        if let userEmail = userDefaults.stringForKey("username") {
-            var parts = userEmail.componentsSeparatedByString("@")
+        if let userEmail = userDefaults.string(forKey: "username") {
+            var parts = userEmail.components(separatedBy: "@")
             
             let uName: String = String(format:"%@", parts[0])
             
-            if let url = NSURL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile?username=\(uName)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+            if let url = URL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile?username=\(uName)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
                 
-                let request = NSMutableURLRequest(URL: url)
+                let request = NSMutableURLRequest(url: url)
                 
                 //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
-                request.HTTPMethod = "POST"
-                let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+                request.httpMethod = "POST"
+                let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
                     guard error == nil && data != nil else { // check for fundamental networking error
                         print("error=\(error)")
                         self.flag = 1
                         
                         let alertController = UIAlertController(title: "Error", message:
-                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                        self.presentViewController(alertController, animated: true, completion: nil)
+                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
+                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+                        self.present(alertController, animated: true, completion: nil)
                         
                         
                         return
                     }
                     
-                    if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+                    if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
                         print("statusCode should be 200, but is \(httpStatus.statusCode)")
                         print("response = \(response)")
                     }
                     
-                    let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
+                    let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
                     
                     print(" My Data: ")
                     print(mydata)  // Direct response from server printed to console, for testing
                     
-                    dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+                    DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
                         if (mydata == nil)
                         {
                             //                        self.activityIndicator.stopAnimating()  // Ends spinner
@@ -555,21 +555,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                             self.flag = 1
                             
                             let alertController = UIAlertController(title: "Error", message:
-                                "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                                "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
+                            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
                             
-                            self.presentViewController(alertController, animated: true, completion: nil)
+                            self.present(alertController, animated: true, completion: nil)
                             
                             return
                         }
                         
                         self.EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
-                        let employeedata = NSKeyedArchiver.archivedDataWithRootObject(self.EmployeeInfo)
-                        self.prefs.setObject(employeedata, forKey: "userinfo")
+                        let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
+                        self.prefs.set(employeedata, forKey: "userinfo")
                         
                     }
                     
-                }
+                }) 
                 task.resume()
             }
             
@@ -580,7 +580,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
-    func connectToOffice365(complete: () -> Void) {
+    func connectToOffice365(_ complete: @escaping () -> Void) {
      // Connect to the service by discovering the service endpoints and authorizing
      // the application to access the user's email. This will store the user's
      // service URLs in a property list to be accessed when calls are made to the
@@ -599,7 +599,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
              
              // Call the Discovery Service and get back an array of service endpoint information
              
-             let servicesTask = servicesInfoFetcher.readWithCallback
+             let servicesTask = servicesInfoFetcher?.read
              {
                 (serviceEndPointObjects:[AnyObject]!, error:MSODataException!) -> Void in
                  let serviceEndpoints = serviceEndPointObjects as! [MSDiscoveryServiceInfo]
@@ -610,7 +610,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                      // need to call the Discovery Service again until either this cache is removed, or you
                      // get an error that indicates that the endpoint is no longer valid.
                      
-                     var serviceEndpointLookup = [NSObject: AnyObject]()
+                     var serviceEndpointLookup = [AnyHashable: Any]()
                      
                      for serviceEndpoint in serviceEndpoints
                      {
@@ -618,15 +618,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                      }
                      
                      // Keep track of the service endpoints in the user defaults
-                     let userDefaults = NSUserDefaults.standardUserDefaults()
+                     let userDefaults = UserDefaults.standard
                      
-                     userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
+                     userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
                      userDefaults.synchronize()
                      
-                     dispatch_async(dispatch_get_main_queue())
+                     DispatchQueue.main.async
                      {
-                         let userEmail = userDefaults.stringForKey("LogInUser")!
-                         var parts = userEmail.componentsSeparatedByString("@")
+                         let userEmail = userDefaults.string(forKey: "LogInUser")!
+                         var parts = userEmail.components(separatedBy: "@")
                          
                          self.test = String(format:"Hi %@!", parts[0])
                         complete()
@@ -634,14 +634,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                  }
                  else
                  {
-                     dispatch_async(dispatch_get_main_queue())
+                     DispatchQueue.main.async
                      {
                          NSLog("Error in the authentication: %@", error)
-                        let alert: UIAlertController = UIAlertController(title: "ERROR", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", preferredStyle: .Alert)
+                        let alert: UIAlertController = UIAlertController(title: "ERROR", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", preferredStyle: .alert)
                         //                        let alert: UIAlertController = UIAlertController(title: "Error", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", delegate: self, cancelButtonTitle: "OK")
-                        let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                         alert.addAction(defaultAction)
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        self.present(alert, animated: true, completion: nil)
                      }
                  }
                 

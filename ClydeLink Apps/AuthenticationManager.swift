@@ -37,7 +37,7 @@ let CLIENT_ID           = "caba98a9-83d6-491a-823f-f5e51a77f188"
 let AUTHORITY           = "https://login.microsoftonline.com/common"
 
 class AuthenticationManager {
-    var redirectURL: NSURL
+    var redirectURL: URL
     var authority: String = ""
     var clientId: String = ""
     var dependencyResolver: ADALDependencyResolver
@@ -45,7 +45,7 @@ class AuthenticationManager {
     init () {
         // These are settings that you need to set based on your
         // client registration in Azure AD.
-        redirectURL = NSURL(string: REDIRECT_URL_STRING)!
+        redirectURL = URL(string: REDIRECT_URL_STRING)!
         authority = AUTHORITY
         clientId = CLIENT_ID
         dependencyResolver = ADALDependencyResolver()
@@ -60,7 +60,7 @@ class AuthenticationManager {
     }
     
     // Acquire access and refresh tokens from Azure AD for the user
-    func acquireAuthTokenWithResourceId(resourceId: String, completionHandler:((Bool) -> Void)) {
+    func acquireAuthTokenWithResourceId(_ resourceId: String, completionHandler:@escaping ((Bool) -> Void)) {
         var error: ADAuthenticationError?
         let authContext: ADAuthenticationContext = ADAuthenticationContext(authority: authority, error:&error)
       
@@ -72,16 +72,16 @@ class AuthenticationManager {
         // token in the cache to authenticate client requests.
         // This will result in a call to the service if you need to get an access token.
 
-        authContext.acquireTokenWithResource(resourceId, clientId: clientId, redirectUri: redirectURL) {
+        authContext.acquireToken(withResource: resourceId, clientId: clientId, redirectUri: redirectURL) {
             (result:ADAuthenticationResult!) -> Void in
 
             if result.status.rawValue != AD_SUCCEEDED.rawValue {
                 completionHandler(false)
             }
             else {
-                let userDefaults = NSUserDefaults.standardUserDefaults()
+                let userDefaults = UserDefaults.standard
                 
-                userDefaults.setObject(result.tokenCacheStoreItem.userInformation.userId, forKey: "LogInUser")
+                userDefaults.set(result.tokenCacheStoreItem.userInformation.userId, forKey: "LogInUser")
                 userDefaults.synchronize()
                 
                 self.dependencyResolver = ADALDependencyResolver(context: authContext, resourceId: resourceId, clientId: self.clientId , redirectUri: self.redirectURL)
@@ -97,13 +97,13 @@ class AuthenticationManager {
 
         // Clear the token cache
         let allItemsArray = cache.allItemsWithError(&error)
-        if (!allItemsArray.isEmpty) {
+        if (!(allItemsArray?.isEmpty)!) {
             cache.removeAllWithError(&error)
         }
     
         // Remove all the cookies from this application's sandbox. The authorization code is stored in the
         // cookies and ADAL will try to get to access tokens based on auth code in the cookie.
-        let cookieStore = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        let cookieStore = HTTPCookieStorage.shared
         if let cookies = cookieStore.cookies {
             for cookie in cookies {
                 cookieStore.deleteCookie(cookie )

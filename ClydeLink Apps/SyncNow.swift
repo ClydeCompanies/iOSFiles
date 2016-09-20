@@ -10,7 +10,7 @@ import UIKit
 class SyncNow: NSObject {
     
     var flag: Int = 0
-    let prefs = NSUserDefaults.standardUserDefaults()
+    let prefs = UserDefaults.standard
     var Apps: [AnyObject] = []
     var AppStore: [App] = []
     var currentapps: [App] = []
@@ -35,7 +35,7 @@ class SyncNow: NSObject {
         })
     }
     
-    init(sync: Int, complete: () -> Void) {
+    init(sync: Int, complete: @escaping () -> Void) {
         super.init()
         syncnow = 1
         done = 0
@@ -52,11 +52,11 @@ class SyncNow: NSObject {
         
     }
     
-    func getAppStore(complete: () -> Void)
+    func getAppStore(_ complete: () -> Void)
     {  // Load apps from online database
         var success: Bool = false
-        if let data = prefs.objectForKey("syncedappstore") as? NSData {
-            AppStore = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
+        if let data = prefs.object(forKey: "syncedappstore") as? Data {
+            AppStore = NSKeyedUnarchiver.unarchiveObject(with: data) as! [App]
             sortArray({
                 self.updateCurrentApps({
                     return
@@ -87,8 +87,8 @@ class SyncNow: NSObject {
                 })
             })
         }
-        if let data = prefs.objectForKey("userapps") as? NSData {
-            currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
+        if let data = prefs.object(forKey: "userapps") as? Data {
+            currentapps = NSKeyedUnarchiver.unarchiveObject(with: data) as! [App]
         } else {
             currentapps = []
         }
@@ -97,26 +97,26 @@ class SyncNow: NSObject {
             complete()
         }
     }
-    func fillAppArray(complete: () -> Void) {
-        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
+    func fillAppArray(_ complete: @escaping () -> Void) {
+        if let url = URL(string: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo?token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {
             notify()
-            let request = NSMutableURLRequest(URL: url)
-            request.HTTPMethod = "POST"
-            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+            let request = NSMutableURLRequest(url: url)
+            request.httpMethod = "POST"
+            let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
                 guard error == nil && data != nil else {
                     print("error=\(error)")
                     self.flag = 1
                     return
                 }
                 self.notify()
-                if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+                if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
                     print("response = \(response)")
                     self.flag = 1
                 }
                 self.notify()
                 
-                let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
+                let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
 //                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
 //                    print(mydata)
                 if (mydata == nil)
@@ -130,14 +130,14 @@ class SyncNow: NSObject {
                 self.notify()
                 complete()
 //                }
-            }
+            }) 
             
             task.resume()  // Reloads Table View cells as results
         }
         
     }
     
-    func buildAppStore(complete: () -> Void) {  // Convert raw data into more accessible AppStore
+    func buildAppStore(_ complete: () -> Void) {  // Convert raw data into more accessible AppStore
         if (AppStore.count == 0) {
     //        AppStore = []
             for element in Apps
@@ -150,7 +150,7 @@ class SyncNow: NSObject {
         complete()
     }
     
-    func sortArray(complete: () -> Void)
+    func sortArray(_ complete: () -> Void)
     {  // Sort array based on individual apps' "order" property
         AppHeaders = []
         var sorted: [App] = []
@@ -169,28 +169,28 @@ class SyncNow: NSObject {
                 }
             }
             sorted.append(min)
-            AppStore.removeAtIndex(AppStore.indexOf(min)!)
+            AppStore.remove(at: AppStore.index(of: min)!)
         }
         self.notify()
-        let appData = NSKeyedArchiver.archivedDataWithRootObject(sorted)
+        let appData = NSKeyedArchiver.archivedData(withRootObject: sorted)
         AppStore = sorted
-        prefs.setObject(appData, forKey: "syncedappstore")
+        prefs.set(appData, forKey: "syncedappstore")
 //        for el in AppStore {
 //            print(String(el.order) + ", " + el.header + ", " + el.title)
 //        }
         if (AppHeaders.count > 0) {
-            prefs.setObject(AppHeaders, forKey: "headers")
+            prefs.set(AppHeaders, forKey: "headers")
         }
         prefs.synchronize()
 //        print(AppHeaders)
         complete()
     }
     
-    func updateCurrentApps(complete: () -> Void)
+    func updateCurrentApps(_ complete: () -> Void)
     {  // Updates the user's selected apps due to changes in online database
         
-        if let data = prefs.objectForKey("userapps") as? NSData {
-            var currentapps = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [App]
+        if let data = prefs.object(forKey: "userapps") as? Data {
+            var currentapps = NSKeyedUnarchiver.unarchiveObject(with: data) as! [App]
             for el in currentapps
             {
                 var found: Bool = false
@@ -205,27 +205,27 @@ class SyncNow: NSObject {
                 }
                 if (!found)
                 {
-                    currentapps.removeAtIndex(currentapps.indexOf(el)!)
+                    currentapps.remove(at: currentapps.index(of: el)!)
                 }
                 self.notify()
             }
-            let data = NSKeyedArchiver.archivedDataWithRootObject(currentapps)
-            prefs.setObject(data, forKey: "userapps")
+            let data = NSKeyedArchiver.archivedData(withRootObject: currentapps)
+            prefs.set(data, forKey: "userapps")
             prefs.synchronize()
         }
-        let date = NSDate()
+        let date = Date()
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, yyyy"
         
-        let timeFormatter = NSDateFormatter()
+        let timeFormatter = DateFormatter()
         timeFormatter.dateFormat = "h:mm"
         if (self.flag == 0 && syncnow == 1)
         {
-            var lastdate: [String!] = []
-            lastdate.append(dateFormatter.stringFromDate(date))
-            lastdate.append(timeFormatter.stringFromDate(date))
-            self.prefs.setObject(lastdate, forKey: "lastsync")
+            var lastdate: [String?] = []
+            lastdate.append(dateFormatter.string(from: date))
+            lastdate.append(timeFormatter.string(from: date))
+            self.prefs.set(lastdate, forKey: "lastsync")
             self.prefs.synchronize()
         }
         self.notify()
@@ -237,6 +237,6 @@ class SyncNow: NSObject {
     }
 
     func notify() {
-        NSNotificationCenter.defaultCenter().postNotificationName("TEST", object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "TEST"), object: nil)
     }
 }

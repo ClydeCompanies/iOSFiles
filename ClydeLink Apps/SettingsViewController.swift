@@ -14,8 +14,8 @@ public extension UIView {
      
      - parameter duration: custom animation duration
      */
-    func fadeIn(duration duration: NSTimeInterval) {
-        UIView.animateWithDuration(duration, animations: {
+    func fadeIn(duration: TimeInterval) {
+        UIView.animate(withDuration: duration, animations: {
             self.alpha = 1.0
         })
     }
@@ -25,8 +25,8 @@ public extension UIView {
      
      - parameter duration: custom animation duration
      */
-    func fadeOut(duration: NSTimeInterval) {
-        UIView.animateWithDuration(duration, animations: {
+    func fadeOut(_ duration: TimeInterval) {
+        UIView.animate(withDuration: duration, animations: {
             self.alpha = 0.0
         })
     }
@@ -52,7 +52,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
     
-    let prefs = NSUserDefaults.standardUserDefaults()  // Current user preferences
+    let prefs = UserDefaults.standard  // Current user preferences
     var flag:Int=0;  // Keeps track of any errors
     var AppStore: [App] = []  // Holds all apps
     var Apps: [AnyObject] = []  // Holds raw data of AppStore
@@ -61,23 +61,23 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     
     override func viewDidLoad() {  // Runs when view loads
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector:#selector(SettingsViewController.updateProgressBar/*(_:)*/), name: "TEST", object: nil)
-        if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+        NotificationCenter.default.addObserver(self, selector:#selector(SettingsViewController.updateProgressBar/*(_:)*/), name: NSNotification.Name(rawValue: "TEST"), object: nil)
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             versionNumber.text = "Version: " + version  // Version number as found in project info
         }
-        if let build = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+        if let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
             buildNumber.text = "Build: " + build  // Build Number as found in project info
         }
         ProgressBar.progress = 0.0
-        if (prefs.stringForKey("username") == "")
+        if (prefs.string(forKey: "username") == "")
         {
             userName.text = "Not logged in"
             JobTitle.text = ""
             CompanyName.text = ""
-            SignOutButton.enabled = false
-            prefs.setObject([], forKey: "permissions")
+            SignOutButton.isEnabled = false
+            prefs.set([], forKey: "permissions")
         }
-        var lastdate = prefs.objectForKey("lastsync") as? [String]
+        var lastdate = prefs.object(forKey: "lastsync") as? [String]
         
         let lastsync = "Last Sync: " + lastdate![0] + " " + lastdate![1]
         
@@ -93,52 +93,52 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func SignOut(sender: AnyObject) {  // Sign out button clicked
-        let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertControllerStyle.Alert)
+    @IBAction func SignOut(_ sender: AnyObject) {  // Sign out button clicked
+        let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertControllerStyle.alert)
         
         
         
-        alert.addAction(UIAlertAction(title: "Confirm", style: .Default, handler: { (action: UIAlertAction!) in
-            self.prefs.setObject("", forKey: "username")
-            self.prefs.setObject("", forKey: "LogInUser")
-            self.prefs.setObject([], forKey: "userapps")
-            self.prefs.setObject([], forKey: "permissions")
+        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
+            self.prefs.set("", forKey: "username")
+            self.prefs.set("", forKey: "LogInUser")
+            self.prefs.set([], forKey: "userapps")
+            self.prefs.set([], forKey: "permissions")
             let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
             authenticationManager.clearCredentials()
             
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("Main")
-            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
             self.prefs.synchronize()
         }))
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: { (action: UIAlertAction!) in
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
             print("Phew!")
         }))
         
         
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
         
         
     }
     
-    func updateProgressBar(notification: NSNotification)
+    func updateProgressBar(_ notification: Notification)
     {
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.ProgressBar.setProgress(/*(notification.userInfo!.first?.1 as? Float)!*/ 0.1 + self.ProgressBar.progress, animated: true)
         }
     }
     
-    @IBAction func SyncButton(sender: AnyObject) {  // Sync button clicked
+    @IBAction func SyncButton(_ sender: AnyObject) {  // Sync button clicked
         ProgressBar.setProgress(0.0, animated: false)
         ActivityIndicator.startAnimating()
         
         ProgressBar.alpha = 1
-        ProgressBar.hidden = false
+        ProgressBar.isHidden = false
         synced = SyncNow(sync: 1, complete: {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.ActivityIndicator.stopAnimating()
                 
-                var lastdate = self.prefs.objectForKey("lastsync") as? [String]
+                var lastdate = self.prefs.object(forKey: "lastsync") as? [String]
                 
                 let lastsync = "Last Sync: " + lastdate![0] + " " + lastdate![1]
                 
@@ -154,48 +154,48 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     }
 
     func loadUserInfo() {  // Get user's information
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefaults = UserDefaults.standard
         
-        userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
+        userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
         userDefaults.synchronize()
         
-        if let userEmail = userDefaults.stringForKey("username") {
-            var parts = userEmail.componentsSeparatedByString("@")
+        if let userEmail = userDefaults.string(forKey: "username") {
+            var parts = userEmail.components(separatedBy: "@")
             
             let uName: String = String(format:"%@", parts[0])
             
-            if let url = NSURL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile?username=\(uName)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+            if let url = URL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile?username=\(uName)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
                 
-                let request = NSMutableURLRequest(URL: url)
+                let request = NSMutableURLRequest(url: url)
                 
                 //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
-                request.HTTPMethod = "POST"
-                let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+                request.httpMethod = "POST"
+                let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
                     guard error == nil && data != nil else { // check for fundamental networking error
                         print("error=\(error)")
                         self.flag = 1
                         
                         let alertController = UIAlertController(title: "Error", message:
-                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-                        self.presentViewController(alertController, animated: true, completion: nil)
+                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
+                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+                        self.present(alertController, animated: true, completion: nil)
                         
                         
                         return
                     }
                     
-                    if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
+                    if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
                         print("statusCode should be 200, but is \(httpStatus.statusCode)")
                         print("response = \(response)")
                     }
                     
-                    let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
+                    let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
                     
                     print(" My Data: ")
                     print("*********************")
                     print(mydata)  // Direct response from server printed to console, for testing
                     print("*********************")
-                    dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
+                    DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
                         if (mydata == nil)
                         {
                             //                        self.activityIndicator.stopAnimating()  // Ends spinner
@@ -203,17 +203,17 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                             self.flag = 1
                             
                             let alertController = UIAlertController(title: "Error", message:
-                                "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-                            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
+                                "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
+                            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
                             
-                            self.presentViewController(alertController, animated: true, completion: nil)
+                            self.present(alertController, animated: true, completion: nil)
                             
                             return
                         }
                         
                         self.EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
-                        let employeedata = NSKeyedArchiver.archivedDataWithRootObject(self.EmployeeInfo)
-                        self.prefs.setObject(employeedata, forKey: "userinfo")
+                        let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
+                        self.prefs.set(employeedata, forKey: "userinfo")
                         
                         //CompanyName
                         //CompanyNumber
@@ -234,7 +234,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                         
                         
                         
-                        print(self.prefs.arrayForKey("permissions"))
+                        print(self.prefs.array(forKey: "permissions"))
                         self.prefs.synchronize()
                         var permissions: [String] = []
                         if (!(self.EmployeeInfo[0]["Permissions"] is NSNull)) {
@@ -245,11 +245,11 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                                     permissions.append((permission["Group"]) as! String)
                                 }
                             }
-                            self.prefs.setObject(permissions, forKey: "permissions")
+                            self.prefs.set(permissions, forKey: "permissions")
                             
-                            print(self.prefs.arrayForKey("permissions"))
+                            print(self.prefs.array(forKey: "permissions"))
                         } else {
-                            self.prefs.setObject([],forKey: "permissions")
+                            self.prefs.set([],forKey: "permissions")
                         }
                         
                         
@@ -261,7 +261,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                         else
                         {
                             self.picLocation = (self.EmployeeInfo[0]["PicLocation"] as? String)!
-                            if let data = NSData(contentsOfURL: NSURL(string: "https://clydewap.clydeinc.com/images/Small/\(self.picLocation)")!)
+                            if let data = try? Data(contentsOf: URL(string: "https://clydewap.clydeinc.com/images/Small/\(self.picLocation)")!)
                             {
                                 let myImage = UIImage(data: data)
                                 self.UserPicture.image = myImage
@@ -274,7 +274,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                         
                     }
                     
-                }
+                }) 
                 task.resume()
             }
             

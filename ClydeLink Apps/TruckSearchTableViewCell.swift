@@ -11,7 +11,7 @@ extension UIView {
     var parentViewController: UIViewController? {
         var parentResponder: UIResponder? = self
         while parentResponder != nil {
-            parentResponder = parentResponder!.nextResponder()
+            parentResponder = parentResponder!.next
             if parentResponder is UIViewController {
                 return parentResponder as! UIViewController!
             }
@@ -31,7 +31,7 @@ class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of ea
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
@@ -55,35 +55,35 @@ class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of ea
     @IBOutlet weak var phoneNumber: UILabel!
     
     
-    @IBAction func mobileClick(sender: AnyObject!) {
+    @IBAction func mobileClick(_ sender: AnyObject!) {
         if phoneNumber.text != "" {
             var phone = phoneNumber.text!
-            phone = phone.stringByReplacingOccurrencesOfString("[^0-9]", withString: "", options: NSStringCompareOptions.RegularExpressionSearch, range:nil);
+            phone = phone.replacingOccurrences(of: "[^0-9]", with: "", options: NSString.CompareOptions.regularExpression, range:nil);
             if phone.characters.count == 10
             {
                 
-                phone = "(" + phone.substringWithRange(Range<String.Index>(phone.startIndex..<phone.startIndex.advancedBy(3))) + ") " + phone.substringWithRange(Range<String.Index>(phone.startIndex.advancedBy(3)..<phone.startIndex.advancedBy(6))) + "-" + phone.substringWithRange(Range<String.Index>(phone.startIndex.advancedBy(6)..<phone.endIndex))
+                phone = "(" + phone.substring(with: Range<String.Index>(phone.startIndex..<phone.characters.index(phone.startIndex, offsetBy: 3))) + ") " + phone.substring(with: Range<String.Index>(phone.characters.index(phone.startIndex, offsetBy: 3)..<phone.characters.index(phone.startIndex, offsetBy: 6))) + "-" + phone.substring(with: Range<String.Index>(phone.characters.index(phone.startIndex, offsetBy: 6)..<phone.endIndex))
             } /*else if phone.characters.count == 12
             {
                 phone = "(" + phone.substringWithRange(Range<String.Index>(phone.startIndex..<phone.startIndex.advancedBy(3))) + ") " + phone.substringWithRange(Range<String.Index>(phone.startIndex.advancedBy(4)..<phone.endIndex))
             } */
             let callAlert = UIAlertController(title: "\(phone)", message:
-                "", preferredStyle: UIAlertControllerStyle.Alert)
-            callAlert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default,handler: nil))
-            callAlert.addAction(UIAlertAction(title: "Call", style: UIAlertActionStyle.Default,handler: { (action: UIAlertAction!) in
+                "", preferredStyle: UIAlertControllerStyle.alert)
+            callAlert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
+            callAlert.addAction(UIAlertAction(title: "Call", style: UIAlertActionStyle.default,handler: { (action: UIAlertAction!) in
                 self.call(self.phoneNumber.text!)
             }))
-            parentViewController!.presentViewController(callAlert, animated: true, completion: nil)
+            parentViewController!.present(callAlert, animated: true, completion: nil)
         } else {
             let errorAlert = UIAlertController(title: "Error", message:
-                "Phone number not listed", preferredStyle: UIAlertControllerStyle.Alert)
-            errorAlert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default,handler: nil))
-            parentViewController!.presentViewController(errorAlert, animated: true, completion: nil)
+                "Phone number not listed", preferredStyle: UIAlertControllerStyle.alert)
+            errorAlert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
+            parentViewController!.present(errorAlert, animated: true, completion: nil)
         }
     }
-    func call(number: String) {
-        if let url: NSURL = NSURL(string: "tel://\(number)") {
-            let application:UIApplication = UIApplication.sharedApplication()
+    func call(_ number: String) {
+        if let url: URL = URL(string: "tel://\(number)") {
+            let application:UIApplication = UIApplication.shared
             if (application.canOpenURL(url)) {
                 application.openURL(url);
             }
