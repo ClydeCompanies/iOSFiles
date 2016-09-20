@@ -338,7 +338,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             
             // Call the Discovery Service and get back an array of service endpoint information
             
-            let servicesTask = servicesInfoFetcher?.read{(serviceEndPointObjects:[AnyObject]!, error:MSODataException!) -> Void in
+            let servicesTask = servicesInfoFetcher?.read{(serviceEndPointObjects:[Any]?, error:MSODataException?) -> Void in
                 let serviceEndpoints = serviceEndPointObjects as! [MSDiscoveryServiceInfo]
                 
                 if (serviceEndpoints.count > 0) {
@@ -368,7 +368,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                     
                 else {
                     DispatchQueue.main.async {
-                        NSLog("Error in the authentication: %@", error)
                         let alert: UIAlertController = UIAlertController(title: "ERROR", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", preferredStyle: .alert)
 //                        let alert: UIAlertController = UIAlertController(title: "Error", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", delegate: self, cancelButtonTitle: "OK")
                         let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -378,7 +377,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                 }
             }
             
-            servicesTask.resume()
+            servicesTask?.resume()
         }
     }
     

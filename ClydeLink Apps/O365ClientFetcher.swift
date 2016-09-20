@@ -58,10 +58,10 @@ class Office365ClientFetcher {
                 let userDefaults = UserDefaults.standard
                 
                 if let serviceEndpoints = userDefaults.dictionary(forKey: "O365ServiceEndpoints") {
-                    if let serviceEndpointUrl: AnyObject = serviceEndpoints["Mail"] {
+                    if let serviceEndpointUrl: AnyObject = serviceEndpoints["Mail"] as AnyObject? {
                         // Gets the MSOutlookClient with the URL for the Mail service.
                         let outlookClient = MSOutlookClient(url: serviceEndpointUrl as! String, dependencyResolver: authenticationManager.dependencyResolver)
-                        completionHandler(outlookClient: outlookClient)
+                        completionHandler(outlookClient!)
                     }
                 }
             }
@@ -95,7 +95,7 @@ class Office365ClientFetcher {
             if (authenticated) {
                 // Gets the MSDiscoveryClient with the URL for the Discovery service.
                 let discoveryClient = MSDiscoveryClient(url: "https://api.office.com/discovery/v1.0/me/", dependencyResolver: authenticationManager.dependencyResolver)
-                completionHandler(discoveryClient: discoveryClient)
+                completionHandler(discoveryClient!)
             }
             else {
                 // Display an alert in case of an error

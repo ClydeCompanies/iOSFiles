@@ -73,7 +73,7 @@ class AuthenticationManager {
         // This will result in a call to the service if you need to get an access token.
 
         authContext.acquireToken(withResource: resourceId, clientId: clientId, redirectUri: redirectURL) {
-            (result:ADAuthenticationResult!) -> Void in
+            (result:ADAuthenticationCallback!) in
 
             if result.status.rawValue != AD_SUCCEEDED.rawValue {
                 completionHandler(false)

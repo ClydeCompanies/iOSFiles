@@ -106,7 +106,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let date2 = calendar.startOfDay(for: Date())
         
         let flags = NSCalendar.Unit.day
-        components = (calendar as NSCalendar).components(flags, from: date1, to: date2, options: [])
+        components = (calendar as NSCalendar).components(flags, from: date1, to: date2, options: []) as AnyObject
         
         if (prefs.array(forKey: "permissions") == nil)
         {
@@ -122,7 +122,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //            AppTable.reloadData()
 //        }
         
-        if (isConnectedToNetwork() == false)
+        if (connectedToNetwork() == false)
         {
             let alert = UIAlertController(title: "No Connection", message: "You are not connected to the internet.", preferredStyle: UIAlertControllerStyle.alert)
             
@@ -178,19 +178,28 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Dispose of any resources that can be recreated.
     }
     
-    func isConnectedToNetwork() -> Bool {
+    func connectedToNetwork() -> Bool {
+        
         var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+        zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
         zeroAddress.sin_family = sa_family_t(AF_INET)
-        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
-            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
-        }
-        var flags = SCNetworkReachabilityFlags()
-        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
+        
+        guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                SCNetworkReachabilityCreateWithAddress(nil, $0)
+            }
+        }) else {
             return false
         }
-        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
-        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        
+        var flags: SCNetworkReachabilityFlags = []
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
+            return false
+        }
+        
+        let isReachable = flags.contains(.reachable)
+        let needsConnection = flags.contains(.connectionRequired)
+        
         return (isReachable && !needsConnection)
     }
     
@@ -523,7 +532,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
                 request.httpMethod = "POST"
-                let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
+                let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                     guard error == nil && data != nil else { // check for fundamental networking error
                         print("error=\(error)")
                         self.flag = 1
@@ -601,7 +610,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
              
              let servicesTask = servicesInfoFetcher?.read
              {
-                (serviceEndPointObjects:[AnyObject]!, error:MSODataException!) -> Void in
+                (serviceEndPointObjects:[Any]?, error:MSODataException?) -> Void in
                  let serviceEndpoints = serviceEndPointObjects as! [MSDiscoveryServiceInfo]
                  
                  if (serviceEndpoints.count > 0)
@@ -636,7 +645,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                  {
                      DispatchQueue.main.async
                      {
-                         NSLog("Error in the authentication: %@", error)
                         let alert: UIAlertController = UIAlertController(title: "ERROR", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", preferredStyle: .alert)
                         //                        let alert: UIAlertController = UIAlertController(title: "Error", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", delegate: self, cancelButtonTitle: "OK")
                         let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -648,7 +656,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
              }
                 
-                servicesTask.resume()
+                servicesTask?.resume()
             
          }
         

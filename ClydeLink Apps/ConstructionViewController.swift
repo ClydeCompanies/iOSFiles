@@ -132,7 +132,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
                 
                 //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
                 request.httpMethod = "POST"
-                let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
+                let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                     guard error == nil && data != nil else { // check for fundamental networking error
                         print("error=\(error)")
 //                        self.flag = 1
