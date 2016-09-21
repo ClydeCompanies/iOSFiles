@@ -103,8 +103,10 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             self.prefs.set("", forKey: "LogInUser")
             self.prefs.set([], forKey: "userapps")
             self.prefs.set([], forKey: "permissions")
-//            let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
-//            authenticationManager.clearCredentials()
+            let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
+            authenticationManager.clearCredentials()
+            
+            
             
             let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
             self.present(vc as! UIViewController, animated: true, completion: nil)
@@ -196,7 +198,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                     print(mydata)  // Direct response from server printed to console, for testing
                     print("*********************")
                     DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
-                        if (mydata == nil)
+                        if (mydata == nil || mydata is NSNull)
                         {
                             //                        self.activityIndicator.stopAnimating()  // Ends spinner
                             //                        self.activityIndicator.hidden = true

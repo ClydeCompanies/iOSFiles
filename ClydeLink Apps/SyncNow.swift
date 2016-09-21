@@ -222,7 +222,7 @@ class SyncNow: NSObject {
         timeFormatter.dateFormat = "h:mm"
         if (self.flag == 0 && syncnow == 1)
         {
-            var lastdate: [String?] = []
+            var lastdate: [String] = []
             lastdate.append(dateFormatter.string(from: date))
             lastdate.append(timeFormatter.string(from: date))
             self.prefs.set(lastdate, forKey: "lastsync")
@@ -232,7 +232,7 @@ class SyncNow: NSObject {
         complete()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
 //        fatalError("init(coder:) has not been implemented")
     }
 

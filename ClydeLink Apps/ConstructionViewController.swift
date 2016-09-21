@@ -157,7 +157,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
                     print(mydata)  // Direct response from server printed to console, for testing
                     
                     DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
-                        if (mydata == nil)
+                        if (mydata == nil || mydata is NSNull)
                         {
                             //                        self.activityIndicator.stopAnimating()  // Ends spinner
                             //                        self.activityIndicator.hidden = true
