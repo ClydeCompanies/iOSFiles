@@ -103,8 +103,8 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             self.prefs.set("", forKey: "LogInUser")
             self.prefs.set([], forKey: "userapps")
             self.prefs.set([], forKey: "permissions")
-            let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
-            authenticationManager.clearCredentials()
+//            let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
+//            authenticationManager.clearCredentials()
             
             let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
             self.present(vc as! UIViewController, animated: true, completion: nil)
@@ -112,7 +112,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-            print("Phew!")
+//            print("Phew!")
         }))
         
         

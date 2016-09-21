@@ -72,22 +72,22 @@ class AuthenticationManager {
         // token in the cache to authenticate client requests.
         // This will result in a call to the service if you need to get an access token.
 
-        authContext.acquireToken(withResource: resourceId, clientId: clientId, redirectUri: redirectURL) {
-            (result:ADAuthenticationCallback!) in
-
-            if result.status.rawValue != AD_SUCCEEDED.rawValue {
-                completionHandler(false)
-            }
-            else {
-                let userDefaults = UserDefaults.standard
-                
-                userDefaults.set(result.tokenCacheStoreItem.userInformation.userId, forKey: "LogInUser")
-                userDefaults.synchronize()
-                
-                self.dependencyResolver = ADALDependencyResolver(context: authContext, resourceId: resourceId, clientId: self.clientId , redirectUri: self.redirectURL)
-                completionHandler(true)
-            }
-        }
+//        authContext.acquireToken(withResource: resourceId, clientId: clientId, redirectUri: redirectURL) {
+//            (result:ADAuthenticationCallback!) in
+//
+//            if result.status.rawValue != AD_SUCCEEDED.rawValue {
+//                completionHandler(false)
+//            }
+//            else {
+//                let userDefaults = UserDefaults.standard
+//                
+//                userDefaults.set(result.tokenCacheStoreItem.userInformation.userId, forKey: "LogInUser")
+//                userDefaults.synchronize()
+//                
+//                self.dependencyResolver = ADALDependencyResolver(context: authContext, resourceId: resourceId, clientId: self.clientId , redirectUri: self.redirectURL)
+//                completionHandler(true)
+//            }
+//        }
     }
     
     // Clear the ADAL token cache and remove this application's cookies.
