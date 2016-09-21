@@ -102,6 +102,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     func webViewDidFinishLoad(_ webView: UIWebView) {
 //        print("Response = " + webView.request!.URL!.absoluteString)
 //        let link = prefs.stringForKey("selectedButton")
+        print("Debug: " + webView.request!.url!.absoluteString)
         if (webView.request!.url!.absoluteString.contains("fs.clydeinc.com"))
         {
             //get the username employee is trying to login with from the url
@@ -117,7 +118,8 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
           
             prefs.synchronize()
         }
-        if (webView.request!.url!.absoluteString.contains("https://clydelink.sharepoint.com/apps") && prefs.string(forKey: "username") == "")
+        
+        if (webView.request!.url!.absoluteString.contains("clydelink.sharepoint.com") && prefs.string(forKey: "username") == "")
         {
             print("SAVED")
             prefs.set(tempUser, forKey: "username")
@@ -202,9 +204,11 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             }
             
             
-            
-            let vc = self.storyboard!.instantiateViewController(withIdentifier: "Main")
-            self.show(vc, sender: vc)
+            if (webView.request!.url!.absoluteString.contains("clydelink.sharepoint.com/apps"))
+            {
+                let vc = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+                self.show(vc, sender: vc)
+            }
         }
         
 //        else{

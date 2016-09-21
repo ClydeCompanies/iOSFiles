@@ -103,10 +103,16 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             self.prefs.set("", forKey: "LogInUser")
             self.prefs.set([], forKey: "userapps")
             self.prefs.set([], forKey: "permissions")
+            
             let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
             authenticationManager.clearCredentials()
             
-            
+            _ = HTTPCookie.self
+            let cookieJar = HTTPCookieStorage.shared
+            for cookie in cookieJar.cookies! {
+                // print(cookie.name+"="+cookie.value)
+                cookieJar.deleteCookie(cookie)
+            }
             
             let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
             self.present(vc as! UIViewController, animated: true, completion: nil)
