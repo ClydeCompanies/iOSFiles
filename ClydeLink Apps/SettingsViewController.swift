@@ -74,7 +74,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             userName.text = "Not logged in"
             JobTitle.text = ""
             CompanyName.text = ""
-            SignOutButton.isEnabled = false
+            SignOutButton.title = "Clear Cache"
             prefs.set([], forKey: "permissions")
         }
         var lastdate = prefs.object(forKey: "lastsync") as? [String]
@@ -94,37 +94,75 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     }
     
     @IBAction func SignOut(_ sender: AnyObject) {  // Sign out button clicked
-        let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertControllerStyle.alert)
-        
-        
-        
-        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
-            self.prefs.set("", forKey: "username")
-            self.prefs.set("", forKey: "LogInUser")
-            self.prefs.set([], forKey: "userapps")
-            self.prefs.set([], forKey: "permissions")
+        if (SignOutButton.title == "Clear Cache")
+        {
+            let alert = UIAlertController(title: "Clear Cache?", message: "App settings will be reset", preferredStyle: UIAlertControllerStyle.alert)
             
-            let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
-            authenticationManager.clearCredentials()
             
-            _ = HTTPCookie.self
-            let cookieJar = HTTPCookieStorage.shared
-            for cookie in cookieJar.cookies! {
-                // print(cookie.name+"="+cookie.value)
-                cookieJar.deleteCookie(cookie)
-            }
             
-            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
-            self.present(vc as! UIViewController, animated: true, completion: nil)
-            self.prefs.synchronize()
-        }))
+            alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
+                self.prefs.set("", forKey: "username")
+                self.prefs.set("", forKey: "LogInUser")
+                self.prefs.set([], forKey: "userapps")
+                self.prefs.set([], forKey: "permissions")
+                
+                let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
+                authenticationManager.clearCredentials()
+                
+                _ = HTTPCookie.self
+                let cookieJar = HTTPCookieStorage.shared
+                for cookie in cookieJar.cookies! {
+                    // print(cookie.name+"="+cookie.value)
+                    cookieJar.deleteCookie(cookie)
+                }
+                
+                let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+                self.present(vc as! UIViewController, animated: true, completion: nil)
+                self.prefs.synchronize()
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                //            print("Phew!")
+            }))
+            
+            
+            present(alert, animated: true, completion: nil)
+        }
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-//            print("Phew!")
-        }))
         
-        
-        present(alert, animated: true, completion: nil)
+        else {
+            let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertControllerStyle.alert)
+            
+            
+            
+            alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
+                self.prefs.set("", forKey: "username")
+                self.prefs.set("", forKey: "LogInUser")
+                self.prefs.set([], forKey: "userapps")
+                self.prefs.set([], forKey: "permissions")
+                
+                let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
+                authenticationManager.clearCredentials()
+                
+                _ = HTTPCookie.self
+                let cookieJar = HTTPCookieStorage.shared
+                for cookie in cookieJar.cookies! {
+                    // print(cookie.name+"="+cookie.value)
+                    cookieJar.deleteCookie(cookie)
+                }
+                
+                let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+                self.present(vc as! UIViewController, animated: true, completion: nil)
+                self.prefs.synchronize()
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+    //            print("Phew!")
+            }))
+            
+            
+            present(alert, animated: true, completion: nil)
+        }
         
         
     }
