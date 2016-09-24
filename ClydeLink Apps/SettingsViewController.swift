@@ -205,6 +205,21 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
         userDefaults.synchronize()
         
+        
+        
+        if ((prefs.string(forKey: "username")) == "") {
+            self.flag = 1
+            DispatchQueue.global().async {
+                let alertController = UIAlertController(title: "Error", message:
+                    "No user logged in", preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+                
+                self.present(alertController, animated: true, completion: nil)
+            }
+            
+            return
+        }
+        
         if let userEmail = userDefaults.string(forKey: "username") {
             var parts = userEmail.components(separatedBy: "@")
             
@@ -249,7 +264,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                             self.flag = 1
                             
                             let alertController = UIAlertController(title: "Error", message:
-                                "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
+                                "Could not get info from the the server.", preferredStyle: UIAlertControllerStyle.alert)
                             alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
                             
                             self.present(alertController, animated: true, completion: nil)
