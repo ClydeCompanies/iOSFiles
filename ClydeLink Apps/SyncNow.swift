@@ -198,7 +198,12 @@ class SyncNow: NSObject {
                 {
                     if (el.link == element.link)
                     {
+                        el.header = element.header
                         el.title = element.title
+                        el.URL = element.URL
+                        el.icon = element.icon
+                        el.order = element.order
+                        el.redirect = element.redirect
                         found = true
                         break
                     }
