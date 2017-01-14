@@ -292,6 +292,21 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
+        for headerTitle in AppHeaders {
+            var count: Int = 0
+            for app in synced.AppStore
+            {
+                //*********************** Change this **************************
+                if (app.header == headerTitle && (prefs.array(forKey: "permissions")!.contains(app.title) || prefs.array(forKey: "permissions")!.contains(app.header) || app.header.lowercased() == "all"))
+                {
+                    count += 1
+                }
+            }
+            if count == 0 {
+                AppHeaders.remove(at: AppHeaders.index(of: headerTitle)!)
+            }
+        }
+        
         return AppHeaders.count
     }
     
