@@ -84,7 +84,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             nameSearched = TextBox.text!
         }
         
-        if let url = URL(string: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)&token=tRuv%5E:%5D56NEn61M5vl3MGf/5A/gU%3C@") {  // Sends POST request to the DMZ server, and prints the response string as an array
+        if let url = URL(string: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)") {  // Sends POST request to the DMZ server, and prints the response string as an array
             
             let request = NSMutableURLRequest(url: url)
             
