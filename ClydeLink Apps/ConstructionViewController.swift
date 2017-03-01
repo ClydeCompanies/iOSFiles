@@ -128,12 +128,14 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             tempUser = String(parts[0])
             
             
-            if let url = URL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile?username=\(tempUser)") {  // Sends POST request to the DMZ server, and prints the response string as an array
+            if let url = URL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile") {  // Sends POST request to the DMZ server, and prints the response string as an array
                 
                 let request = NSMutableURLRequest(url: url)
                 
                 //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
                 request.httpMethod = "POST"
+                let bodyData = "{UserName: \"\(tempUser)\"}"
+                request.httpBody = bodyData.data(using: String.Encoding.utf8)
                 let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                     guard error == nil && data != nil else { // check for fundamental networking error
                         print("error=\(error)")
