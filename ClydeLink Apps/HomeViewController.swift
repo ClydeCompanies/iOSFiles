@@ -45,6 +45,24 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         test = "TEST"
         
+        
+        if (prefs.bool(forKey: "NeedsUpdate"))
+        {
+            prefs.set(false, forKey: "NeedsUpdate")
+            let alert = UIAlertController(title: "Update Available", message: "There is an update available, would you like to install it?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
+                
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Later", style: .cancel, handler: { (action: UIAlertAction!) in
+                
+            }))
+            
+            
+            present(alert, animated: true, completion: nil)
+        }
+        
         NoFavorite = 0
         if (prefs.array(forKey: "permissions") == nil)
         {

@@ -16,6 +16,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Check for newer version
+        if let url = URL(string: "http://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetLatestVersions") {  // Sends POST request to the DMZ server, and prints the response string as an array
+            
+            let request = NSMutableURLRequest(url: url)
+            
+            //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
+            request.httpMethod = "POST"
+            let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+                guard error == nil && data != nil else { // check for fundamental networking error
+                    return
+                }
+                
+                if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(response)")
+                }
+                
+                let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
+                
+                print(" App version: \(mydata)")
+                DispatchQueue.main.async {
+                    if (mydata == nil || mydata is NSNull) {
+                        return
+                    }
+                    if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+//                        if (needsUpdate(version,mydata))
+//                        {
+//                            UserDefaults.standard.set(true, forKey: "NeedsUpdate")
+//                        } else {
+//                            UserDefaults.standard.set(false, forKey: "NeedsUpdate")
+//                        }
+                    }
+                    
+                }
+                
+            })
+            task.resume()
+        }
+        
         return true
     }
 
