@@ -256,7 +256,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                     
                     print(" My Data: ")
                     print("*********************")
-                    print(mydata)  // Direct response from server printed to console, for testing
+                    print(mydata ?? "No Data")  // Direct response from server printed to console, for testing
                     print("*********************")
                     DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
                         if (mydata == nil || mydata is NSNull)
@@ -297,7 +297,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                         
                         
                         
-                        print(self.prefs.array(forKey: "permissions"))
+                        print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
                         self.prefs.synchronize()
                         var permissions: [String] = []
                         if (!(self.EmployeeInfo[0]["Permissions"] is NSNull)) {
@@ -310,7 +310,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                             }
                             self.prefs.set(permissions, forKey: "permissions")
                             
-                            print(self.prefs.array(forKey: "permissions"))
+                            print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
                         } else {
                             self.prefs.set([],forKey: "permissions")
                         }

@@ -58,7 +58,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     
     func loadAddressURL() {
         let link = prefs.string(forKey: "selectedButton")
-        print(link)
+        print(link ?? "No Link")
         //        print(link)
         let requestURL = URL(string: link!)
         let request = URLRequest(url: requestURL!)
@@ -158,7 +158,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
                     let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
                     
                     print(" My Data: ")
-                    print(mydata)  // Direct response from server printed to console, for testing
+                    print(mydata ?? "No Data")  // Direct response from server printed to console, for testing
                     
                     DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
                         if (mydata == nil || mydata is NSNull)

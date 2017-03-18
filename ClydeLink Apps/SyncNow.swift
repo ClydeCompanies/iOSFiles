@@ -123,7 +123,7 @@ class SyncNow: NSObject {
                 {
                     self.flag = 1
                 } else {
-                    print(mydata)
+                    print(mydata ?? "No Data")
                 }
                 self.notify()
                 self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
