@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         // Check for newer version
-        if let url = URL(string: "http://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetLatestVersions") {  // Sends POST request to the DMZ server, and prints the response string as an array
+        if let url = URL(string: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetLatestVersions") {  // Sends POST request to the DMZ server, and prints the response string as an array
             
             let request = NSMutableURLRequest(url: url)
             
@@ -34,15 +34,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("response = \(response)")
                 }
                 
+                
                 let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
                 
-                print(" App version: \(mydata)")
+                
                 DispatchQueue.main.async {
                     if (mydata == nil || mydata is NSNull) {
                         return
                     }
+                    
                     if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-//                        if (needsUpdate(version,mydata))
+                        
+                        let jsondata = mydata as? [String : String]
+                        
+                        print(" App version: \(jsondata?["ios"])")
+                        
+                        if (version != jsondata?["ios"]) {
+                            let alert: UIAlertController = UIAlertController(title: "New Version Ready", message: "Please update the app to the latest version.", preferredStyle: .alert)
+                            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                            alert.addAction(defaultAction)
+                            self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+                        }
+                        
+                        
+                        //if (needsUpdate(version,mydata))
 //                        {
 //                            UserDefaults.standard.set(true, forKey: "NeedsUpdate")
 //                        } else {
@@ -71,6 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
