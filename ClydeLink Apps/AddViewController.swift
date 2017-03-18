@@ -169,7 +169,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         cell.Title.text = appCell.title
         cell.accessoryType = UITableViewCellAccessoryType.none;
         if let icon = appCell.icon {
-            let url = URL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
+            let url = URL(string: "https://cciportal.clydeinc.com/images/large/icons/\(icon)")!
             if let data = try? Data(contentsOf: url){
                 if icon != "UNDEFINED" {
                     let myImage = UIImage(data: data)

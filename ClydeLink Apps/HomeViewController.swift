@@ -262,7 +262,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.test = ""
         }
         
-//        if let url = NSURL(string: "https://clydewap.clydeinc.com/webservices/json/GetUserProfile?username=\(self.test)") {  // Sends POST request to the DMZ server, and prints the response string as an array
+//        if let url = NSURL(string: "https://cciportal.clydeinc.com/webservices/json/GetUserProfile?username=\(self.test)") {  // Sends POST request to the DMZ server, and prints the response string as an array
 //            
 //            let request = NSMutableURLRequest(URL: url)
 //            
@@ -348,7 +348,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.Title.text = self.appButtons[(indexPath as NSIndexPath).row].title
             if let icon = appButtons[(indexPath as NSIndexPath).row].icon {
-                let url = URL(string: "https://clydewap.clydeinc.com/images/large/icons/\(icon)")!
+                let url = URL(string: "https://cciportal.clydeinc.com/images/large/icons/\(icon)")!
                 if let data = try? Data(contentsOf: url){
                     if icon != "UNDEFINED" {
                         let myImage = UIImage(data: data)

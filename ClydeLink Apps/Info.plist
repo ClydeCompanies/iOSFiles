@@ -22,6 +22,7 @@
 	<string>1</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>ms-o365-groups-intunemam</string>
 		<string>csodmobile</string>
 		<string>mspbi-intunemam</string>
 		<string>adpmobile</string>

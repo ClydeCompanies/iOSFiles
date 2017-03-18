@@ -84,7 +84,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             nameSearched = TextBox.text!
         }
         
-        if let url = URL(string: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)") {  // Sends POST request to the DMZ server, and prints the response string as an array
+        if let url = URL(string: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetTrucks?name=\(nameSearched)&truck=\(truckNumber)") {  // Sends POST request to the DMZ server, and prints the response string as an array
             
             let request = NSMutableURLRequest(url: url)
             
@@ -215,7 +215,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             }
             if let ePhoto = Employees[(indexPath as NSIndexPath).row]["PicLocation"] as? String {  // Save complete URL of picture location, and save it to the table
                 
-                let url = URL(string: "https://clydewap.clydeinc.com/images/Small/\(ePhoto)")!
+                let url = URL(string: "https://cciportal.clydeinc.com/images/Small/\(ePhoto)")!
                 if let data = try? Data(contentsOf: url){
                     let myImage = UIImage(data: data)
                     cell.employeePhoto.image = myImage

@@ -324,7 +324,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                         else
                         {
                             self.picLocation = (self.EmployeeInfo[0]["PicLocation"] as? String)!
-                            if let data = try? Data(contentsOf: URL(string: "https://clydewap.clydeinc.com/images/Small/\(self.picLocation)")!)
+                            if let data = try? Data(contentsOf: URL(string: "https://cciportal.clydeinc.com/images/Small/\(self.picLocation)")!)
                             {
                                 let myImage = UIImage(data: data)
                                 self.UserPicture.image = myImage

@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         // Check for newer version
-        if let url = URL(string: "http://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetLatestVersions") {  // Sends POST request to the DMZ server, and prints the response string as an array
+        if let url = URL(string: "http://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetLatestVersions") {  // Sends POST request to the DMZ server, and prints the response string as an array
             
             let request = NSMutableURLRequest(url: url)
             
