@@ -38,6 +38,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {  // Runs when the view loads
         super.viewDidLoad()
         
+        synced.updateCurrentApps({print("synced Current Apps")})
+        
         finalEdit = false
         if (prefs.string(forKey: "username") == "Loading...")
         {
