@@ -536,77 +536,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func loadUserInfo() {  // Get user's information
-        let userDefaults = UserDefaults.standard
         
-        userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
-        userDefaults.synchronize()
-        
-        if let userEmail = userDefaults.string(forKey: "username") {
-            var parts = userEmail.components(separatedBy: "@")
-            
-            let uName: String = String(format:"%@", parts[0])
-            
-            if let url = URL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile") {  // Sends POST request to the DMZ server, and prints the response string as an array
-                
-                let request = NSMutableURLRequest(url: url)
-                
-                //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
-                request.httpMethod = "POST"
-                let bodyData = "{UserName: \"\(uName)\"}"
-                request.httpBody = bodyData.data(using: String.Encoding.utf8)
-                let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-                    guard error == nil && data != nil else { // check for fundamental networking error
-                        print("error=\(error)")
-                        self.flag = 1
-                        
-                        let alertController = UIAlertController(title: "Error", message:
-                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
-                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
-                        self.present(alertController, animated: true, completion: nil)
-                        
-                        
-                        return
-                    }
-                    
-                    if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
-                        print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                        print("response = \(response)")
-                    }
-                    
-                    let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
-                    
-                    print(" My Data: ")
-                    print(mydata ?? "No Data")  // Direct response from server printed to console, for testing
-                    
-                    DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
-                        if (mydata == nil)
-                        {
-                            //                        self.activityIndicator.stopAnimating()  // Ends spinner
-                            //                        self.activityIndicator.hidden = true
-                            self.flag = 1
-                            
-                            let alertController = UIAlertController(title: "Error", message:
-                                "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
-                            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
-                            
-                            self.present(alertController, animated: true, completion: nil)
-                            
-                            return
-                        }
-                        
-                        self.EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
-                        let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
-                        self.prefs.set(employeedata, forKey: "userinfo")
-                        
-                    }
-                    
-                }) 
-                task.resume()
-            }
-            
-            
-        }
-        
+        EmployeeInfo = synced.EmployeeInfo
         
     }
     

@@ -18,17 +18,23 @@ class SyncNow: NSObject {
     var syncnow: Int = 0
     var AppHeaders: [String] = []
     var progress: Float = 0
+    var EmployeeInfo: Array<AnyObject> = []  // Holds information about current user
+    var serviceEndpointLookup = NSMutableDictionary()
     
     override init() {
         super.init()
         syncnow = 0
         done = 0
         flag = 0
-        getAppStore({
-            self.buildAppStore({
-                self.sortArray({
-                    self.updateCurrentApps({
-                        return
+        getToken({
+            getAppStore({
+                self.buildAppStore({
+                    self.sortArray({
+                        self.updateCurrentApps({
+                            self.loadUserInfo({
+                                return
+                            })
+                        })
                     })
                 })
             })
@@ -40,17 +46,111 @@ class SyncNow: NSObject {
         syncnow = 1
         done = 0
         flag = 0
-        fillAppArray({
-            self.buildAppStore({
-                self.sortArray({
-                    self.updateCurrentApps({
-                        complete()
+        getToken({
+            fillAppArray({
+                self.buildAppStore({
+                    self.sortArray({
+                        self.updateCurrentApps({
+                            self.loadUserInfo({
+                                complete()
+                            })
+                        })
                     })
                 })
             })
         })
         
     }
+    
+    func getToken(_ complete: () -> Void) {
+        
+        complete()
+        
+    }
+    
+    func loadUserInfo(_ complete: @escaping () -> Void) {  // Get user's information
+        let userDefaults = UserDefaults.standard
+        
+        userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
+        userDefaults.synchronize()
+        
+        if let userEmail = userDefaults.string(forKey: "username") {
+            var parts = userEmail.components(separatedBy: "@")
+            
+            let uName: String = String(format:"%@", parts[0])
+            
+            if let url = URL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile") {  // Sends POST request to the DMZ server, and prints the response string as an array
+                
+                let request = NSMutableURLRequest(url: url)
+                
+                request.httpMethod = "POST"
+                let bodyData = "{UserName: \"\(uName)\"}"
+                request.httpBody = bodyData.data(using: String.Encoding.utf8)
+                let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+                    guard error == nil && data != nil else { // check for fundamental networking error
+                        print("error=\(error)")
+                        self.flag = 1
+                        
+                        return
+                    }
+                    
+                    if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
+                        print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                        print("response = \(response)")
+                    }
+                    
+                    let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
+                    
+                    print(" My Data: ")
+                    print(mydata ?? "No Data")  // Direct response from server printed to console, for testing
+                    
+                    DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
+                        if (mydata == nil)
+                        {
+                            self.flag = 1
+                            
+                            
+                            return
+                        }
+                        
+                        self.EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
+                        let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
+                        self.prefs.set(employeedata, forKey: "userinfo")
+                        
+                        print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
+                        self.prefs.synchronize()
+                        var permissions: [String] = []
+                        if (!(self.EmployeeInfo[0]["Permissions"] is NSNull)) {
+                            let rawpermissions = self.EmployeeInfo[0]["Permissions"] as! Array<AnyObject>
+                            if (!(rawpermissions is [String])) {
+                                for permission in rawpermissions {
+                                    print(permission)
+                                    permissions.append((permission["Group"]) as! String)
+                                }
+                            }
+                            self.prefs.set(permissions, forKey: "permissions")
+                            
+                            print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
+                        } else {
+                            self.prefs.set([],forKey: "permissions")
+                        }
+
+                        
+                        
+                        complete()
+                        
+                    }
+                    
+                })
+                task.resume()
+            }
+            
+            
+        }
+        
+        
+    }
+    
     
     func getAppStore(_ complete: () -> Void)
     {  // Load apps from online database

@@ -200,150 +200,43 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     }
 
     func loadUserInfo() {  // Get user's information
-        let userDefaults = UserDefaults.standard
         
-        userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
-        userDefaults.synchronize()
+        self.EmployeeInfo = synced.EmployeeInfo
+        
+        //CompanyName
+        //CompanyNumber
+        //JobTitle
+        //PicLocation
+        //UserName
+        
+        self.userName.text = self.EmployeeInfo[0]["UserName"] as? String
+        if (self.userName.text == nil) { self.userName.text = "Unknown User" }
+        
+        self.JobTitle.text = self.EmployeeInfo[0]["JobTitle"] as? String
+        //                        if (self.JobTitle.text == "") { self.JobTitle.text = "n/a" }
+        
+        self.CompanyName.text = self.EmployeeInfo[0]["CompanyName"] as? String
+        //                        if (self.CompanyName.text == "") { self.CompanyName.text = "n/a" }
         
         
         
-        if ((prefs.string(forKey: "username")) == "") {
-            self.flag = 1
-            DispatchQueue.global().async {
-                let alertController = UIAlertController(title: "Error", message:
-                    "No user logged in", preferredStyle: UIAlertControllerStyle.alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
-                
-                self.present(alertController, animated: true, completion: nil)
-            }
-            
-            return
+        if (self.EmployeeInfo[0]["PicLocation"] is NSNull)
+        {
+            self.UserPicture.image = UIImage(named: "person-generic")
         }
-        
-        if let userEmail = userDefaults.string(forKey: "username") {
-            var parts = userEmail.components(separatedBy: "@")
-            
-            let uName: String = String(format:"%@", parts[0])
-            
-            if let url = URL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile") {  // Sends POST request to the DMZ server, and prints the response string as an array
-                
-                let request = NSMutableURLRequest(url: url)
-                
-                //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
-                request.httpMethod = "POST"
-                let bodyData = "{UserName: \"\(uName)\"}"
-                request.httpBody = bodyData.data(using: String.Encoding.utf8)
-                let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-                    guard error == nil && data != nil else { // check for fundamental networking error
-                        print("error=\(error)")
-                        self.flag = 1
-                        
-                        let alertController = UIAlertController(title: "Error", message:
-                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
-                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
-                        self.present(alertController, animated: true, completion: nil)
-                        
-                        
-                        return
-                    }
-                    
-                    if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
-                        print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                        print("response = \(response)")
-                    }
-                    
-                    let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
-                    
-                    print(" My Data: ")
-                    print("*********************")
-                    print(mydata ?? "No Data")  // Direct response from server printed to console, for testing
-                    print("*********************")
-                    DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
-                        if (mydata == nil || mydata is NSNull)
-                        {
-                            //                        self.activityIndicator.stopAnimating()  // Ends spinner
-                            //                        self.activityIndicator.hidden = true
-                            self.flag = 1
-                            
-                            let alertController = UIAlertController(title: "Error", message:
-                                "Could not get info from the the server.", preferredStyle: UIAlertControllerStyle.alert)
-                            alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
-                            
-                            self.present(alertController, animated: true, completion: nil)
-                            
-                            return
-                        }
-                        
-                        self.EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
-                        let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
-                        self.prefs.set(employeedata, forKey: "userinfo")
-                        
-                        //CompanyName
-                        //CompanyNumber
-                        //JobTitle
-                        //PicLocation
-                        //UserName
-                        
-                        self.userName.text = self.EmployeeInfo[0]["UserName"] as? String
-                        if (self.userName.text == nil) { self.userName.text = "Unknown User" }
-                        
-                        self.JobTitle.text = self.EmployeeInfo[0]["JobTitle"] as? String
-//                        if (self.JobTitle.text == "") { self.JobTitle.text = "n/a" }
-                        
-                        self.CompanyName.text = self.EmployeeInfo[0]["CompanyName"] as? String
-//                        if (self.CompanyName.text == "") { self.CompanyName.text = "n/a" }
-                        
-                        
-                        
-                        
-                        
-                        print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
-                        self.prefs.synchronize()
-                        var permissions: [String] = []
-                        if (!(self.EmployeeInfo[0]["Permissions"] is NSNull)) {
-                            let rawpermissions = self.EmployeeInfo[0]["Permissions"] as! Array<AnyObject>
-                            if (!(rawpermissions is [String])) {
-                                for permission in rawpermissions {
-                                    print(permission)
-                                    permissions.append((permission["Group"]) as! String)
-                                }
-                            }
-                            self.prefs.set(permissions, forKey: "permissions")
-                            
-                            print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
-                        } else {
-                            self.prefs.set([],forKey: "permissions")
-                        }
-                        
-                        
-                        
-                        if (self.EmployeeInfo[0]["PicLocation"] is NSNull)
-                        {
-                            self.UserPicture.image = UIImage(named: "person-generic")
-                        }
-                        else
-                        {
-                            self.picLocation = (self.EmployeeInfo[0]["PicLocation"] as? String)!
-                            if let data = try? Data(contentsOf: URL(string: "https://cciportal.clydeinc.com/images/Small/\(self.picLocation)")!)
-                            {
-                                let myImage = UIImage(data: data)
-                                self.UserPicture.image = myImage
-                            }
-                            else
-                            {
-                                self.UserPicture.image = UIImage(named: "person-generic")
-                            }
-                        }
-                        
-                    }
-                    
-                }) 
-                task.resume()
+        else
+        {
+            self.picLocation = (self.EmployeeInfo[0]["PicLocation"] as? String)!
+            if let data = try? Data(contentsOf: URL(string: "https://cciportal.clydeinc.com/images/Small/\(self.picLocation)")!)
+            {
+                let myImage = UIImage(data: data)
+                self.UserPicture.image = myImage
             }
-            
-            
+            else
+            {
+                self.UserPicture.image = UIImage(named: "person-generic")
+            }
         }
-        
         
     }
     
