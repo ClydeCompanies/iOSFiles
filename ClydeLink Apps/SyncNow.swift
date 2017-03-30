@@ -51,7 +51,7 @@ class SyncNow: NSObject {
                 self.buildAppStore({
                     self.sortArray({
                         self.updateCurrentApps({
-                            self.loadUserInfo({
+                            self.retrieveUserInfo({
                                 complete()
                             })
                         })
@@ -69,6 +69,14 @@ class SyncNow: NSObject {
     }
     
     func loadUserInfo(_ complete: @escaping () -> Void) {  // Get user's information
+        
+        if let data = prefs.object(forKey: "userinfo") as? Data {
+            self.EmployeeInfo = NSKeyedUnarchiver.unarchiveObject(with: data) as! Array<AnyObject>
+        }
+
+    }
+    
+    func retrieveUserInfo(_ complete: @escaping () -> Void) {  // Get user's information
         let userDefaults = UserDefaults.standard
         
         userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
