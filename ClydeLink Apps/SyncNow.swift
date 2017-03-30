@@ -64,6 +64,8 @@ class SyncNow: NSObject {
     
     func getToken(_ complete: () -> Void) {
         
+        
+        
         complete()
         
     }
