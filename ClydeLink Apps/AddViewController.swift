@@ -69,10 +69,12 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             {
                 currentApp = element.header
                 apps+=1
+                //consider changing to apps++
                 continue
             }
             if (element.header == currentApp)
             {
+                //consider changing to apps++
                 apps += 1
                 continue
             }
@@ -292,23 +294,37 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
-        for headerTitle in AppHeaders {
-            var count: Int = 0
-            for app in synced.AppStore
-            {
-                //*********************** Change this **************************
-                if (app.header == headerTitle && (prefs.array(forKey: "permissions")!.contains(app.title) || prefs.array(forKey: "permissions")!.contains(app.header) || app.header.lowercased() == "all"))
-                {
-                    count += 1
-                }
-            }
-            if count == 0 {
-                AppHeaders.remove(at: AppHeaders.index(of: headerTitle)!)
-            }
-        }
+        
+//        var invalidAppHeaderIndexes:[Int] = [Int]()
+//        for headerTitle in AppHeaders {
+//            var count: Int = 0
+//            for app in synced.AppStore
+//            {
+//                let isHeaderTitle:Bool = app.header == headerTitle
+//                let prefsPermissionsHasTitle = prefs.array(forKey: "permissions")!.contains(app.title)
+//                let prefsPermissionsHasHeader = prefs.array(forKey: "permissions")!.contains(app.header)
+//                let headerIsAll:Bool = app.header.lowercased() == "all"
+//                
+//                //*********************** Change this **************************
+//                if (isHeaderTitle && (prefsPermissionsHasTitle || prefsPermissionsHasHeader || headerIsAll))
+//                {
+//                    count += 1 // found valid app (?)
+//                }
+//            }
+//            
+//            // If app isn't valid
+//            if count == 0 {
+//                invalidAppHeaderIndexes.append(AppHeaders.index(of: headerTitle)!)
+//            }
+//        }
+//        
+//        // Remove all the invalid ones
+//        for invalidIndex in invalidAppHeaderIndexes {
+//            AppHeaders.remove(at: invalidIndex)
+//        }
         
         return AppHeaders.count
-    }
+        }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {  // Determine what to do with button press
        
