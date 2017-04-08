@@ -73,26 +73,27 @@ NSUUID* requestCorrelationId;
     
     switch (level) {
         case ADAL_LOG_LEVEL_ERROR:
-            return @"ADALiOS [%@ - %@] ERROR: %@. Additional Information: %@. ErrorCode: %u.";
+            return @"ADALiOS " ADAL_VERSION_STRING " [%@ - %@] ERROR: %@. Additional Information: %@. ErrorCode: %u.";
             break;
             
         case ADAL_LOG_LEVEL_WARN:
-            return @"ADALiOS [%@ - %@] WARNING: %@. Additional Information: %@. ErrorCode: %u.";
+            return @"ADALiOS " ADAL_VERSION_STRING " [%@ - %@] WARNING: %@. Additional Information: %@. ErrorCode: %u.";
             break;
             
         case ADAL_LOG_LEVEL_INFO:
-            return @"ADALiOS [%@ - %@] INFORMATION: %@. Additional Information: %@. ErrorCode: %u.";
+            return @"ADALiOS " ADAL_VERSION_STRING " [%@ - %@] INFORMATION: %@. Additional Information: %@. ErrorCode: %u.";
             break;
             
         case ADAL_LOG_LEVEL_VERBOSE:
-            return @"ADALiOS [%@ - %@] VERBOSE: %@. Additional Information: %@. ErrorCode: %u.";
+            return @"ADALiOS " ADAL_VERSION_STRING " [%@ - %@] VERBOSE: %@. Additional Information: %@. ErrorCode: %u.";
             break;
             
         default:
-            return @"ADALiOS [%@ - %@] UNKNOWN: %@. Additional Information: %@. ErrorCode: %u.";
+            return @"ADALiOS " ADAL_VERSION_STRING " [%@ - %@] UNKNOWN: %@. Additional Information: %@. ErrorCode: %u.";
             break;
     }
 }
+
 
 +(void) log: (ADAL_LOG_LEVEL)logLevel
     message: (NSString*) message
@@ -122,7 +123,7 @@ additionalInformation: (NSString*) additionalInformation
         {
             if (sLogCallback)
             {
-                sLogCallback(logLevel, [NSString stringWithFormat:@"ADALiOS [%@ - %@] %@", [dateFormatter stringFromDate:[NSDate date]], [[ADLogger getCorrelationId] UUIDString], message], additionalInformation, errorCode);
+                sLogCallback(logLevel, [NSString stringWithFormat:@"ADALiOS " ADAL_VERSION_STRING " [%@ - %@] %@", [dateFormatter stringFromDate:[NSDate date]], [[ADLogger getCorrelationId] UUIDString], message], additionalInformation, errorCode);
             }
         }
     }
@@ -186,12 +187,18 @@ additionalInformation: (NSString*) additionalInformation
 
 +(void) setCorrelationId: (NSUUID*) correlationId
 {
-    requestCorrelationId = correlationId;
+    @synchronized(self)
+    {
+        requestCorrelationId = correlationId;
+    }
 }
 
 +(NSUUID*) getCorrelationId
 {
-    return requestCorrelationId;
+    @synchronized(self)
+    {
+        return requestCorrelationId;
+    }
 }
 
 

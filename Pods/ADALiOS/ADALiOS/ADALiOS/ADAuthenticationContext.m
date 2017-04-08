@@ -34,11 +34,19 @@
 #import "ADWorkPlaceJoin.h"
 #import "ADPkeyAuthHelper.h"
 #import "ADWorkPlaceJoinConstants.h"
+#import "ADKeyChainHelper.h"
+#import "ADBrokerKeyHelper.h"
 #import "ADClientMetrics.h"
 
 NSString* const unknownError = @"Uknown error.";
 NSString* const credentialsNeeded = @"The user credentials are need to obtain access token. Please call the non-silent acquireTokenWithResource methods.";
 NSString* const serverError = @"The authentication server returned an error: %@.";
+
+
+// This variable is purposefully a global so that way we can more easily pull it out of the
+// symbols in a binary to detect what version of ADAL is being used without needing to
+// run the application.
+NSString* ADAL_VERSION_VAR = @ADAL_VERSION_STRING;
 
 //Used for the callback of obtaining the OAuth2 code:
 typedef void(^ADAuthorizationCodeCallback)(NSString*, ADAuthenticationError*);
@@ -47,6 +55,14 @@ static volatile int sDialogInProgress = 0;
 BOOL isCorrelationIdUserProvided = NO;
 
 @implementation ADAuthenticationContext
+
++ (void)load
+{
+    // +load is called by the ObjC runtime before main() as it loads in ObjC symbols and
+    // populates the runtime.
+    
+    NSLog(@"ADAL version %@", ADAL_VERSION_VAR);
+}
 
 -(id) init
 {
@@ -57,7 +73,7 @@ BOOL isCorrelationIdUserProvided = NO;
 
 //A wrapper around checkAndHandleBadArgument. Assumes that "completionMethod" is in scope:
 #define HANDLE_ARGUMENT(ARG) \
-if (![self checkAndHandleBadArgument:ARG \
+if (![ADAuthenticationContext checkAndHandleBadArgument:ARG \
 argumentName:TO_NSSTRING(#ARG) \
 completionBlock:completionBlock]) \
 { \
@@ -84,7 +100,7 @@ return; \
  Then the method calls the callback with the result.
  The method returns if the argument is valid. If the method returns false,
  the calling method should return. */
--(BOOL) checkAndHandleBadArgument: (NSObject*) argumentValue
++(BOOL) checkAndHandleBadArgument: (NSObject*) argumentValue
                      argumentName: (NSString*) argumentName
                   completionBlock: (ADAuthenticationCallback)completionBlock
 {
@@ -1612,8 +1628,8 @@ additionalHeaders:(NSDictionary *)additionalHeaders
     AD_LOG_VERBOSE_F(@"Post request", @"Sending POST request to %@ with client-request-id %@", endPoint, [requestCorrelationId UUIDString]);
     
     webRequest.body = [[request_data adURLFormEncode] dataUsingEncoding:NSUTF8StringEncoding];
-    [[ADClientMetrics getInstance] beginClientMetricsRecordForEndpoint:endPoint correlationId:[requestCorrelationId UUIDString] requestHeader:webRequest.headers];
-    
+    __block NSDate* startTime = [NSDate new];
+    [[ADClientMetrics getInstance] addClientMetrics:webRequest.headers endpoint:endPoint];
     [webRequest send:^( NSError *error, ADWebResponse *webResponse ) {
         // Request completion callback
         NSMutableDictionary *response = [NSMutableDictionary new];
@@ -1689,11 +1705,18 @@ additionalHeaders:(NSDictionary *)additionalHeaders
         }
         
         if([response valueForKey:AUTH_NON_PROTOCOL_ERROR]){
-            [[ADClientMetrics getInstance] endClientMetricsRecord:[[response valueForKey:AUTH_NON_PROTOCOL_ERROR] errorDetails]];
+            NSString* errorDetails = [[response valueForKey:AUTH_NON_PROTOCOL_ERROR] errorDetails];
+            [[ADClientMetrics getInstance] endClientMetricsRecord:endPoint
+                                                        startTime:startTime
+                                                    correlationId:requestCorrelationId
+                                                     errorDetails:errorDetails];
         }
         else
         {
-            [[ADClientMetrics getInstance] endClientMetricsRecord:nil];
+            [[ADClientMetrics getInstance] endClientMetricsRecord:endPoint
+                                                        startTime:startTime
+                                                    correlationId:requestCorrelationId
+                                                     errorDetails:nil];
         }
         
         completionBlock( response );
@@ -1716,16 +1739,16 @@ additionalHeaders:(NSDictionary *)additionalHeaders
 {
     //pkeyauth word length=8 + 1 whitespace
     wwwAuthHeaderValue = [wwwAuthHeaderValue substringFromIndex:[pKeyAuthName length] + 1];
-    wwwAuthHeaderValue = [wwwAuthHeaderValue stringByReplacingOccurrencesOfString:@"\""
-                                                                       withString:@""];
-    NSArray* headerPairs = [wwwAuthHeaderValue componentsSeparatedByString:@","];
     NSMutableDictionary* headerKeyValuePair = [[NSMutableDictionary alloc]init];
-    for(int i=0; i<[headerPairs count]; ++i) {
-        NSArray* pair = [headerPairs[i] componentsSeparatedByString:@"="];
-        [headerKeyValuePair setValue:pair[1] forKey:[pair[0] adTrimmedString]];
+    NSDictionary* authHeaderParams = [wwwAuthHeaderValue authHeaderParams];
+    
+    if (!authHeaderParams)
+    {
+        AD_LOG_ERROR_F(@"Unparseable wwwAuthHeader received.", AD_ERROR_WPJ_REQUIRED, @"%@", wwwAuthHeaderValue);
     }
-    NSString* authHeader = [ADPkeyAuthHelper createDeviceAuthResponse:authorizationServer challengeData:headerKeyValuePair challengeType:AD_THUMBPRINT];
-    [headerKeyValuePair removeAllObjects];
+    
+    NSString* authHeader = [ADPkeyAuthHelper createDeviceAuthResponse:authorizationServer
+                                                        challengeData:authHeaderParams];
     [headerKeyValuePair setObject:authHeader forKey:@"Authorization"];
     
     [self request:authorizationServer requestData:request_data requestCorrelationId:requestCorrelationId isHandlingPKeyAuthChallenge:TRUE additionalHeaders:headerKeyValuePair completion:completionBlock];

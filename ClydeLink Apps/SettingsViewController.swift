@@ -49,7 +49,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     
     var picLocation: String = ""
     var synced: SyncNow = SyncNow()
-    var baseController = Office365ClientFetcher()
+//    var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
     
     let prefs = UserDefaults.standard  // Current user preferences
@@ -106,8 +106,8 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                 self.prefs.set([], forKey: "userapps")
                 self.prefs.set([], forKey: "permissions")
                 
-                let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
-                authenticationManager.clearCredentials()
+//                let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
+//                authenticationManager.clearCredentials()
                 
                 _ = HTTPCookie.self
                 let cookieJar = HTTPCookieStorage.shared
@@ -141,8 +141,8 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                 self.prefs.set([], forKey: "userapps")
                 self.prefs.set([], forKey: "permissions")
                 
-                let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
-                authenticationManager.clearCredentials()
+//                let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
+//                authenticationManager.clearCredentials()
                 
                 _ = HTTPCookie.self
                 let cookieJar = HTTPCookieStorage.shared

@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09B9F0EC1E98202E00C672E7 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09B9F0E91E98201500C672E7 /* CryptoSwift.framework */; };
+		09B9F0ED1E98202E00C672E7 /* CryptoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 09B9F0E91E98201500C672E7 /* CryptoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3834F4181D013513006E9EFA /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3834F4171D013513006E9EFA /* App.swift */; };
 		385E68B21D2C1CD300302062 /* SyncNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385E68B11D2C1CD300302062 /* SyncNow.swift */; };
 		38783BBA1D09E4BC003987C5 /* AddTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38783BB91D09E4BC003987C5 /* AddTableViewCell.swift */; };
 		389CDE4B1D2D705000CD7CDB /* BlankFavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389CDE4A1D2D705000CD7CDB /* BlankFavoriteTableViewCell.swift */; };
-		86687D908CC8DE4C9F281255 /* libPods-ClydeLink Apps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BEAD1024F626AF684359573E /* libPods-ClydeLink Apps.a */; };
 		91007C721CEE32EF006C8EED /* TruckSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91007C711CEE32EF006C8EED /* TruckSearchTableViewCell.swift */; };
 		911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16C01CE24AA20062527E /* ConstructionViewController.swift */; };
 		911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E16CA1CE4F5F40062527E /* TruckSearchViewController.swift */; };
@@ -21,8 +22,6 @@
 		9133DECB1CE1307300F8330E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9133DEC91CE1307300F8330E /* LaunchScreen.storyboard */; };
 		9133DED61CE1307300F8330E /* ClydeLink_AppsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DED51CE1307300F8330E /* ClydeLink_AppsTests.swift */; };
 		9133DEE11CE1307300F8330E /* ClydeLink_AppsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */; };
-		9152B3D81D22F1A20064723D /* O365ClientFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9152B3D71D22F1A20064723D /* O365ClientFetcher.swift */; };
-		9152B3DA1D22F1B90064723D /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9152B3D91D22F1B90064723D /* AuthenticationManager.swift */; };
 		9170518D1D2D6FD7001B2680 /* BlankAddTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9170518C1D2D6FD7001B2680 /* BlankAddTableViewCell.swift */; };
 		9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5AD1CE780C300C24D8F /* LoginViewController.swift */; };
 		9195A5B31CE78CCD00C24D8F /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9195A5B11CE78CCD00C24D8F /* DataModel.xcdatamodeld */; };
@@ -31,9 +30,31 @@
 		919D7D581CEA71BB00055A0A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919D7D571CEA71BB00055A0A /* SettingsViewController.swift */; };
 		91C237E71D04F91E00E00B0B /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C237E61D04F91E00E00B0B /* AddViewController.swift */; };
 		91E215C51CFE6E980031B75F /* TruckSearchNRTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E215C41CFE6E980031B75F /* TruckSearchNRTableViewCell.swift */; };
+		969D4CA04D3DE78627DFFB97 /* Pods_ClydeLink_Apps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEAE74D78016B59E01845260 /* Pods_ClydeLink_Apps.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		09B9F0E81E98201500C672E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09B9F0E31E98201500C672E7 /* CryptoSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 754BE45519693E190098E6F3;
+			remoteInfo = CryptoSwift;
+		};
+		09B9F0EA1E98201500C672E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09B9F0E31E98201500C672E7 /* CryptoSwift.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 754BE46019693E190098E6F3;
+			remoteInfo = Tests;
+		};
+		09B9F0EE1E98202E00C672E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09B9F0E31E98201500C672E7 /* CryptoSwift.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 754BE45419693E190098E6F3;
+			remoteInfo = CryptoSwift;
+		};
 		9133DED21CE1307300F8330E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9133DEB51CE1307300F8330E /* Project object */;
@@ -50,7 +71,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		09B9F0F01E98202E00C672E7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				09B9F0ED1E98202E00C672E7 /* CryptoSwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		09B9F0E31E98201500C672E7 /* CryptoSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CryptoSwift.xcodeproj; path = "../../../Downloads/CryptoSwift-master/CryptoSwift.xcodeproj"; sourceTree = "<group>"; };
 		0B1A6533EB396CAC1ABB74BA /* Pods-ClydeLink Apps.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClydeLink Apps.release.xcconfig"; path = "Pods/Target Support Files/Pods-ClydeLink Apps/Pods-ClydeLink Apps.release.xcconfig"; sourceTree = "<group>"; };
 		3834F4171D013513006E9EFA /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		385E68B11D2C1CD300302062 /* SyncNow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncNow.swift; sourceTree = "<group>"; };
@@ -72,9 +108,6 @@
 		9133DEDC1CE1307300F8330E /* ClydeLink AppsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ClydeLink AppsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9133DEE01CE1307300F8330E /* ClydeLink_AppsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClydeLink_AppsUITests.swift; sourceTree = "<group>"; };
 		9133DEE21CE1307300F8330E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9152B3D71D22F1A20064723D /* O365ClientFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = O365ClientFetcher.swift; sourceTree = "<group>"; };
-		9152B3D91D22F1B90064723D /* AuthenticationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
-		9152B3DE1D22F54F0064723D /* O365-Connect-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "O365-Connect-Bridging-Header.h"; sourceTree = "<group>"; };
 		9170518C1D2D6FD7001B2680 /* BlankAddTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlankAddTableViewCell.swift; sourceTree = "<group>"; };
 		9195A5AD1CE780C300C24D8F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9195A5B21CE78CCD00C24D8F /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -84,7 +117,7 @@
 		91C237E61D04F91E00E00B0B /* AddViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		91E215C41CFE6E980031B75F /* TruckSearchNRTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TruckSearchNRTableViewCell.swift; sourceTree = "<group>"; };
 		BB76D7350A46263267905C88 /* Pods_ClydeLink_AppsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClydeLink_AppsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BEAD1024F626AF684359573E /* libPods-ClydeLink Apps.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ClydeLink Apps.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEAE74D78016B59E01845260 /* Pods_ClydeLink_Apps.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClydeLink_Apps.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED41B4851F2A6475A3022D79 /* Pods_ClydeLink_AppsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClydeLink_AppsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -93,7 +126,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86687D908CC8DE4C9F281255 /* libPods-ClydeLink Apps.a in Frameworks */,
+				09B9F0EC1E98202E00C672E7 /* CryptoSwift.framework in Frameworks */,
+				969D4CA04D3DE78627DFFB97 /* Pods_ClydeLink_Apps.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,12 +148,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09B9F0E41E98201500C672E7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				09B9F0E91E98201500C672E7 /* CryptoSwift.framework */,
+				09B9F0EB1E98201500C672E7 /* Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		86F0A7C060313044F6A53DDC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED41B4851F2A6475A3022D79 /* Pods_ClydeLink_AppsTests.framework */,
 				BB76D7350A46263267905C88 /* Pods_ClydeLink_AppsUITests.framework */,
-				BEAD1024F626AF684359573E /* libPods-ClydeLink Apps.a */,
+				BEAE74D78016B59E01845260 /* Pods_ClydeLink_Apps.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -127,6 +170,7 @@
 		9133DEB41CE1307300F8330E = {
 			isa = PBXGroup;
 			children = (
+				09B9F0E31E98201500C672E7 /* CryptoSwift.xcodeproj */,
 				9133DEBF1CE1307300F8330E /* ClydeLink Apps */,
 				9133DED41CE1307300F8330E /* ClydeLink AppsTests */,
 				9133DEDF1CE1307300F8330E /* ClydeLink AppsUITests */,
@@ -150,7 +194,6 @@
 			isa = PBXGroup;
 			children = (
 				9152B3DF1D28563D0064723D /* TableView Cells */,
-				9152B3DB1D22F1C50064723D /* Office365 */,
 				9195A5BC1CE7FAEC00C24D8F /* View Controllers */,
 				9152B3DD1D22F4F50064723D /* Supporting Files */,
 				9152B3E01D28568F0064723D /* Auxiliary Files */,
@@ -178,22 +221,12 @@
 			path = "ClydeLink AppsUITests";
 			sourceTree = "<group>";
 		};
-		9152B3DB1D22F1C50064723D /* Office365 */ = {
-			isa = PBXGroup;
-			children = (
-				9152B3D91D22F1B90064723D /* AuthenticationManager.swift */,
-				9152B3D71D22F1A20064723D /* O365ClientFetcher.swift */,
-			);
-			name = Office365;
-			sourceTree = "<group>";
-		};
 		9152B3DD1D22F4F50064723D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				385E68B11D2C1CD300302062 /* SyncNow.swift */,
 				9133DEC01CE1307300F8330E /* AppDelegate.swift */,
 				3834F4171D013513006E9EFA /* App.swift */,
-				9152B3DE1D22F54F0064723D /* O365-Connect-Bridging-Header.h */,
 				9133DEC71CE1307300F8330E /* Assets.xcassets */,
 				9133DECC1CE1307300F8330E /* Info.plist */,
 				9195A5B11CE78CCD00C24D8F /* DataModel.xcdatamodeld */,
@@ -256,10 +289,12 @@
 				9133DEBB1CE1307300F8330E /* Resources */,
 				CF55CE33C43104E8C5700255 /* [CP] Embed Pods Frameworks */,
 				7D5B2DA1174A6026974FB1A1 /* [CP] Copy Pods Resources */,
+				09B9F0F01E98202E00C672E7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				09B9F0EF1E98202E00C672E7 /* PBXTargetDependency */,
 			);
 			name = "ClydeLink Apps";
 			productName = "ClydeLink Apps";
@@ -340,6 +375,12 @@
 			mainGroup = 9133DEB41CE1307300F8330E;
 			productRefGroup = 9133DEBE1CE1307300F8330E /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 09B9F0E41E98201500C672E7 /* Products */;
+					ProjectRef = 09B9F0E31E98201500C672E7 /* CryptoSwift.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				9133DEBC1CE1307300F8330E /* ClydeLink Apps */,
@@ -348,6 +389,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		09B9F0E91E98201500C672E7 /* CryptoSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CryptoSwift.framework;
+			remoteRef = 09B9F0E81E98201500C672E7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		09B9F0EB1E98201500C672E7 /* Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Tests.xctest;
+			remoteRef = 09B9F0EA1E98201500C672E7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9133DEBB1CE1307300F8330E /* Resources */ = {
@@ -404,7 +462,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		CF55CE33C43104E8C5700255 /* [CP] Embed Pods Frameworks */ = {
@@ -431,7 +489,6 @@
 			files = (
 				9195A5B91CE7AC1000C24D8F /* AppTableViewCell.swift in Sources */,
 				91007C721CEE32EF006C8EED /* TruckSearchTableViewCell.swift in Sources */,
-				9152B3DA1D22F1B90064723D /* AuthenticationManager.swift in Sources */,
 				91E215C51CFE6E980031B75F /* TruckSearchNRTableViewCell.swift in Sources */,
 				911E16CB1CE4F5F40062527E /* TruckSearchViewController.swift in Sources */,
 				91C237E71D04F91E00E00B0B /* AddViewController.swift in Sources */,
@@ -442,7 +499,6 @@
 				385E68B21D2C1CD300302062 /* SyncNow.swift in Sources */,
 				9195A5AE1CE780C300C24D8F /* LoginViewController.swift in Sources */,
 				38783BBA1D09E4BC003987C5 /* AddTableViewCell.swift in Sources */,
-				9152B3D81D22F1A20064723D /* O365ClientFetcher.swift in Sources */,
 				9170518D1D2D6FD7001B2680 /* BlankAddTableViewCell.swift in Sources */,
 				389CDE4B1D2D705000CD7CDB /* BlankFavoriteTableViewCell.swift in Sources */,
 				911E16C11CE24AA20062527E /* ConstructionViewController.swift in Sources */,
@@ -469,6 +525,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		09B9F0EF1E98202E00C672E7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CryptoSwift;
+			targetProxy = 09B9F0EE1E98202E00C672E7 /* PBXContainerItemProxy */;
+		};
 		9133DED31CE1307300F8330E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9133DEBC1CE1307300F8330E /* ClydeLink Apps */;
@@ -603,7 +664,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.clydelink.ClydeLinkApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "ClydeLink Apps/O365-Connect-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -623,7 +684,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.clydelink.ClydeLinkApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "ClydeLink Apps/O365-Connect-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

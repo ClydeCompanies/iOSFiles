@@ -28,6 +28,7 @@
 #import "NSDictionary+ADExtensions.h"
 #import "ADAuthenticationSettings.h"
 #import "ADNTLMHandler.h"
+#import "ADLogger.h"
 
 @implementation ADAuthenticationWebViewController
 {
@@ -101,7 +102,7 @@ NSTimer *timer;
     
     NSMutableURLRequest* responseUrl = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: value]];
     
-    NSString* authHeader = [ADPkeyAuthHelper createDeviceAuthResponse:authority challengeData:queryParamsMap challengeType:AD_ISSUER];
+    NSString* authHeader = [ADPkeyAuthHelper createDeviceAuthResponse:authority challengeData:queryParamsMap];
     
     [responseUrl setValue:pKeyAuthHeaderVersion forHTTPHeaderField: pKeyAuthHeader];
     [responseUrl setValue:authHeader forHTTPHeaderField:@"Authorization"];
@@ -123,6 +124,12 @@ NSTimer *timer;
     }
     
     NSString *requestURL = [request.URL absoluteString];
+    
+    if ([requestURL caseInsensitiveCompare:@"about:blank"] == NSOrderedSame)
+    {
+        return NO;
+    }
+    
     if ([[[request.URL scheme] lowercaseString] isEqualToString:@"browser"]) {
         _complete = YES;
         dispatch_async( dispatch_get_main_queue(), ^{[_delegate webAuthenticationDidCancel];});
@@ -155,6 +162,16 @@ NSTimer *timer;
         dispatch_async( dispatch_get_main_queue(), ^{ [_delegate webAuthenticationDidCompleteWithURL:request.URL]; } );
         
         // Tell the web view that this URL should not be loaded.
+        return NO;
+    }
+    
+    // redirecting to non-https url is not allowed
+    if ([request.URL.scheme caseInsensitiveCompare:@"https"] != NSOrderedSame)
+    {
+        AD_LOG_ERROR(@"Server is redirecting to a non-https url", AD_ERROR_NON_HTTPS_REDIRECT, nil);
+        _complete = YES;
+        ADAuthenticationError* error = [ADAuthenticationError errorFromNonHttpsRedirect];
+        dispatch_async( dispatch_get_main_queue(), ^{ [_delegate webAuthenticationDidFailWithError:error]; } );
         return NO;
     }
     
@@ -192,7 +209,29 @@ NSTimer *timer;
         return;
     }
 
-    if([error.domain isEqual:@"WebKitErrorDomain"]){
+    // Ignore WebKitError 102 for OAuth 2.0 flow.
+    if ([error.domain isEqual:@"WebKitErrorDomain"] && error.code == 102)
+    {
+        return;
+    }
+    
+    // If we failed on an invalid URL check to see if it matches our end URL
+    if ([error.domain isEqualToString:NSURLErrorDomain] && (error.code == NSURLErrorUnsupportedURL || error.code == NSURLErrorCannotFindHost))
+    {
+        NSURL* url = [error.userInfo objectForKey:NSURLErrorFailingURLErrorKey];
+        NSString* urlString = [url absoluteString];
+        if ([[urlString lowercaseString] hasPrefix:_endURL.lowercaseString])
+        {
+            _complete = YES;
+            dispatch_async( dispatch_get_main_queue(), ^{ [_delegate webAuthenticationDidCompleteWithURL:url]; } );
+            return;
+        }
+    }
+    
+    // Prior to iOS 10 the WebView trapped out this error code and didn't pass it along to us
+    // now we have to trap it out ourselves.
+    if ([error.domain isEqualToString:NSCocoaErrorDomain] && error.code == NSUserCancelledError)
+    {
         return;
     }
     

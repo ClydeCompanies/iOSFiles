@@ -235,7 +235,9 @@ NSString* const sValidationServerError = @"The authority validation server retur
     webRequest.method = HTTPGet;
     [webRequest.headers setObject:@"application/json" forKey:@"Accept"];
     [webRequest.headers setObject:@"application/x-www-form-urlencoded" forKey:@"Content-Type"];
-    [[ADClientMetrics getInstance] beginClientMetricsRecordForEndpoint:endPoint correlationId:[correlationId UUIDString] requestHeader:webRequest.headers];
+    
+    __block NSDate* startTime = [NSDate new];
+    [[ADClientMetrics getInstance] addClientMetrics:webRequest.headers endpoint:endPoint];
     
     [webRequest send:^( NSError *error, ADWebResponse *webResponse )
      {
@@ -281,12 +283,16 @@ NSString* const sValidationServerError = @"The authority validation server retur
                      {
                          if (jsonError)
                          {
-                             adError = [ADAuthenticationError errorFromNSError:jsonError errorDetails:jsonError.localizedDescription];
+                             adError = [ADAuthenticationError errorFromAuthenticationError:AD_ERROR_AUTHORITY_VALIDATION
+                                                                              protocolCode:nil
+                                                                              errorDetails:jsonError.localizedDescription];
                          }
                          else
                          {
                              NSString* errorMessage = [NSString stringWithFormat:@"Unexpected object type: %@", [jsonObject class]];
-                             adError = [ADAuthenticationError unexpectedInternalError:errorMessage];
+                             adError = [ADAuthenticationError errorFromAuthenticationError:AD_ERROR_AUTHORITY_VALIDATION
+                                                                              protocolCode:nil
+                                                                              errorDetails:errorMessage];
                          }
                      }
                  }
@@ -310,11 +316,17 @@ NSString* const sValidationServerError = @"The authority validation server retur
          
          if(adError)
          {
-             [[ADClientMetrics getInstance] endClientMetricsRecord:[adError description]];
+             [[ADClientMetrics getInstance] endClientMetricsRecord:endPoint
+                                                         startTime:startTime
+                                                     correlationId:correlationId
+                                                      errorDetails:[adError errorDetails]];
          }
          else
          {
-             [[ADClientMetrics getInstance] endClientMetricsRecord:nil];
+             [[ADClientMetrics getInstance] endClientMetricsRecord:endPoint
+                                                         startTime:startTime
+                                                     correlationId:correlationId
+                                                      errorDetails:nil];
          }
          
          completionBlock( verified, adError );

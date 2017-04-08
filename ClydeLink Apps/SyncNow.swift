@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CryptoSwift
 
 class SyncNow: NSObject {
     
@@ -62,11 +63,118 @@ class SyncNow: NSObject {
         
     }
     
+    func getIP() -> String
+    {
+        let data: Array<AnyObject>? = sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetIP")
+        if (!(data?[0]["IP"] is NSNull))
+        {
+            return data?[0]["Ip"] as! String
+        } else {
+            
+            return ""
+        }
+    }
+    
     func getToken(_ complete: () -> Void) {
+        let userDefaults = UserDefaults.standard
+        let code = userDefaults.string(forKey: "username")  // Get user email, set to code
+        var parts = code?.components(separatedBy: "@")
+        let uname: String = String(format:"%@", parts![0])  // Get username
+        let userdetails = sendPost(urlstring: "https://clydelink.sharepoint.com/_api/Web/CurrentUser")
+        print("USER")
+        print(userdetails)
+        let account = userdetails[0]["ID"] // Get the user account number
+        let salt = "i:0h.f|membership|1003bffd8a289327@live.com"  // TODO: Make sure it pulls salt, Where do I get it?
+        let ip = getIP()  // Get IP
         
+        let key = hashingAlgorithm(code: code!, ip: ip, account: account as! String, salt: salt)  // Use it all to generate the token key
         
+        sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(uname)\", Key: \(key)}")  // Send post request
+        
+        // The web server will set a cookie with a token in it, allowing us access
+        
+        // How do we test this?
+        
+        //I was just thinking that...
+        
+        //If it breaks, it doesn't work. Otherwise, we assume it does
         
         complete()
+        
+    }
+    
+    func hashingAlgorithm(code: String, ip: String, account: String, salt: String) -> String
+    {
+        var hashedPassword: String = ""
+        var data: Array<UInt8>
+        let passwordarr: Array<UInt8> = Array(code.utf8)
+        let saltarr: Array<UInt8> = Array(salt.utf8)
+        
+        do {
+            data = try PKCS5.PBKDF2(password: passwordarr, salt: saltarr, iterations: 1500, keyLength: 8, variant: .sha256).calculate()  //That usually means the arguments don't work right
+            var dataBase = data.toBase64()
+            print("1st Hash: \(String(describing: dataBase))")
+        } catch {
+            print("Error in SHA256 hashing")
+            return "" //Why is that? Okay, so the data.toBase64 returns a byte array, it's not a simple function,
+                        // Also, the try thing is confusing, but I think I got it right
+        }
+          // It is supposed to be do, but the try right here doesn't appear to throw anything (which it does)
+        let message = String(bytes: data, encoding: String.Encoding.utf8)! + salt + account
+        var data2: String = ""
+        do {
+            data2 = try HMAC(key: saltarr, variant: .sha256).authenticate(Array(message.utf8)).toBase64()!
+        }
+        catch {  // I'm fine with String!
+            print("Error in hmac")
+        }
+//        let hmac = HMAC(key: saltarr, variant: .sha256)
+//        let data2 = hmac.variant.calculateHash(Array(message.utf8)).toBase64()
+        print("2nd Hash: \(data2)")
+        //I have an idea... Never mind
+        // Tell me what you are trying to do
+        // I just need to access that function! So I wanted to take it out of the enum context
+        // Is there documentation for Crypto? We could see how to use that calculateHash function
+        // Here's what I found:
+        let mydate = Date()
+        
+        let ticks = mydate.timeIntervalSince1970 * 10000 + 621355968000000000
+        
+//        NSString* ua = [webView.request valueForHTTPHeaderField:@"User-Agent"];
+        let ua = UIWebView().stringByEvaluatingJavaScript(from: "navigator.userAgent")!
+        let ua2 = ua.components(separatedBy: " ")
+        var message2: String = account
+            message2 += ":"
+            message2 += ip
+            message2 += ":"
+            message2 += ua2[2]
+            message2 += ":"
+            message2 += ua2[1]
+            message2 += ":"
+            message2 += String(format:"%f", ticks)
+        
+        
+        var token: String = ""
+        do {
+            token = try HMAC(key: data2, variant: .sha256).authenticate(Array(message2.utf8)).toBase64()!
+//            token = String(data: HMAC(key: data2, variant: .sha256).calculate(Array(message2.utf8)).toBase64(), encoding: NSUTF8StringEncoding)
+        }
+        catch {  // I'm fine with String!
+            print("Error in hmac")
+        }
+        
+        
+        
+        let tokenID = account + ":" + String(format:"%f", ticks)
+        
+        let tokencombo: String = token + ":" + tokenID
+        
+        var finaldata = String(data: (tokencombo.data(using: .utf8)!), encoding: String.Encoding.utf8)
+        finaldata = finaldata?.data(using: .utf8)?.base64EncodedString()
+        //So it doesn't like tokencombo Wait?ded Wait I got it! Whoa?! Ugh, I don't think this is working Let me try
+        hashedPassword = finaldata!
+        //No smileys!! Haha I was gonna wait for you to have to debug that one Haha you stink.
+        return hashedPassword
         
     }
     
@@ -89,71 +197,31 @@ class SyncNow: NSObject {
             
             let uName: String = String(format:"%@", parts[0])
             
-            if let url = URL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile") {  // Sends POST request to the DMZ server, and prints the response string as an array
+            self.EmployeeInfo = sendPost(urlstring: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile", json: "{UserName: \"\(uName)\"}")
+            
+            let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
+            self.prefs.set(employeedata, forKey: "userinfo")
+            
+            print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
+            self.prefs.synchronize()
+            var permissions: [String] = []
+            if (!(self.EmployeeInfo[0]["Permissions"] is NSNull)) {
+                let rawpermissions = self.EmployeeInfo[0]["Permissions"] as! Array<AnyObject>
+                if (!(rawpermissions is [String])) {
+                    for permission in rawpermissions {
+                        print(permission)
+                        permissions.append((permission["Group"]) as! String)
+                    }
+                }
+                self.prefs.set(permissions, forKey: "permissions")
                 
-                let request = NSMutableURLRequest(url: url)
-                
-                request.httpMethod = "POST"
-                let bodyData = "{UserName: \"\(uName)\"}"
-                request.httpBody = bodyData.data(using: String.Encoding.utf8)
-                let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-                    guard error == nil && data != nil else { // check for fundamental networking error
-                        print("error=\(error)")
-                        self.flag = 1
-                        
-                        return
-                    }
-                    
-                    if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
-                        print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                        print("response = \(response)")
-                    }
-                    
-                    let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
-                    
-                    print(" My Data: ")
-                    print(mydata ?? "No Data")  // Direct response from server printed to console, for testing
-                    
-                    DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
-                        if (mydata == nil)
-                        {
-                            self.flag = 1
-                            
-                            
-                            return
-                        }
-                        
-                        self.EmployeeInfo = mydata as! Array<AnyObject>  // Saves the resulting array to Employee Info Array
-                        let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
-                        self.prefs.set(employeedata, forKey: "userinfo")
-                        
-                        print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
-                        self.prefs.synchronize()
-                        var permissions: [String] = []
-                        if (!(self.EmployeeInfo[0]["Permissions"] is NSNull)) {
-                            let rawpermissions = self.EmployeeInfo[0]["Permissions"] as! Array<AnyObject>
-                            if (!(rawpermissions is [String])) {
-                                for permission in rawpermissions {
-                                    print(permission)
-                                    permissions.append((permission["Group"]) as! String)
-                                }
-                            }
-                            self.prefs.set(permissions, forKey: "permissions")
-                            
-                            print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
-                        } else {
-                            self.prefs.set([],forKey: "permissions")
-                        }
-
-                        
-                        
-                        complete()
-                        
-                    }
-                    
-                })
-                task.resume()
+                print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
+            } else {
+                self.prefs.set([],forKey: "permissions")
             }
+
+            
+            complete()
             
             
         }
@@ -208,42 +276,7 @@ class SyncNow: NSObject {
         }
     }
     func fillAppArray(_ complete: @escaping () -> Void) {
-        if let url = URL(string: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo") {
-            notify()
-            let request = NSMutableURLRequest(url: url)
-            request.httpMethod = "POST"
-            let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-                guard error == nil && data != nil else {
-                    print("error=\(error)")
-                    self.flag = 1
-                    return
-                }
-                self.notify()
-                if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
-                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print("response = \(response)")
-                    self.flag = 1
-                }
-                self.notify()
-                
-                let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
-//                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
-//                    print(mydata)
-                if (mydata == nil)
-                {
-                    self.flag = 1
-                } else {
-                    print(mydata ?? "No Data")
-                }
-                self.notify()
-                self.Apps = mydata as! Array<AnyObject>  // Saves the resulting array to Employees Array
-                self.notify()
-                complete()
-//                }
-            }) 
-            
-            task.resume()  // Reloads Table View cells as results
-        }
+        self.Apps = sendPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo", complete: complete)
         
     }
     
@@ -353,5 +386,53 @@ class SyncNow: NSObject {
 
     func notify() {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "TEST"), object: nil)
+    }
+    
+    func sendPost(urlstring: String, json: String = "", complete: @escaping () -> Void = {}) -> Array<AnyObject> {
+        var result: Array<AnyObject>? = nil
+        if let url = URL(string: urlstring) {  // Sends POST request to the DMZ server, and prints the response string as an array
+            
+            let request = NSMutableURLRequest(url: url)
+            
+            request.httpMethod = "POST"
+            let bodyData = json
+            request.httpBody = bodyData.data(using: String.Encoding.utf8)
+            let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+                guard error == nil && data != nil else { // check for fundamental networking error
+                    print("error=\(error)")
+                    self.flag = 1
+                    
+                    return
+                }
+                
+                if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(String(describing: response))")
+                }
+                
+                let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
+                
+                print(" My Data: ")
+                print(mydata ?? "No Data")  // Direct response from server printed to console, for testing
+                
+                DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
+                    if (mydata == nil)
+                    {
+                        self.flag = 1
+                        
+                        
+                        return
+                    }
+                    
+                    result = mydata as! Array<AnyObject>
+                    
+                    complete()
+                    
+                }
+                
+            })
+            task.resume()
+        }
+        return result!
     }
 }

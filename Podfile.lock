@@ -1,23 +1,15 @@
 PODS:
-  - ADALiOS (1.2.2)
-  - Office365/Discovery (0.9.1):
-    - ADALiOS (= 1.2.2)
-    - Office365/OData
-  - Office365/OData (0.9.1):
-    - ADALiOS (= 1.2.2)
-  - Office365/Outlook (0.9.1):
-    - ADALiOS (= 1.2.2)
-    - Office365/OData
+  - ADALiOS (1.2.9)
+  - CryptoSwift (0.6.8)
 
 DEPENDENCIES:
   - ADALiOS (~> 1.2.1)
-  - Office365/Discovery (= 0.9.1)
-  - Office365/Outlook (= 0.9.1)
+  - CryptoSwift
 
 SPEC CHECKSUMS:
-  ADALiOS: c32489782fa3b646cfaa581b9e84e394396fc6ac
-  Office365: 91c861e9fb7d073914214e04b30458b44f890395
+  ADALiOS: fe8e6d04ff9eae098e1b43ecdd0c4cef08d99182
+  CryptoSwift: f21ea03ed3a94e79d241648ce26652cd4810508a
 
-PODFILE CHECKSUM: ff92fa31881541846ab550efeb6dc693ff0ce6be
+PODFILE CHECKSUM: 435f13a235ad8714b0875c59600094d8a32cfff6
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1
