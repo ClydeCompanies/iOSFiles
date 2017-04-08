@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		09B9F0EC1E98202E00C672E7 /* CryptoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09B9F0E91E98201500C672E7 /* CryptoSwift.framework */; };
-		09B9F0ED1E98202E00C672E7 /* CryptoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 09B9F0E91E98201500C672E7 /* CryptoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3834F4181D013513006E9EFA /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3834F4171D013513006E9EFA /* App.swift */; };
 		385E68B21D2C1CD300302062 /* SyncNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385E68B11D2C1CD300302062 /* SyncNow.swift */; };
 		38783BBA1D09E4BC003987C5 /* AddTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38783BB91D09E4BC003987C5 /* AddTableViewCell.swift */; };
@@ -34,27 +32,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		09B9F0E81E98201500C672E7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 09B9F0E31E98201500C672E7 /* CryptoSwift.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 754BE45519693E190098E6F3;
-			remoteInfo = CryptoSwift;
-		};
-		09B9F0EA1E98201500C672E7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 09B9F0E31E98201500C672E7 /* CryptoSwift.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 754BE46019693E190098E6F3;
-			remoteInfo = Tests;
-		};
-		09B9F0EE1E98202E00C672E7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 09B9F0E31E98201500C672E7 /* CryptoSwift.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 754BE45419693E190098E6F3;
-			remoteInfo = CryptoSwift;
-		};
 		9133DED21CE1307300F8330E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9133DEB51CE1307300F8330E /* Project object */;
@@ -78,7 +55,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				09B9F0ED1E98202E00C672E7 /* CryptoSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,7 +62,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		09B9F0E31E98201500C672E7 /* CryptoSwift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CryptoSwift.xcodeproj; path = "../../../Downloads/CryptoSwift-master/CryptoSwift.xcodeproj"; sourceTree = "<group>"; };
 		0B1A6533EB396CAC1ABB74BA /* Pods-ClydeLink Apps.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClydeLink Apps.release.xcconfig"; path = "Pods/Target Support Files/Pods-ClydeLink Apps/Pods-ClydeLink Apps.release.xcconfig"; sourceTree = "<group>"; };
 		3834F4171D013513006E9EFA /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		385E68B11D2C1CD300302062 /* SyncNow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncNow.swift; sourceTree = "<group>"; };
@@ -126,7 +101,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09B9F0EC1E98202E00C672E7 /* CryptoSwift.framework in Frameworks */,
 				969D4CA04D3DE78627DFFB97 /* Pods_ClydeLink_Apps.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,15 +122,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		09B9F0E41E98201500C672E7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				09B9F0E91E98201500C672E7 /* CryptoSwift.framework */,
-				09B9F0EB1E98201500C672E7 /* Tests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		86F0A7C060313044F6A53DDC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,7 +135,6 @@
 		9133DEB41CE1307300F8330E = {
 			isa = PBXGroup;
 			children = (
-				09B9F0E31E98201500C672E7 /* CryptoSwift.xcodeproj */,
 				9133DEBF1CE1307300F8330E /* ClydeLink Apps */,
 				9133DED41CE1307300F8330E /* ClydeLink AppsTests */,
 				9133DEDF1CE1307300F8330E /* ClydeLink AppsUITests */,
@@ -294,7 +258,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				09B9F0EF1E98202E00C672E7 /* PBXTargetDependency */,
 			);
 			name = "ClydeLink Apps";
 			productName = "ClydeLink Apps";
@@ -375,12 +338,6 @@
 			mainGroup = 9133DEB41CE1307300F8330E;
 			productRefGroup = 9133DEBE1CE1307300F8330E /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 09B9F0E41E98201500C672E7 /* Products */;
-					ProjectRef = 09B9F0E31E98201500C672E7 /* CryptoSwift.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				9133DEBC1CE1307300F8330E /* ClydeLink Apps */,
@@ -389,23 +346,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		09B9F0E91E98201500C672E7 /* CryptoSwift.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CryptoSwift.framework;
-			remoteRef = 09B9F0E81E98201500C672E7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		09B9F0EB1E98201500C672E7 /* Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Tests.xctest;
-			remoteRef = 09B9F0EA1E98201500C672E7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		9133DEBB1CE1307300F8330E /* Resources */ = {
@@ -525,11 +465,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		09B9F0EF1E98202E00C672E7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CryptoSwift;
-			targetProxy = 09B9F0EE1E98202E00C672E7 /* PBXContainerItemProxy */;
-		};
 		9133DED31CE1307300F8330E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9133DEBC1CE1307300F8330E /* ClydeLink Apps */;

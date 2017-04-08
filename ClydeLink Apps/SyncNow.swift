@@ -80,27 +80,23 @@ class SyncNow: NSObject {
         let code = userDefaults.string(forKey: "username")  // Get user email, set to code
         var parts = code?.components(separatedBy: "@")
         let uname: String = String(format:"%@", parts![0])  // Get username
-        let userdetails = sendPost(urlstring: "https://clydelink.sharepoint.com/_api/Web/CurrentUser")
+        let userdetails = sendGet(urlstring: "https://clydelink.sharepoint.com/_api/Web/CurrentUser")
         print("USER")
         print(userdetails)
-        let account = userdetails[0]["ID"] // Get the user account number
-        let salt = "i:0h.f|membership|1003bffd8a289327@live.com"  // TODO: Make sure it pulls salt, Where do I get it?
-        let ip = getIP()  // Get IP
         
-        let key = hashingAlgorithm(code: code!, ip: ip, account: account as! String, salt: salt)  // Use it all to generate the token key
+        if (userdetails.count > 0) {
         
-        sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(uname)\", Key: \(key)}")  // Send post request
-        
-        // The web server will set a cookie with a token in it, allowing us access
-        
-        // How do we test this?
-        
-        //I was just thinking that...
-        
-        //If it breaks, it doesn't work. Otherwise, we assume it does
-        
-        complete()
-        
+            let account = userdetails[0]["ID"] // Get the user account number
+            let salt = "i:0h.f|membership|1003bffd8a289327@live.com"  // TODO: Make sure it pulls salt, Where do I get it?
+            let ip = getIP()  // Get IP
+            
+            let key = hashingAlgorithm(code: code!, ip: ip, account: account as! String, salt: salt)  // Use it all to generate the token key
+            
+            sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(uname)\", Key: \(key)}")  // Send post request
+            
+            complete()
+        }
+    
     }
     
     func hashingAlgorithm(code: String, ip: String, account: String, salt: String) -> String
@@ -388,6 +384,54 @@ class SyncNow: NSObject {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "TEST"), object: nil)
     }
     
+    func sendGet(urlstring: String, json: String = "", complete: @escaping () -> Void = {}) -> Array<AnyObject> {
+        var result: Array<AnyObject>? = nil
+        if let url = URL(string: urlstring) {  // Sends POST request to the DMZ server, and prints the response string as an array
+            
+            let request = NSMutableURLRequest(url: url)
+            
+            request.httpMethod = "GET"
+            let bodyData = json
+            request.httpBody = bodyData.data(using: String.Encoding.utf8)
+            let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+                guard error == nil && data != nil else { // check for fundamental networking error
+                    print("error=\(error)")
+                    self.flag = 1
+                    
+                    return
+                }
+                
+                if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(String(describing: response))")
+                }
+                
+                let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
+                
+                print(" My Data from \(urlstring): ")
+                print(mydata ?? "No Data")  // Direct response from server printed to console, for testing
+                
+                DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
+                    if (mydata == nil)
+                    {
+                        self.flag = 1
+                        
+                        
+                        return
+                    }
+                    
+                    result = mydata as? Array<AnyObject>
+                    
+                    complete()
+                    
+                }
+                
+            })
+            task.resume()
+        }
+        return result ?? Array<AnyObject>()
+    }
+    
     func sendPost(urlstring: String, json: String = "", complete: @escaping () -> Void = {}) -> Array<AnyObject> {
         var result: Array<AnyObject>? = nil
         if let url = URL(string: urlstring) {  // Sends POST request to the DMZ server, and prints the response string as an array
@@ -412,7 +456,7 @@ class SyncNow: NSObject {
                 
                 let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
                 
-                print(" My Data: ")
+                print(" My Data from \(urlstring): ")
                 print(mydata ?? "No Data")  // Direct response from server printed to console, for testing
                 
                 DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
@@ -424,7 +468,7 @@ class SyncNow: NSObject {
                         return
                     }
                     
-                    result = mydata as! Array<AnyObject>
+                    result = mydata as? Array<AnyObject>
                     
                     complete()
                     
@@ -433,6 +477,6 @@ class SyncNow: NSObject {
             })
             task.resume()
         }
-        return result!
+        return result ?? Array<AnyObject>()
     }
 }
