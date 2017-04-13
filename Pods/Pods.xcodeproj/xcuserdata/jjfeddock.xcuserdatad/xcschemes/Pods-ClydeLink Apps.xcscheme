@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8D15CB11EF12CF594AEE499383539529"
-               BuildableName = "libPods-ClydeLink Apps.a"
+               BlueprintIdentifier = "E1D23E264CC87EB967B6CAD1D6F2B1F1"
+               BuildableName = "Pods_ClydeLink_Apps.framework"
                BlueprintName = "Pods-ClydeLink Apps"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
@@ -45,8 +45,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8D15CB11EF12CF594AEE499383539529"
-            BuildableName = "libPods-ClydeLink Apps.a"
+            BlueprintIdentifier = "E1D23E264CC87EB967B6CAD1D6F2B1F1"
+            BuildableName = "Pods_ClydeLink_Apps.framework"
             BlueprintName = "Pods-ClydeLink Apps"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>

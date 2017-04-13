@@ -94,12 +94,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (!prefs.bool(forKey: "launchedbefore"))
         {
-            synced = SyncNow(sync: 1, complete: {
-                DispatchQueue.main.async {
-                    self.prefs.set(true, forKey: "launchedbefore")
-                    self.prefs.synchronize()
-                }
-            })
+            synced = SyncNow()
+                self.prefs.set(true, forKey: "launchedbefore")
+                self.prefs.synchronize()
             
         } else {
             //Not first launch

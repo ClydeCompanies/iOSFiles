@@ -76,6 +76,8 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             CompanyName.text = ""
             SignOutButton.title = "Clear Cache"
             prefs.set([], forKey: "permissions")
+        } else {
+            loadUserInfo()
         }
         var lastdate = prefs.object(forKey: "lastsync") as? [String]
         
@@ -84,7 +86,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         LastSync.text = lastsync
         
         
-        loadUserInfo()
+        
         // Do any additional setup after loading the view.
     }
 
@@ -208,33 +210,34 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         //JobTitle
         //PicLocation
         //UserName
-        
-        self.userName.text = self.EmployeeInfo[0]["UserName"] as? String
-        if (self.userName.text == nil) { self.userName.text = "Unknown User" }
-        
-        self.JobTitle.text = self.EmployeeInfo[0]["JobTitle"] as? String
-        //                        if (self.JobTitle.text == "") { self.JobTitle.text = "n/a" }
-        
-        self.CompanyName.text = self.EmployeeInfo[0]["CompanyName"] as? String
-        //                        if (self.CompanyName.text == "") { self.CompanyName.text = "n/a" }
-        
-        
-        
-        if (self.EmployeeInfo[0]["PicLocation"] is NSNull)
-        {
-            self.UserPicture.image = UIImage(named: "person-generic")
-        }
-        else
-        {
-            self.picLocation = (self.EmployeeInfo[0]["PicLocation"] as? String)!
-            if let data = try? Data(contentsOf: URL(string: "https://cciportal.clydeinc.com/images/Small/\(self.picLocation)")!)
+        if (self.EmployeeInfo.count != 0) {
+            self.userName.text = self.EmployeeInfo[0]["UserName"] as? String
+            if (self.userName.text == nil) { self.userName.text = "Unknown User" }
+            
+            self.JobTitle.text = self.EmployeeInfo[0]["JobTitle"] as? String
+            //                        if (self.JobTitle.text == "") { self.JobTitle.text = "n/a" }
+            
+            self.CompanyName.text = self.EmployeeInfo[0]["CompanyName"] as? String
+            //                        if (self.CompanyName.text == "") { self.CompanyName.text = "n/a" }
+            
+            
+            
+            if (self.EmployeeInfo[0]["PicLocation"] is NSNull)
             {
-                let myImage = UIImage(data: data)
-                self.UserPicture.image = myImage
+                self.UserPicture.image = UIImage(named: "person-generic")
             }
             else
             {
-                self.UserPicture.image = UIImage(named: "person-generic")
+                self.picLocation = (self.EmployeeInfo[0]["PicLocation"] as? String)!
+                if let data = try? Data(contentsOf: URL(string: "https://cciportal.clydeinc.com/images/Small/\(self.picLocation)")!)
+                {
+                    let myImage = UIImage(data: data)
+                    self.UserPicture.image = myImage
+                }
+                else
+                {
+                    self.UserPicture.image = UIImage(named: "person-generic")
+                }
             }
         }
         

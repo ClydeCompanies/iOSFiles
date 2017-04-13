@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E908079A3DF67595C5931E7C1158A32"
-               BuildableName = "libADALiOS.a"
+               BlueprintIdentifier = "AB0734C590877C257B5EEA38D093469E"
+               BuildableName = "ADALiOS.framework"
                BlueprintName = "ADALiOS"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
@@ -45,8 +45,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E908079A3DF67595C5931E7C1158A32"
-            BuildableName = "libADALiOS.a"
+            BlueprintIdentifier = "AB0734C590877C257B5EEA38D093469E"
+            BuildableName = "ADALiOS.framework"
             BlueprintName = "ADALiOS"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>

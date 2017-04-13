@@ -27,7 +27,7 @@ class SyncNow: NSObject {
         syncnow = 0
         done = 0
         flag = 0
-        getToken({
+//        getToken({
             getAppStore({
                 self.buildAppStore({
                     self.sortArray({
@@ -39,7 +39,7 @@ class SyncNow: NSObject {
                     })
                 })
             })
-        })
+//        })
     }
     
     init(sync: Int, complete: @escaping () -> Void) {
@@ -48,7 +48,7 @@ class SyncNow: NSObject {
         done = 0
         flag = 0
         getToken({
-            fillAppArray({
+            self.fillAppArray({
                 self.buildAppStore({
                     self.sortArray({
                         self.updateCurrentApps({
@@ -65,22 +65,30 @@ class SyncNow: NSObject {
     
     func getIP() -> String
     {
-        let data: Array<AnyObject>? = sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetIP")
-        if (!(data?[0]["IP"] is NSNull))
-        {
-            return data?[0]["Ip"] as! String
-        } else {
+        var data: Array<AnyObject>?
+        sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetIP") { mydata in
             
-            return ""
+            data = mydata
+//            if (!(data?[0]["Ip"] is NSNull))
+//            {
+//                return data?[0]["Ip"] as! String
+//            } else {
+//                
+//                return ""
+//            }
         }
+        return data![0]["Ip"] as! String
     }
     
-    func getToken(_ complete: () -> Void) {
+    func getToken(_ complete: @escaping () -> Void) {
         let userDefaults = UserDefaults.standard
         let code = userDefaults.string(forKey: "username")  // Get user email, set to code
         var parts = code?.components(separatedBy: "@")
         let uname: String = String(format:"%@", parts![0])  // Get username
-        let userdetails = sendGet(urlstring: "https://clydelink.sharepoint.com/_api/Web/CurrentUser")
+        var userdetails: Array<AnyObject> = Array<AnyObject>()
+        sendGet(urlstring: "https://clydelink.sharepoint.com/_api/Web/CurrentUser") { mydata in
+            userdetails = mydata
+        
         print("USER")
         print(userdetails)
         
@@ -88,15 +96,17 @@ class SyncNow: NSObject {
         
             let account = userdetails[0]["ID"] // Get the user account number
             let salt = "i:0h.f|membership|1003bffd8a289327@live.com"  // TODO: Make sure it pulls salt, Where do I get it?
-            let ip = getIP()  // Get IP
+            let ip = self.getIP()  // Get IP
             
-            let key = hashingAlgorithm(code: code!, ip: ip, account: account as! String, salt: salt)  // Use it all to generate the token key
+            let key = self.hashingAlgorithm(code: code!, ip: ip, account: account as! String, salt: salt)  // Use it all to generate the token key
             
-            sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(uname)\", Key: \(key)}")  // Send post request
+            self.sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(uname)\", Key: \(key)}")  // Send post request
             
-            complete()
+            
         }
-    
+        }
+        complete()
+
     }
     
     func hashingAlgorithm(code: String, ip: String, account: String, salt: String) -> String
@@ -193,29 +203,31 @@ class SyncNow: NSObject {
             
             let uName: String = String(format:"%@", parts[0])
             
-            self.EmployeeInfo = sendPost(urlstring: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile", json: "{UserName: \"\(uName)\"}")
             
-            let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
-            self.prefs.set(employeedata, forKey: "userinfo")
+            sendPost(urlstring: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile", json: "{UserName: \"\(uName)\"}") { mydata in
+                self.EmployeeInfo = mydata
             
-            print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
-            self.prefs.synchronize()
-            var permissions: [String] = []
-            if (!(self.EmployeeInfo[0]["Permissions"] is NSNull)) {
-                let rawpermissions = self.EmployeeInfo[0]["Permissions"] as! Array<AnyObject>
-                if (!(rawpermissions is [String])) {
-                    for permission in rawpermissions {
-                        print(permission)
-                        permissions.append((permission["Group"]) as! String)
-                    }
-                }
-                self.prefs.set(permissions, forKey: "permissions")
+                let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
+                self.prefs.set(employeedata, forKey: "userinfo")
                 
                 print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
-            } else {
-                self.prefs.set([],forKey: "permissions")
+                self.prefs.synchronize()
+                var permissions: [String] = []
+                if (self.EmployeeInfo.count != 0 && !(self.EmployeeInfo[0]["Permissions"] is NSNull)) {
+                    let rawpermissions = self.EmployeeInfo[0]["Permissions"] as! Array<AnyObject>
+                    if (!(rawpermissions is [String])) {
+                        for permission in rawpermissions {
+                            print(permission)
+                            permissions.append((permission["Group"]) as! String)
+                        }
+                    }
+                    self.prefs.set(permissions, forKey: "permissions")
+                    
+                    print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
+                } else {
+                    self.prefs.set([],forKey: "permissions")
+                }
             }
-
             
             complete()
             
@@ -272,7 +284,10 @@ class SyncNow: NSObject {
         }
     }
     func fillAppArray(_ complete: @escaping () -> Void) {
-        self.Apps = sendPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo", complete: complete)
+        sendPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo") { mydata in
+            self.Apps = mydata
+        }
+        complete()
         
     }
     
@@ -384,7 +399,7 @@ class SyncNow: NSObject {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "TEST"), object: nil)
     }
     
-    func sendGet(urlstring: String, json: String = "", complete: @escaping () -> Void = {}) -> Array<AnyObject> {
+    func sendGet(urlstring: String, json: String = "", complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
         var result: Array<AnyObject>? = nil
         if let url = URL(string: urlstring) {  // Sends POST request to the DMZ server, and prints the response string as an array
             
@@ -422,17 +437,16 @@ class SyncNow: NSObject {
                     
                     result = mydata as? Array<AnyObject>
                     
-                    complete()
+                    complete(result!)
                     
                 }
                 
             })
             task.resume()
         }
-        return result ?? Array<AnyObject>()
     }
     
-    func sendPost(urlstring: String, json: String = "", complete: @escaping () -> Void = {}) -> Array<AnyObject> {
+    func sendPost(urlstring: String, json: String = "", complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
         var result: Array<AnyObject>? = nil
         if let url = URL(string: urlstring) {  // Sends POST request to the DMZ server, and prints the response string as an array
             
@@ -470,13 +484,12 @@ class SyncNow: NSObject {
                     
                     result = mydata as? Array<AnyObject>
                     
-                    complete()
+                    complete(result!)
                     
                 }
                 
             })
             task.resume()
         }
-        return result ?? Array<AnyObject>()
     }
 }
