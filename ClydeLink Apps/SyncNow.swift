@@ -195,8 +195,8 @@ class SyncNow: NSObject {
     func retrieveUserInfo(_ complete: @escaping () -> Void) {  // Get user's information
         let userDefaults = UserDefaults.standard
         
-        userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
-        userDefaults.synchronize()
+//        userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
+//        userDefaults.synchronize()
         
         if let userEmail = userDefaults.string(forKey: "username") {
             var parts = userEmail.components(separatedBy: "@")
@@ -205,6 +205,7 @@ class SyncNow: NSObject {
             
             
             sendPost(urlstring: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile", json: "{UserName: \"\(uName)\"}") { mydata in
+                print("I've found: \(mydata)")
                 self.EmployeeInfo = mydata
             
                 let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
@@ -238,51 +239,22 @@ class SyncNow: NSObject {
     }
     
     
-    func getAppStore(_ complete: () -> Void)
+    func getAppStore(_ complete: @escaping () -> Void)
     {  // Load apps from online database
-        var success: Bool = false
+        
         if let data = prefs.object(forKey: "syncedappstore") as? Data {
             AppStore = NSKeyedUnarchiver.unarchiveObject(with: data) as! [App]
-            sortArray({
-                self.updateCurrentApps({
-                    return
-                })
-            })
             if (AppStore.count == 0)
             {
-                fillAppArray({
-                    self.buildAppStore({
-                        self.sortArray({
-                            self.updateCurrentApps({
-                                return
-                            })
-                        })
-                    })
-                })
+                fillAppArray(complete)
             } else {
-                success = true
+                complete()
             }
         } else {
-            fillAppArray({
-                self.buildAppStore({
-                    self.sortArray({
-                        self.updateCurrentApps({
-                            return
-                        })
-                    })
-                })
-            })
-        }
-        if let data = prefs.object(forKey: "userapps") as? Data {
-            currentapps = NSKeyedUnarchiver.unarchiveObject(with: data) as! [App]
-        } else {
-            currentapps = []
-        }
-        if (success)
-        {
-            complete()
+            fillAppArray(complete)
         }
     }
+    
     func fillAppArray(_ complete: @escaping () -> Void) {
         sendPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo") { mydata in
             self.Apps = mydata
@@ -293,7 +265,6 @@ class SyncNow: NSObject {
     
     func buildAppStore(_ complete: () -> Void) {  // Convert raw data into more accessible AppStore
         if (AppStore.count == 0) {
-    //        AppStore = []
             for element in Apps
             {
                 
@@ -329,14 +300,10 @@ class SyncNow: NSObject {
         let appData = NSKeyedArchiver.archivedData(withRootObject: sorted)
         AppStore = sorted
         prefs.set(appData, forKey: "syncedappstore")
-//        for el in AppStore {
-//            print(String(el.order) + ", " + el.header + ", " + el.title)
-//        }
         if (AppHeaders.count > 0) {
             prefs.set(AppHeaders, forKey: "headers")
         }
         prefs.synchronize()
-//        print(AppHeaders)
         complete()
     }
     
@@ -344,7 +311,7 @@ class SyncNow: NSObject {
     {  // Updates the user's selected apps due to changes in online database
         
         if let data = prefs.object(forKey: "userapps") as? Data {
-            var currentapps = NSKeyedUnarchiver.unarchiveObject(with: data) as! [App]
+            currentapps = NSKeyedUnarchiver.unarchiveObject(with: data) as! [App]
             for el in currentapps
             {
                 var found: Bool = false
@@ -400,96 +367,64 @@ class SyncNow: NSObject {
     }
     
     func sendGet(urlstring: String, json: String = "", complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
-        var result: Array<AnyObject>? = nil
-        if let url = URL(string: urlstring) {  // Sends POST request to the DMZ server, and prints the response string as an array
-            
+        
+        
+        if let url = URL(string: urlstring) {
             let request = NSMutableURLRequest(url: url)
-            
             request.httpMethod = "GET"
-            let bodyData = json
-            request.httpBody = bodyData.data(using: String.Encoding.utf8)
+            request.httpBody = json.data(using: String.Encoding.utf8)
             let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                 guard error == nil && data != nil else { // check for fundamental networking error
-                    print("error=\(error)")
+                    print("error=\(String(describing: error))")
                     self.flag = 1
-                    
                     return
                 }
-                
-                if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
-                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print("response = \(String(describing: response))")
-                }
-                
-                let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
-                
-                print(" My Data from \(urlstring): ")
-                print(mydata ?? "No Data")  // Direct response from server printed to console, for testing
-                
-                DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
-                    if (mydata == nil)
-                    {
-                        self.flag = 1
-                        
-                        
-                        return
-                    }
-                    
-                    result = mydata as? Array<AnyObject>
-                    
+                do {
+                    let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                    print(" My Data from \(urlstring): ")
+                    print(mydata)
+                    let result = mydata as? Array<AnyObject>
                     complete(result!)
-                    
+                } catch let error {
+                    print(error)
                 }
-                
             })
             task.resume()
         }
+        
+        
     }
     
     func sendPost(urlstring: String, json: String = "", complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
-        var result: Array<AnyObject>? = nil
-        if let url = URL(string: urlstring) {  // Sends POST request to the DMZ server, and prints the response string as an array
-            
+        
+        
+        
+        if let url = URL(string: urlstring) {
             let request = NSMutableURLRequest(url: url)
-            
             request.httpMethod = "POST"
-            let bodyData = json
-            request.httpBody = bodyData.data(using: String.Encoding.utf8)
+            request.httpBody = json.data(using: String.Encoding.utf8)
             let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                 guard error == nil && data != nil else { // check for fundamental networking error
-                    print("error=\(error)")
+                    print("error=\(String(describing: error))")
                     self.flag = 1
-                    
                     return
                 }
-                
-                if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
-                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print("response = \(String(describing: response))")
-                }
-                
-                let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
-                
-                print(" My Data from \(urlstring): ")
-                print(mydata ?? "No Data")  // Direct response from server printed to console, for testing
-                
-                DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
-                    if (mydata == nil)
-                    {
-                        self.flag = 1
-                        
-                        
-                        return
-                    }
-                    
-                    result = mydata as? Array<AnyObject>
-                    
+                do {
+                    let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                    print(" My Data from \(urlstring): ")
+                    print(mydata)
+                    let result = mydata as? Array<AnyObject>
                     complete(result!)
-                    
+                } catch let error {
+                    print(error)
                 }
-                
             })
             task.resume()
         }
+        
+        
+        
+        
+        
     }
 }
