@@ -89,21 +89,20 @@ class SyncNow: NSObject {
         sendGet(urlstring: "https://clydelink.sharepoint.com/_api/Web/CurrentUser") { mydata in
             userdetails = mydata
         
-        print("USER")
-        print(userdetails)
+            print("TOKENUSER", userdetails)
         
-        if (userdetails.count > 0) {
-        
-            let account = userdetails[0]["ID"] // Get the user account number
-            let salt = "i:0h.f|membership|1003bffd8a289327@live.com"  // TODO: Make sure it pulls salt, Where do I get it?
-            let ip = self.getIP()  // Get IP
+            if (userdetails.count > 0) {
             
-            let key = self.hashingAlgorithm(code: code!, ip: ip, account: account as! String, salt: salt)  // Use it all to generate the token key
-            
-            self.sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(uname)\", Key: \(key)}")  // Send post request
-            
-            
-        }
+                let account = userdetails[0]["ID"] // Get the user account number
+                let salt = "i:0h.f|membership|1003bffd8a289327@live.com"  // TODO: Make sure it pulls salt, Where do I get it?
+                let ip = self.getIP()  // Get IP
+                
+                let key = self.hashingAlgorithm(code: code!, ip: ip, account: account as! String, salt: salt)  // Use it all to generate the token key
+                
+                self.sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(uname)\", Key: \(key)}")  // Send post request
+                
+                
+            }
         }
         complete()
 
@@ -117,36 +116,26 @@ class SyncNow: NSObject {
         let saltarr: Array<UInt8> = Array(salt.utf8)
         
         do {
-            data = try PKCS5.PBKDF2(password: passwordarr, salt: saltarr, iterations: 1500, keyLength: 8, variant: .sha256).calculate()  //That usually means the arguments don't work right
+            data = try PKCS5.PBKDF2(password: passwordarr, salt: saltarr, iterations: 1500, keyLength: 8, variant: .sha256).calculate()
             var dataBase = data.toBase64()
             print("1st Hash: \(String(describing: dataBase))")
         } catch {
             print("Error in SHA256 hashing")
-            return "" //Why is that? Okay, so the data.toBase64 returns a byte array, it's not a simple function,
-                        // Also, the try thing is confusing, but I think I got it right
+            return ""
         }
-          // It is supposed to be do, but the try right here doesn't appear to throw anything (which it does)
         let message = String(bytes: data, encoding: String.Encoding.utf8)! + salt + account
         var data2: String = ""
         do {
             data2 = try HMAC(key: saltarr, variant: .sha256).authenticate(Array(message.utf8)).toBase64()!
         }
-        catch {  // I'm fine with String!
+        catch {
             print("Error in hmac")
         }
-//        let hmac = HMAC(key: saltarr, variant: .sha256)
-//        let data2 = hmac.variant.calculateHash(Array(message.utf8)).toBase64()
         print("2nd Hash: \(data2)")
-        //I have an idea... Never mind
-        // Tell me what you are trying to do
-        // I just need to access that function! So I wanted to take it out of the enum context
-        // Is there documentation for Crypto? We could see how to use that calculateHash function
-        // Here's what I found:
         let mydate = Date()
         
         let ticks = mydate.timeIntervalSince1970 * 10000 + 621355968000000000
         
-//        NSString* ua = [webView.request valueForHTTPHeaderField:@"User-Agent"];
         let ua = UIWebView().stringByEvaluatingJavaScript(from: "navigator.userAgent")!
         let ua2 = ua.components(separatedBy: " ")
         var message2: String = account
@@ -205,7 +194,7 @@ class SyncNow: NSObject {
             
             
             sendPost(urlstring: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile", json: "{UserName: \"\(uName)\"}") { mydata in
-                print("I've found: \(mydata)")
+//                print("I've found: \(mydata)")
                 self.EmployeeInfo = mydata
             
                 let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
@@ -258,8 +247,8 @@ class SyncNow: NSObject {
     func fillAppArray(_ complete: @escaping () -> Void) {
         sendPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo") { mydata in
             self.Apps = mydata
+            complete()
         }
-        complete()
         
     }
     
@@ -267,7 +256,6 @@ class SyncNow: NSObject {
         if (AppStore.count == 0) {
             for element in Apps
             {
-                
                 AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!,r: (element["Redirect"] as? String)!))
             }
         }
@@ -302,6 +290,7 @@ class SyncNow: NSObject {
         prefs.set(appData, forKey: "syncedappstore")
         if (AppHeaders.count > 0) {
             prefs.set(AppHeaders, forKey: "headers")
+            
         }
         prefs.synchronize()
         complete()
@@ -366,30 +355,46 @@ class SyncNow: NSObject {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "TEST"), object: nil)
     }
     
-    func sendGet(urlstring: String, json: String = "", complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
+    func sendGet(urlstring: String, complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
         
-        
+        print("SENDINGGET")
         if let url = URL(string: urlstring) {
             let request = NSMutableURLRequest(url: url)
-            request.httpMethod = "GET"
-            request.httpBody = json.data(using: String.Encoding.utf8)
-            let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-                guard error == nil && data != nil else { // check for fundamental networking error
-                    print("error=\(String(describing: error))")
-                    self.flag = 1
-                    return
+            
+            let cookies=HTTPCookieStorage.shared.cookies(for: URL(string: urlstring)!)
+            let headers=HTTPCookie.requestHeaderFields(with: cookies!)
+            request.allHTTPHeaderFields=headers
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            
+//            print("HEADERS",headers)
+            
+//            // First
+//            let jar = HTTPCookieStorage.shared.cookies
+//            
+//            // Then
+//            request.setValue(, forHTTPHeaderField: "Cookie")
+            
+            let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+                if error != nil {
+                    print(error ?? "Test")
+                } else {
+                    if let mydata = data {
+                        do {
+                            print(mydata) //JSONSerialization
+                            let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                            print(" My Data from \(urlstring): ")
+                            print(mydata)
+                            let result = mydata as? Array<AnyObject>
+//                            complete(result!)
+                        }
+                        catch let error2 {
+                            print("KIKI",error2)
+                        }
+                    }
                 }
-                do {
-                    let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-                    print(" My Data from \(urlstring): ")
-                    print(mydata)
-                    let result = mydata as? Array<AnyObject>
-                    complete(result!)
-                } catch let error {
-                    print(error)
-                }
-            })
+            }
             task.resume()
+            
         }
         
         

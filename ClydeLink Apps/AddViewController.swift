@@ -47,8 +47,8 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadApps()
         synced = SyncNow()
+        AppTable.reloadData()
         
 //        NoApps = 0
         AppHeaders = (prefs.array(forKey: "headers") as? [String])!
