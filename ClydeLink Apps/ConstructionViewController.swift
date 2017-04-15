@@ -58,6 +58,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     
     func loadAddressURL() {
         let link = prefs.string(forKey: "selectedButton")
+//        let link = "https://clydelink.sharepoint.com/_api/Web/CurrentUser"
         print(link ?? "No Link")
         //        print(link)
         let requestURL = URL(string: link!)
@@ -109,6 +110,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             let urlComponents = URLComponents(string: webView.request!.url!.absoluteString)
             let queryItems = urlComponents?.queryItems
             let param1 = queryItems?.filter({$0.name == "username"}).first
+            
 //            print("PARAM: ")
 //            print(param1)
             if (param1 != nil)
@@ -123,6 +125,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         {
             print("SAVED")
             prefs.set(tempUser, forKey: "username")
+            
             var synced: SyncNow = SyncNow(sync: 1, complete: {})
             
             

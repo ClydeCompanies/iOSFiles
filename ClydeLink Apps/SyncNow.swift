@@ -361,18 +361,10 @@ class SyncNow: NSObject {
         if let url = URL(string: urlstring) {
             let request = NSMutableURLRequest(url: url)
             
-            let cookies=HTTPCookieStorage.shared.cookies(for: URL(string: urlstring)!)
-            let headers=HTTPCookie.requestHeaderFields(with: cookies!)
-            request.allHTTPHeaderFields=headers
             request.setValue("application/json", forHTTPHeaderField: "Accept")
-            
-//            print("HEADERS",headers)
-            
-//            // First
-//            let jar = HTTPCookieStorage.shared.cookies
-//            
-//            // Then
-//            request.setValue(, forHTTPHeaderField: "Cookie")
+
+            let cookies = prefs.object(forKey: "cookieArray")
+            request.setValue(cookies as! String?, forHTTPHeaderField: "Cookie")
             
             let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
                 if error != nil {
