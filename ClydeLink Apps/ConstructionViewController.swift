@@ -121,6 +121,29 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             prefs.synchronize()
         }
         
+        if (webView.request!.url!.absoluteString.contains("clydelink")) {
+            
+            let cookieArray = NSMutableArray()
+            if let savedC = HTTPCookieStorage.shared.cookies {
+                for c: HTTPCookie in savedC {
+                    
+                    let cookieProps = NSMutableDictionary()
+                    cookieArray.add(c.name)
+                    cookieProps.setValue(c.name, forKey: HTTPCookiePropertyKey.name.rawValue)
+                    cookieProps.setValue(c.value, forKey: HTTPCookiePropertyKey.value.rawValue)
+                    cookieProps.setValue(c.domain, forKey: HTTPCookiePropertyKey.domain.rawValue)
+                    cookieProps.setValue(c.path, forKey: HTTPCookiePropertyKey.path.rawValue)
+                    cookieProps.setValue(c.version, forKey: HTTPCookiePropertyKey.version.rawValue)
+                    cookieProps.setValue(NSDate().addingTimeInterval(2629743), forKey: HTTPCookiePropertyKey.expires.rawValue)
+                    
+                    UserDefaults.standard.setValue(cookieProps, forKey: c.name)
+                    UserDefaults.standard.synchronize()
+                }
+            }
+            prefs.set(cookieArray, forKey: "cookieArray")
+            
+        }
+        
         if (webView.request!.url!.absoluteString.contains("clydelink.sharepoint.com") && prefs.string(forKey: "username") == "")
         {
             print("SAVED")

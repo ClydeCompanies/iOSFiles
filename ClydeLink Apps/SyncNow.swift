@@ -355,6 +355,28 @@ class SyncNow: NSObject {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "TEST"), object: nil)
     }
     
+    func getCookies(cookies: NSMutableArray) -> String {
+        var mystr: String = "WSS_FullScreenMode=false;"
+        print("TESTING")
+        for el in (cookies as NSArray as! [String]) {
+            var cookieProps = NSMutableDictionary()
+            cookieProps = prefs.dictionary(forKey: el) as! NSMutableDictionary
+            print(cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue))
+            print(cookieProps)
+            if (cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == "clydelink.sharepoint.com" || cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == ".sharepoint.com")
+            {
+                print("Using this one")
+                mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.name.rawValue) as! String
+                mystr += "="
+                mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.value.rawValue) as! String
+                mystr += ";"
+            }
+        }
+        print("DONE")
+        print("My Cookies: \(mystr)")
+        return mystr
+    }
+    
     func sendGet(urlstring: String, complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
         
         print("SENDINGGET")
@@ -363,8 +385,10 @@ class SyncNow: NSObject {
             
             request.setValue("application/json", forHTTPHeaderField: "Accept")
 
-            let cookies = prefs.object(forKey: "cookieArray")
-            request.setValue(cookies as! String?, forHTTPHeaderField: "Cookie")
+            let cookies: NSMutableArray = prefs.object(forKey: "cookieArray") as! NSMutableArray
+            print("MYCOOKIES: \(cookies)")
+            let mycookiestr = getCookies(cookies: cookies)
+            request.setValue(mycookiestr, forHTTPHeaderField: "Cookie")
             
             let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
                 if error != nil {
