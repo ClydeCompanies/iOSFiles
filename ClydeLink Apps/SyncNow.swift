@@ -356,20 +356,21 @@ class SyncNow: NSObject {
     }
     
     func getCookies(cookies: NSMutableArray) -> String {
-        var mystr: String = "WSS_FullScreenMode=false;"
+        var mystr: String = ""
+        let acceptAll: Bool = true
         print("TESTING")
         for el in (cookies as NSArray as! [String]) {
             var cookieProps = NSMutableDictionary()
             cookieProps = prefs.dictionary(forKey: el) as! NSMutableDictionary
-            print(cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue))
+            print(cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) ?? "")
             print(cookieProps)
-            if (cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == "clydelink.sharepoint.com" || cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == ".sharepoint.com")
+            if (cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == "clydelink.sharepoint.com" || cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == ".sharepoint.com" || acceptAll)
             {
                 print("Using this one")
                 mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.name.rawValue) as! String
                 mystr += "="
                 mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.value.rawValue) as! String
-                mystr += ";"
+                mystr += "; "
             }
         }
         print("DONE")
@@ -385,10 +386,15 @@ class SyncNow: NSObject {
             
             request.setValue("application/json", forHTTPHeaderField: "Accept")
 
-            let cookies: NSMutableArray = prefs.object(forKey: "cookieArray") as! NSMutableArray
-            print("MYCOOKIES: \(cookies)")
-            let mycookiestr = getCookies(cookies: cookies)
-            request.setValue(mycookiestr, forHTTPHeaderField: "Cookie")
+            if let cookies: NSMutableArray = prefs.object(forKey: "cookieArray") as? NSMutableArray {
+                print("MYCOOKIES: \(cookies)")
+                let mycookiestr = getCookies(cookies: cookies)
+                request.setValue(mycookiestr, forHTTPHeaderField: "Cookie")
+            }
+            
+            request.httpMethod = "GET"
+            
+            print("Request: \(request)")
             
             let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
                 if error != nil {
@@ -404,7 +410,7 @@ class SyncNow: NSObject {
 //                            complete(result!)
                         }
                         catch let error2 {
-                            print("KIKI",error2)
+                            print("Error2",error2)
                         }
                     }
                 }
