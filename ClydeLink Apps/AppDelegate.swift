@@ -13,10 +13,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         loadHTTPCookies()
+        
+        HTTPCookieStorage.shared.cookieAcceptPolicy = HTTPCookie.AcceptPolicy.always
         
         // Check for newer version
         if let url = URL(string: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetLatestVersions") {  // Sends POST request to the DMZ server, and prints the response string as an array
