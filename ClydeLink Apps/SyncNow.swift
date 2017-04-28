@@ -67,15 +67,7 @@ class SyncNow: NSObject {
     {
         var data: Array<AnyObject>?
         sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetIP") { mydata in
-            
             data = mydata
-//            if (!(data?[0]["Ip"] is NSNull))
-//            {
-//                return data?[0]["Ip"] as! String
-//            } else {
-//                
-//                return ""
-//            }
         }
         return data![0]["Ip"] as! String
     }
@@ -135,6 +127,7 @@ class SyncNow: NSObject {
         let mydate = Date()
         
         let ticks = mydate.timeIntervalSince1970 * 10000 + 621355968000000000
+        print(ticks)
         
         let ua = UIWebView().stringByEvaluatingJavaScript(from: "navigator.userAgent")!
         let ua2 = ua.components(separatedBy: " ")
@@ -154,7 +147,7 @@ class SyncNow: NSObject {
             token = try HMAC(key: data2, variant: .sha256).authenticate(Array(message2.utf8)).toBase64()!
 //            token = String(data: HMAC(key: data2, variant: .sha256).calculate(Array(message2.utf8)).toBase64(), encoding: NSUTF8StringEncoding)
         }
-        catch {  // I'm fine with String!
+        catch {
             print("Error in hmac")
         }
         
@@ -166,9 +159,9 @@ class SyncNow: NSObject {
         
         var finaldata = String(data: (tokencombo.data(using: .utf8)!), encoding: String.Encoding.utf8)
         finaldata = finaldata?.data(using: .utf8)?.base64EncodedString()
-        //So it doesn't like tokencombo Wait?ded Wait I got it! Whoa?! Ugh, I don't think this is working Let me try
+        
         hashedPassword = finaldata!
-        //No smileys!! Haha I was gonna wait for you to have to debug that one Haha you stink.
+        
         return hashedPassword
         
     }
