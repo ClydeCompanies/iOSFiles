@@ -68,7 +68,6 @@ class SyncNow: NSObject {
     {
         var data: [String : Any] = [:]
         sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetIP") { mydata in
-            
             data = mydata
             
         }
