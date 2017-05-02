@@ -69,15 +69,15 @@ class SyncNow: NSObject {
         sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetIP") { mydata in
             
             data = mydata
-//            if (!(data?[0]["Ip"] is NSNull))
-//            {
-//                return data?[0]["Ip"] as! String
-//            } else {
-//                
-//                return ""
-//            }
+            
         }
-        return data![0]["Ip"] as! String
+//        return (data![0]["Ip"] as! String ?? "")
+        if (data != nil)
+        {
+            return data?[0]["Ip"] as! String
+        } else {
+            return ""
+        }
     }
     
     func getToken(_ complete: @escaping () -> Void) {
@@ -85,7 +85,7 @@ class SyncNow: NSObject {
         let code = userDefaults.string(forKey: "username")  // Get user email, set to code
         var parts = code?.components(separatedBy: "@")
         let uname: String = String(format:"%@", parts![0])  // Get username
-        var userdetails: Array<AnyObject> = Array<AnyObject>()
+        var userdetails: [String : Any] = [:]
         sendGet(urlstring: "https://clydelink.sharepoint.com/apps/_api/Web/CurrentUser") { mydata in
             userdetails = mydata
         
@@ -93,11 +93,11 @@ class SyncNow: NSObject {
         
             if (userdetails.count > 0) {
             
-                let account = userdetails[0]["ID"] // Get the user account number
-                let salt = "i:0h.f|membership|1003bffd8a289327@live.com"  // TODO: Make sure it pulls salt, Where do I get it?
+                let account: String = String(describing: userdetails["Id"]!) // Get the user account number
+                let salt: String = String(describing: userdetails["LoginName"]!) // TODO: Make sure it pulls salt, Where do I get it?
                 let ip = self.getIP()  // Get IP
                 
-                let key = self.hashingAlgorithm(code: code!, ip: ip, account: account as! String, salt: salt)  // Use it all to generate the token key
+                let key = self.hashingAlgorithm(code: code!, ip: ip, account: account, salt: salt)  // Use it all to generate the token key
                 
                 self.sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(uname)\", Key: \(key)}")  // Send post request
                 
@@ -123,7 +123,7 @@ class SyncNow: NSObject {
             print("Error in SHA256 hashing")
             return ""
         }
-        let message = String(bytes: data, encoding: String.Encoding.utf8)! + salt + account
+        let message = String(describing: data) + salt + account
         var data2: String = ""
         do {
             data2 = try HMAC(key: saltarr, variant: .sha256).authenticate(Array(message.utf8)).toBase64()!
@@ -136,15 +136,15 @@ class SyncNow: NSObject {
         
         let ticks = mydate.timeIntervalSince1970 * 10000 + 621355968000000000
         
-        let ua = UIWebView().stringByEvaluatingJavaScript(from: "navigator.userAgent")!
-        let ua2 = ua.components(separatedBy: " ")
+        let ua = UIWebView().stringByEvaluatingJavaScript(from: "navigator.userAgent")
+        let ua2 = ua?.components(separatedBy: " ")
         var message2: String = account
             message2 += ":"
             message2 += ip
             message2 += ":"
-            message2 += ua2[2]
+            message2 += (ua2?[2])!
             message2 += ":"
-            message2 += ua2[1]
+            message2 += (ua2?[1])!
             message2 += ":"
             message2 += String(format:"%f", ticks)
         
@@ -166,9 +166,9 @@ class SyncNow: NSObject {
         
         var finaldata = String(data: (tokencombo.data(using: .utf8)!), encoding: String.Encoding.utf8)
         finaldata = finaldata?.data(using: .utf8)?.base64EncodedString()
-        //So it doesn't like tokencombo Wait?ded Wait I got it! Whoa?! Ugh, I don't think this is working Let me try
+        
         hashedPassword = finaldata!
-        //No smileys!! Haha I was gonna wait for you to have to debug that one Haha you stink.
+        
         return hashedPassword
         
     }
@@ -358,56 +358,56 @@ class SyncNow: NSObject {
     func getCookies(cookies: NSMutableArray) -> String {
         var mystr: String = ""
         let acceptAll: Bool = true
-        print("TESTING")
+//        print("TESTING")
         for el in (cookies as NSArray as! [String]) {
             var cookieProps = NSMutableDictionary()
             cookieProps = prefs.dictionary(forKey: el) as! NSMutableDictionary
-            print(cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) ?? "")
-            print(cookieProps)
+//            print(cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) ?? "")
+//            print(cookieProps)
             if (cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == "clydelink.sharepoint.com" || cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == ".sharepoint.com" || acceptAll)
             {
-                print("Using this one")
+//                print("Using this one")
                 mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.name.rawValue) as! String
                 mystr += "="
                 mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.value.rawValue) as! String
                 mystr += "; "
             }
         }
-        print("DONE")
-        print("My Cookies: \(mystr)")
+//        print("DONE")
+//        print("My Cookies: \(mystr)")
         return mystr
     }
     
-    func sendGet(urlstring: String, complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
+    func sendGet(urlstring: String, complete: @escaping ([String : Any]) -> Void = {mydata in}) {
         
-        print("SENDINGGET")
+//        print("SENDINGGET")
         if let url = URL(string: urlstring) {
             let request = NSMutableURLRequest(url: url)
             
             request.setValue("application/json", forHTTPHeaderField: "Accept")
 
             if let cookies: NSMutableArray = prefs.object(forKey: "cookieArray") as? NSMutableArray {
-                print("MYCOOKIES: \(cookies)")
+//                print("MYCOOKIES: \(cookies)")
                 let mycookiestr = getCookies(cookies: cookies)
                 request.setValue(mycookiestr, forHTTPHeaderField: "Cookie")
             }
             
             request.httpMethod = "GET"
             
-            print("Request: \(request)")
+//            print("Request: \(request)")
             
             let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
                 if error != nil {
                     print(error ?? "Test")
                 } else {
-                    if let mydata = data {
+                    if data != nil {
                         do {
-                            print(mydata) //JSONSerialization
-                            let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-                            print(" My Data from \(urlstring): ")
+//                            print(mydata) //JSONSerialization
+                            let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
+                            print(" My Get Data from \(urlstring): ")
                             print(mydata)
-                            let result = mydata as? Array<AnyObject>
-                            complete(result ?? Array<AnyObject>())
+                            let result = mydata
+                            complete(result)
                         }
                         catch let error2 {
                             print("Error2",error2)
@@ -438,8 +438,8 @@ class SyncNow: NSObject {
                 }
                 do {
                     let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-                    print(" My Data from \(urlstring): ")
-                    print(mydata)
+                    print(" My Post Data from \(urlstring): ")
+//                    print(mydata)
                     let result = mydata as? Array<AnyObject>
                     complete(result!)
                 } catch let error {
