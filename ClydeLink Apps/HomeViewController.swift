@@ -38,6 +38,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {  // Runs when the view loads
         super.viewDidLoad()
         
+        var webView = UIWebView()
+        webView.loadHTMLString("<html></html>", baseURL: nil)
+        var appName: String? = webView.stringByEvaluatingJavaScript(from: "navigator.appName")
+        print("\(appName)")
+        // Netscape
+        var userAgent: String? = webView.stringByEvaluatingJavaScript(from: "navigator.userAgent")
+        print("\(userAgent)")
+        prefs.set(userAgent, forKey: "userAgent")
+        prefs.synchronize()
+        
         synced.updateCurrentApps({print("synced Current Apps")})
         
         finalEdit = false

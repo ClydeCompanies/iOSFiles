@@ -12,7 +12,7 @@ class SyncNow: NSObject {
     
     var flag: Int = 0
     let prefs = UserDefaults.standard
-    var Apps: [AnyObject] = []
+    var Apps: Array<AnyObject> = []
     var AppStore: [App] = []
     var currentapps: [App] = []
     var done: Int = 0
@@ -21,6 +21,7 @@ class SyncNow: NSObject {
     var progress: Float = 0
     var EmployeeInfo: Array<AnyObject> = []  // Holds information about current user
     var serviceEndpointLookup = NSMutableDictionary()
+    
     
     override init() {
         super.init()
@@ -65,16 +66,16 @@ class SyncNow: NSObject {
     
     func getIP() -> String
     {
-        var data: Array<AnyObject>?
+        var data: [String : Any] = [:]
         sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetIP") { mydata in
             
             data = mydata
             
         }
 //        return (data![0]["Ip"] as! String ?? "")
-        if (data != nil)
+        if (data["Ip"] != nil)
         {
-            return data?[0]["Ip"] as! String
+            return data["Ip"] as! String
         } else {
             return ""
         }
@@ -94,9 +95,10 @@ class SyncNow: NSObject {
             if (userdetails.count > 0) {
             
                 let account: String = String(describing: userdetails["Id"]!) // Get the user account number
-                let salt: String = String(describing: userdetails["LoginName"]!) // TODO: Make sure it pulls salt, Where do I get it?
-                let ip = self.getIP()  // Get IP
-                
+                var salt: String = String(describing: userdetails["LoginName"]!) // TODO: Make sure it pulls salt, Where do I get it?
+//                salt = "i:0h.f|membership|1003bffd8a289327@live.com"
+                var ip = self.getIP()  // Get IP
+//                ip = "172.16.60.61"
                 let key = self.hashingAlgorithm(code: code!, ip: ip, account: account, salt: salt)  // Use it all to generate the token key
                 
                 self.sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(uname)\", Key: \(key)}")  // Send post request
@@ -112,60 +114,60 @@ class SyncNow: NSObject {
     {
         var hashedPassword: String = ""
         var data: Array<UInt8>
+        var firsthash: String = ""
         let passwordarr: Array<UInt8> = Array(code.utf8)
         let saltarr: Array<UInt8> = Array(salt.utf8)
         
         do {
-            data = try PKCS5.PBKDF2(password: passwordarr, salt: saltarr, iterations: 1500, keyLength: 8, variant: .sha256).calculate()
+            data = try PKCS5.PBKDF2(password: passwordarr, salt: saltarr, iterations: 1500, keyLength: 32, variant: .sha256).calculate()
             var dataBase = data.toBase64()!
-            print("1st Hash: \(String(describing: dataBase))")
+            firsthash = dataBase
+            print("HASH: 1st Hash: \(firsthash)")
         } catch {
-            print("Error in SHA256 hashing")
+            print("HASH: Error in SHA256 hashing")
             return ""
         }
-        let message = String(describing: data) + salt + account
+        let message = firsthash + ":" + salt + ":" + account
         var data2: String = ""
         do {
             data2 = try HMAC(key: saltarr, variant: .sha256).authenticate(Array(message.utf8)).toBase64()!
         }
         catch {
-            print("Error in hmac")
+            print("HASH: Error in hmac")
         }
-        print("2nd Hash: \(data2)")
+        print("HASH: 2nd Hash: \(data2)")
         let mydate = Date()
         
-        let ticks = mydate.timeIntervalSince1970 * 10000 + 621355968000000000
+        var ticks: Int = Int(mydate.timeIntervalSince1970) * 10000 + 621355968000000000
+//        ticks = 636271773604240000
         
-        let ua = UIWebView().stringByEvaluatingJavaScript(from: "navigator.userAgent")
-        let ua2 = ua?.components(separatedBy: " ")
-        var message2: String = account
-            message2 += ":"
-            message2 += ip
-            message2 += ":"
-            message2 += (ua2?[2])!
-            message2 += ":"
-            message2 += (ua2?[1])!
-            message2 += ":"
-            message2 += String(format:"%f", ticks)
+        var ua = UserDefaults.standard.string(forKey: "userAgent")!
+//        ua = "Mozilla/5.0 (Macintosh; Intel"
+        let ua2 = ua.components(separatedBy: " ")
+        let message2: String = account + ":" + ip + ":" + ua2[2] + ua2[1] + ":" + String(describing: ticks)
         
         
         var token: String = ""
+        
         do {
-            token = try HMAC(key: data2, variant: .sha256).authenticate(Array(message2.utf8)).toBase64()!
-//            token = String(data: HMAC(key: data2, variant: .sha256).calculate(Array(message2.utf8)).toBase64(), encoding: NSUTF8StringEncoding)
+            token = try HMAC(key: Array(data2.utf8), variant: .sha256).authenticate(Array(message2.utf8)).toBase64()!
         }
-        catch {  // I'm fine with String!
-            print("Error in hmac")
+        catch {
+            print("HASH: Error in hmac")
         }
         
+        print("HASH: 2nd Token: \(token)")
         
         
-        let tokenID = account + ":" + String(format:"%f", ticks)
+        
+        let tokenID = account + ":" + String(describing: ticks)
         
         let tokencombo: String = token + ":" + tokenID
         
         var finaldata = String(data: (tokencombo.data(using: .utf8)!), encoding: String.Encoding.utf8)
         finaldata = finaldata?.data(using: .utf8)?.base64EncodedString()
+        
+        print("HASH: final: \(finaldata)")
         
         hashedPassword = finaldata!
         
@@ -193,7 +195,7 @@ class SyncNow: NSObject {
             let uName: String = String(format:"%@", parts[0])
             
             
-            sendPost(urlstring: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile", json: "{UserName: \"\(uName)\"}") { mydata in
+            sendAnyPost(urlstring: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile", json: "{UserName: \"\(uName)\"}") { mydata in
 //                print("I've found: \(mydata)")
                 self.EmployeeInfo = mydata
             
@@ -245,7 +247,7 @@ class SyncNow: NSObject {
     }
     
     func fillAppArray(_ complete: @escaping () -> Void) {
-        sendPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo") { mydata in
+        sendAnyPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo") { mydata in
             self.Apps = mydata
             complete()
         }
@@ -422,9 +424,7 @@ class SyncNow: NSObject {
         
     }
     
-    func sendPost(urlstring: String, json: String = "", complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
-        
-        
+    func sendPost(urlstring: String, json: String = "", complete: @escaping ([String : Any]) -> Void = {mydata in}) {
         
         if let url = URL(string: urlstring) {
             let request = NSMutableURLRequest(url: url)
@@ -436,22 +436,52 @@ class SyncNow: NSObject {
                     self.flag = 1
                     return
                 }
-                do {
-                    let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-                    print(" My Post Data from \(urlstring): ")
-//                    print(mydata)
-                    let result = mydata as? Array<AnyObject>
-                    complete(result!)
-                } catch let error {
-                    print(error)
+                if (data != nil) {
+                    do {
+                        let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
+                        print(" My Post Data from \(urlstring): ")
+                        print(mydata)
+                        let result = mydata
+                        complete(result)
+                    } catch let error {
+                        print(error)
+                    }
                 }
             })
             task.resume()
         }
-        
-        
-        
-        
-        
     }
+    
+    
+    func sendAnyPost(urlstring: String, json: String = "", complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
+        
+        if let url = URL(string: urlstring) {
+            let request = NSMutableURLRequest(url: url)
+            request.httpMethod = "POST"
+            request.httpBody = json.data(using: String.Encoding.utf8)
+            let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+                guard error == nil && data != nil else { // check for fundamental networking error
+                    print("error=\(String(describing: error))")
+                    self.flag = 1
+                    return
+                }
+                if (data != nil) {
+                    do {
+                        let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! Array<AnyObject>
+                        print(" My Post Data from \(urlstring): ")
+                        print(mydata)
+                        let result = mydata
+                        complete(result)
+                    } catch let error {
+                        print(error)
+                    }
+                }
+            })
+            task.resume()
+        }
+    }
+    
+    
+    
+    
 }

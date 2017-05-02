@@ -149,7 +149,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             print("SAVED")
             prefs.set(tempUser, forKey: "username")
             
-            var synced: SyncNow = SyncNow(sync: 1, complete: {})
+//            var synced: SyncNow = SyncNow(sync: 1, complete: {})
             
             
             if (webView.request!.url!.absoluteString.contains("clydelink.sharepoint.com/apps"))
