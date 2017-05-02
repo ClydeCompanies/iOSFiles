@@ -86,7 +86,7 @@ class SyncNow: NSObject {
         var parts = code?.components(separatedBy: "@")
         let uname: String = String(format:"%@", parts![0])  // Get username
         var userdetails: Array<AnyObject> = Array<AnyObject>()
-        sendGet(urlstring: "https://clydelink.sharepoint.com/_api/Web/CurrentUser") { mydata in
+        sendGet(urlstring: "https://clydelink.sharepoint.com/apps/_api/Web/CurrentUser") { mydata in
             userdetails = mydata
         
             print("TOKENUSER", userdetails)
@@ -407,7 +407,7 @@ class SyncNow: NSObject {
                             print(" My Data from \(urlstring): ")
                             print(mydata)
                             let result = mydata as? Array<AnyObject>
-//                            complete(result!)
+                            complete(result ?? Array<AnyObject>())
                         }
                         catch let error2 {
                             print("Error2",error2)

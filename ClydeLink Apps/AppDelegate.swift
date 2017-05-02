@@ -60,12 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         }
                         
                         
-                        //if (needsUpdate(version,mydata))
-//                        {
-//                            UserDefaults.standard.set(true, forKey: "NeedsUpdate")
-//                        } else {
-//                            UserDefaults.standard.set(false, forKey: "NeedsUpdate")
-//                        }
                     }
                     
                 }
