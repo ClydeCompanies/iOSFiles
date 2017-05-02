@@ -57,8 +57,16 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     }
     
     func loadAddressURL() {
-        let link = prefs.string(forKey: "selectedButton")
-//        let link = "https://clydelink.sharepoint.com/_api/Web/CurrentUser"
+        var link = prefs.string(forKey: "selectedButton")
+        
+        if link == ("http://www.clydelink.com/employeeresources/Pages/Policies.aspx?CID=") {
+            link = "https://www.clydelink.com/employeeresources/Pages/Policies.aspx?CID="
+        }
+        
+        if link == ("https://www.clydelink.com/employeeresources/Pages/Policies.aspx?CID=") {
+            link = link! + prefs.string(forKey: "Company")!
+        }
+        
         print(link ?? "No Link")
         //        print(link)
         let requestURL = URL(string: link!)

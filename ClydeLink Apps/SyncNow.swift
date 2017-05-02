@@ -137,8 +137,9 @@ class SyncNow: NSObject {
         print("HASH: 2nd Hash: \(data2)")
         let mydate = Date()
         
-        var ticks: Int = Int(mydate.timeIntervalSince1970) * 10000 + 621355968000000000
+        let ticks: UInt64 = UInt64(mydate.timeIntervalSince1970) * 10000000 + 621355968000000000
 //        ticks = 636271773604240000
+        print("Ticks: ", ticks)
         
         var ua = UserDefaults.standard.string(forKey: "userAgent")!
 //        ua = "Mozilla/5.0 (Macintosh; Intel"
@@ -166,7 +167,7 @@ class SyncNow: NSObject {
         var finaldata = String(data: (tokencombo.data(using: .utf8)!), encoding: String.Encoding.utf8)
         finaldata = finaldata?.data(using: .utf8)?.base64EncodedString()
         
-        print("HASH: final: \(finaldata)")
+        print("HASH: final: \(finaldata!)")
         
         hashedPassword = finaldata!
         
@@ -198,6 +199,8 @@ class SyncNow: NSObject {
 //                print("I've found: \(mydata)")
                 self.EmployeeInfo = mydata
             
+                self.prefs.set(self.EmployeeInfo[0]["CompanyNumber"]!, forKey: "Company")
+                
                 let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
                 self.prefs.set(employeedata, forKey: "userinfo")
                 
