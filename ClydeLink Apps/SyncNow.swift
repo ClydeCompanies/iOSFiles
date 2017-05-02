@@ -117,7 +117,7 @@ class SyncNow: NSObject {
         
         do {
             data = try PKCS5.PBKDF2(password: passwordarr, salt: saltarr, iterations: 1500, keyLength: 8, variant: .sha256).calculate()
-            var dataBase = data.toBase64()
+            var dataBase = data.toBase64()!
             print("1st Hash: \(String(describing: dataBase))")
         } catch {
             print("Error in SHA256 hashing")
