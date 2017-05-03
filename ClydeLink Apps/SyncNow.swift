@@ -100,7 +100,7 @@ class SyncNow: NSObject {
 //                ip = "172.16.60.61"
                 let key = self.hashingAlgorithm(code: code!, ip: ip, account: account, salt: salt)  // Use it all to generate the token key
                 
-                self.sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(uname)\", Key: \(key)}")  // Send post request
+                self.sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(uname)\", Key: \"\(key)\"}")  // Send post request
                 
                 
             }
