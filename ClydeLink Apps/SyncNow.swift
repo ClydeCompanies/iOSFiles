@@ -84,7 +84,7 @@ class SyncNow: NSObject {
         let userDefaults = UserDefaults.standard
         let code = userDefaults.string(forKey: "username")  // Get user email, set to code
         var parts = code?.components(separatedBy: "@")
-        let uname: String = String(format:"%@", parts![0])  // Get username
+        let uname: String = String(format: "%@", parts![0])  // Get username
         var userdetails: [String : Any] = [:]
         sendGet(urlstring: "https://clydelink.sharepoint.com/apps/_api/Web/CurrentUser") { mydata in
             userdetails = mydata
@@ -99,13 +99,53 @@ class SyncNow: NSObject {
                 var ip = self.getIP()  // Get IP
 //                ip = "172.16.60.61"
                 let key = self.hashingAlgorithm(code: code!, ip: ip, account: account, salt: salt)  // Use it all to generate the token key
+//                print("GETTOKEN---", uname, " ", key)
+                var tokenMessage: [String : Any] = [:]
+                // Send post request
+                self.sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(code!)\", Key: \"\(key)\"}") { mydata in tokenMessage = mydata
                 
-                self.sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(uname)\", Key: \"\(key)\"}")  // Send post request
+                    print("TOKENMESSAGE--", String(describing: tokenMessage["message"]!))
+                    if tokenMessage["message"] != nil {
+                        if (String(describing: tokenMessage["message"]!) == "false" || String(describing: tokenMessage["message"]!) == "expired") {
+                            
+                            let alert: UIAlertController = UIAlertController(title: "Error Authenticating", message: "There seems to be a problem with your user token. Please try logging out and in again. If the problem persists, talk to De-Wayne.", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+                                
+                                self.prefs.set("", forKey: "username")
+                                self.prefs.set("", forKey: "LogInUser")
+                                self.prefs.set([], forKey: "userapps")
+                                self.prefs.set([], forKey: "permissions")
+                                
+                                //                let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
+                                //                authenticationManager.clearCredentials()
+                                
+                                _ = HTTPCookie.self
+                                let cookieJar = HTTPCookieStorage.shared
+                                for cookie in cookieJar.cookies! {
+                                    // print(cookie.name+"="+cookie.value)
+                                    cookieJar.deleteCookie(cookie)
+                                }
+                                
+                                let vc : AnyObject! = self.getTopViewController().storyboard!.instantiateViewController(withIdentifier: "Main")
+                                self.getTopViewController().present(vc as! UIViewController, animated: true, completion: nil)
+                                self.prefs.synchronize()
+                                
+                                
+                            }))
+                            self.getTopViewController().present(alert, animated: true, completion: nil)
+                        } else {
+                            complete()
+                        }
+                    } else {
+                        complete()
+                    }
+                    
+                }
                 
                 
             }
         }
-        complete()
+        
 
     }
     
@@ -137,7 +177,7 @@ class SyncNow: NSObject {
         print("HASH: 2nd Hash: \(data2)")
         let mydate = Date()
         
-        let ticks: UInt64 = UInt64(mydate.timeIntervalSince1970) * 10000000 + 621355968000000000
+        var ticks: UInt64 = UInt64(mydate.timeIntervalSince1970) * 10000000 + 621355968000000000
 //        ticks = 636271773604240000
         print("Ticks: ", ticks)
         
@@ -196,7 +236,7 @@ class SyncNow: NSObject {
             
             
             sendAnyPost(urlstring: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile", json: "{UserName: \"\(uName)\"}") { mydata in
-//                print("I've found: \(mydata)")
+////                print("I've found: \(mydata)")
                 self.EmployeeInfo = mydata
             
                 self.prefs.set(self.EmployeeInfo[0]["CompanyNumber"]!, forKey: "Company")
@@ -469,8 +509,9 @@ class SyncNow: NSObject {
                 }
                 if (data != nil) {
                     do {
+                        print(" My Any Post Data from \(urlstring): ")
                         let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! Array<AnyObject>
-                        print(" My Post Data from \(urlstring): ")
+                        
                         print(mydata)
                         let result = mydata
                         complete(result)
@@ -481,6 +522,24 @@ class SyncNow: NSObject {
             })
             task.resume()
         }
+    }
+    
+    func getTopViewController()->UIViewController{
+        return topViewControllerWithRootViewController(rootViewController: UIApplication.shared.keyWindow!.rootViewController!)
+    }
+    func topViewControllerWithRootViewController(rootViewController:UIViewController)->UIViewController{
+        if rootViewController is UITabBarController{
+            let tabBarController = rootViewController as! UITabBarController
+            return topViewControllerWithRootViewController(rootViewController: tabBarController.selectedViewController!)
+        }
+        if rootViewController is UINavigationController{
+            let navBarController = rootViewController as! UINavigationController
+            return topViewControllerWithRootViewController(rootViewController: navBarController.visibleViewController!)
+        }
+        if let presentedViewController = rootViewController.presentedViewController {
+            return topViewControllerWithRootViewController(rootViewController: presentedViewController)
+        }
+        return rootViewController
     }
     
     
