@@ -63,7 +63,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         AppTable.tableFooterView = UIView(frame: CGRect.zero)
         var apps: Int = 0
         var currentApp: String = ""
-//        print(synced.AppStore.count)
         for element in synced.AppStore {  // Load app numbers
             if (currentApp == "")
             {
@@ -86,7 +85,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                 continue
             }
         }
-        //        print(AppNumber)
     }
     
     override func didReceiveMemoryWarning() {
@@ -156,9 +154,8 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         {
             extra = 0
         }
+
         var appCell: App = synced.AppStore[(indexPath as NSIndexPath).row + extra + AppNumber[(indexPath as NSIndexPath).section]]
-        //*********************** Change this **************************
-//        print("* " + String(appCell.order) + ", " + appCell.header + ", " + appCell.title + " *")
         if (appCell.header.lowercased() != "all") {
             
             while (prefs.array(forKey: "permissions")!.contains(appCell.title) == false && prefs.array(forKey: "permissions")!.contains(appCell.header) == false)

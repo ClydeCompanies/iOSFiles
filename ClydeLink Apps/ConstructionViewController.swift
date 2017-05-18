@@ -48,12 +48,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     // MARK: - Web View
 //    
     func webViewDidStartLoad(_ webView: UIWebView) {  // Start loading web page
-        if (WebView.request != nil)
-        {
-//            print("URL = " + webView.request!.URL!.absoluteString)
-        }
         ActivityIndicator.startAnimating()
-        
     }
     
     func loadAddressURL() {
@@ -66,9 +61,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         if link == ("https://www.clydelink.com/employeeresources/Pages/Policies.aspx?CID=") {
             link = link! + prefs.string(forKey: "Company")!
         }
-        
-        print(link ?? "No Link")
-        //        print(link)
+
         let requestURL = URL(string: link!)
         let request = URLRequest(url: requestURL!)
 
@@ -87,40 +80,24 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             }
             
         }
-//        WebView.loadRequest(request)
         
         
     }
     
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         
-        if (WebView.request != nil)
-        {
-//            print("URL = " + webView.request!.URL!.absoluteString)
-//
-//            if (webView.request!.URL?.absoluteString != "login.microsoftonline.com")
-//            {
-//                prefs.setObject("", forKey: "username")
-//            }
-        }
-        
         return true
     }
     
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
-//        print("Response = " + webView.request!.URL!.absoluteString)
-//        let link = prefs.stringForKey("selectedButton")
-        print("Debug: " + webView.request!.url!.absoluteString)
         if (webView.request!.url!.absoluteString.contains("fs.clydeinc.com"))
         {
             //get the username employee is trying to login with from the url
             let urlComponents = URLComponents(string: webView.request!.url!.absoluteString)
             let queryItems = urlComponents?.queryItems
             let param1 = queryItems?.filter({$0.name == "username"}).first
-            
-//            print("PARAM: ")
-//            print(param1)
+
             if (param1 != nil)
             {
                 tempUser = (param1?.value!)!
@@ -154,11 +131,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         
         if (webView.request!.url!.absoluteString.contains("clydelink.sharepoint.com") && prefs.string(forKey: "username") == "")
         {
-            print("SAVED")
             prefs.set(tempUser, forKey: "username")
-            
-//            var synced: SyncNow = SyncNow(sync: 1, complete: {})
-            
             
             if (webView.request!.url!.absoluteString.contains("clydelink.sharepoint.com/apps"))
             {
@@ -166,10 +139,6 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
                 self.show(vc, sender: vc)
             }
         }
-        
-//        else{
-//            prefs.setObject("", forKey: "username")
-//        }
         
         self.ActivityIndicator.stopAnimating()
         

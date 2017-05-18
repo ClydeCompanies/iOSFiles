@@ -22,25 +22,23 @@ class SyncNow: NSObject {
     var EmployeeInfo: Array<AnyObject> = []  // Holds information about current user
     var serviceEndpointLookup = NSMutableDictionary()
     
-    
     override init() {
         super.init()
         syncnow = 0
         done = 0
         flag = 0
-//        getToken({
-            getAppStore({
-                self.buildAppStore({
-                    self.sortArray({
-                        self.updateCurrentApps({
-                            self.loadUserInfo({
-                                return
-                            })
+
+        self.getAppStore({
+            self.buildAppStore({
+                self.sortArray({
+                    self.updateCurrentApps({
+                        self.loadUserInfo({
+                            return
                         })
                     })
                 })
             })
-//        })
+        })
     }
     
     init(sync: Int, complete: @escaping () -> Void) {
@@ -48,6 +46,7 @@ class SyncNow: NSObject {
         syncnow = 1
         done = 0
         flag = 0
+        self.getIP()
         getToken({
             self.fillAppArray({
                 self.buildAppStore({
@@ -61,23 +60,20 @@ class SyncNow: NSObject {
                 })
             })
         })
-        
     }
     
     func getIP() -> String
     {
         var data: [String : Any] = [:]
-        sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetIP") { mydata in
+        sendPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetIP") { mydata in
             data = mydata
             
+            if (data["Ip"] != nil)
+            {
+                UserDefaults.standard.setValue(data["Ip"] as! String, forKey: "IP")
+            }
         }
-//        return (data![0]["Ip"] as! String ?? "")
-        if (data["Ip"] != nil)
-        {
-            return data["Ip"] as! String
-        } else {
-            return ""
-        }
+        return ""
     }
     
     func getToken(_ complete: @escaping () -> Void) {
@@ -86,29 +82,32 @@ class SyncNow: NSObject {
         var parts = code?.components(separatedBy: "@")
         let uname: String = String(format: "%@", parts![0])  // Get username
         var userdetails: [String : Any] = [:]
+        
         sendGet(urlstring: "https://clydelink.sharepoint.com/apps/_api/Web/CurrentUser") { mydata in
             userdetails = mydata
-        
-            print("TOKENUSER", userdetails)
         
             if (userdetails.count > 0) {
             
                 let account: String = String(describing: userdetails["Id"]!) // Get the user account number
                 var salt: String = String(describing: userdetails["LoginName"]!) // TODO: Make sure it pulls salt, Where do I get it?
-//                salt = "i:0h.f|membership|1003bffd8a289327@live.com"
-                var ip = self.getIP()  // Get IP
-//                ip = "172.16.60.61"
+                let userId = userdetails["UserId"] as? [String: String]
+                let nameId : String = String(describing:(userId?["NameId"])! + "@live.com")
+                let email : String = String(describing: userdetails["Email"])
+               
+                salt = "i:0h.f|membership|" +  nameId
+                 // Get IP
+                var ip = self.getIP()
+                
                 let key = self.hashingAlgorithm(code: code!, ip: ip, account: account, salt: salt)  // Use it all to generate the token key
-//                print("GETTOKEN---", uname, " ", key)
+                
                 var tokenMessage: [String : Any] = [:]
                 // Send post request
-                self.sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(code!)\", Key: \"\(key)\"}") { mydata in tokenMessage = mydata
-                
-                    print("TOKENMESSAGE--", String(describing: tokenMessage["message"]!))
+                self.sendPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(code!)\", Key: \"\(key)\"}") { mydata in tokenMessage = mydata
+    
                     if tokenMessage["message"] != nil {
                         if (String(describing: tokenMessage["message"]!) == "false" || String(describing: tokenMessage["message"]!) == "expired") {
                             
-                            let alert: UIAlertController = UIAlertController(title: "Error Authenticating", message: "There seems to be a problem with your user token. Please try logging out and in again. If the problem persists, talk to De-Wayne.", preferredStyle: .alert)
+                            let alert: UIAlertController = UIAlertController(title: "Error Authenticating", message: "There seems to be a problem with your user token. Please try logging out and in again. If the problem persists, please contact Infomation Management.", preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
                                 
                                 self.prefs.set("", forKey: "username")
@@ -116,21 +115,16 @@ class SyncNow: NSObject {
                                 self.prefs.set([], forKey: "userapps")
                                 self.prefs.set([], forKey: "permissions")
                                 
-                                //                let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
-                                //                authenticationManager.clearCredentials()
-                                
                                 _ = HTTPCookie.self
                                 let cookieJar = HTTPCookieStorage.shared
                                 for cookie in cookieJar.cookies! {
-                                    // print(cookie.name+"="+cookie.value)
                                     cookieJar.deleteCookie(cookie)
                                 }
                                 
                                 let vc : AnyObject! = self.getTopViewController().storyboard!.instantiateViewController(withIdentifier: "Main")
                                 self.getTopViewController().present(vc as! UIViewController, animated: true, completion: nil)
                                 self.prefs.synchronize()
-                                
-                                
+
                             }))
                             self.getTopViewController().present(alert, animated: true, completion: nil)
                         } else {
@@ -161,7 +155,6 @@ class SyncNow: NSObject {
             data = try PKCS5.PBKDF2(password: passwordarr, salt: saltarr, iterations: 1500, keyLength: 32, variant: .sha256).calculate()
             var dataBase = data.toBase64()!
             firsthash = dataBase
-            print("HASH: 1st Hash: \(firsthash)")
         } catch {
             print("HASH: Error in SHA256 hashing")
             return ""
@@ -174,30 +167,27 @@ class SyncNow: NSObject {
         catch {
             print("HASH: Error in hmac")
         }
-        print("HASH: 2nd Hash: \(data2)")
+
         let mydate = Date()
         
         var ticks: UInt64 = UInt64(mydate.timeIntervalSince1970) * 10000000 + 621355968000000000
 //        ticks = 636271773604240000
-        print("Ticks: ", ticks)
         
         var ua = UserDefaults.standard.string(forKey: "userAgent")!
-//        ua = "Mozilla/5.0 (Macintosh; Intel"
+        var ipAddr = UserDefaults.standard.string(forKey: "IP")!
+
         let ua2 = ua.components(separatedBy: " ")
-        let message2: String = account + ":" + ip + ":" + ua2[2] + ua2[1] + ":" + String(describing: ticks)
-        
-        
+        let message2: String = account + ":" + ipAddr + ":" + ua2[2] + ua2[1] + ":" + String(describing: ticks)
+
         var token: String = ""
-        
+        let dataarr: Array<UInt8> = Array(data2.utf8)
         do {
-            token = try HMAC(key: Array(data2.utf8), variant: .sha256).authenticate(Array(message2.utf8)).toBase64()!
+            
+            token = try HMAC(key: dataarr, variant: .sha256).authenticate(Array(message2.utf8)).toBase64()!
         }
         catch {
             print("HASH: Error in hmac")
         }
-        
-        print("HASH: 2nd Token: \(token)")
-        
         
         
         let tokenID = account + ":" + String(describing: ticks)
@@ -206,8 +196,6 @@ class SyncNow: NSObject {
         
         var finaldata = String(data: (tokencombo.data(using: .utf8)!), encoding: String.Encoding.utf8)
         finaldata = finaldata?.data(using: .utf8)?.base64EncodedString()
-        
-        print("HASH: final: \(finaldata!)")
         
         hashedPassword = finaldata!
         
@@ -233,31 +221,27 @@ class SyncNow: NSObject {
             var parts = userEmail.components(separatedBy: "@")
             
             let uName: String = String(format:"%@", parts[0])
+            var tokenMessage: Array<AnyObject> = []
             
-            
-            sendAnyPost(urlstring: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile", json: "{UserName: \"\(uName)\"}") { mydata in
-////                print("I've found: \(mydata)")
-                self.EmployeeInfo = mydata
-            
+            sendAnyPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetUserProfile", json: ["UserName": uName]) { mydata in tokenMessage = mydata
+                
+                
+                self.EmployeeInfo = tokenMessage
                 self.prefs.set(self.EmployeeInfo[0]["CompanyNumber"]!, forKey: "Company")
                 
                 let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
                 self.prefs.set(employeedata, forKey: "userinfo")
                 
-                print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
                 self.prefs.synchronize()
                 var permissions: [String] = []
                 if (self.EmployeeInfo.count != 0 && !(self.EmployeeInfo[0]["Permissions"] is NSNull)) {
                     let rawpermissions = self.EmployeeInfo[0]["Permissions"] as! Array<AnyObject>
                     if (!(rawpermissions is [String])) {
                         for permission in rawpermissions {
-                            print(permission)
                             permissions.append((permission["Group"]) as! String)
                         }
                     }
                     self.prefs.set(permissions, forKey: "permissions")
-                    
-                    print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
                 } else {
                     self.prefs.set([],forKey: "permissions")
                 }
@@ -289,7 +273,7 @@ class SyncNow: NSObject {
     }
     
     func fillAppArray(_ complete: @escaping () -> Void) {
-        sendAnyPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo") { mydata in
+        sendAnyPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo", json: ["":""]) { mydata in
             self.Apps = mydata
             complete()
         }
@@ -402,43 +386,32 @@ class SyncNow: NSObject {
     func getCookies(cookies: NSMutableArray) -> String {
         var mystr: String = ""
         let acceptAll: Bool = true
-//        print("TESTING")
         for el in (cookies as NSArray as! [String]) {
             var cookieProps = NSMutableDictionary()
             cookieProps = prefs.dictionary(forKey: el) as! NSMutableDictionary
-//            print(cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) ?? "")
-//            print(cookieProps)
+           
             if (cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == "clydelink.sharepoint.com" || cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == ".sharepoint.com" || acceptAll)
             {
-//                print("Using this one")
                 mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.name.rawValue) as! String
                 mystr += "="
                 mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.value.rawValue) as! String
                 mystr += "; "
             }
         }
-//        print("DONE")
-//        print("My Cookies: \(mystr)")
         return mystr
     }
     
     func sendGet(urlstring: String, complete: @escaping ([String : Any]) -> Void = {mydata in}) {
         
-//        print("SENDINGGET")
         if let url = URL(string: urlstring) {
             let request = NSMutableURLRequest(url: url)
             
             request.setValue("application/json", forHTTPHeaderField: "Accept")
-
             if let cookies: NSMutableArray = prefs.object(forKey: "cookieArray") as? NSMutableArray {
-//                print("MYCOOKIES: \(cookies)")
                 let mycookiestr = getCookies(cookies: cookies)
                 request.setValue(mycookiestr, forHTTPHeaderField: "Cookie")
             }
-            
             request.httpMethod = "GET"
-            
-//            print("Request: \(request)")
             
             let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
                 if error != nil {
@@ -446,10 +419,7 @@ class SyncNow: NSObject {
                 } else {
                     if data != nil {
                         do {
-//                            print(mydata) //JSONSerialization
                             let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
-                            print(" My Get Data from \(urlstring): ")
-                            print(mydata)
                             let result = mydata
                             complete(result)
                         }
@@ -467,11 +437,11 @@ class SyncNow: NSObject {
     }
     
     func sendPost(urlstring: String, json: String = "", complete: @escaping ([String : Any]) -> Void = {mydata in}) {
-        
         if let url = URL(string: urlstring) {
             let request = NSMutableURLRequest(url: url)
             request.httpMethod = "POST"
             request.httpBody = json.data(using: String.Encoding.utf8)
+            request.setValue(UserDefaults.standard.string(forKey: "userAgent")!, forHTTPHeaderField: "User-Agent")
             let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                 guard error == nil && data != nil else { // check for fundamental networking error
                     print("error=\(String(describing: error))")
@@ -481,8 +451,6 @@ class SyncNow: NSObject {
                 if (data != nil) {
                     do {
                         let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
-                        print(" My Post Data from \(urlstring): ")
-                        print(mydata)
                         let result = mydata
                         complete(result)
                     } catch let error {
@@ -495,31 +463,45 @@ class SyncNow: NSObject {
     }
     
     
-    func sendAnyPost(urlstring: String, json: String = "", complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
-        
+    func sendAnyPost(urlstring: String, json:  Dictionary<String, String>, complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
         if let url = URL(string: urlstring) {
+            let params = json
             let request = NSMutableURLRequest(url: url)
             request.httpMethod = "POST"
-            request.httpBody = json.data(using: String.Encoding.utf8)
+            request.setValue(UserDefaults.standard.string(forKey: "userAgent")!, forHTTPHeaderField: "User-Agent")
+            do {
+                request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+                
+            } catch let error {
+                print(error.localizedDescription)
+            }
+            
+            
+            //create dataTask using the session object to send data to the server
             let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-                guard error == nil && data != nil else { // check for fundamental networking error
-                    print("error=\(String(describing: error))")
+                guard error == nil else {
                     self.flag = 1
                     return
                 }
-                if (data != nil) {
-                    do {
-                        print(" My Any Post Data from \(urlstring): ")
-                        let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! Array<AnyObject>
-                        
-                        print(mydata)
-                        let result = mydata
-                        complete(result)
-                    } catch let error {
-                        print(error)
-                    }
+                
+                guard let data = data else {
+                    self.flag = 1
+                    return
                 }
+                
+                do {
+                    //create json object from data
+                    if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? Array<AnyObject> {
+                        let result = json
+                        complete(result)
+                    }
+                    
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+                
             })
+            
             task.resume()
         }
     }

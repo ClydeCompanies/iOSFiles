@@ -41,10 +41,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var webView = UIWebView()
         webView.loadHTMLString("<html></html>", baseURL: nil)
         var appName: String? = webView.stringByEvaluatingJavaScript(from: "navigator.appName")
-        print("\(appName)")
         // Netscape
         var userAgent: String? = webView.stringByEvaluatingJavaScript(from: "navigator.userAgent")
-        print("\(userAgent)")
         prefs.set(userAgent, forKey: "userAgent")
         prefs.synchronize()
         
@@ -271,56 +269,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.test = ""
         }
         
-//        if let url = NSURL(string: "https://cciportal.clydeinc.com/webservices/json/GetUserProfile?username=\(self.test)") {  // Sends POST request to the DMZ server, and prints the response string as an array
-//            
-//            let request = NSMutableURLRequest(URL: url)
-//            
-//            //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
-//            request.HTTPMethod = "POST"
-//            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
-//                guard error == nil && data != nil else { // check for fundamental networking error
-//                    print("error=\(error)")
-//                    
-//                    let alertController = UIAlertController(title: "Error", message:
-//                        "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-//                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-//                    self.presentViewController(alertController, animated: true, completion: nil)
-//                    
-//                    return
-//                }
-//                
-//                if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
-//                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
-//                    print("response = \(response)")
-//                }
-//                
-//                let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
-//                
-//                print(mydata)  // Direct response from server printed to console, for testing
-//                
-//                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
-//                    if (mydata == nil)
-//                    {
-//                        let alertController = UIAlertController(title: "Error", message:
-//                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-//                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-//                        
-//                        self.presentViewController(alertController, animated: true, completion: nil)
-//                        return
-//                    }
-//                }
-//                
-//            }
-//            task.resume()
-//        }
-        
         
         if (self.test != "")
         {
             return "Logged in as " + self.test
         }
         else {
-            print(" \(self.test)")
             return "Not Logged In"
         }
         

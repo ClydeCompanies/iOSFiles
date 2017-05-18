@@ -312,7 +312,7 @@
 				TargetAttributes = {
 					9133DEBC1CE1307300F8330E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = KG98U97GTN;
+						DevelopmentTeam = BJ8N6ZWL59;
 						LastSwiftMigration = 0800;
 					};
 					9133DED01CE1307300F8330E = {
@@ -593,8 +593,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = KG98U97GTN;
+				DEVELOPMENT_TEAM = BJ8N6ZWL59;
 				INFOPLIST_FILE = "ClydeLink Apps/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.clydelink.ClydeLinkApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -613,8 +614,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = KG98U97GTN;
+				DEVELOPMENT_TEAM = BJ8N6ZWL59;
 				INFOPLIST_FILE = "ClydeLink Apps/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.clydelink.ClydeLinkApps;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -108,13 +108,9 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                 self.prefs.set([], forKey: "userapps")
                 self.prefs.set([], forKey: "permissions")
                 
-//                let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
-//                authenticationManager.clearCredentials()
-                
                 _ = HTTPCookie.self
                 let cookieJar = HTTPCookieStorage.shared
                 for cookie in cookieJar.cookies! {
-                    // print(cookie.name+"="+cookie.value)
                     cookieJar.deleteCookie(cookie)
                 }
                 
@@ -124,7 +120,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             }))
             
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-                //            print("Phew!")
+
             }))
             
             
@@ -143,13 +139,11 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                 self.prefs.set([], forKey: "userapps")
                 self.prefs.set([], forKey: "permissions")
                 
-//                let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
-//                authenticationManager.clearCredentials()
+
                 
                 _ = HTTPCookie.self
                 let cookieJar = HTTPCookieStorage.shared
                 for cookie in cookieJar.cookies! {
-                    // print(cookie.name+"="+cookie.value)
                     cookieJar.deleteCookie(cookie)
                 }
                 
@@ -159,7 +153,6 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             }))
             
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-    //            print("Phew!")
             }))
             
             
@@ -172,7 +165,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     func updateProgressBar(_ notification: Notification)
     {
         DispatchQueue.main.async {
-            self.ProgressBar.setProgress(/*(notification.userInfo!.first?.1 as? Float)!*/ 0.1 + self.ProgressBar.progress, animated: true)
+            self.ProgressBar.setProgress(0.1 + self.ProgressBar.progress, animated: true)
         }
     }
     
