@@ -177,7 +177,7 @@ class SyncNow: NSObject {
         var ipAddr = UserDefaults.standard.string(forKey: "IP")!
 
         let ua2 = ua.components(separatedBy: " ")
-        let message2: String = account + ":" + ipAddr + ":" + ua2[2] + ua2[1] + ":" + String(describing: ticks)
+        let message2: String = account + ":" + ipAddr + ":" + ua + ":" + String(describing: ticks)
 
         var token: String = ""
         let dataarr: Array<UInt8> = Array(data2.utf8)
@@ -468,7 +468,7 @@ class SyncNow: NSObject {
             let params = json
             let request = NSMutableURLRequest(url: url)
             request.httpMethod = "POST"
-            request.setValue(UserDefaults.standard.string(forKey: "userAgent")!, forHTTPHeaderField: "User-Agent")
+            //request.setValue(UserDefaults.standard.string(forKey: "userAgent")!, forHTTPHeaderField: "User-Agent")
             do {
                 request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
                 
