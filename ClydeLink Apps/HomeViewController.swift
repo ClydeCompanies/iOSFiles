@@ -48,7 +48,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         prefs.set(userAgent, forKey: "userAgent")
         prefs.synchronize()
         
-        synced.updateCurrentApps({print("synced Current Apps")})
         
         finalEdit = false
         if (prefs.string(forKey: "username") == "Loading...")
@@ -80,19 +79,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         {
             prefs.set([], forKey: "permissions")
         }
-        for el in synced.currentapps
+        for el in currentapps
         {
             //*********************** Change this **************************
             if (prefs.array(forKey: "permissions")!.contains(el.title) == false && prefs.array(forKey: "permissions")!.contains(el.header) == false && el.header.lowercased() != "all")
             {
-                synced.currentapps.remove(at: synced.currentapps.index(of: el)!)
+                currentapps.remove(at: currentapps.index(of: el)!)
             }
         }
-        let appData = NSKeyedArchiver.archivedData(withRootObject: synced.currentapps)
+        let appData = NSKeyedArchiver.archivedData(withRootObject: currentapps)
         prefs.set(appData, forKey: "userapps")
         prefs.synchronize()
         
-        for element in synced.currentapps
+        for element in currentapps
         {
             self.appButtons.append(element)
         }
@@ -381,15 +380,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             {
                 finalEdit = true
             }
-            for element in synced.currentapps
+            for element in currentapps
             {
                 if (element.title == appButtons[(indexPath as NSIndexPath).row].title)
                 {
-                    synced.currentapps.remove(at: synced.currentapps.index(of: element)!)
+                    currentapps.remove(at: currentapps.index(of: element)!)
                     break
                 }
             }
-            let appData = NSKeyedArchiver.archivedData(withRootObject: synced.currentapps)
+            let appData = NSKeyedArchiver.archivedData(withRootObject: currentapps)
             prefs.set(appData, forKey: "userapps")
             prefs.synchronize()
             appButtons.remove(at: (indexPath as NSIndexPath).row)
@@ -423,10 +422,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        currentapps.removeAtIndex(fromIndexPath.row)
 //        currentapps.insert(itemToMove, atIndex: toIndexPath.row)
         var fromindex: Int = 0
-        for element in synced.currentapps
+        for element in currentapps
         {
             if (element.title == itemToMove.title) {
-                fromindex = synced.currentapps.index(of: element)!
+                fromindex = currentapps.index(of: element)!
             }
         }
         
@@ -445,14 +444,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         
-        for element in synced.currentapps
+        for element in currentapps
         {
             if (element.title == appButtons[(fromIndexPath as NSIndexPath).row + change].title) {
-                toindex = synced.currentapps.index(of: element)!
+                toindex = currentapps.index(of: element)!
             }
         }
-        synced.currentapps.remove(at: fromindex)
-        if (toindex + change >= synced.currentapps.count)
+        currentapps.remove(at: fromindex)
+        if (toindex + change >= currentapps.count)
         {
             change = 0
         }
@@ -460,8 +459,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         {
             change = 0
         }
-        synced.currentapps.insert(itemToMove, at: toindex + change)
-        let appData = NSKeyedArchiver.archivedData(withRootObject: synced.currentapps)
+        currentapps.insert(itemToMove, at: toindex + change)
+        let appData = NSKeyedArchiver.archivedData(withRootObject: currentapps)
         prefs.set(appData, forKey: "userapps")
         prefs.synchronize()
     }
@@ -540,12 +539,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 currentapps.append(element)
             }
         }
-    }
-    
-    func loadUserInfo() {  // Get user's information
-        
-        EmployeeInfo = synced.EmployeeInfo
-        
     }
     
     
