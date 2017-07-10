@@ -8,541 +8,349 @@
 import UIKit
 import CryptoSwift
 
+var AppStore: [App] = []
+var currentapps: [App] = []
+var AppHeaders: [String] = []
+var EmployeeInfo: Array<AnyObject> = []
+
 class SyncNow: NSObject {
-    
-    var flag: Int = 0
-    let prefs = UserDefaults.standard
-    var Apps: Array<AnyObject> = []
-    var AppStore: [App] = []
-    var currentapps: [App] = []
-    var done: Int = 0
-    var syncnow: Int = 0
-    var AppHeaders: [String] = []
-    var progress: Float = 0
-    var EmployeeInfo: Array<AnyObject> = []  // Holds information about current user
-    var serviceEndpointLookup = NSMutableDictionary()
-    
     
     override init() {
         super.init()
-        syncnow = 0
-        done = 0
-        flag = 0
-//        getToken({
-            getAppStore({
-                self.buildAppStore({
-                    self.sortArray({
-                        self.updateCurrentApps({
-                            self.loadUserInfo({
-                                return
-                            })
-                        })
-                    })
-                })
-            })
-//        })
+        
+        if let data = UserDefaults.standard.object(forKey: "userinfo") as? Data {
+            EmployeeInfo = NSKeyedUnarchiver.unarchiveObject(with: data) as! Array<AnyObject>
+        }
+        if let data = UserDefaults.standard.object(forKey: "syncedappstore") as? Data {
+            AppStore = NSKeyedUnarchiver.unarchiveObject(with: data) as! [App]
+        }
+        if (AppStore.count == 0) {
+            let queue = OperationQueue()
+            queue.isSuspended = true
+            let iptask = getIpTask()
+            let toktask = getTokenTask()
+            let appsTask = getAppsTask()
+            let ustask = getUserInfoTask()
+            ustask.addDependency(toktask)
+            appsTask.addDependency(toktask)
+            toktask.addDependency(iptask)
+            queue.addOperation(iptask)
+            queue.addOperation(toktask)
+            queue.addOperation(appsTask)
+            queue.isSuspended = false
+        }
     }
     
     init(sync: Int, complete: @escaping () -> Void) {
         super.init()
-        syncnow = 1
-        done = 0
-        flag = 0
-        getToken({
-            self.fillAppArray({
-                self.buildAppStore({
-                    self.sortArray({
-                        self.updateCurrentApps({
-                            self.retrieveUserInfo({
-                                complete()
-                            })
-                        })
-                    })
-                })
-            })
-        })
+        let queue = OperationQueue()
+        queue.isSuspended = true
+        let iptask = getIpTask()
+        let toktask = getTokenTask()
+        let appsTask = getAppsTask()
+        let ustask = getUserInfoTask()
+        let setTask = updateSettingsTask()
+        ustask.addDependency(toktask)
+        appsTask.addDependency(toktask)
+        toktask.addDependency(iptask)
+        setTask.addDependency(ustask)
         
-    }
-    
-    func getIP() -> String
-    {
-        var data: [String : Any] = [:]
-        sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetIP") { mydata in
-            data = mydata
-            
-        }
-//        return (data![0]["Ip"] as! String ?? "")
-        if (data["Ip"] != nil)
-        {
-            return data["Ip"] as! String
-        } else {
-            return ""
-        }
-    }
-    
-    func getToken(_ complete: @escaping () -> Void) {
-        let userDefaults = UserDefaults.standard
-        let code = userDefaults.string(forKey: "username")  // Get user email, set to code
-        var parts = code?.components(separatedBy: "@")
-        let uname: String = String(format: "%@", parts![0])  // Get username
-        var userdetails: [String : Any] = [:]
-        sendGet(urlstring: "https://clydelink.sharepoint.com/apps/_api/Web/CurrentUser") { mydata in
-            userdetails = mydata
+        queue.addOperation(iptask)
+        queue.addOperation(toktask)
+        queue.addOperation(ustask)
+        queue.addOperation(appsTask)
+        queue.addOperation(setTask)
         
-            print("TOKENUSER", userdetails)
+        queue.isSuspended = false
         
-            if (userdetails.count > 0) {
-            
-                let account: String = String(describing: userdetails["Id"]!) // Get the user account number
-                var salt: String = String(describing: userdetails["LoginName"]!) // TODO: Make sure it pulls salt, Where do I get it?
-//                salt = "i:0h.f|membership|1003bffd8a289327@live.com"
-                var ip = self.getIP()  // Get IP
-//                ip = "172.16.60.61"
-                let key = self.hashingAlgorithm(code: code!, ip: ip, account: account, salt: salt)  // Use it all to generate the token key
-//                print("GETTOKEN---", uname, " ", key)
-                var tokenMessage: [String : Any] = [:]
-                // Send post request
-                self.sendPost(urlstring: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(code!)\", Key: \"\(key)\"}") { mydata in tokenMessage = mydata
-                
-                    print("TOKENMESSAGE--", String(describing: tokenMessage["message"]!))
-                    if tokenMessage["message"] != nil {
-                        if (String(describing: tokenMessage["message"]!) == "false" || String(describing: tokenMessage["message"]!) == "expired") {
-                            
-                            let alert: UIAlertController = UIAlertController(title: "Error Authenticating", message: "There seems to be a problem with your user token. Please try logging out and in again. If the problem persists, talk to De-Wayne.", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
-                                
-                                self.prefs.set("", forKey: "username")
-                                self.prefs.set("", forKey: "LogInUser")
-                                self.prefs.set([], forKey: "userapps")
-                                self.prefs.set([], forKey: "permissions")
-                                
-                                //                let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
-                                //                authenticationManager.clearCredentials()
-                                
-                                _ = HTTPCookie.self
-                                let cookieJar = HTTPCookieStorage.shared
-                                for cookie in cookieJar.cookies! {
-                                    // print(cookie.name+"="+cookie.value)
-                                    cookieJar.deleteCookie(cookie)
-                                }
-                                
-                                let vc : AnyObject! = self.getTopViewController().storyboard!.instantiateViewController(withIdentifier: "Main")
-                                self.getTopViewController().present(vc as! UIViewController, animated: true, completion: nil)
-                                self.prefs.synchronize()
-                                
-                                
-                            }))
-                            self.getTopViewController().present(alert, animated: true, completion: nil)
-                        } else {
-                            complete()
-                        }
-                    } else {
-                        complete()
-                    }
-                    
-                }
-                
-                
-            }
-        }
-        
-
-    }
-    
-    func hashingAlgorithm(code: String, ip: String, account: String, salt: String) -> String
-    {
-        var hashedPassword: String = ""
-        var data: Array<UInt8>
-        var firsthash: String = ""
-        let passwordarr: Array<UInt8> = Array(code.utf8)
-        let saltarr: Array<UInt8> = Array(salt.utf8)
-        
-        do {
-            data = try PKCS5.PBKDF2(password: passwordarr, salt: saltarr, iterations: 1500, keyLength: 32, variant: .sha256).calculate()
-            var dataBase = data.toBase64()!
-            firsthash = dataBase
-            print("HASH: 1st Hash: \(firsthash)")
-        } catch {
-            print("HASH: Error in SHA256 hashing")
-            return ""
-        }
-        let message = firsthash + ":" + salt + ":" + account
-        var data2: String = ""
-        do {
-            data2 = try HMAC(key: saltarr, variant: .sha256).authenticate(Array(message.utf8)).toBase64()!
-        }
-        catch {
-            print("HASH: Error in hmac")
-        }
-        print("HASH: 2nd Hash: \(data2)")
-        let mydate = Date()
-        
-        var ticks: UInt64 = UInt64(mydate.timeIntervalSince1970) * 10000000 + 621355968000000000
-//        ticks = 636271773604240000
-        print("Ticks: ", ticks)
-        
-        var ua = UserDefaults.standard.string(forKey: "userAgent")!
-//        ua = "Mozilla/5.0 (Macintosh; Intel"
-        let ua2 = ua.components(separatedBy: " ")
-        let message2: String = account + ":" + ip + ":" + ua2[2] + ua2[1] + ":" + String(describing: ticks)
-        
-        
-        var token: String = ""
-        
-        do {
-            token = try HMAC(key: Array(data2.utf8), variant: .sha256).authenticate(Array(message2.utf8)).toBase64()!
-        }
-        catch {
-            print("HASH: Error in hmac")
-        }
-        
-        print("HASH: 2nd Token: \(token)")
-        
-        
-        
-        let tokenID = account + ":" + String(describing: ticks)
-        
-        let tokencombo: String = token + ":" + tokenID
-        
-        var finaldata = String(data: (tokencombo.data(using: .utf8)!), encoding: String.Encoding.utf8)
-        finaldata = finaldata?.data(using: .utf8)?.base64EncodedString()
-        
-        print("HASH: final: \(finaldata!)")
-        
-        hashedPassword = finaldata!
-        
-        return hashedPassword
-        
-    }
-    
-    func loadUserInfo(_ complete: @escaping () -> Void) {  // Get user's information
-        
-        if let data = prefs.object(forKey: "userinfo") as? Data {
-            self.EmployeeInfo = NSKeyedUnarchiver.unarchiveObject(with: data) as! Array<AnyObject>
-        }
-
-    }
-    
-    func retrieveUserInfo(_ complete: @escaping () -> Void) {  // Get user's information
-        let userDefaults = UserDefaults.standard
-        
-//        userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
-//        userDefaults.synchronize()
-        
-        if let userEmail = userDefaults.string(forKey: "username") {
-            var parts = userEmail.components(separatedBy: "@")
-            
-            let uName: String = String(format:"%@", parts[0])
-            
-            
-            sendAnyPost(urlstring: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile", json: "{UserName: \"\(uName)\"}") { mydata in
-////                print("I've found: \(mydata)")
-                self.EmployeeInfo = mydata
-            
-                self.prefs.set(self.EmployeeInfo[0]["CompanyNumber"]!, forKey: "Company")
-                
-                let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
-                self.prefs.set(employeedata, forKey: "userinfo")
-                
-                print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
-                self.prefs.synchronize()
-                var permissions: [String] = []
-                if (self.EmployeeInfo.count != 0 && !(self.EmployeeInfo[0]["Permissions"] is NSNull)) {
-                    let rawpermissions = self.EmployeeInfo[0]["Permissions"] as! Array<AnyObject>
-                    if (!(rawpermissions is [String])) {
-                        for permission in rawpermissions {
-                            print(permission)
-                            permissions.append((permission["Group"]) as! String)
-                        }
-                    }
-                    self.prefs.set(permissions, forKey: "permissions")
-                    
-                    print(self.prefs.array(forKey: "permissions") ?? "No Permissions Loaded")
-                } else {
-                    self.prefs.set([],forKey: "permissions")
-                }
-            }
-            
-            complete()
-            
-            
-        }
-        
-        
-    }
-    
-    
-    func getAppStore(_ complete: @escaping () -> Void)
-    {  // Load apps from online database
-        
-        if let data = prefs.object(forKey: "syncedappstore") as? Data {
-            AppStore = NSKeyedUnarchiver.unarchiveObject(with: data) as! [App]
-            if (AppStore.count == 0)
-            {
-                fillAppArray(complete)
-            } else {
-                complete()
-            }
-        } else {
-            fillAppArray(complete)
-        }
-    }
-    
-    func fillAppArray(_ complete: @escaping () -> Void) {
-        sendAnyPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo") { mydata in
-            self.Apps = mydata
-            complete()
-        }
-        
-    }
-    
-    func buildAppStore(_ complete: () -> Void) {  // Convert raw data into more accessible AppStore
-        if (AppStore.count == 0) {
-            for element in Apps
-            {
-                AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!,r: (element["Redirect"] as? String)!))
-            }
-        }
-        self.notify()
-        complete()
-    }
-    
-    func sortArray(_ complete: () -> Void)
-    {  // Sort array based on individual apps' "order" property
-        AppHeaders = []
-        var sorted: [App] = []
-        for element in AppStore
-        {
-            if (!AppHeaders.contains(element.header))
-            {
-                AppHeaders.append(element.header)
-            }
-            var min: App = App(h: "1", t: "1", l: "1", s: true, i: "1", u: "1", o: 99, r: "1")
-            for el in AppStore
-            {
-                if (el.order < min.order)
-                {
-                    min = el
-                }
-            }
-            sorted.append(min)
-            AppStore.remove(at: AppStore.index(of: min)!)
-        }
-        self.notify()
-        let appData = NSKeyedArchiver.archivedData(withRootObject: sorted)
-        AppStore = sorted
-        prefs.set(appData, forKey: "syncedappstore")
-        if (AppHeaders.count > 0) {
-            prefs.set(AppHeaders, forKey: "headers")
-            
-        }
-        prefs.synchronize()
-        complete()
-    }
-    
-    func updateCurrentApps(_ complete: () -> Void)
-    {  // Updates the user's selected apps due to changes in online database
-        
-        if let data = prefs.object(forKey: "userapps") as? Data {
-            currentapps = NSKeyedUnarchiver.unarchiveObject(with: data) as! [App]
-            for el in currentapps
-            {
-                var found: Bool = false
-                for element in AppStore
-                {
-                    if (el.link == element.link)
-                    {
-                        el.header = element.header
-                        el.title = element.title
-                        el.URL = element.URL
-                        el.icon = element.icon
-                        el.order = element.order
-                        el.redirect = element.redirect
-                        found = true
-                        break
-                    }
-                }
-                if (!found)
-                {
-                    currentapps.remove(at: currentapps.index(of: el)!)
-                }
-                self.notify()
-            }
-            let data = NSKeyedArchiver.archivedData(withRootObject: currentapps)
-            prefs.set(data, forKey: "userapps")
-            prefs.synchronize()
-        }
-        let date = Date()
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM d, yyyy"
-        
-        let timeFormatter = DateFormatter()
-        timeFormatter.dateFormat = "h:mm"
-        if (self.flag == 0 && syncnow == 1)
-        {
-            var lastdate: [String] = []
-            lastdate.append(dateFormatter.string(from: date))
-            lastdate.append(timeFormatter.string(from: date))
-            self.prefs.set(lastdate, forKey: "lastsync")
-            self.prefs.synchronize()
-        }
-        self.notify()
+        while (queue.operationCount > 0) {}
         complete()
     }
     
     required init(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
     }
+    
+}
 
-    func notify() {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "TEST"), object: nil)
-    }
-    
-    func getCookies(cookies: NSMutableArray) -> String {
-        var mystr: String = ""
-        let acceptAll: Bool = true
-//        print("TESTING")
-        for el in (cookies as NSArray as! [String]) {
-            var cookieProps = NSMutableDictionary()
-            cookieProps = prefs.dictionary(forKey: el) as! NSMutableDictionary
-//            print(cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) ?? "")
-//            print(cookieProps)
-            if (cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == "clydelink.sharepoint.com" || cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == ".sharepoint.com" || acceptAll)
-            {
-//                print("Using this one")
-                mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.name.rawValue) as! String
-                mystr += "="
-                mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.value.rawValue) as! String
-                mystr += "; "
-            }
-        }
-//        print("DONE")
-//        print("My Cookies: \(mystr)")
-        return mystr
-    }
-    
-    func sendGet(urlstring: String, complete: @escaping ([String : Any]) -> Void = {mydata in}) {
-        
-//        print("SENDINGGET")
-        if let url = URL(string: urlstring) {
-            let request = NSMutableURLRequest(url: url)
-            
-            request.setValue("application/json", forHTTPHeaderField: "Accept")
 
-            if let cookies: NSMutableArray = prefs.object(forKey: "cookieArray") as? NSMutableArray {
-//                print("MYCOOKIES: \(cookies)")
-                let mycookiestr = getCookies(cookies: cookies)
-                request.setValue(mycookiestr, forHTTPHeaderField: "Cookie")
-            }
-            
-            request.httpMethod = "GET"
-            
-//            print("Request: \(request)")
-            
-            let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
-                if error != nil {
-                    print(error ?? "Test")
-                } else {
-                    if data != nil {
-                        do {
-//                            print(mydata) //JSONSerialization
-                            let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
-                            print(" My Get Data from \(urlstring): ")
-                            print(mydata)
-                            let result = mydata
-                            complete(result)
-                        }
-                        catch let error2 {
-                            print("Error2",error2)
-                        }
-                    }
-                }
-            }
-            task.resume()
-            
-        }
-        
-        
-    }
-    
-    func sendPost(urlstring: String, json: String = "", complete: @escaping ([String : Any]) -> Void = {mydata in}) {
-        
-        if let url = URL(string: urlstring) {
+class getIpTask: Operation {
+    override func main() {
+        print("IP")
+        var finished: Bool = false
+        if let url = URL(string: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetIP") {
             let request = NSMutableURLRequest(url: url)
             request.httpMethod = "POST"
-            request.httpBody = json.data(using: String.Encoding.utf8)
-            let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-                guard error == nil && data != nil else { // check for fundamental networking error
-                    print("error=\(String(describing: error))")
-                    self.flag = 1
-                    return
-                }
+            URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                 if (data != nil) {
                     do {
                         let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
-                        print(" My Post Data from \(urlstring): ")
+                        UserDefaults.standard.set(mydata["Ip"],forKey: "Ip")
+                        UserDefaults.standard.set(mydata["UserAgent"],forKey: "UserAgent")
+                        UserDefaults.standard.synchronize()
+                        print("******GETIP******")
                         print(mydata)
-                        let result = mydata
-                        complete(result)
+                        print("*****************")
+                        finished = true
                     } catch let error {
                         print(error)
                     }
                 }
-            })
-            task.resume()
+            }).resume()
         }
+        while (!finished) {}
     }
-    
-    
-    func sendAnyPost(urlstring: String, json: String = "", complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
-        
-        if let url = URL(string: urlstring) {
+}
+
+class getTokenTask: Operation {
+    override func main() {
+        print("Token")
+        var finished: Bool = false
+        if let url = URL(string: "https://clydelink.sharepoint.com/apps/_api/Web/CurrentUser") {
+            let request = NSMutableURLRequest(url: url)
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            if let cookies: NSMutableArray = UserDefaults.standard.object(forKey: "cookieArray") as? NSMutableArray {
+                var mycookiestr = ""
+                for el in (cookies as NSArray as! [String]) {
+                    var cookieProps = NSMutableDictionary()
+                    cookieProps = UserDefaults.standard.dictionary(forKey: el) as! NSMutableDictionary
+                    mycookiestr += cookieProps.value(forKey: HTTPCookiePropertyKey.name.rawValue) as! String
+                    mycookiestr += "="
+                    mycookiestr += cookieProps.value(forKey: HTTPCookiePropertyKey.value.rawValue) as! String
+                    mycookiestr += "; "
+                }
+                request.setValue(mycookiestr, forHTTPHeaderField: "Cookie")
+            }
+            request.httpMethod = "GET"
+            URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+                    if data != nil {
+                        do {
+                            let userdetails = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
+                            let code = UserDefaults.standard.string(forKey: "username")
+                            if (userdetails.count > 0) {
+                                let account: String = String(describing: userdetails["Id"]!)
+                                let salt: String = String(describing: userdetails["LoginName"]!)
+                                let ip = UserDefaults.standard.string(forKey: "Ip")
+                                let ua = UserDefaults.standard.string(forKey: "UserAgent")
+                                let key = hashingAlgorithm(code: code!, ip: ip!, account: account, salt: salt, ua: ua!)
+                                let json = "{Email: \"\(code!)\", Key: \"\(key)\"}"
+                                if let url = URL(string: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken") {
+                                    let request = NSMutableURLRequest(url: url)
+                                    request.httpMethod = "POST"
+                                    request.httpBody = json.data(using: String.Encoding.utf8)
+                                    URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+                                        if (data != nil) {
+                                            do {
+                                                let tokenMessage = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
+                                                print("TOKENMESSAGE--", String(describing: tokenMessage["message"]!))
+                                                if tokenMessage["message"] != nil {
+                                                    if (String(describing: tokenMessage["message"]!) == "false") {
+                                                        print("Token Failed")
+                                                    } else if(String(describing: tokenMessage["message"]!) == "expired") {
+                                                        let alert: UIAlertController = UIAlertController(title: "Error Authenticating", message: "The token was expired. Please sync again", preferredStyle: .alert)
+                                                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+                                                            let cookieJar = HTTPCookieStorage.shared
+                                                            for cookie in cookieJar.cookies! {if (cookie.name=="Set-Cookie") {cookieJar.deleteCookie(cookie)}}
+                                                            UserDefaults.standard.synchronize()
+                                                        }))
+                                                        getTopViewController().present(alert, animated: true, completion: nil)
+                                                    }
+                                                }
+                                            } catch let error {
+                                                print(error)
+                                            }
+                                            finished = true
+                                        }
+                                    }).resume()
+                                }
+                            }
+                        }
+                        catch let error {
+                            print("Error",error)
+                        }
+                    }
+            }.resume()
+        }
+        while (!finished) {}
+    }
+}
+
+class getAppsTask: Operation {
+    override func main() {
+        print("Apps")
+        var finished: Bool = false
+        if let url = URL(string: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo") {
             let request = NSMutableURLRequest(url: url)
             request.httpMethod = "POST"
-            request.httpBody = json.data(using: String.Encoding.utf8)
-            let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-                guard error == nil && data != nil else { // check for fundamental networking error
-                    print("error=\(String(describing: error))")
-                    self.flag = 1
-                    return
-                }
+            URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                 if (data != nil) {
                     do {
-                        print(" My Any Post Data from \(urlstring): ")
-                        let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! Array<AnyObject>
+                        let Apps = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! Array<AnyObject>
+                        AppStore = []
+                        for element in Apps
+                        {
+                            AppStore.append(App(h: (element["Header"] as? String)!,t: (element["Title"] as? String)!,l: (element["Link"] as? String)!,s: (element["Selected"] as? Bool)!,i: (element["Icon"] as? String)!, u: (element["Url"] as? String)!, o: (element["Order"] as? Double)!,r: (element["Redirect"] as? String)!))
+                        }
+                        AppHeaders = []
+                        var sorted: [App] = []
+                        while (AppStore.count > 0)
+                        {
+                            var min: App = App(h: "1", t: "1", l: "1", s: true, i: "1", u: "1", o: 99, r: "1")
+                            for el in AppStore
+                            {
+                                if (el.order < min.order)
+                                {
+                                    min = el
+                                }
+                            }
+                            if (!AppHeaders.contains(min.header))
+                            {
+                                AppHeaders.append(min.header)
+                            }
+                            sorted.append(min)
+                            AppStore.remove(at: AppStore.index(of: min)!)
+                        }
                         
-                        print(mydata)
-                        let result = mydata
-                        complete(result)
+                        let appData = NSKeyedArchiver.archivedData(withRootObject: sorted)
+                        AppStore = sorted
+                        UserDefaults.standard.set(appData, forKey: "syncedappstore")
+                        UserDefaults.standard.set(AppHeaders, forKey: "headers")
+                        UserDefaults.standard.synchronize()
+                        currentapps = []
+                        if let data = UserDefaults.standard.object(forKey: "userapps") as? Data {
+                            currentapps = NSKeyedUnarchiver.unarchiveObject(with: data) as! [App]
+                            for el in currentapps
+                            {
+                                var found: Bool = false
+                                for element in AppStore
+                                {
+                                    if (el.link == element.link)
+                                    {
+                                        el.header = element.header
+                                        el.title = element.title
+                                        el.URL = element.URL
+                                        el.icon = element.icon
+                                        el.order = element.order
+                                        el.redirect = element.redirect
+                                        found = true
+                                        break
+                                    }
+                                }
+                                if (!found)
+                                {
+                                    currentapps.remove(at: currentapps.index(of: el)!)
+                                }
+                            }
+                            let data = NSKeyedArchiver.archivedData(withRootObject: currentapps)
+                            UserDefaults.standard.set(data, forKey: "userapps")
+                            UserDefaults.standard.synchronize()
+                            finished = true
+                        }
                     } catch let error {
                         print(error)
                     }
                 }
-            })
-            task.resume()
+            }).resume()
+        }
+        while (!finished) {}
+    }
+}
+
+class getUserInfoTask: Operation {
+    override func main() {
+        print("User")
+        if let userEmail = UserDefaults.standard.string(forKey: "username") {
+            var parts = userEmail.components(separatedBy: "@")
+            let uName: String = String(format:"%@", parts[0])
+            let json: String = "{UserName: \"\(uName)\"}"
+            if let url = URL(string: "https://webservices.clydeinc.com/ClydeRestServices.svc/json/ClydeWebServices/GetUserProfile") {
+                let request = NSMutableURLRequest(url: url)
+                request.httpMethod = "POST"
+                request.httpBody = json.data(using: String.Encoding.utf8)
+                URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+                    if (data != nil) {
+                        do {
+                            EmployeeInfo = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! Array<AnyObject>
+                            UserDefaults.standard.set(EmployeeInfo[0]["CompanyNumber"]!, forKey: "Company")
+                            UserDefaults.standard.set(data, forKey: "userinfo")
+                            var permissions: [String] = []
+                            for permission in EmployeeInfo[0]["Permissions"] as! Array<AnyObject> {
+                                permissions.append((permission["Group"]) as! String)
+                            }
+                            UserDefaults.standard.set(permissions, forKey: "permissions")
+                            UserDefaults.standard.synchronize()
+                        } catch let error {
+                            print(error)
+                        }
+                    }
+                }).resume()
+            }
         }
     }
-    
-    func getTopViewController()->UIViewController{
-        return topViewControllerWithRootViewController(rootViewController: UIApplication.shared.keyWindow!.rootViewController!)
+}
+
+class updateSettingsTask: Operation {
+    override func main() {
+        print("Settings")
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, yyyy"
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "h:mm"
+        var lastdate: [String] = []
+        lastdate.append(dateFormatter.string(from: date))
+        lastdate.append(timeFormatter.string(from: date))
+        UserDefaults.standard.set(lastdate, forKey: "lastsync")
+        UserDefaults.standard.synchronize()
     }
-    func topViewControllerWithRootViewController(rootViewController:UIViewController)->UIViewController{
-        if rootViewController is UITabBarController{
-            let tabBarController = rootViewController as! UITabBarController
-            return topViewControllerWithRootViewController(rootViewController: tabBarController.selectedViewController!)
-        }
-        if rootViewController is UINavigationController{
-            let navBarController = rootViewController as! UINavigationController
-            return topViewControllerWithRootViewController(rootViewController: navBarController.visibleViewController!)
-        }
-        if let presentedViewController = rootViewController.presentedViewController {
-            return topViewControllerWithRootViewController(rootViewController: presentedViewController)
-        }
-        return rootViewController
-    }
-    
-    
-    
-    
+}
+
+
+
+func hashingAlgorithm(code: String, ip: String, account: String, salt: String, ua: String) -> String {
+    print("******HASHING******")
+    print("Code: \(code)\nIP: \(ip)\nAccount: \(account)\nSalt: \(salt)\nUserAgent: \(ua)")
+    var firsthash: String = ""
+    let passwordarr: Array<UInt8> = Array(code.utf8)
+    let saltarr: Array<UInt8> = Array(salt.utf8)
+    do {firsthash = try PKCS5.PBKDF2(password: passwordarr, salt: saltarr, iterations: 1500, keyLength: 32, variant: .sha256).calculate().toBase64()!}
+    catch{print("HASH: Error in SHA256 hashing")}
+    print("First: \(firsthash)")
+    let message = firsthash + ":" + salt + ":" + account
+    print("Message: \(message)")
+    var data2: String = ""
+    do {data2 = try HMAC(key: saltarr, variant: .sha256).authenticate(Array(message.utf8)).toBase64()!}
+    catch {print("HASH: Error in hmac")}
+    print("Data2: \(data2)")
+    let ticks: UInt64 = UInt64(Date().timeIntervalSince1970) * 10000000 + 621355968000000000
+    print("Ticks: \(ticks)")
+    let ua2 = ua.components(separatedBy: " ")
+    var message2: String = ""
+    if (ua2.count > 2) {message2 = account + ":" + ip + ":" + ua2[1] + ua2[0] + ":" + String(describing: ticks)} else {message2 = ""}
+    print("UA2: \(ua2)")
+    print("Message2: \(message2)")
+    var token: String = ""
+    do {token = try HMAC(key: Array(data2.utf8), variant: .sha256).authenticate(Array(message2.utf8)).toBase64()!}
+    catch {print("HASH: Error in hmac")}
+    let tokencombo: String = token + ":" + account + ":" + String(describing: ticks)
+    print("TokenCombo: \(tokencombo)")
+    let final: String = (String(data: (tokencombo.data(using: .utf8)!), encoding: String.Encoding.utf8)?.data(using: .utf8)?.base64EncodedString())!
+    print("Final: \(final)")
+    print("*******************")
+    return final
+}
+
+func getTopViewController()->UIViewController{
+    return topViewControllerWithRootViewController(rootViewController: UIApplication.shared.keyWindow!.rootViewController!)
+}
+
+func topViewControllerWithRootViewController(rootViewController:UIViewController)->UIViewController{
+    if rootViewController is UITabBarController{
+        let tabBarController = rootViewController as! UITabBarController
+        return topViewControllerWithRootViewController(rootViewController: tabBarController.selectedViewController!)}
+    if rootViewController is UINavigationController{
+        let navBarController = rootViewController as! UINavigationController
+        return topViewControllerWithRootViewController(rootViewController: navBarController.visibleViewController!)}
+    if let presentedViewController = rootViewController.presentedViewController {
+        return topViewControllerWithRootViewController(rootViewController: presentedViewController)}
+    return rootViewController
 }

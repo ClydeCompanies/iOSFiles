@@ -10,25 +10,24 @@ import UIKit
 class AddTableViewCell: UITableViewCell {
     
     let prefs = UserDefaults.standard  // Current user preferences
-    let synced: SyncNow = SyncNow()
+    let synced = SyncNow()
     
     @IBOutlet weak var Title: UILabel!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var Icon: UIImageView!
     
     @IBAction func addButton(_ sender: AnyObject) {
-        let synced: SyncNow = SyncNow()
-        for element in synced.AppStore
+        for element in AppStore
         {
             if (Title.text! == element.title)
             {
                 element.selected = true
-                synced.currentapps.append(element)
+                currentapps.append(element)
                 break
             }
             
         }
-        let appData = NSKeyedArchiver.archivedData(withRootObject: synced.currentapps)
+        let appData = NSKeyedArchiver.archivedData(withRootObject: currentapps)
         prefs.set(appData, forKey: "userapps")
         prefs.synchronize()
         addButton.isHidden = true
