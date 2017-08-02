@@ -12,6 +12,7 @@ var AppStore: [App] = []
 var currentapps: [App] = []
 var AppHeaders: [String] = []
 var EmployeeInfo: Array<AnyObject> = []
+var success: Bool = true
 
 class SyncNow: NSObject {
     
@@ -85,7 +86,7 @@ class getIpTask: Operation {
                     do {
                         let mydata = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
                         UserDefaults.standard.set(mydata["Ip"],forKey: "Ip")
-                        UserDefaults.standard.set(mydata["UserAgent"],forKey: "UserAgent")
+                        UserDefaults.standard.set((mydata["UserAgent"] as! String).replacingOccurrences(of: "%20", with: " "),forKey: "UserAgent")
                         UserDefaults.standard.synchronize()
                         print("******GETIP******")
                         print(mydata)
@@ -124,15 +125,19 @@ class getTokenTask: Operation {
             URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
                     if data != nil {
                         do {
-                            let userdetails = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
+                            dump(data)
+                            let userdetails = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : AnyObject]
+                            print(userdetails)
                             let code = UserDefaults.standard.string(forKey: "username")
-                            if (userdetails.count > 0) {
-                                let account: String = String(describing: userdetails["Id"]!)
-                                let salt: String = String(describing: userdetails["LoginName"]!)
+                            if let testid = userdetails["Id"] {
+                                let account: String = String(describing: testid)
+                                let userId: String = userdetails["UserId"]!["NameId"]! as! String
+                                let salt: String = "i:0h.f|membership|" + userId + "@live.com"
                                 let ip = UserDefaults.standard.string(forKey: "Ip")
                                 let ua = UserDefaults.standard.string(forKey: "UserAgent")
                                 let key = hashingAlgorithm(code: code!, ip: ip!, account: account, salt: salt, ua: ua!)
                                 let json = "{Email: \"\(code!)\", Key: \"\(key)\"}"
+                                print(json)
                                 if let url = URL(string: "https://clydewap.clydeinc.com/webservices/json/ClydeWebServices/GetToken") {
                                     let request = NSMutableURLRequest(url: url)
                                     request.httpMethod = "POST"
@@ -140,12 +145,21 @@ class getTokenTask: Operation {
                                     URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                                         if (data != nil) {
                                             do {
+                                                print("TOKEN ENDPOINT")
+                                                dump(data)
+                                                if let str: String = String(bytes: data!, encoding: String.Encoding.utf8) {
+                                                    print("Token Response" + str)
+                                                }
                                                 let tokenMessage = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
                                                 print("TOKENMESSAGE--", String(describing: tokenMessage["message"]!))
                                                 if tokenMessage["message"] != nil {
                                                     if (String(describing: tokenMessage["message"]!) == "false") {
+                                                        success = false
+                                                        let alert: UIAlertController = UIAlertController(title: "Error Authenticating", message: "The token was unable to be created.", preferredStyle: .alert)
+                                                        getTopViewController().present(alert, animated: true, completion: nil)
                                                         print("Token Failed")
                                                     } else if(String(describing: tokenMessage["message"]!) == "expired") {
+                                                        success = false
                                                         let alert: UIAlertController = UIAlertController(title: "Error Authenticating", message: "The token was expired. Please sync again", preferredStyle: .alert)
                                                         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
                                                             let cookieJar = HTTPCookieStorage.shared
@@ -156,12 +170,17 @@ class getTokenTask: Operation {
                                                     }
                                                 }
                                             } catch let error {
+                                                success = false
                                                 print(error)
                                             }
                                             finished = true
                                         }
                                     }).resume()
                                 }
+                            } else {
+                                print("Error in data:")
+                                dump(userdetails)
+                                finished = true
                             }
                         }
                         catch let error {
@@ -257,6 +276,7 @@ class getAppsTask: Operation {
 
 class getUserInfoTask: Operation {
     override func main() {
+        var finished: Bool = false
         print("User")
         if let userEmail = UserDefaults.standard.string(forKey: "username") {
             var parts = userEmail.components(separatedBy: "@")
@@ -269,15 +289,24 @@ class getUserInfoTask: Operation {
                 URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                     if (data != nil) {
                         do {
-                            EmployeeInfo = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! Array<AnyObject>
-                            UserDefaults.standard.set(EmployeeInfo[0]["CompanyNumber"]!, forKey: "Company")
-                            UserDefaults.standard.set(data, forKey: "userinfo")
-                            var permissions: [String] = []
-                            for permission in EmployeeInfo[0]["Permissions"] as! Array<AnyObject> {
-                                permissions.append((permission["Group"]) as! String)
+                            let empJSON = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                            print("GetUserProfile")
+                            dump(empJSON)
+                            if let _ = empJSON as? Array<AnyObject> {
+                                print("OK")
+                                EmployeeInfo =  empJSON as! Array<AnyObject>
+                                UserDefaults.standard.set(EmployeeInfo[0]["CompanyNumber"]!, forKey: "Company")
+                                UserDefaults.standard.set(data, forKey: "userinfo")
+                                var permissions: [String] = []
+                                for permission in EmployeeInfo[0]["Permissions"] as! Array<AnyObject> {
+                                    permissions.append((permission["Group"]) as! String)
+                                }
+                                UserDefaults.standard.set(permissions, forKey: "permissions")
+                                UserDefaults.standard.synchronize()
+                            } else {
+                                print("GetUserProfile Failed")
                             }
-                            UserDefaults.standard.set(permissions, forKey: "permissions")
-                            UserDefaults.standard.synchronize()
+                            finished = true
                         } catch let error {
                             print(error)
                         }
@@ -285,22 +314,25 @@ class getUserInfoTask: Operation {
                 }).resume()
             }
         }
+        while (!finished) {}
     }
 }
 
 class updateSettingsTask: Operation {
     override func main() {
-        print("Settings")
-        let date = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM d, yyyy"
-        let timeFormatter = DateFormatter()
-        timeFormatter.dateFormat = "h:mm"
-        var lastdate: [String] = []
-        lastdate.append(dateFormatter.string(from: date))
-        lastdate.append(timeFormatter.string(from: date))
-        UserDefaults.standard.set(lastdate, forKey: "lastsync")
-        UserDefaults.standard.synchronize()
+        if (success) {
+            print("Settings")
+            let date = Date()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM d, yyyy"
+            let timeFormatter = DateFormatter()
+            timeFormatter.dateFormat = "h:mm"
+            var lastdate: [String] = []
+            lastdate.append(dateFormatter.string(from: date))
+            lastdate.append(timeFormatter.string(from: date))
+            UserDefaults.standard.set(lastdate, forKey: "lastsync")
+            UserDefaults.standard.synchronize()
+        }
     }
 }
 
@@ -321,11 +353,12 @@ func hashingAlgorithm(code: String, ip: String, account: String, salt: String, u
     do {data2 = try HMAC(key: saltarr, variant: .sha256).authenticate(Array(message.utf8)).toBase64()!}
     catch {print("HASH: Error in hmac")}
     print("Data2: \(data2)")
-    let ticks: UInt64 = UInt64(Date().timeIntervalSince1970) * 10000000 + 621355968000000000
+    let ticks: UInt64 = UInt64(Date().timeIntervalSince1970) * 10000 + 635646076777520000
     print("Ticks: \(ticks)")
     let ua2 = ua.components(separatedBy: " ")
     var message2: String = ""
-    if (ua2.count > 2) {message2 = account + ":" + ip + ":" + ua2[1] + ua2[0] + ":" + String(describing: ticks)} else {message2 = ""}
+//    if (ua2.count > 2) {message2 = account + ":" + ip + ":" + ua2[1] + ua2[0] + ":" + String(describing: ticks)} else {message2 = ""}
+    if (ua2.count > 2) {message2 = account + ":" + ip + ":" + ua + ":" + String(describing: ticks)} else {message2 = ""}
     print("UA2: \(ua2)")
     print("Message2: \(message2)")
     var token: String = ""
