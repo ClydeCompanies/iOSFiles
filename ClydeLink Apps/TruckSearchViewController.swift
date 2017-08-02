@@ -111,8 +111,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 
                 let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
                 
-                print(mydata ?? "No Data")  // Direct response from server printed to console, for testing
-                
                 DispatchQueue.main.async {  // Brings data from background task to main thread, loading data and populating TableView
                     if (mydata == nil)
                     {

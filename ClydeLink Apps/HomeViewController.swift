@@ -41,13 +41,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var webView = UIWebView()
         webView.loadHTMLString("<html></html>", baseURL: nil)
         var appName: String? = webView.stringByEvaluatingJavaScript(from: "navigator.appName")
-        print("\(appName)")
         // Netscape
         var userAgent: String? = webView.stringByEvaluatingJavaScript(from: "navigator.userAgent")
-        print("\(userAgent)")
         prefs.set(userAgent, forKey: "userAgent")
         prefs.synchronize()
         
+        synced.updateCurrentApps({print("synced Current Apps")})
         
         finalEdit = false
         if (prefs.string(forKey: "username") == "Loading...")
@@ -79,19 +78,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         {
             prefs.set([], forKey: "permissions")
         }
-        for el in currentapps
+        for el in synced.currentapps
         {
             //*********************** Change this **************************
             if (prefs.array(forKey: "permissions")!.contains(el.title) == false && prefs.array(forKey: "permissions")!.contains(el.header) == false && el.header.lowercased() != "all")
             {
-                currentapps.remove(at: currentapps.index(of: el)!)
+                synced.currentapps.remove(at: synced.currentapps.index(of: el)!)
             }
         }
-        let appData = NSKeyedArchiver.archivedData(withRootObject: currentapps)
+        let appData = NSKeyedArchiver.archivedData(withRootObject: synced.currentapps)
         prefs.set(appData, forKey: "userapps")
         prefs.synchronize()
         
-        for element in currentapps
+        for element in synced.currentapps
         {
             self.appButtons.append(element)
         }
@@ -270,56 +269,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.test = ""
         }
         
-//        if let url = NSURL(string: "https://cciportal.clydeinc.com/webservices/json/GetUserProfile?username=\(self.test)") {  // Sends POST request to the DMZ server, and prints the response string as an array
-//            
-//            let request = NSMutableURLRequest(URL: url)
-//            
-//            //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
-//            request.HTTPMethod = "POST"
-//            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
-//                guard error == nil && data != nil else { // check for fundamental networking error
-//                    print("error=\(error)")
-//                    
-//                    let alertController = UIAlertController(title: "Error", message:
-//                        "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-//                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-//                    self.presentViewController(alertController, animated: true, completion: nil)
-//                    
-//                    return
-//                }
-//                
-//                if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 { // check for http errors
-//                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
-//                    print("response = \(response)")
-//                }
-//                
-//                let mydata = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) // Creates dictionary array to save results of query
-//                
-//                print(mydata)  // Direct response from server printed to console, for testing
-//                
-//                dispatch_async(dispatch_get_main_queue()) {  // Brings data from background task to main thread, loading data and populating TableView
-//                    if (mydata == nil)
-//                    {
-//                        let alertController = UIAlertController(title: "Error", message:
-//                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.Alert)
-//                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default,handler: nil))
-//                        
-//                        self.presentViewController(alertController, animated: true, completion: nil)
-//                        return
-//                    }
-//                }
-//                
-//            }
-//            task.resume()
-//        }
-        
         
         if (self.test != "")
         {
             return "Logged in as " + self.test
         }
         else {
-            print(" \(self.test)")
             return "Not Logged In"
         }
         
@@ -380,15 +335,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             {
                 finalEdit = true
             }
-            for element in currentapps
+            for element in synced.currentapps
             {
                 if (element.title == appButtons[(indexPath as NSIndexPath).row].title)
                 {
-                    currentapps.remove(at: currentapps.index(of: element)!)
+                    synced.currentapps.remove(at: synced.currentapps.index(of: element)!)
                     break
                 }
             }
-            let appData = NSKeyedArchiver.archivedData(withRootObject: currentapps)
+            let appData = NSKeyedArchiver.archivedData(withRootObject: synced.currentapps)
             prefs.set(appData, forKey: "userapps")
             prefs.synchronize()
             appButtons.remove(at: (indexPath as NSIndexPath).row)
@@ -422,10 +377,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        currentapps.removeAtIndex(fromIndexPath.row)
 //        currentapps.insert(itemToMove, atIndex: toIndexPath.row)
         var fromindex: Int = 0
-        for element in currentapps
+        for element in synced.currentapps
         {
             if (element.title == itemToMove.title) {
-                fromindex = currentapps.index(of: element)!
+                fromindex = synced.currentapps.index(of: element)!
             }
         }
         
@@ -444,14 +399,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         
-        for element in currentapps
+        for element in synced.currentapps
         {
             if (element.title == appButtons[(fromIndexPath as NSIndexPath).row + change].title) {
-                toindex = currentapps.index(of: element)!
+                toindex = synced.currentapps.index(of: element)!
             }
         }
-        currentapps.remove(at: fromindex)
-        if (toindex + change >= currentapps.count)
+        synced.currentapps.remove(at: fromindex)
+        if (toindex + change >= synced.currentapps.count)
         {
             change = 0
         }
@@ -459,8 +414,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         {
             change = 0
         }
-        currentapps.insert(itemToMove, at: toindex + change)
-        let appData = NSKeyedArchiver.archivedData(withRootObject: currentapps)
+        synced.currentapps.insert(itemToMove, at: toindex + change)
+        let appData = NSKeyedArchiver.archivedData(withRootObject: synced.currentapps)
         prefs.set(appData, forKey: "userapps")
         prefs.synchronize()
     }
@@ -539,6 +494,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 currentapps.append(element)
             }
         }
+    }
+    
+    func loadUserInfo() {  // Get user's information
+        
+        EmployeeInfo = synced.EmployeeInfo
+        
     }
     
     

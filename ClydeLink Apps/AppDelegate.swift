@@ -24,8 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let url = URL(string: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetLatestVersions") {  // Sends POST request to the DMZ server, and prints the response string as an array
             
             let request = NSMutableURLRequest(url: url)
-            
-            //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
             request.httpMethod = "POST"
             let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                 guard error == nil && data != nil else { // check for fundamental networking error
@@ -50,14 +48,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         
                         let jsondata = mydata as? [String : String]
                         
-                        print(" App version: \(jsondata?["ios"])")
-                        
-                        if (version != jsondata?["ios"]) {
-                            let alert: UIAlertController = UIAlertController(title: "New Version Ready", message: "Please update the app to the latest version.", preferredStyle: .alert)
-                            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                        if ((version as NSString).doubleValue < (jsondata?["ios"]! as! NSString).doubleValue) {
+                            let alert: UIAlertController = UIAlertController(title: "New Version Ready", message: "Please update the app to the latest version", preferredStyle: .alert)
+                            let link = "itms-services://?action=download-manifest&amp;url=itms-services://?action=download-manifest&amp;url=https://cciportal.clydeinc.com/clydelinkapp/manifest.plist"
+                            let defaultAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+                            let updateAction = UIAlertAction(title: "Update", style:.default, handler: {
+                                (action:UIAlertAction!) -> Void in
+                                UIApplication.shared.openURL(NSURL(string: link)! as URL)
+                            })
+                            alert.addAction(updateAction)
                             alert.addAction(defaultAction)
                             self.window?.rootViewController?.present(alert, animated: true, completion: nil)
                         }
+
                         
                         
                     }

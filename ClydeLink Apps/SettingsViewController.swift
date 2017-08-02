@@ -108,13 +108,9 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                 self.prefs.set([], forKey: "userapps")
                 self.prefs.set([], forKey: "permissions")
                 
-//                let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
-//                authenticationManager.clearCredentials()
-                
                 _ = HTTPCookie.self
                 let cookieJar = HTTPCookieStorage.shared
                 for cookie in cookieJar.cookies! {
-                    // print(cookie.name+"="+cookie.value)
                     cookieJar.deleteCookie(cookie)
                 }
                 
@@ -124,7 +120,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             }))
             
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-                //            print("Phew!")
+
             }))
             
             
@@ -143,13 +139,11 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
                 self.prefs.set([], forKey: "userapps")
                 self.prefs.set([], forKey: "permissions")
                 
-//                let authenticationManager:AuthenticationManager = AuthenticationManager.sharedInstance
-//                authenticationManager.clearCredentials()
+
                 
                 _ = HTTPCookie.self
                 let cookieJar = HTTPCookieStorage.shared
                 for cookie in cookieJar.cookies! {
-                    // print(cookie.name+"="+cookie.value)
                     cookieJar.deleteCookie(cookie)
                 }
                 
@@ -159,7 +153,6 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             }))
             
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-    //            print("Phew!")
             }))
             
             
@@ -172,7 +165,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     func updateProgressBar(_ notification: Notification)
     {
         DispatchQueue.main.async {
-            self.ProgressBar.setProgress(/*(notification.userInfo!.first?.1 as? Float)!*/ 0.1 + self.ProgressBar.progress, animated: true)
+            self.ProgressBar.setProgress(0.1 + self.ProgressBar.progress, animated: true)
         }
     }
     
@@ -202,25 +195,33 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     }
 
     func loadUserInfo() {  // Get user's information
-        if (EmployeeInfo.count != 0) {
-            self.userName.text = EmployeeInfo[0]["UserName"] as? String
+        
+        self.EmployeeInfo = synced.EmployeeInfo
+        
+        //CompanyName
+        //CompanyNumber
+        //JobTitle
+        //PicLocation
+        //UserName
+        if (self.EmployeeInfo.count != 0) {
+            self.userName.text = self.EmployeeInfo[0]["UserName"] as? String
             if (self.userName.text == nil) { self.userName.text = "Unknown User" }
             
-            self.JobTitle.text = EmployeeInfo[0]["JobTitle"] as? String
+            self.JobTitle.text = self.EmployeeInfo[0]["JobTitle"] as? String
             //                        if (self.JobTitle.text == "") { self.JobTitle.text = "n/a" }
             
-            self.CompanyName.text = EmployeeInfo[0]["CompanyName"] as? String
+            self.CompanyName.text = self.EmployeeInfo[0]["CompanyName"] as? String
             //                        if (self.CompanyName.text == "") { self.CompanyName.text = "n/a" }
             
             
             
-            if (EmployeeInfo[0]["PicLocation"] is NSNull)
+            if (self.EmployeeInfo[0]["PicLocation"] is NSNull)
             {
                 self.UserPicture.image = UIImage(named: "person-generic")
             }
             else
             {
-                self.picLocation = (EmployeeInfo[0]["PicLocation"] as? String)!
+                self.picLocation = (self.EmployeeInfo[0]["PicLocation"] as? String)!
                 if let data = try? Data(contentsOf: URL(string: "https://cciportal.clydeinc.com/images/Small/\(self.picLocation)")!)
                 {
                     let myImage = UIImage(data: data)

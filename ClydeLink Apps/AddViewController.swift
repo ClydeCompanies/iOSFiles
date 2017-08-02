@@ -63,8 +63,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         AppTable.tableFooterView = UIView(frame: CGRect.zero)
         var apps: Int = 0
         var currentApp: String = ""
-//        print(AppStore.count)
-        for element in AppStore {  // Load app numbers
+        for element in synced.AppStore {  // Load app numbers
             if (currentApp == "")
             {
                 currentApp = element.header
@@ -86,7 +85,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
                 continue
             }
         }
-        //        print(AppNumber)
     }
     
     override func didReceiveMemoryWarning() {
@@ -142,6 +140,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {  // Returns each cell
         //        self.ActivityIndicator.stopAnimating()
         //            loadApps()
+        synced = SyncNow()
         
         if (NoApps[(indexPath as NSIndexPath).section] == 1)
         {
@@ -155,15 +154,14 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         {
             extra = 0
         }
-        var appCell: App = AppStore[(indexPath as NSIndexPath).row + extra + AppNumber[(indexPath as NSIndexPath).section]]
-        //*********************** Change this **************************
-//        print("* " + String(appCell.order) + ", " + appCell.header + ", " + appCell.title + " *")
+
+        var appCell: App = synced.AppStore[(indexPath as NSIndexPath).row + extra + AppNumber[(indexPath as NSIndexPath).section]]
         if (appCell.header.lowercased() != "all") {
             
             while (prefs.array(forKey: "permissions")!.contains(appCell.title) == false && prefs.array(forKey: "permissions")!.contains(appCell.header) == false)
             {
                 extra += 1
-                appCell = AppStore[(indexPath as NSIndexPath).row + extra + AppNumber[(indexPath as NSIndexPath).section]]
+                appCell = synced.AppStore[(indexPath as NSIndexPath).row + extra + AppNumber[(indexPath as NSIndexPath).section]]
             }
         }
         let cell = self.AppTable.dequeueReusableCell(withIdentifier: "AppCell", for: indexPath) as! AddTableViewCell
@@ -185,7 +183,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             }
         }
         var found: Bool = false
-        for el in currentapps
+        for el in synced.currentapps
         {
             if (el.title == appCell.title)
             {
@@ -207,7 +205,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns number of cells in each category
         var count: Int = 0
-        for el in AppStore
+        for el in synced.AppStore
         {
             //*********************** Change this **************************
             if (el.header == AppHeaders[section] && (prefs.array(forKey: "permissions")!.contains(el.title) || prefs.array(forKey: "permissions")!.contains(el.header) || el.header.lowercased() == "all"))
@@ -297,7 +295,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
 //        var invalidAppHeaderIndexes:[Int] = [Int]()
 //        for headerTitle in AppHeaders {
 //            var count: Int = 0
-//            for app in AppStore
+//            for app in synced.AppStore
 //            {
 //                let isHeaderTitle:Bool = app.header == headerTitle
 //                let prefsPermissionsHasTitle = prefs.array(forKey: "permissions")!.contains(app.title)
