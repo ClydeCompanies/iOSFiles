@@ -33,7 +33,8 @@ public extension UIView {
     
 }
 class SettingsViewController: UIViewController {  // Basics of Settings screen, will be added to when decision has been made as to how we must proceed with the development of the screen
-
+    @IBOutlet weak var SyncButton: UIButton!
+    @IBOutlet weak var ClearCacheButton: UIButton!
     @IBOutlet weak var SignOutButton: UIBarButtonItem!
     @IBOutlet weak var ProgressBar: UIProgressView!
     @IBOutlet weak var versionNumber: UILabel!
@@ -95,71 +96,88 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func ClearCacheButton(_ sender: AnyObject) {
+        print("Clearing Cache")
+        print(URLCache.shared.currentDiskUsage)
+        print(URLCache.shared.currentMemoryUsage)
+        
+        let alert = UIAlertController(title: "Clear Cache?", message: "App settings will be reset", preferredStyle: UIAlertControllerStyle.alert)
+        
+        
+        
+        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
+            self.prefs.set("", forKey: "username")
+            self.prefs.set("", forKey: "LogInUser")
+            self.prefs.set([], forKey: "userapps")
+            self.prefs.set([], forKey: "permissions")
+            
+            print(URLCache.shared.currentDiskUsage)
+            print(URLCache.shared.currentMemoryUsage)
+            URLCache.shared.removeAllCachedResponses()
+            
+            print(URLCache.shared.currentDiskUsage)
+            print(URLCache.shared.currentMemoryUsage)
+            
+            _ = HTTPCookie.self
+            let cookieJar = HTTPCookieStorage.shared
+            for cookie in cookieJar.cookies! {
+                cookieJar.deleteCookie(cookie)
+            }
+            
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
+            self.prefs.synchronize()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            
+        }))
+        
+        
+        present(alert, animated: true, completion: nil)
+        
+        print(URLCache.shared.currentDiskUsage)
+        print(URLCache.shared.currentMemoryUsage)
+    }
+    
     @IBAction func SignOut(_ sender: AnyObject) {  // Sign out button clicked
-        if (SignOutButton.title == "Clear Cache")
-        {
-            let alert = UIAlertController(title: "Clear Cache?", message: "App settings will be reset", preferredStyle: UIAlertControllerStyle.alert)
+        
+        print(URLCache.shared.currentDiskUsage)
+        print(URLCache.shared.currentMemoryUsage)
+        
+        let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
+            self.prefs.set("", forKey: "username")
+            self.prefs.set("", forKey: "LogInUser")
+            self.prefs.set([], forKey: "userapps")
+            self.prefs.set([], forKey: "permissions")
+            print("Clearing Cache through Sign Out Button")
+            URLCache.shared.removeAllCachedResponses()
+            print(URLCache.shared.currentDiskUsage)
+            print(URLCache.shared.currentMemoryUsage)
             
-            
-            
-            alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
-                self.prefs.set("", forKey: "username")
-                self.prefs.set("", forKey: "LogInUser")
-                self.prefs.set([], forKey: "userapps")
-                self.prefs.set([], forKey: "permissions")
-                
-                _ = HTTPCookie.self
-                let cookieJar = HTTPCookieStorage.shared
-                for cookie in cookieJar.cookies! {
-                    cookieJar.deleteCookie(cookie)
-                }
-                
-                let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
-                self.present(vc as! UIViewController, animated: true, completion: nil)
-                self.prefs.synchronize()
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
 
-            }))
             
+            _ = HTTPCookie.self
+            let cookieJar = HTTPCookieStorage.shared
+            for cookie in cookieJar.cookies! {
+                cookieJar.deleteCookie(cookie)
+            }
             
-            present(alert, animated: true, completion: nil)
-        }
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
+            self.prefs.synchronize()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+        }))
         
         
-        else {
-            let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertControllerStyle.alert)
-            
-            
-            
-            alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
-                self.prefs.set("", forKey: "username")
-                self.prefs.set("", forKey: "LogInUser")
-                self.prefs.set([], forKey: "userapps")
-                self.prefs.set([], forKey: "permissions")
-                
-
-                
-                _ = HTTPCookie.self
-                let cookieJar = HTTPCookieStorage.shared
-                for cookie in cookieJar.cookies! {
-                    cookieJar.deleteCookie(cookie)
-                }
-                
-                let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
-                self.present(vc as! UIViewController, animated: true, completion: nil)
-                self.prefs.synchronize()
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-            }))
-            
-            
-            present(alert, animated: true, completion: nil)
-        }
+        present(alert, animated: true, completion: nil)
         
-        
+        print(URLCache.shared.currentDiskUsage)
+        print(URLCache.shared.currentMemoryUsage)
     }
     
     func updateProgressBar(_ notification: Notification)
