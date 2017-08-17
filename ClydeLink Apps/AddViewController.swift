@@ -6,7 +6,8 @@
 //
 
 import UIKit
-
+var beenHere = false
+var pathLookup = [String]()
 
 extension Array {
     func contains<T>(_ obj: T) -> Bool where T : Equatable {
@@ -149,19 +150,20 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             return cell
         }
         
+        var realIndexPath = pathLookup.index(of: AppHeaders[indexPath[0]])!
         
         if ((indexPath as NSIndexPath).row == 0)
         {
             extra = 0
         }
 
-        var appCell: App = synced.AppStore[(indexPath as NSIndexPath).row + extra + AppNumber[(indexPath as NSIndexPath).section]]
+        var appCell: App = synced.AppStore[(indexPath as NSIndexPath).row + extra + AppNumber[realIndexPath]]
         if (appCell.header.lowercased() != "all") {
             
             while (prefs.array(forKey: "permissions")!.contains(appCell.title) == false && prefs.array(forKey: "permissions")!.contains(appCell.header) == false)
             {
                 extra += 1
-                appCell = synced.AppStore[(indexPath as NSIndexPath).row + extra + AppNumber[(indexPath as NSIndexPath).section]]
+                appCell = synced.AppStore[(indexPath as NSIndexPath).row + extra + AppNumber[realIndexPath]]
             }
         }
         let cell = self.AppTable.dequeueReusableCell(withIdentifier: "AppCell", for: indexPath) as! AddTableViewCell
@@ -292,33 +294,38 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func numberOfSections(in tableView: UITableView) -> Int {  // Informs GUI of how many sections there are
         
-//        var invalidAppHeaderIndexes:[Int] = [Int]()
-//        for headerTitle in AppHeaders {
-//            var count: Int = 0
-//            for app in synced.AppStore
-//            {
-//                let isHeaderTitle:Bool = app.header == headerTitle
-//                let prefsPermissionsHasTitle = prefs.array(forKey: "permissions")!.contains(app.title)
-//                let prefsPermissionsHasHeader = prefs.array(forKey: "permissions")!.contains(app.header)
-//                let headerIsAll:Bool = app.header.lowercased() == "all"
-//                
-//                //*********************** Change this **************************
-//                if (isHeaderTitle && (prefsPermissionsHasTitle || prefsPermissionsHasHeader || headerIsAll))
-//                {
-//                    count += 1 // found valid app (?)
-//                }
-//            }
-//            
-//            // If app isn't valid
-//            if count == 0 {
-//                invalidAppHeaderIndexes.append(AppHeaders.index(of: headerTitle)!)
-//            }
-//        }
-//        
-//        // Remove all the invalid ones
-//        for invalidIndex in invalidAppHeaderIndexes {
-//            AppHeaders.remove(at: invalidIndex)
-//        }
+        var invalidAppHeaderIndexes:[Int] = [Int]()
+        for headerTitle in AppHeaders {
+            var count: Int = 0
+            for app in synced.AppStore
+            {
+                let isHeaderTitle:Bool = app.header == headerTitle
+                let prefsPermissionsHasTitle = prefs.array(forKey: "permissions")!.contains(app.title)
+                let prefsPermissionsHasHeader = prefs.array(forKey: "permissions")!.contains(app.header)
+                let headerIsAll:Bool = app.header.lowercased() == "all"
+                
+                //*********************** Change this **************************
+                if (isHeaderTitle && (prefsPermissionsHasTitle || prefsPermissionsHasHeader || headerIsAll))
+                {
+                    count += 1 // found valid app (?)
+                }
+            }
+            
+            // If app isn't valid
+            if count == 0 {
+                invalidAppHeaderIndexes.insert(AppHeaders.index(of: headerTitle)!, at: 0)
+                //invalidAppHeaderIndexes.append(AppHeaders.index(of: headerTitle)!)
+            }
+        }
+        
+        if (!beenHere && AppHeaders.count != 0) {
+            pathLookup = AppHeaders
+            beenHere = true
+        }
+        // Remove all the invalid ones
+        for invalidIndex in invalidAppHeaderIndexes {
+            AppHeaders.remove(at: invalidIndex)
+        }
         
         return AppHeaders.count
         }
