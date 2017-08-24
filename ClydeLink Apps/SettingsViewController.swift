@@ -75,7 +75,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             userName.text = "Not logged in"
             JobTitle.text = ""
             CompanyName.text = ""
-            SignOutButton.title = "Clear Cache"
+            SignOutButton.title = ""
             prefs.set([], forKey: "permissions")
         } else {
             loadUserInfo()
