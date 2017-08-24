@@ -109,7 +109,6 @@ class SyncNow: NSObject {
         let ua = UserDefaults.standard.string(forKey: "userAgent")!
         let ipAddr = UserDefaults.standard.string(forKey: "IP")!
         
-        let ua2 = ua.components(separatedBy: " ")
         let message2: String = account + ":" + ipAddr + ":" + ua + ":" + String(describing: ticks)
         
         var token: String = ""
@@ -394,7 +393,6 @@ class SyncNow: NSObject {
         }
     }
     
-    
     func sendAnyPost(urlstring: String, json:  Dictionary<String, String>, complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
         if let url = URL(string: urlstring) {
             let params = json
@@ -441,6 +439,7 @@ class SyncNow: NSObject {
     func getTopViewController()->UIViewController{
         return topViewControllerWithRootViewController(rootViewController: UIApplication.shared.keyWindow!.rootViewController!)
     }
+    
     func topViewControllerWithRootViewController(rootViewController:UIViewController)->UIViewController{
         if rootViewController is UITabBarController{
             let tabBarController = rootViewController as! UITabBarController

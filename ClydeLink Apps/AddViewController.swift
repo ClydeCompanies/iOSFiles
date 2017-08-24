@@ -30,8 +30,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     var extra: Int = 0
     
     let prefs = UserDefaults.standard  // Current user preferences
-    //    var currentapps: Array = [App]()  // Holds user's selected apps
-    //    var Apps: Array = [AnyObject]()  // Holds raw data for AppStore
     var AppStore: [App] = []  // Holds all available Apps
     var synced: SyncNow = SyncNow()
     var AppHeaders: [String] = []  // Holds headers
@@ -40,7 +38,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     var flag: Int = 0  // Keeps track of any errors
     
-//    var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
 
     
@@ -51,7 +48,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         synced = SyncNow()
         AppTable.reloadData()
         
-//        NoApps = 0
         AppHeaders = (prefs.array(forKey: "headers") as? [String])!
         
         for _ in AppHeaders
@@ -139,8 +135,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {  // Returns each cell
-        //        self.ActivityIndicator.stopAnimating()
-        //            loadApps()
         synced = SyncNow()
         
         if (NoApps[(indexPath as NSIndexPath).section] == 1)
@@ -350,75 +344,8 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func loadApps() {  // Get all apps
         synced = SyncNow()
-        
         AppTable.reloadData()
     }
-    
-    
-    
-//    func connectToOffice365() {
-//        // Connect to the service by discovering the service endpoints and authorizing
-//        // the application to access the user's email. This will store the user's
-//        // service URLs in a property list to be accessed when calls are made to the
-//        // service. This results in two calls: one to authenticate, and one to get the
-//        // URLs. ADAL will cache the access and refresh tokens so you won't need to
-//        // provide credentials unless you sign out.
-//        
-//        // Get the discovery client. First time this is ran you will be prompted
-//        // to provide your credentials which will authenticate you with the service.
-//        // The application will get an access token in the response.
-//        
-//        baseController.fetchDiscoveryClient { (discoveryClient) -> () in
-//            let servicesInfoFetcher = discoveryClient.getservices()
-//            
-//            // Call the Discovery Service and get back an array of service endpoint information
-//            
-//            let servicesTask = servicesInfoFetcher?.read{(serviceEndPointObjects:[Any]?, error:MSODataException?) -> Void in
-//                let serviceEndpoints = serviceEndPointObjects as! [MSDiscoveryServiceInfo]
-//                
-//                if (serviceEndpoints.count > 0) {
-//                    // Here is where we cache the service URLs returned by the Discovery Service. You may not
-//                    // need to call the Discovery Service again until either this cache is removed, or you
-//                    // get an error that indicates that the endpoint is no longer valid.
-//                    
-//                    var serviceEndpointLookup = [AnyHashable: Any]()
-//                    
-//                    for serviceEndpoint in serviceEndpoints {
-//                        serviceEndpointLookup[serviceEndpoint.capability] = serviceEndpoint.serviceEndpointUri
-//                    }
-//                    
-//                    // Keep track of the service endpoints in the user defaults
-//                    let userDefaults = UserDefaults.standard
-//                    
-//                    userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
-//                    userDefaults.synchronize()
-//                    
-//                    DispatchQueue.main.async {
-//                        let userEmail = userDefaults.string(forKey: "LogInUser")!
-//                        var parts = userEmail.components(separatedBy: "@")
-//                        
-//                        self.test = String(format:"Hi %@!", parts[0])
-//                    }
-//                }
-//                    
-//                else {
-//                    DispatchQueue.main.async {
-//                        let alert: UIAlertController = UIAlertController(title: "ERROR", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", preferredStyle: .alert)
-////                        let alert: UIAlertController = UIAlertController(title: "Error", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", delegate: self, cancelButtonTitle: "OK")
-//                        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-//                        alert.addAction(defaultAction)
-//                        self.present(alert, animated: true, completion: nil)
-//                    }
-//                }
-//            }
-//            
-//            servicesTask?.resume()
-//        }
-//    }
-    
-    
-    
-    
 }
 
 
