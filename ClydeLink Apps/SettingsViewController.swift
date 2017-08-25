@@ -33,8 +33,6 @@ public extension UIView {
     
 }
 class SettingsViewController: UIViewController {  // Basics of Settings screen, will be added to when decision has been made as to how we must proceed with the development of the screen
-    @IBOutlet weak var SyncButton: UIButton!
-    @IBOutlet weak var ClearCacheButton: UIButton!
     @IBOutlet weak var SignOutButton: UIBarButtonItem!
     @IBOutlet weak var ProgressBar: UIProgressView!
     @IBOutlet weak var versionNumber: UILabel!

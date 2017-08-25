@@ -537,7 +537,7 @@
                                     <color key="titleShadowColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="SyncButton:" destination="eJr-qm-Kqb" eventType="touchUpInside" id="Od1-sE-164"/>
+                                    <action selector="ClearCacheButton:" destination="eJr-qm-Kqb" eventType="touchUpInside" id="jjy-3r-SPh"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -624,13 +624,11 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="ActivityIndicator" destination="AUC-pA-cuX" id="tor-WT-UCM"/>
-                        <outlet property="ClearCacheButton" destination="YA6-de-rTf" id="Yj5-Cd-I5i"/>
                         <outlet property="CompanyName" destination="ofx-PZ-pdQ" id="w41-c6-5MN"/>
                         <outlet property="JobTitle" destination="agZ-de-xoX" id="A5g-G0-PSI"/>
                         <outlet property="LastSync" destination="CwQ-hL-pPe" id="hse-oq-Utz"/>
                         <outlet property="ProgressBar" destination="BVq-uA-4ei" id="R1z-Pl-WKY"/>
                         <outlet property="SignOutButton" destination="2zA-2n-cwM" id="7mv-lI-m0T"/>
-                        <outlet property="SyncButton" destination="NpV-kV-9re" id="nHp-X3-ni7"/>
                         <outlet property="UserPicture" destination="CN3-WD-cqD" id="72M-vd-gbM"/>
                         <outlet property="buildNumber" destination="YYS-Lx-6Eg" id="E1j-fe-ypz"/>
                         <outlet property="userName" destination="gPu-jM-94K" id="1Hf-hB-GFf"/>
