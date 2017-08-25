@@ -263,7 +263,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         if (sectionOpen[section])
         {
             header.addSubview(pic)
-            pic.transform = CGAffineTransform(rotationAngle: (180.0 * CGFloat(M_PI)) / 180.0)
+            pic.transform = CGAffineTransform(rotationAngle: (180.0 * CGFloat(Double.pi)) / 180.0)
         }
         else
         {

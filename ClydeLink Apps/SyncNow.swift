@@ -461,13 +461,11 @@ class SyncNow: NSObject {
         var parts = code?.components(separatedBy: "@")
         let uname: String = String(format: "%@", parts![0])  // Get username
         var userdetails: [String : Any] = [:]
-        var runAgain: Bool = false
         
         sendGet(urlstring: "https://clydelink.sharepoint.com/apps/_api/Web/CurrentUser") { mydata in
             userdetails = mydata
             
             if (userdetails.count > 0 && userdetails["Id"] != nil) {
-                runAgain = false;
                 
                 let account: String = String(describing: userdetails["Id"]!) // Get the user account number
                 var salt: String = String(describing: userdetails["LoginName"]!) // TODO: Make sure it pulls salt, Where do I get it?
@@ -517,9 +515,6 @@ class SyncNow: NSObject {
                         complete()
                     }
                 }
-            }
-            else {
-                runAgain = true
             }
         }
     }

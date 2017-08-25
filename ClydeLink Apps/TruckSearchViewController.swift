@@ -92,7 +92,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             request.httpMethod = "POST"
             let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                 guard error == nil && data != nil else { // check for fundamental networking error
-                    print("error=\(error)")
+                    print("error=\(String(describing: error))")
                     self.flag = 1
                     
                     let alertController = UIAlertController(title: "Error", message:
@@ -106,7 +106,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 
                 if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print("response = \(response)")
+                    print("response = \(String(describing: response))")
                 }
                 
                 let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
