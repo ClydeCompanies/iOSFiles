@@ -537,18 +537,7 @@
                                     <color key="titleShadowColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="ClearCacheButton:" destination="eJr-qm-Kqb" eventType="touchUpInside" id="sTW-z9-ZSJ"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vEb-VC-H8M">
-                                <rect key="frame" x="51" y="316" width="273" height="30"/>
-                                <color key="backgroundColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Show Cache Status in Console">
-                                    <color key="titleColor" red="0.023529411760000001" green="0.08235294118" blue="0.22352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <color key="titleShadowColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="ShowCacheStatus:" destination="eJr-qm-Kqb" eventType="touchUpInside" id="lOW-G9-n32"/>
+                                    <action selector="SyncButton:" destination="eJr-qm-Kqb" eventType="touchUpInside" id="Od1-sE-164"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -602,9 +591,7 @@
                             <constraint firstItem="qUV-HD-C74" firstAttribute="baseline" secondItem="agZ-de-xoX" secondAttribute="baseline" id="faC-Lc-VEo"/>
                             <constraint firstItem="ofx-PZ-pdQ" firstAttribute="trailing" secondItem="agZ-de-xoX" secondAttribute="trailing" id="g2C-f4-np1"/>
                             <constraint firstItem="agZ-de-xoX" firstAttribute="leading" secondItem="qUV-HD-C74" secondAttribute="trailing" constant="8" symbolic="YES" id="gfR-Zp-C26"/>
-                            <constraint firstItem="vEb-VC-H8M" firstAttribute="leading" secondItem="SiZ-Mn-GVQ" secondAttribute="leadingMargin" constant="35" id="hVf-gQ-b12"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gPu-jM-94K" secondAttribute="trailing" id="hcu-BU-Gmu"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="vEb-VC-H8M" secondAttribute="trailing" constant="35" id="iYn-Bs-I1E"/>
                             <constraint firstAttribute="trailingMargin" secondItem="CwQ-hL-pPe" secondAttribute="trailing" constant="47" id="jUD-wu-s3E"/>
                             <constraint firstItem="AUC-pA-cuX" firstAttribute="leading" secondItem="CwQ-hL-pPe" secondAttribute="trailing" constant="60" id="jsD-eO-jpS"/>
                             <constraint firstItem="YA6-de-rTf" firstAttribute="centerX" secondItem="SiZ-Mn-GVQ" secondAttribute="centerX" id="kJb-CD-Czh"/>
@@ -612,7 +599,6 @@
                             <constraint firstItem="hhA-BH-PdS" firstAttribute="leading" secondItem="qUV-HD-C74" secondAttribute="leading" id="ncO-iF-vGM"/>
                             <constraint firstItem="twK-RY-r5e" firstAttribute="leading" secondItem="SiZ-Mn-GVQ" secondAttribute="leadingMargin" constant="35" id="oLO-sl-CIF"/>
                             <constraint firstItem="hhA-BH-PdS" firstAttribute="top" secondItem="R3S-xg-xbE" secondAttribute="bottom" constant="8" symbolic="YES" id="uA5-Sl-ulr"/>
-                            <constraint firstItem="vEb-VC-H8M" firstAttribute="top" secondItem="YA6-de-rTf" secondAttribute="bottom" constant="10" id="vFq-jF-PUn"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">

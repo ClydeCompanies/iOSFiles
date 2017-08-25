@@ -96,31 +96,26 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func ShowCacheStatus(_ sender: AnyObject) {
-        print("Cache Disk Usage: ")
-        print(URLCache.shared.currentDiskUsage)
-        print("Cache Memory Usage")
-        print(URLCache.shared.currentMemoryUsage)
-    }
-    
     @IBAction func ClearCacheButton(_ sender: AnyObject) {
         print("Clearing Cache")
+        print(URLCache.shared.currentDiskUsage)
+        print(URLCache.shared.currentMemoryUsage)
         
         let alert = UIAlertController(title: "Clear Cache?", message: "App settings will be reset", preferredStyle: UIAlertControllerStyle.alert)
         
         
         
         alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
+            self.prefs.set("", forKey: "username")
+            self.prefs.set("", forKey: "LogInUser")
             self.prefs.set([], forKey: "userapps")
-            print("Cache Disk Usage: ")
+            self.prefs.set([], forKey: "permissions")
+            
             print(URLCache.shared.currentDiskUsage)
-            print("Cache Memory Usage")
             print(URLCache.shared.currentMemoryUsage)
             URLCache.shared.removeAllCachedResponses()
             
-            print("Cache Disk Usage: ")
             print(URLCache.shared.currentDiskUsage)
-            print("Cache Memory Usage")
             print(URLCache.shared.currentMemoryUsage)
             
             _ = HTTPCookie.self
@@ -140,6 +135,9 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         
         
         present(alert, animated: true, completion: nil)
+        
+        print(URLCache.shared.currentDiskUsage)
+        print(URLCache.shared.currentMemoryUsage)
     }
     
     @IBAction func SignOut(_ sender: AnyObject) {  // Sign out button clicked
