@@ -101,6 +101,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             if (param1 != nil)
             {
                 tempUser = (param1?.value!)!
+                
             }
           
             prefs.synchronize()
@@ -136,6 +137,11 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             if (webView.request!.url!.absoluteString.contains("clydelink.sharepoint.com/apps"))
             {
                 let vc = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+                var synced = SyncNow(sync: 1, complete: {
+                    DispatchQueue.main.async {
+                        print("syncing")
+                    }
+                })
                 self.show(vc, sender: vc)
             }
         }

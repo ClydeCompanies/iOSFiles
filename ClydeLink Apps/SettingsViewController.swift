@@ -96,25 +96,14 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     
     @IBAction func ClearCacheButton(_ sender: AnyObject) {
         print("Clearing Cache")
-        print(URLCache.shared.currentDiskUsage)
-        print(URLCache.shared.currentMemoryUsage)
         
         let alert = UIAlertController(title: "Clear Cache?", message: "App settings will be reset", preferredStyle: UIAlertControllerStyle.alert)
         
         
         
         alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
-            self.prefs.set("", forKey: "username")
-            self.prefs.set("", forKey: "LogInUser")
-            self.prefs.set([], forKey: "userapps")
-            self.prefs.set([], forKey: "permissions")
             
-            print(URLCache.shared.currentDiskUsage)
-            print(URLCache.shared.currentMemoryUsage)
             URLCache.shared.removeAllCachedResponses()
-            
-            print(URLCache.shared.currentDiskUsage)
-            print(URLCache.shared.currentMemoryUsage)
             
             _ = HTTPCookie.self
             let cookieJar = HTTPCookieStorage.shared
@@ -140,8 +129,6 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     
     @IBAction func SignOut(_ sender: AnyObject) {  // Sign out button clicked
         
-        print(URLCache.shared.currentDiskUsage)
-        print(URLCache.shared.currentMemoryUsage)
         
         let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertControllerStyle.alert)
         
@@ -150,12 +137,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             self.prefs.set("", forKey: "LogInUser")
             self.prefs.set([], forKey: "userapps")
             self.prefs.set([], forKey: "permissions")
-            print("Clearing Cache through Sign Out Button")
             URLCache.shared.removeAllCachedResponses()
-            print(URLCache.shared.currentDiskUsage)
-            print(URLCache.shared.currentMemoryUsage)
-            
-
             
             _ = HTTPCookie.self
             let cookieJar = HTTPCookieStorage.shared
@@ -173,9 +155,6 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         
         
         present(alert, animated: true, completion: nil)
-        
-        print(URLCache.shared.currentDiskUsage)
-        print(URLCache.shared.currentMemoryUsage)
     }
     
     func updateProgressBar(_ notification: Notification)
