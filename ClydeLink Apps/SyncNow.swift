@@ -27,7 +27,7 @@ class SyncNow: NSObject {
         syncnow = 0
         done = 0
         flag = 0
-        
+
         self.getAppStore({
             self.buildAppStore({
                 self.sortArray({
@@ -76,6 +76,73 @@ class SyncNow: NSObject {
         return ""
     }
     
+    func getToken(_ complete: @escaping () -> Void) {
+        let userDefaults = UserDefaults.standard
+        let code = userDefaults.string(forKey: "username")  // Get user email, set to code
+        var parts = code?.components(separatedBy: "@")
+        let uname: String = String(format: "%@", parts![0])  // Get username
+        var userdetails: [String : Any] = [:]
+        
+        sendGet(urlstring: "https://clydelink.sharepoint.com/apps/_api/Web/CurrentUser") { mydata in
+            userdetails = mydata
+        
+            if (userdetails.count > 0) {
+            
+                let account: String = String(describing: userdetails["Id"]!) // Get the user account number
+                var salt: String = String(describing: userdetails["LoginName"]!) // TODO: Make sure it pulls salt, Where do I get it?
+                let userId = userdetails["UserId"] as? [String: String]
+                let nameId : String = String(describing:(userId?["NameId"])! + "@live.com")
+                let email : String = String(describing: userdetails["Email"])
+               
+                salt = "i:0h.f|membership|" +  nameId
+                 // Get IP
+                var ip = self.getIP()
+                
+                let key = self.hashingAlgorithm(code: code!, ip: ip, account: account, salt: salt)  // Use it all to generate the token key
+                
+                var tokenMessage: [String : Any] = [:]
+                // Send post request
+                self.sendPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(code!)\", Key: \"\(key)\"}") { mydata in tokenMessage = mydata
+    
+                    if tokenMessage["message"] != nil {
+                        if (String(describing: tokenMessage["message"]!) == "false" || String(describing: tokenMessage["message"]!) == "expired") {
+                            
+                            let alert: UIAlertController = UIAlertController(title: "Error Authenticating", message: "There seems to be a problem with your user token. Please try logging out and in again. If the problem persists, please contact Infomation Management.", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+                                
+                                self.prefs.set("", forKey: "username")
+                                self.prefs.set("", forKey: "LogInUser")
+                                self.prefs.set([], forKey: "userapps")
+                                self.prefs.set([], forKey: "permissions")
+                                
+                                _ = HTTPCookie.self
+                                let cookieJar = HTTPCookieStorage.shared
+                                for cookie in cookieJar.cookies! {
+                                    cookieJar.deleteCookie(cookie)
+                                }
+                                
+                                let vc : AnyObject! = self.getTopViewController().storyboard!.instantiateViewController(withIdentifier: "Main")
+                                self.getTopViewController().present(vc as! UIViewController, animated: true, completion: nil)
+                                self.prefs.synchronize()
+
+                            }))
+                            self.getTopViewController().present(alert, animated: true, completion: nil)
+                        } else {
+                            complete()
+                        }
+                    } else {
+                        complete()
+                    }
+                    
+                }
+                
+                
+            }
+        }
+        
+
+    }
+    
     func hashingAlgorithm(code: String, ip: String, account: String, salt: String) -> String
     {
         var hashedPassword: String = ""
@@ -86,7 +153,7 @@ class SyncNow: NSObject {
         
         do {
             data = try PKCS5.PBKDF2(password: passwordarr, salt: saltarr, iterations: 1500, keyLength: 32, variant: .sha256).calculate()
-            let dataBase = data.toBase64()!
+            var dataBase = data.toBase64()!
             firsthash = dataBase
         } catch {
             print("HASH: Error in SHA256 hashing")
@@ -100,17 +167,18 @@ class SyncNow: NSObject {
         catch {
             print("HASH: Error in hmac")
         }
-        
+
         let mydate = Date()
         
-        let ticks: UInt64 = UInt64(mydate.timeIntervalSince1970) * 10000000 + 621355968000000000
-        //        ticks = 636271773604240000
+        var ticks: UInt64 = UInt64(mydate.timeIntervalSince1970) * 10000000 + 621355968000000000
+//        ticks = 636271773604240000
         
-        let ua = UserDefaults.standard.string(forKey: "userAgent")!
-        let ipAddr = UserDefaults.standard.string(forKey: "IP")!
-        
+        var ua = UserDefaults.standard.string(forKey: "userAgent")!
+        var ipAddr = UserDefaults.standard.string(forKey: "IP")!
+
+        let ua2 = ua.components(separatedBy: " ")
         let message2: String = account + ":" + ipAddr + ":" + ua + ":" + String(describing: ticks)
-        
+
         var token: String = ""
         let dataarr: Array<UInt8> = Array(data2.utf8)
         do {
@@ -140,14 +208,14 @@ class SyncNow: NSObject {
         if let data = prefs.object(forKey: "userinfo") as? Data {
             self.EmployeeInfo = NSKeyedUnarchiver.unarchiveObject(with: data) as! Array<AnyObject>
         }
-        
+
     }
     
     func retrieveUserInfo(_ complete: @escaping () -> Void) {  // Get user's information
         let userDefaults = UserDefaults.standard
         
-        //        userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
-        //        userDefaults.synchronize()
+//        userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
+//        userDefaults.synchronize()
         
         if let userEmail = userDefaults.string(forKey: "username") {
             var parts = userEmail.components(separatedBy: "@")
@@ -186,6 +254,7 @@ class SyncNow: NSObject {
         
         
     }
+    
     
     func getAppStore(_ complete: @escaping () -> Void)
     {  // Load apps from online database
@@ -307,9 +376,9 @@ class SyncNow: NSObject {
     }
     
     required init(coder aDecoder: NSCoder) {
-        //        fatalError("init(coder:) has not been implemented")
+//        fatalError("init(coder:) has not been implemented")
     }
-    
+
     func notify() {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "TEST"), object: nil)
     }
@@ -320,7 +389,7 @@ class SyncNow: NSObject {
         for el in (cookies as NSArray as! [String]) {
             var cookieProps = NSMutableDictionary()
             cookieProps = prefs.dictionary(forKey: el) as! NSMutableDictionary
-            
+           
             if (cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == "clydelink.sharepoint.com" || cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == ".sharepoint.com" || acceptAll)
             {
                 mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.name.rawValue) as! String
@@ -393,6 +462,7 @@ class SyncNow: NSObject {
         }
     }
     
+    
     func sendAnyPost(urlstring: String, json:  Dictionary<String, String>, complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
         if let url = URL(string: urlstring) {
             let params = json
@@ -439,7 +509,6 @@ class SyncNow: NSObject {
     func getTopViewController()->UIViewController{
         return topViewControllerWithRootViewController(rootViewController: UIApplication.shared.keyWindow!.rootViewController!)
     }
-    
     func topViewControllerWithRootViewController(rootViewController:UIViewController)->UIViewController{
         if rootViewController is UITabBarController{
             let tabBarController = rootViewController as! UITabBarController
@@ -455,72 +524,7 @@ class SyncNow: NSObject {
         return rootViewController
     }
     
-    func getToken(_ complete: @escaping () -> Void) {
-        let userDefaults = UserDefaults.standard
-        let code = userDefaults.string(forKey: "username")  // Get user email, set to code
-        var parts = code?.components(separatedBy: "@")
-        let uname: String = String(format: "%@", parts![0])  // Get username
-        var userdetails: [String : Any] = [:]
-        var runAgain: Bool = false
-        
-        sendGet(urlstring: "https://clydelink.sharepoint.com/apps/_api/Web/CurrentUser") { mydata in
-            userdetails = mydata
-            
-            if (userdetails.count > 0 && userdetails["Id"] != nil) {
-                runAgain = false;
-                
-                let account: String = String(describing: userdetails["Id"]!) // Get the user account number
-                var salt: String = String(describing: userdetails["LoginName"]!) // TODO: Make sure it pulls salt, Where do I get it?
-                let userId = userdetails["UserId"] as? [String: String]
-                let nameId : String = String(describing:(userId?["NameId"])! + "@live.com")
-                let email : String = String(describing: userdetails["Email"])
-                
-                salt = "i:0h.f|membership|" +  nameId
-                // Get IP
-                let ip = self.getIP()
-                
-                let key = self.hashingAlgorithm(code: code!, ip: ip, account: account, salt: salt)  // Use it all to generate the token key
-                
-                var tokenMessage: [String : Any] = [:]
-                // Send post request
-                self.sendPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(code!)\", Key: \"\(key)\"}") { mydata in tokenMessage = mydata
-                    
-                    if tokenMessage["message"] != nil {
-                        if (String(describing: tokenMessage["message"]!) == "false" || String(describing: tokenMessage["message"]!) == "expired") {
-                            
-                            let alert: UIAlertController = UIAlertController(title: "Error Authenticating", message: "There seems to be a problem with your user token. Please try logging out and in again. If the problem persists, please contact Infomation Management.", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
-                                
-                                self.prefs.set("", forKey: "username")
-                                self.prefs.set("", forKey: "LogInUser")
-                                self.prefs.set([], forKey: "userapps")
-                                self.prefs.set([], forKey: "permissions")
-                                
-                                URLCache.shared.removeAllCachedResponses()
-                                
-                                _ = HTTPCookie.self
-                                let cookieJar = HTTPCookieStorage.shared
-                                for cookie in cookieJar.cookies! {
-                                    cookieJar.deleteCookie(cookie)
-                                }
-                                
-                                let vc : AnyObject! = self.getTopViewController().storyboard!.instantiateViewController(withIdentifier: "Main")
-                                self.getTopViewController().present(vc as! UIViewController, animated: true, completion: nil)
-                                self.prefs.synchronize()
-                                
-                            }))
-                            self.getTopViewController().present(alert, animated: true, completion: nil)
-                        } else {
-                            complete()
-                        }
-                    } else {
-                        complete()
-                    }
-                }
-            }
-            else {
-                runAgain = true
-            }
-        }
-    }
+    
+    
+    
 }
