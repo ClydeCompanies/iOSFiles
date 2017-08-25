@@ -524,67 +524,7 @@ class SyncNow: NSObject {
         return rootViewController
     }
     
-    func getToken(_ complete: @escaping () -> Void) {
-        let userDefaults = UserDefaults.standard
-        let code = userDefaults.string(forKey: "username")  // Get user email, set to code
-        var parts = code?.components(separatedBy: "@")
-        let uname: String = String(format: "%@", parts![0])  // Get username
-        var userdetails: [String : Any] = [:]
-        
-        sendGet(urlstring: "https://clydelink.sharepoint.com/apps/_api/Web/CurrentUser") { mydata in
-            userdetails = mydata
-            
-            if (userdetails.count > 0 && userdetails["Id"] != nil) {
-                
-                let account: String = String(describing: userdetails["Id"]!) // Get the user account number
-                var salt: String = String(describing: userdetails["LoginName"]!) // TODO: Make sure it pulls salt, Where do I get it?
-                let userId = userdetails["UserId"] as? [String: String]
-                let nameId : String = String(describing:(userId?["NameId"])! + "@live.com")
-                let email : String = String(describing: userdetails["Email"])
-                
-                salt = "i:0h.f|membership|" +  nameId
-                // Get IP
-                let ip = self.getIP()
-                
-                let key = self.hashingAlgorithm(code: code!, ip: ip, account: account, salt: salt)  // Use it all to generate the token key
-                
-                var tokenMessage: [String : Any] = [:]
-                // Send post request
-                self.sendPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(code!)\", Key: \"\(key)\"}") { mydata in tokenMessage = mydata
-                    
-                    if tokenMessage["message"] != nil {
-                        if (String(describing: tokenMessage["message"]!) == "false" || String(describing: tokenMessage["message"]!) == "expired") {
-                            
-                            let alert: UIAlertController = UIAlertController(title: "Error Authenticating", message: "There seems to be a problem with your user token. Please try logging out and in again. If the problem persists, please contact Infomation Management.", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
-                                
-                                self.prefs.set("", forKey: "username")
-                                self.prefs.set("", forKey: "LogInUser")
-                                self.prefs.set([], forKey: "userapps")
-                                self.prefs.set([], forKey: "permissions")
-                                
-                                URLCache.shared.removeAllCachedResponses()
-                                
-                                _ = HTTPCookie.self
-                                let cookieJar = HTTPCookieStorage.shared
-                                for cookie in cookieJar.cookies! {
-                                    cookieJar.deleteCookie(cookie)
-                                }
-                                
-                                let vc : AnyObject! = self.getTopViewController().storyboard!.instantiateViewController(withIdentifier: "Main")
-                                self.getTopViewController().present(vc as! UIViewController, animated: true, completion: nil)
-                                self.prefs.synchronize()
-                                
-                            }))
-                            self.getTopViewController().present(alert, animated: true, completion: nil)
-                        } else {
-                            complete()
-                        }
-                    } else {
-                        complete()
-                    }
-                }
-            }
-        }
-    }
+    
+    
+    
 }
