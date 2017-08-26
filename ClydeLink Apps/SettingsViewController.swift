@@ -73,7 +73,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             userName.text = "Not logged in"
             JobTitle.text = ""
             CompanyName.text = ""
-            SignOutButton.title = "Clear Cache"
+            SignOutButton.title = "Log In"
             prefs.set([], forKey: "permissions")
         } else {
             loadUserInfo()
@@ -129,32 +129,53 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     
     @IBAction func SignOut(_ sender: AnyObject) {  // Sign out button clicked
         
-        
-        let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertControllerStyle.alert)
-        
-        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
-            self.prefs.set("", forKey: "username")
-            self.prefs.set("", forKey: "LogInUser")
-            self.prefs.set([], forKey: "userapps")
-            self.prefs.set([], forKey: "permissions")
-            URLCache.shared.removeAllCachedResponses()
+        if (SignOutButton.title == "Sign Out") {
+            let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertControllerStyle.alert)
             
-            _ = HTTPCookie.self
-            let cookieJar = HTTPCookieStorage.shared
-            for cookie in cookieJar.cookies! {
-                cookieJar.deleteCookie(cookie)
-            }
+            alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
+                self.prefs.set("", forKey: "username")
+                self.prefs.set("", forKey: "LogInUser")
+                self.prefs.set([], forKey: "userapps")
+                self.prefs.set([], forKey: "permissions")
+                URLCache.shared.removeAllCachedResponses()
+                
+                _ = HTTPCookie.self
+                let cookieJar = HTTPCookieStorage.shared
+                for cookie in cookieJar.cookies! {
+                    cookieJar.deleteCookie(cookie)
+                }
+                
+                let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+                self.present(vc as! UIViewController, animated: true, completion: nil)
+                self.prefs.synchronize()
+            }))
             
-            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
-            self.present(vc as! UIViewController, animated: true, completion: nil)
-            self.prefs.synchronize()
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-        }))
-        
-        
-        present(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            }))
+            
+            present(alert, animated: true, completion: nil)
+        }
+        if (SignOutButton.title == "Log In") {
+            let alert = UIAlertController(title: "Log In", message: "Log in to view apps?", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Log In", style: .default, handler: { (action: UIAlertAction!) in
+                
+                self.SignOutButton.title = "Sign Out"
+                
+                let vc = self.storyboard!.instantiateViewController(withIdentifier: "Construction")
+                
+                self.prefs.set("http://clydelink.sharepoint.com/apps", forKey: "selectedButton")
+                
+                self.show(vc , sender: vc)
+                
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Not Now", style: .cancel, handler: { (action: UIAlertAction!) in
+                
+            }))
+            
+            present(alert, animated: true, completion: nil)
+        }
     }
     
     func updateProgressBar(_ notification: Notification)
