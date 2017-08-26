@@ -8,7 +8,7 @@
 import UIKit
 
 class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simple ViewController designed to be a placeholder for other HTML queries and Segues that will be developed in the future
-
+    
     @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var WebView: UIWebView!
@@ -20,8 +20,6 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     override func viewDidLoad() {
         
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
         loadAddressURL()
     }
@@ -37,16 +35,13 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             self.present(vc, animated: true, completion: nil)
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBOutlet weak var Back: UIButton!
     
-    // MARK: - Web View
-//    
     func webViewDidStartLoad(_ webView: UIWebView) {  // Start loading web page
         ActivityIndicator.startAnimating()
     }
@@ -61,22 +56,22 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         if link == ("https://www.clydelink.com/employeeresources/Pages/Policies.aspx?CID=") {
             link = link! + prefs.string(forKey: "Company")!
         }
-
+        
         let requestURL = URL(string: link!)
         let request = URLRequest(url: requestURL!)
-
+        
         if (UIApplication.shared.canOpenURL(requestURL!))
         {
             WebView.loadRequest(request)
-
+            
         } else {
-
+            
             print("App not installed")
             
             if (prefs.string(forKey: "redirectbutton") != "") {
                 UIApplication.shared.openURL(URL(string: prefs.string(forKey: "redirectbutton")!)!)
             } else {
-                //**ErrorMessage**
+                print("No redirect button")
             }
             
         }
@@ -93,16 +88,17 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     func webViewDidFinishLoad(_ webView: UIWebView) {
         if (webView.request!.url!.absoluteString.contains("fs.clydeinc.com"))
         {
-            //get the username employee is trying to login with from the url
+            // Get the username employee is trying to login with from the url
             let urlComponents = URLComponents(string: webView.request!.url!.absoluteString)
             let queryItems = urlComponents?.queryItems
             let param1 = queryItems?.filter({$0.name == "username"}).first
-
+            
             if (param1 != nil)
             {
                 tempUser = (param1?.value!)!
+                
             }
-          
+            
             prefs.synchronize()
         }
         
@@ -136,6 +132,10 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             if (webView.request!.url!.absoluteString.contains("clydelink.sharepoint.com/apps"))
             {
                 let vc = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+                _ = SyncNow(sync: 1, complete: {
+                    DispatchQueue.main.async {
+                    }
+                })
                 self.show(vc, sender: vc)
             }
         }
@@ -143,15 +143,5 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         self.ActivityIndicator.stopAnimating()
         
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }

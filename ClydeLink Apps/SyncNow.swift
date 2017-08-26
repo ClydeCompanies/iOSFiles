@@ -27,7 +27,7 @@ class SyncNow: NSObject {
         syncnow = 0
         done = 0
         flag = 0
-
+        
         self.getAppStore({
             self.buildAppStore({
                 self.sortArray({
@@ -85,17 +85,17 @@ class SyncNow: NSObject {
         
         sendGet(urlstring: "https://clydelink.sharepoint.com/apps/_api/Web/CurrentUser") { mydata in
             userdetails = mydata
-        
-            if (userdetails.count > 0) {
             
+            if (userdetails.count > 0) {
+                
                 let account: String = String(describing: userdetails["Id"]!) // Get the user account number
                 var salt: String = String(describing: userdetails["LoginName"]!) // TODO: Make sure it pulls salt, Where do I get it?
                 let userId = userdetails["UserId"] as? [String: String]
                 let nameId : String = String(describing:(userId?["NameId"])! + "@live.com")
                 let email : String = String(describing: userdetails["Email"])
-               
+                
                 salt = "i:0h.f|membership|" +  nameId
-                 // Get IP
+                // Get IP
                 var ip = self.getIP()
                 
                 let key = self.hashingAlgorithm(code: code!, ip: ip, account: account, salt: salt)  // Use it all to generate the token key
@@ -103,7 +103,7 @@ class SyncNow: NSObject {
                 var tokenMessage: [String : Any] = [:]
                 // Send post request
                 self.sendPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetToken", json: "{Email: \"\(code!)\", Key: \"\(key)\"}") { mydata in tokenMessage = mydata
-    
+                    
                     if tokenMessage["message"] != nil {
                         if (String(describing: tokenMessage["message"]!) == "false" || String(describing: tokenMessage["message"]!) == "expired") {
                             
@@ -124,7 +124,7 @@ class SyncNow: NSObject {
                                 let vc : AnyObject! = self.getTopViewController().storyboard!.instantiateViewController(withIdentifier: "Main")
                                 self.getTopViewController().present(vc as! UIViewController, animated: true, completion: nil)
                                 self.prefs.synchronize()
-
+                                
                             }))
                             self.getTopViewController().present(alert, animated: true, completion: nil)
                         } else {
@@ -140,7 +140,7 @@ class SyncNow: NSObject {
             }
         }
         
-
+        
     }
     
     func hashingAlgorithm(code: String, ip: String, account: String, salt: String) -> String
@@ -167,18 +167,17 @@ class SyncNow: NSObject {
         catch {
             print("HASH: Error in hmac")
         }
-
+        
         let mydate = Date()
         
         var ticks: UInt64 = UInt64(mydate.timeIntervalSince1970) * 10000000 + 621355968000000000
-//        ticks = 636271773604240000
         
         var ua = UserDefaults.standard.string(forKey: "userAgent")!
         var ipAddr = UserDefaults.standard.string(forKey: "IP")!
-
+        
         let ua2 = ua.components(separatedBy: " ")
         let message2: String = account + ":" + ipAddr + ":" + ua + ":" + String(describing: ticks)
-
+        
         var token: String = ""
         let dataarr: Array<UInt8> = Array(data2.utf8)
         do {
@@ -208,14 +207,11 @@ class SyncNow: NSObject {
         if let data = prefs.object(forKey: "userinfo") as? Data {
             self.EmployeeInfo = NSKeyedUnarchiver.unarchiveObject(with: data) as! Array<AnyObject>
         }
-
+        
     }
     
     func retrieveUserInfo(_ complete: @escaping () -> Void) {  // Get user's information
         let userDefaults = UserDefaults.standard
-        
-//        userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
-//        userDefaults.synchronize()
         
         if let userEmail = userDefaults.string(forKey: "username") {
             var parts = userEmail.components(separatedBy: "@")
@@ -376,9 +372,9 @@ class SyncNow: NSObject {
     }
     
     required init(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
+        //        fatalError("init(coder:) has not been implemented")
     }
-
+    
     func notify() {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "TEST"), object: nil)
     }
@@ -389,7 +385,7 @@ class SyncNow: NSObject {
         for el in (cookies as NSArray as! [String]) {
             var cookieProps = NSMutableDictionary()
             cookieProps = prefs.dictionary(forKey: el) as! NSMutableDictionary
-           
+            
             if (cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == "clydelink.sharepoint.com" || cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == ".sharepoint.com" || acceptAll)
             {
                 mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.name.rawValue) as! String
@@ -468,7 +464,6 @@ class SyncNow: NSObject {
             let params = json
             let request = NSMutableURLRequest(url: url)
             request.httpMethod = "POST"
-            //request.setValue(UserDefaults.standard.string(forKey: "userAgent")!, forHTTPHeaderField: "User-Agent")
             do {
                 request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
                 
@@ -523,8 +518,5 @@ class SyncNow: NSObject {
         }
         return rootViewController
     }
-    
-    
-    
     
 }
