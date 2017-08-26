@@ -45,7 +45,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         prefs.set(userAgent, forKey: "userAgent")
         prefs.synchronize()
         
-        synced.updateCurrentApps({print("synced Current Apps")})
+        synced.updateCurrentApps({})
         
         finalEdit = false
         if (prefs.string(forKey: "username") == "Loading...")
