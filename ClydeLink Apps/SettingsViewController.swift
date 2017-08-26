@@ -33,7 +33,6 @@ public extension UIView {
     
 }
 class SettingsViewController: UIViewController {  // Basics of Settings screen, will be added to when decision has been made as to how we must proceed with the development of the screen
-
     @IBOutlet weak var SignOutButton: UIBarButtonItem!
     @IBOutlet weak var ProgressBar: UIProgressView!
     @IBOutlet weak var versionNumber: UILabel!
@@ -49,7 +48,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     
     var picLocation: String = ""
     var synced: SyncNow = SyncNow()
-//    var baseController = Office365ClientFetcher()
+    //    var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
     
     let prefs = UserDefaults.standard  // Current user preferences
@@ -74,7 +73,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             userName.text = "Not logged in"
             JobTitle.text = ""
             CompanyName.text = ""
-            SignOutButton.title = "Clear Cache"
+            SignOutButton.title = "Log In"
             prefs.set([], forKey: "permissions")
         } else {
             loadUserInfo()
@@ -89,57 +88,56 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func ClearCacheButton(_ sender: AnyObject) {
+        print("Clearing Cache")
+        
+        let alert = UIAlertController(title: "Clear Cache?", message: "App settings will be reset", preferredStyle: UIAlertControllerStyle.alert)
+        
+        
+        
+        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
+            
+            URLCache.shared.removeAllCachedResponses()
+            
+            _ = HTTPCookie.self
+            let cookieJar = HTTPCookieStorage.shared
+            for cookie in cookieJar.cookies! {
+                cookieJar.deleteCookie(cookie)
+            }
+            
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
+            self.prefs.synchronize()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            
+        }))
+        
+        
+        present(alert, animated: true, completion: nil)
+        
+        print(URLCache.shared.currentDiskUsage)
+        print(URLCache.shared.currentMemoryUsage)
+    }
+    
     @IBAction func SignOut(_ sender: AnyObject) {  // Sign out button clicked
-        if (SignOutButton.title == "Clear Cache")
-        {
-            let alert = UIAlertController(title: "Clear Cache?", message: "App settings will be reset", preferredStyle: UIAlertControllerStyle.alert)
-            
-            
-            
-            alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
-                self.prefs.set("", forKey: "username")
-                self.prefs.set("", forKey: "LogInUser")
-                self.prefs.set([], forKey: "userapps")
-                self.prefs.set([], forKey: "permissions")
-                
-                _ = HTTPCookie.self
-                let cookieJar = HTTPCookieStorage.shared
-                for cookie in cookieJar.cookies! {
-                    cookieJar.deleteCookie(cookie)
-                }
-                
-                let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Main")
-                self.present(vc as! UIViewController, animated: true, completion: nil)
-                self.prefs.synchronize()
-            }))
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
-
-            }))
-            
-            
-            present(alert, animated: true, completion: nil)
-        }
         
-        
-        else {
+        if (SignOutButton.title == "Sign Out") {
             let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertControllerStyle.alert)
             
-            
-            
             alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
                 self.prefs.set("", forKey: "username")
                 self.prefs.set("", forKey: "LogInUser")
                 self.prefs.set([], forKey: "userapps")
                 self.prefs.set([], forKey: "permissions")
-                
-
+                URLCache.shared.removeAllCachedResponses()
                 
                 _ = HTTPCookie.self
                 let cookieJar = HTTPCookieStorage.shared
@@ -155,11 +153,29 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
             }))
             
+            present(alert, animated: true, completion: nil)
+        }
+        if (SignOutButton.title == "Log In") {
+            let alert = UIAlertController(title: "Log In", message: "Log in to view apps?", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Log In", style: .default, handler: { (action: UIAlertAction!) in
+                
+                self.SignOutButton.title = "Sign Out"
+                
+                let vc = self.storyboard!.instantiateViewController(withIdentifier: "Construction")
+                
+                self.prefs.set("http://clydelink.sharepoint.com/apps", forKey: "selectedButton")
+                
+                self.show(vc , sender: vc)
+                
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Not Now", style: .cancel, handler: { (action: UIAlertAction!) in
+                
+            }))
             
             present(alert, animated: true, completion: nil)
         }
-        
-        
     }
     
     func updateProgressBar(_ notification: Notification)
@@ -193,25 +209,18 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         })
         
     }
-
+    
     func loadUserInfo() {  // Get user's information
         
         self.EmployeeInfo = synced.EmployeeInfo
         
-        //CompanyName
-        //CompanyNumber
-        //JobTitle
-        //PicLocation
-        //UserName
         if (self.EmployeeInfo.count != 0) {
             self.userName.text = self.EmployeeInfo[0]["UserName"] as? String
             if (self.userName.text == nil) { self.userName.text = "Unknown User" }
             
             self.JobTitle.text = self.EmployeeInfo[0]["JobTitle"] as? String
-            //                        if (self.JobTitle.text == "") { self.JobTitle.text = "n/a" }
             
             self.CompanyName.text = self.EmployeeInfo[0]["CompanyName"] as? String
-            //                        if (self.CompanyName.text == "") { self.CompanyName.text = "n/a" }
             
             
             
@@ -236,25 +245,4 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         
     }
     
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    
-    /*      ****CHECK IF USER IS USING IPAD****
-     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
-     /* do something specifically for iPad. */
-     } else {
-     /* do something specifically for iPhone or iPod touch. */
-     }
-    */
-
 }

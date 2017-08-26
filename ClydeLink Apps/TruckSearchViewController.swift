@@ -41,7 +41,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {   //delegate method
@@ -88,11 +87,10 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             
             let request = NSMutableURLRequest(url: url)
             
-            //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
             request.httpMethod = "POST"
             let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                 guard error == nil && data != nil else { // check for fundamental networking error
-                    print("error=\(error)")
+                    print("error=\(String(describing: error))")
                     self.flag = 1
                     
                     let alertController = UIAlertController(title: "Error", message:
@@ -106,7 +104,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                 
                 if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 { // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print("response = \(response)")
+                    print("response = \(String(describing: response))")
                 }
                 
                 let mydata = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) // Creates dictionary array to save results of query
@@ -165,8 +163,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var TextBox: UITextField!
     
     @IBOutlet weak var ResultsTable: UITableView!
-    
-    // MARK: Table View
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of the query result, showing how many table cells to create
         var numberOfRows: Int = 1
