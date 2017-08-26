@@ -48,7 +48,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     
     var picLocation: String = ""
     var synced: SyncNow = SyncNow()
-//    var baseController = Office365ClientFetcher()
+    //    var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
     
     let prefs = UserDefaults.standard  // Current user preferences
@@ -88,7 +88,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -188,25 +188,18 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         })
         
     }
-
+    
     func loadUserInfo() {  // Get user's information
         
         self.EmployeeInfo = synced.EmployeeInfo
         
-        //CompanyName
-        //CompanyNumber
-        //JobTitle
-        //PicLocation
-        //UserName
         if (self.EmployeeInfo.count != 0) {
             self.userName.text = self.EmployeeInfo[0]["UserName"] as? String
             if (self.userName.text == nil) { self.userName.text = "Unknown User" }
             
             self.JobTitle.text = self.EmployeeInfo[0]["JobTitle"] as? String
-            //                        if (self.JobTitle.text == "") { self.JobTitle.text = "n/a" }
             
             self.CompanyName.text = self.EmployeeInfo[0]["CompanyName"] as? String
-            //                        if (self.CompanyName.text == "") { self.CompanyName.text = "n/a" }
             
             
             
@@ -231,25 +224,4 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         
     }
     
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    
-    /*      ****CHECK IF USER IS USING IPAD****
-     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
-     /* do something specifically for iPad. */
-     } else {
-     /* do something specifically for iPhone or iPod touch. */
-     }
-    */
-
 }

@@ -9,8 +9,8 @@ import UIKit
 import SystemConfiguration
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-
+    
+    
     @IBOutlet weak var leftButton: UIBarButtonItem!
     @IBOutlet weak var rightButton: UIBarButtonItem!
     @IBOutlet weak var AppTable: UITableView!
@@ -29,11 +29,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let prefs = UserDefaults.standard  // Current user preferences
     
-//    var baseController = Office365ClientFetcher()
     var serviceEndpointLookup = NSMutableDictionary()
     var components: AnyObject = "" as AnyObject
     
-
+    
     
     override func viewDidLoad() {  // Runs when the view loads
         super.viewDidLoad()
@@ -80,7 +79,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         for el in synced.currentapps
         {
-            //*********************** Change this **************************
             if (prefs.array(forKey: "permissions")!.contains(el.title) == false && prefs.array(forKey: "permissions")!.contains(el.header) == false && el.header.lowercased() != "all")
             {
                 synced.currentapps.remove(at: synced.currentapps.index(of: el)!)
@@ -103,8 +101,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if (!prefs.bool(forKey: "launchedbefore"))
         {
             synced = SyncNow()
-                self.prefs.set(true, forKey: "launchedbefore")
-                self.prefs.synchronize()
+            self.prefs.set(true, forKey: "launchedbefore")
+            self.prefs.synchronize()
             
         } else {
             //Not first launch
@@ -141,11 +139,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        prefs.synchronize()
-//        if (prefs.stringForKey("username") == "")
-//        {
-//            AppTable.reloadData()
-//        }
         
         if (connectedToNetwork() == false)
         {
@@ -197,7 +190,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             present(alert, animated: true, completion: nil)
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -243,15 +236,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
         
         let userDefaults = UserDefaults.standard
-
-//        userDefaults.setObject(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
-//        userDefaults.synchronize()
-//        if userDefaults.stringForKey("LogInUser") != nil {
-//            let userEmail = userDefaults.stringForKey("LogInUser")!
-//            var parts = userEmail.componentsSeparatedByString("@")
-//            
-//            self.test = String(parts[0])
-//        }
         
         userDefaults.synchronize()
         if (userDefaults.object(forKey: "username") == nil)
@@ -307,25 +291,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let cell = self.AppTable.dequeueReusableCell(withIdentifier: "BlankFavorite", for: indexPath) as! BlankFavoriteTableViewCell
             return cell
         }
-            let cell = self.AppTable.dequeueReusableCell(withIdentifier: "AppCell", for: indexPath) as! AppTableViewCell
-            
-            cell.Title.text = self.appButtons[(indexPath as NSIndexPath).row].title
-            if let icon = appButtons[(indexPath as NSIndexPath).row].icon {
-                let url = URL(string: "https://cciportal.clydeinc.com/images/large/icons/\(icon)")!
-                if let data = try? Data(contentsOf: url){
-                    if icon != "UNDEFINED" {
-                        let myImage = UIImage(data: data)
-                        cell.Icon.image = myImage
-                    } else {
-                        cell.Icon.image = UIImage(named: "generic-icon")
-                    }
-                }
-                else
-                {
+        let cell = self.AppTable.dequeueReusableCell(withIdentifier: "AppCell", for: indexPath) as! AppTableViewCell
+        
+        cell.Title.text = self.appButtons[(indexPath as NSIndexPath).row].title
+        if let icon = appButtons[(indexPath as NSIndexPath).row].icon {
+            let url = URL(string: "https://cciportal.clydeinc.com/images/large/icons/\(icon)")!
+            if let data = try? Data(contentsOf: url){
+                if icon != "UNDEFINED" {
+                    let myImage = UIImage(data: data)
+                    cell.Icon.image = myImage
+                } else {
                     cell.Icon.image = UIImage(named: "generic-icon")
                 }
             }
-            return cell
+            else
+            {
+                cell.Icon.image = UIImage(named: "generic-icon")
+            }
+        }
+        return cell
         
     }
     
@@ -374,8 +358,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let itemToMove = appButtons[(fromIndexPath as NSIndexPath).row]
         appButtons.remove(at: (fromIndexPath as NSIndexPath).row)
         appButtons.insert(itemToMove, at: (toIndexPath as NSIndexPath).row)
-//        currentapps.removeAtIndex(fromIndexPath.row)
-//        currentapps.insert(itemToMove, atIndex: toIndexPath.row)
         var fromindex: Int = 0
         for element in synced.currentapps
         {
@@ -429,31 +411,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let buttonpressed = self.appButtons[(indexPath as NSIndexPath).row]
         var vc : AnyObject! = nil
         
-        //Log in
-//        connectToOffice365()
+        switch (buttonpressed.link)
+        {
+        case "vehiclesearch":
+            vc = self.storyboard!.instantiateViewController(withIdentifier: "Truck Search")
+            break;
+        default:
+            vc = self.storyboard!.instantiateViewController(withIdentifier: "Construction")
+            break;
+        }
         
-//        if (prefs.stringForKey("username") != nil)
-//        {
-            switch (buttonpressed.link)
-            {
-                case "vehiclesearch":
-                    vc = self.storyboard!.instantiateViewController(withIdentifier: "Truck Search")
-                    break;
-                default:
-                    vc = self.storyboard!.instantiateViewController(withIdentifier: "Construction")
-                    break;
-            }
-            
-            prefs.set(buttonpressed.URL, forKey: "selectedButton")
-            prefs.set(buttonpressed.redirect, forKey: "redirectbutton")
-            self.show(vc as! UIViewController, sender: vc)
-            AppTable.deselectRow(at: indexPath, animated: true)
-//        }
-//        else
-//        {
-//            
-//            AppTable.cellForRowAtIndexPath(indexPath)?.selected = false
-//        }
+        prefs.set(buttonpressed.URL, forKey: "selectedButton")
+        prefs.set(buttonpressed.redirect, forKey: "redirectbutton")
+        self.show(vc as! UIViewController, sender: vc)
+        AppTable.deselectRow(at: indexPath, animated: true)
         
     }
     
@@ -479,8 +450,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.AppTable.reloadData()
         }
         else {
-        let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Settings")
-        self.present(vc as! UIViewController, animated: true, completion: nil)
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "Settings")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
         }
     }
     
@@ -501,104 +472,4 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         EmployeeInfo = synced.EmployeeInfo
         
     }
-    
-    
-//    func connectToOffice365(_ complete: @escaping () -> Void) {
-//     // Connect to the service by discovering the service endpoints and authorizing
-//     // the application to access the user's email. This will store the user's
-//     // service URLs in a property list to be accessed when calls are made to the
-//     // service. This results in two calls: one to authenticate, and one to get the
-//     // URLs. ADAL will cache the access and refresh tokens so you won't need to
-//     // provide credentials unless you sign out.
-//     
-//     // Get the discovery client. First time this is ran you will be prompted
-//     // to provide your credentials which will authenticate you with the service.
-//     // The application will get an access token in the response.
-//     
-//         baseController.fetchDiscoveryClient
-//        {
-//            (discoveryClient) -> () in
-//             let servicesInfoFetcher = discoveryClient.getservices()
-//             
-//             // Call the Discovery Service and get back an array of service endpoint information
-//             
-//             let servicesTask = servicesInfoFetcher?.read
-//             {
-//                (serviceEndPointObjects:[Any]?, error:MSODataException?) -> Void in
-//                 let serviceEndpoints = serviceEndPointObjects as! [MSDiscoveryServiceInfo]
-//                 
-//                 if (serviceEndpoints.count > 0)
-//                 {
-//                     // Here is where we cache the service URLs returned by the Discovery Service. You may not
-//                     // need to call the Discovery Service again until either this cache is removed, or you
-//                     // get an error that indicates that the endpoint is no longer valid.
-//                     
-//                     var serviceEndpointLookup = [AnyHashable: Any]()
-//                     
-//                     for serviceEndpoint in serviceEndpoints
-//                     {
-//                        serviceEndpointLookup[serviceEndpoint.capability] = serviceEndpoint.serviceEndpointUri
-//                     }
-//                     
-//                     // Keep track of the service endpoints in the user defaults
-//                     let userDefaults = UserDefaults.standard
-//                     
-//                     userDefaults.set(serviceEndpointLookup, forKey: "O365ServiceEndpoints")
-//                     userDefaults.synchronize()
-//                     
-//                     DispatchQueue.main.async
-//                     {
-//                         let userEmail = userDefaults.string(forKey: "LogInUser")!
-//                         var parts = userEmail.components(separatedBy: "@")
-//                         
-//                         self.test = String(format:"Hi %@!", parts[0])
-//                        complete()
-//                     }
-//                 }
-//                 else
-//                 {
-//                     DispatchQueue.main.async
-//                     {
-//                        let alert: UIAlertController = UIAlertController(title: "ERROR", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", preferredStyle: .alert)
-//                        //                        let alert: UIAlertController = UIAlertController(title: "Error", message: "Authentication failed. This may be because the Internet connection is offline  or perhaps the credentials are incorrect. Check the log for errors and try again.", delegate: self, cancelButtonTitle: "OK")
-//                        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-//                        alert.addAction(defaultAction)
-//                        self.present(alert, animated: true, completion: nil)
-//                     }
-//                 }
-//                
-//                
-//             }
-//                
-//                servicesTask?.resume()
-//            
-//         }
-//        
-//     }
-
-    
-    
-    
-//    let url = NSURL(string: "mspbi://")
-//    UIApplication.sharedApplication().openURL(url)
-//    else if let itunesUrl = NSURL(string: "https://itunes.apple.com/itunes-link-to-app") where UIApplication.sharedApplication().canOpenURL(itunesUrl)
-//    {
-//        UIApplication.sharedApplication().openURL(itunesUrl)
-//    }
-    
-    
-    
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

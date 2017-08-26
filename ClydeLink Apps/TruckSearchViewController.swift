@@ -41,7 +41,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {   //delegate method
@@ -88,7 +87,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
             
             let request = NSMutableURLRequest(url: url)
             
-            //        request.HTTPBody = "".dataUsingEncoding(NSUTF8StringEncoding)
             request.httpMethod = "POST"
             let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
                 guard error == nil && data != nil else { // check for fundamental networking error
@@ -165,8 +163,6 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var TextBox: UITextField!
     
     @IBOutlet weak var ResultsTable: UITableView!
-    
-    // MARK: Table View
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {  // Returns length of the query result, showing how many table cells to create
         var numberOfRows: Int = 1
