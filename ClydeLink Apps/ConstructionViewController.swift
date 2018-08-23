@@ -36,6 +36,13 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         }
     }
     
+    override func dismiss(animated flag: Bool, completion: (() -> Void)?)
+    {
+        if self.presentedViewController != nil {
+            super.dismiss(animated: flag, completion: completion)
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
