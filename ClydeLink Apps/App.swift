@@ -8,17 +8,17 @@
 import UIKit
 
 class App: NSObject, NSCoding {
-    var header: String = ""  // ex: "Equipment Apps"
-    var title: String = ""  // ex: "Vehicle Search"
-    var link: String = ""  // ex: "vehiclesearch"
-    var selected: Bool = false
-    var icon: String! = ""  // ex: "icon3.png" or ""
-    var URL: String = ""  // ex: "http://www.clydelink.com/forms/communications/Pages/TrainingRequests.aspx" or "UNDEFINED"
-    var order: Double = 0.0 // ex: 4.2
-    var redirect: String = ""  // ex: "http://itunes.com/link-to-app" or ""
+    @objc var header: String = ""  // ex: "Equipment Apps"
+    @objc var title: String = ""  // ex: "Vehicle Search"
+    @objc var link: String = ""  // ex: "vehiclesearch"
+    @objc var selected: Bool = false
+    @objc var icon: String! = ""  // ex: "icon3.png" or ""
+    @objc var URL: String = ""  // ex: "http://www.clydelink.com/forms/communications/Pages/TrainingRequests.aspx" or "UNDEFINED"
+    @objc var order: Double = 0.0 // ex: 4.2
+    @objc var redirect: String = ""  // ex: "http://itunes.com/link-to-app" or ""
     
     
-    init(h: String, t: String, l: String, s: Bool, i: String, u: String, o: Double, r: String)
+    @objc init(h: String, t: String, l: String, s: Bool, i: String, u: String, o: Double, r: String)
     {
         self.header = h
         self.title = t

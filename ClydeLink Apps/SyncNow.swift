@@ -10,17 +10,17 @@ import CryptoSwift
 
 class SyncNow: NSObject {
     
-    var flag: Int = 0
-    let prefs = UserDefaults.standard
-    var Apps: Array<AnyObject> = []
-    var AppStore: [App] = []
-    var currentapps: [App] = []
-    var done: Int = 0
-    var syncnow: Int = 0
-    var AppHeaders: [String] = []
-    var progress: Float = 0
-    var EmployeeInfo: Array<AnyObject> = []  // Holds information about current user
-    var serviceEndpointLookup = NSMutableDictionary()
+    @objc var flag: Int = 0
+    @objc let prefs = UserDefaults.standard
+    @objc var Apps: Array<AnyObject> = []
+    @objc var AppStore: [App] = []
+    @objc var currentapps: [App] = []
+    @objc var done: Int = 0
+    @objc var syncnow: Int = 0
+    @objc var AppHeaders: [String] = []
+    @objc var progress: Float = 0
+    @objc var EmployeeInfo: Array<AnyObject> = []  // Holds information about current user
+    @objc var serviceEndpointLookup = NSMutableDictionary()
     
     override init() {
         super.init()
@@ -41,7 +41,7 @@ class SyncNow: NSObject {
         })
     }
     
-    init(sync: Int, complete: @escaping () -> Void) {
+    @objc init(sync: Int, complete: @escaping () -> Void) {
         super.init()
         syncnow = 1
         done = 0
@@ -62,7 +62,7 @@ class SyncNow: NSObject {
         })
     }
     
-    func getIP() -> String
+    @objc func getIP() -> String
     {
         var data: [String : Any] = [:]
         sendPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetIP") { mydata in
@@ -76,7 +76,7 @@ class SyncNow: NSObject {
         return ""
     }
     
-    func getToken(_ complete: @escaping () -> Void) {
+    @objc func getToken(_ complete: @escaping () -> Void) {
         let userDefaults = UserDefaults.standard
         let code = userDefaults.string(forKey: "username")  // Get user email, set to code
         var parts = code?.components(separatedBy: "@")
@@ -143,7 +143,7 @@ class SyncNow: NSObject {
         
     }
     
-    func hashingAlgorithm(code: String, ip: String, account: String, salt: String) -> String
+    @objc func hashingAlgorithm(code: String, ip: String, account: String, salt: String) -> String
     {
         var hashedPassword: String = ""
         var data: Array<UInt8>
@@ -202,7 +202,7 @@ class SyncNow: NSObject {
         
     }
     
-    func loadUserInfo(_ complete: @escaping () -> Void) {  // Get user's information
+    @objc func loadUserInfo(_ complete: @escaping () -> Void) {  // Get user's information
         
         if let data = prefs.object(forKey: "userinfo") as? Data {
             self.EmployeeInfo = NSKeyedUnarchiver.unarchiveObject(with: data) as! Array<AnyObject>
@@ -210,7 +210,7 @@ class SyncNow: NSObject {
         
     }
     
-    func retrieveUserInfo(_ complete: @escaping () -> Void) {  // Get user's information
+    @objc func retrieveUserInfo(_ complete: @escaping () -> Void) {  // Get user's information
         let userDefaults = UserDefaults.standard
         
         if let userEmail = userDefaults.string(forKey: "username") {
@@ -252,7 +252,7 @@ class SyncNow: NSObject {
     }
     
     
-    func getAppStore(_ complete: @escaping () -> Void)
+    @objc func getAppStore(_ complete: @escaping () -> Void)
     {  // Load apps from online database
         
         if let data = prefs.object(forKey: "syncedappstore") as? Data {
@@ -268,7 +268,7 @@ class SyncNow: NSObject {
         }
     }
     
-    func fillAppArray(_ complete: @escaping () -> Void) {
+    @objc func fillAppArray(_ complete: @escaping () -> Void) {
         sendAnyPost(urlstring: "https://cciportal.clydeinc.com/webservices/json/ClydeWebServices/GetAppsInfo", json: ["":""]) { mydata in
             self.Apps = mydata
             complete()
@@ -276,7 +276,7 @@ class SyncNow: NSObject {
         
     }
     
-    func buildAppStore(_ complete: () -> Void) {  // Convert raw data into more accessible AppStore
+    @objc func buildAppStore(_ complete: () -> Void) {  // Convert raw data into more accessible AppStore
         if (AppStore.count == 0) {
             for element in Apps
             {
@@ -287,7 +287,7 @@ class SyncNow: NSObject {
         complete()
     }
     
-    func sortArray(_ complete: () -> Void)
+    @objc func sortArray(_ complete: () -> Void)
     {  // Sort array based on individual apps' "order" property
         AppHeaders = []
         var sorted: [App] = []
@@ -320,7 +320,7 @@ class SyncNow: NSObject {
         complete()
     }
     
-    func updateCurrentApps(_ complete: () -> Void)
+    @objc func updateCurrentApps(_ complete: () -> Void)
     {  // Updates the user's selected apps due to changes in online database
         
         if let data = prefs.object(forKey: "userapps") as? Data {
@@ -371,15 +371,15 @@ class SyncNow: NSObject {
         complete()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    @objc required init(coder aDecoder: NSCoder) {
         //        fatalError("init(coder:) has not been implemented")
     }
     
-    func notify() {
+    @objc func notify() {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "TEST"), object: nil)
     }
     
-    func getCookies(cookies: NSMutableArray) -> String {
+    @objc func getCookies(cookies: NSMutableArray) -> String {
         var mystr: String = ""
         let acceptAll: Bool = true
         for el in (cookies as NSArray as! [String]) {
@@ -397,7 +397,7 @@ class SyncNow: NSObject {
         return mystr
     }
     
-    func sendGet(urlstring: String, complete: @escaping ([String : Any]) -> Void = {mydata in}) {
+    @objc func sendGet(urlstring: String, complete: @escaping ([String : Any]) -> Void = {mydata in}) {
         
         if let url = URL(string: urlstring) {
             let request = NSMutableURLRequest(url: url)
@@ -432,7 +432,7 @@ class SyncNow: NSObject {
         
     }
     
-    func sendPost(urlstring: String, json: String = "", complete: @escaping ([String : Any]) -> Void = {mydata in}) {
+    @objc func sendPost(urlstring: String, json: String = "", complete: @escaping ([String : Any]) -> Void = {mydata in}) {
         if let url = URL(string: urlstring) {
             let request = NSMutableURLRequest(url: url)
             request.httpMethod = "POST"
@@ -459,7 +459,7 @@ class SyncNow: NSObject {
     }
     
     
-    func sendAnyPost(urlstring: String, json:  Dictionary<String, String>, complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
+    @objc func sendAnyPost(urlstring: String, json:  Dictionary<String, String>, complete: @escaping (Array<AnyObject>) -> Void = {mydata in}) {
         if let url = URL(string: urlstring) {
             let params = json
             let request = NSMutableURLRequest(url: url)
@@ -501,10 +501,10 @@ class SyncNow: NSObject {
         }
     }
     
-    func getTopViewController()->UIViewController{
+    @objc func getTopViewController()->UIViewController{
         return topViewControllerWithRootViewController(rootViewController: UIApplication.shared.keyWindow!.rootViewController!)
     }
-    func topViewControllerWithRootViewController(rootViewController:UIViewController)->UIViewController{
+    @objc func topViewControllerWithRootViewController(rootViewController:UIViewController)->UIViewController{
         if rootViewController is UITabBarController{
             let tabBarController = rootViewController as! UITabBarController
             return topViewControllerWithRootViewController(rootViewController: tabBarController.selectedViewController!)

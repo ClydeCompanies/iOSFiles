@@ -93,7 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.saveContext()
     }
     
-    func loadHTTPCookies() {
+    @objc func loadHTTPCookies() {
         
         if let cookieDict = UserDefaults.standard.value(forKey: "cookieArray") as? NSMutableArray {
             
@@ -107,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func saveCookies() {
+    @objc func saveCookies() {
         
         let cookieArray = NSMutableArray()
         if let savedC = HTTPCookieStorage.shared.cookies {
@@ -132,17 +132,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Core Data stack
     
-    lazy var applicationDocumentsDirectory: URL = {
+    @objc lazy var applicationDocumentsDirectory: URL = {
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return urls[urls.count-1]
     }()
     
-    lazy var managedObjectModel: NSManagedObjectModel = {
+    @objc lazy var managedObjectModel: NSManagedObjectModel = {
         let modelURL = Bundle.main.url(forResource: "DataModel", withExtension: "momd")!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
-    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
+    @objc lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         let url = self.applicationDocumentsDirectory.appendingPathComponent("ClydeLink Apps.sqlite")
         var failureReason = "There was an error creating or loading the application's saved data."
@@ -163,7 +163,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return coordinator
     }()
     
-    lazy var managedObjectContext: NSManagedObjectContext = {
+    @objc lazy var managedObjectContext: NSManagedObjectContext = {
         let coordinator = self.persistentStoreCoordinator
         var managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
@@ -172,7 +172,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Core Data Saving support
     
-    func saveContext () {
+    @objc func saveContext () {
         if managedObjectContext.hasChanges {
             do {
                 try managedObjectContext.save()

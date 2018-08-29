@@ -12,10 +12,10 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var WebView: UIWebView!
-    let prefs = UserDefaults.standard  // Current user preferences
+    @objc let prefs = UserDefaults.standard  // Current user preferences
     @IBOutlet weak var NavBar: UINavigationBar!
     
-    var tempUser: String = ""
+    @objc var tempUser: String = ""
     
     override func viewDidLoad() {
         
@@ -53,7 +53,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         ActivityIndicator.startAnimating()
     }
     
-    func loadAddressURL() {
+    @objc func loadAddressURL() {
         var link = prefs.string(forKey: "selectedButton")
         
         if link == ("http://www.clydelink.com/employeeresources/Pages/Policies.aspx?CID=") {

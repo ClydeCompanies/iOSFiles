@@ -15,22 +15,22 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var rightButton: UIBarButtonItem!
     @IBOutlet weak var AppTable: UITableView!
     
-    var test: String = "TEST" // Used for receiving username
-    var EmployeeInfo: Array<AnyObject> = []  // Holds information about current user
-    var flag: Int = 0  // Saves any errors as 1
-    var synced: SyncNow = SyncNow()
+    @objc var test: String = "TEST" // Used for receiving username
+    @objc var EmployeeInfo: Array<AnyObject> = []  // Holds information about current user
+    @objc var flag: Int = 0  // Saves any errors as 1
+    @objc var synced: SyncNow = SyncNow()
     
     
-    var appButtons: Array = [App]()  // Holds clickable buttons
+    @objc var appButtons: Array = [App]()  // Holds clickable buttons
     
-    var NoFavorite: Int = 0
-    var finalEdit: Bool = false
-    var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
+    @objc var NoFavorite: Int = 0
+    @objc var finalEdit: Bool = false
+    @objc var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
-    let prefs = UserDefaults.standard  // Current user preferences
+    @objc let prefs = UserDefaults.standard  // Current user preferences
     
-    var serviceEndpointLookup = NSMutableDictionary()
-    var components: AnyObject = "" as AnyObject
+    @objc var serviceEndpointLookup = NSMutableDictionary()
+    @objc var components: AnyObject = "" as AnyObject
     
     
     
@@ -196,7 +196,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Dispose of any resources that can be recreated.
     }
     
-    func connectedToNetwork() -> Bool {
+    @objc func connectedToNetwork() -> Bool {
         
         var zeroAddress = sockaddr_in()
         zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
@@ -467,7 +467,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func loadUserInfo() {  // Get user's information
+    @objc func loadUserInfo() {  // Get user's information
         
         EmployeeInfo = synced.EmployeeInfo
         

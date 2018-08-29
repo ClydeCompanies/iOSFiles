@@ -9,8 +9,8 @@ import UIKit
 
 class AddTableViewCell: UITableViewCell {
     
-    let prefs = UserDefaults.standard  // Current user preferences
-    let synced: SyncNow = SyncNow()
+    @objc let prefs = UserDefaults.standard  // Current user preferences
+    @objc let synced: SyncNow = SyncNow()
     
     @IBOutlet weak var Title: UILabel!
     @IBOutlet weak var addButton: UIButton!

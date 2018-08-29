@@ -9,7 +9,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Office365.xcscheme</key>
+		<key>CryptoSwift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -21,37 +21,6 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>33C5D8076AC5E65C6324BEE5783E514C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6BB1C1403B2419F911818DA8413FDA07</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6E908079A3DF67595C5931E7C1158A32</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>8D15CB11EF12CF594AEE499383539529</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>AB0734C590877C257B5EEA38D093469E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E1D23E264CC87EB967B6CAD1D6F2B1F1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>

@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIView {
-    var parentViewController: UIViewController? {
+    @objc var parentViewController: UIViewController? {
         var parentResponder: UIResponder? = self
         while parentResponder != nil {
             parentResponder = parentResponder!.next
@@ -81,7 +81,7 @@ class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of ea
             parentViewController!.present(errorAlert, animated: true, completion: nil)
         }
     }
-    func call(_ number: String) {
+    @objc func call(_ number: String) {
         if let url: URL = URL(string: "tel://\(number)") {
             let application:UIApplication = UIApplication.shared
             if (application.canOpenURL(url)) {

@@ -1,12 +1,38 @@
 
-#Microsoft Azure Active Directory Authentication Library (ADAL) for iOS and OSX
+#Microsoft Azure Active Directory Authentication Library (ADAL) for iOS
 =====================================
 
-####NOTE regarding iOS 9
+## NOTE: ADAL 1.x is in maintenance mode. We recommend updating to 2.x as soon as possible.
 
-Apple has released iOS 9 which includes support for App Transport Security (ATS). ATS restricts apps from accessing the internet unless they meet several security requirements including TLS 1.2 and SHA-256. While Microsoft's APIs support these standards some third party APIs and content delivery networks we use have yet to be upgraded. This means that any app that relies on Azure Active Directory or Microsoft Accounts will fail when compiled with iOS 9. For now our recommendation is to disable ATS, which reverts to iOS 8 functionality. Please refer to the [documentation on the NSAppTransport info.plist key](https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW33) for more information.
+## How to Update Your Application with Cocoapods (recommended)
 
-----
+If you are using the 2.x version of our library, ensure the following line is in your `Podfile` in the root directory of your application:
+
+```
+pod 'ADAL', '~> 2.2'
+```
+If you are using the 1.2 version of our library, ensure the following line is in your `Podfile` in the root directory of your application:
+
+```
+pod 'ADAL', '~> 1.2'
+```
+Once this is complete, run the `pod update` command to update your application. 
+
+
+## How to Update Your Application with source
+
+1.	Download the latest code from the task you require.
+2.	In your XCode 8 or higher project, Click File -> Add Files
+3.	In the Finder that appears, navigate to where you downloaded the ADAL source. Go to the ADAL folder, and select `ADAL.xcodeproj` and click Add.
+4.	You’ll see you have another Project in your Project list to the left called `ADAL.xcodeproj`
+5.	Under “Linked Frameworks and Libraries” in your application’s General project settings, ensure ADALiOS.a is listed and not in red color font. Red color font means XCode can’t find the library and you need to update the location by removing the entry and adding it again.
+6.	If it isn’t there or in red color, press the “+” icon. You should see ADALiOS.a in your available libraries. Select it and click OK. 
+7.	OPTIONAL: You may also select the .framework version if you would rather use the framework. Make sure that you are selecting the iOS Target and not the Mac Target for the framework.
+8.	Compile as and test your application.
+
+
+=====================================
+
 
 
 [![Build Status](https://travis-ci.org/AzureAD/azure-activedirectory-library-for-objc.svg?branch=1.2.x)](https://travis-ci.org/AzureAD/azure-activedirectory-library-for-objc)
@@ -50,11 +76,11 @@ We've made it easy for you to have multiple options to use this library in your 
 
 ###Option 1: Source Zip
 
-To download a copy of the source code, click "Download ZIP" on the right side of the page or click [here](https://github.com/AzureAD/azure-activedirectory-library-for-objc/archive/1.2.5.tar.gz).
+To download a copy of the source code, click "Download ZIP" on the right side of the page or click [here](https://github.com/AzureAD/azure-activedirectory-library-for-objc/archive/1.2.9.tar.gz).
 
 ###Option 2: Cocoapods
 
-    pod 'ADALiOS', '~> 1.2.5'
+    pod 'ADAL', '~> 1.2'
 
 ## Usage
 
@@ -255,6 +281,11 @@ in ADAuthenticationSettings:
 ```Objective-C
     [[ADAuthenticationSettings sharedInstance] setSharedCacheKeychainGroup:@"<your.bundle.id.here>"];
 ```
+
+**ADAL keeps returning SSL errors in iOS 9 and later**
+
+iOS 9 added App Transport Security (ATS). ATS restricts apps from accessing the internet unless they meet several security requirements including TLS 1.2 and SHA-256. It also prevents network traces that rely on self signed certs to crack SSL from working. Disabling ATS must be done in the Application's info.plist file, see [documentation on the NSAppTransport info.plist key](https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW33) for more information.
+
 
 ## License
 

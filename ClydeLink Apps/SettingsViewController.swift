@@ -14,7 +14,7 @@ public extension UIView {
      
      - parameter duration: custom animation duration
      */
-    func fadeIn(duration: TimeInterval) {
+    @objc func fadeIn(duration: TimeInterval) {
         UIView.animate(withDuration: duration, animations: {
             self.alpha = 1.0
         })
@@ -25,7 +25,7 @@ public extension UIView {
      
      - parameter duration: custom animation duration
      */
-    func fadeOut(_ duration: TimeInterval) {
+    @objc func fadeOut(_ duration: TimeInterval) {
         UIView.animate(withDuration: duration, animations: {
             self.alpha = 0.0
         })
@@ -44,17 +44,17 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     @IBOutlet weak var JobTitle: UILabel!
     @IBOutlet weak var UserPicture: UIImageView!
     
-    var EmployeeInfo: Array<AnyObject> = []  // Holds information about current user
+    @objc var EmployeeInfo: Array<AnyObject> = []  // Holds information about current user
     
-    var picLocation: String = ""
-    var synced: SyncNow = SyncNow()
+    @objc var picLocation: String = ""
+    @objc var synced: SyncNow = SyncNow()
     //    var baseController = Office365ClientFetcher()
-    var serviceEndpointLookup = NSMutableDictionary()
+    @objc var serviceEndpointLookup = NSMutableDictionary()
     
-    let prefs = UserDefaults.standard  // Current user preferences
-    var flag:Int=0;  // Keeps track of any errors
-    var AppStore: [App] = []  // Holds all apps
-    var Apps: [AnyObject] = []  // Holds raw data of AppStore
+    @objc let prefs = UserDefaults.standard  // Current user preferences
+    @objc var flag:Int=0;  // Keeps track of any errors
+    @objc var AppStore: [App] = []  // Holds all apps
+    @objc var Apps: [AnyObject] = []  // Holds raw data of AppStore
     
     
     
@@ -178,7 +178,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         }
     }
     
-    func updateProgressBar(_ notification: Notification)
+    @objc func updateProgressBar(_ notification: Notification)
     {
         DispatchQueue.main.async {
             self.ProgressBar.setProgress(0.1 + self.ProgressBar.progress, animated: true)
@@ -210,7 +210,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
         
     }
     
-    func loadUserInfo() {  // Get user's information
+    @objc func loadUserInfo() {  // Get user's information
         
         self.EmployeeInfo = synced.EmployeeInfo
         

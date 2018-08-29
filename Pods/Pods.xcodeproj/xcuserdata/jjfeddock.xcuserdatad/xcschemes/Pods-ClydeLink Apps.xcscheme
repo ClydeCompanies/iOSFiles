@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0800"
+   LastUpgradeVersion = "0940"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E1D23E264CC87EB967B6CAD1D6F2B1F1"
+               BlueprintIdentifier = "0559C2358CF1D3287CDEF256DBFEB895"
                BuildableName = "Pods_ClydeLink_Apps.framework"
                BlueprintName = "Pods-ClydeLink Apps"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E1D23E264CC87EB967B6CAD1D6F2B1F1"
+            BlueprintIdentifier = "0559C2358CF1D3287CDEF256DBFEB895"
             BuildableName = "Pods_ClydeLink_Apps.framework"
             BlueprintName = "Pods-ClydeLink Apps"
             ReferencedContainer = "container:Pods.xcodeproj">

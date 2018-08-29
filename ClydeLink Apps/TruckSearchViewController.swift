@@ -15,11 +15,11 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     
     @IBOutlet weak var txtValue: UITextField!
     
-    var Employees: Array<AnyObject> = []  // Array that holds information retrieved from server in POST query of Truck Search
+    @objc var Employees: Array<AnyObject> = []  // Array that holds information retrieved from server in POST query of Truck Search
     
-    var flag: Int = 0  // An Error Connecting to the Server will set this flag to 1 and tell the Table to display the message!
+    @objc var flag: Int = 0  // An Error Connecting to the Server will set this flag to 1 and tell the Table to display the message!
     
-    func dismissKeyboard() {
+    @objc func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status and drop into background
         view.endEditing(true)
     }
@@ -49,7 +49,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         return true
     }
     
-    func Search() {
+    @objc func Search() {
         if (TextBox.text == "") {
             return
         }
@@ -239,7 +239,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     
-    func turnRed(_ cell:TruckSearchTableViewCell) {  // Turn all text labels in this cell to RED
+    @objc func turnRed(_ cell:TruckSearchTableViewCell) {  // Turn all text labels in this cell to RED
         cell.companyLabel.textColor = UIColor.red
         cell.nameLabel.textColor = UIColor.red
         cell.titleLabel.textColor = UIColor.red
@@ -253,7 +253,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         cell.truckTitle.textColor = UIColor.red
         cell.supervisorTitle.textColor = UIColor.red
     }
-    func turnBlack(_ cell:TruckSearchTableViewCell) {  // Turn all text labels in this cell to black
+    @objc func turnBlack(_ cell:TruckSearchTableViewCell) {  // Turn all text labels in this cell to black
         cell.companyLabel.textColor = UIColor.black
         cell.nameLabel.textColor = UIColor.black
         cell.titleLabel.textColor = UIColor.black

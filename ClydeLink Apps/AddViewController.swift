@@ -21,24 +21,24 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     @IBOutlet weak var AppTable: UITableView!
     @IBOutlet weak var ActivityIndicator: UIActivityIndicatorView!
     
-    var test: String = "TEST"  // Holds users name
+    @objc var test: String = "TEST"  // Holds users name
     
-    var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
+    @objc var AppCount: Int = 0  // Increments and controls distribution of array data to UITable
     
-    var NoApps: [Int] = [0]
+    @objc var NoApps: [Int] = [0]
     
-    var extra: Int = 0
+    @objc var extra: Int = 0
     
-    let prefs = UserDefaults.standard  // Current user preferences
-    var AppStore: [App] = []  // Holds all available Apps
-    var synced: SyncNow = SyncNow()
-    var AppHeaders: [String] = []  // Holds headers
-    var AppNumber: [Int] = [0]  // Holds number of apps in each section
-    var sectionOpen: [Bool] =  [false]  // Holds values for which sections are expanded
+    @objc let prefs = UserDefaults.standard  // Current user preferences
+    @objc var AppStore: [App] = []  // Holds all available Apps
+    @objc var synced: SyncNow = SyncNow()
+    @objc var AppHeaders: [String] = []  // Holds headers
+    @objc var AppNumber: [Int] = [0]  // Holds number of apps in each section
+    @objc var sectionOpen: [Bool] =  [false]  // Holds values for which sections are expanded
     
-    var flag: Int = 0  // Keeps track of any errors
+    @objc var flag: Int = 0  // Keeps track of any errors
     
-    var serviceEndpointLookup = NSMutableDictionary()
+    @objc var serviceEndpointLookup = NSMutableDictionary()
     
     
     
@@ -256,7 +256,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         
     }
     
-    func pressed(_ sender: UIButton)
+    @objc func pressed(_ sender: UIButton)
     {  // Opens each section
         sectionOpen[sender.tag] = !sectionOpen[sender.tag]
         self.AppTable.reloadData()
@@ -320,7 +320,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         return uName
     }
     
-    func loadApps() {  // Get all apps
+    @objc func loadApps() {  // Get all apps
         synced = SyncNow()
         
         AppTable.reloadData()

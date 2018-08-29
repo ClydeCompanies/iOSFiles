@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0800"
+   LastUpgradeVersion = "0940"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AB0734C590877C257B5EEA38D093469E"
+               BlueprintIdentifier = "DB401D20BEEE5F7A9588510D13E8BC7A"
                BuildableName = "ADALiOS.framework"
                BlueprintName = "ADALiOS"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AB0734C590877C257B5EEA38D093469E"
+            BlueprintIdentifier = "DB401D20BEEE5F7A9588510D13E8BC7A"
             BuildableName = "ADALiOS.framework"
             BlueprintName = "ADALiOS"
             ReferencedContainer = "container:Pods.xcodeproj">

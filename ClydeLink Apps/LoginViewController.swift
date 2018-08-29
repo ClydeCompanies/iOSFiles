@@ -9,9 +9,9 @@ import UIKit
 
 class LoginViewController: UIViewController {  // Basic ViewController for the Login Screen, will be added to when necessary to include implementation for Authentication. Currently stores username entered for use later in the application.
 
-    let prefs = UserDefaults.standard  // Where we are saving the user defaults in the Application data on the phone
+    @objc let prefs = UserDefaults.standard  // Where we are saving the user defaults in the Application data on the phone
     
-    func dismissKeyboard() {
+    @objc func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status and dismiss the keyboard
         view.endEditing(true)
     }
