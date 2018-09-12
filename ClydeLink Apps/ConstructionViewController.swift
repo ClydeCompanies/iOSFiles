@@ -99,11 +99,10 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             let urlComponents = URLComponents(string: webView.request!.url!.absoluteString)
             let queryItems = urlComponents?.queryItems
             let param1 = queryItems?.filter({$0.name == "username"}).first
-            
+
             if (param1 != nil)
             {
                 tempUser = (param1?.value!)!
-                
             }
             
             prefs.synchronize()
