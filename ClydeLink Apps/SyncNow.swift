@@ -384,8 +384,8 @@ class SyncNow: NSObject {
         let acceptAll: Bool = true
         for el in (cookies as NSArray as! [String]) {
             var cookieProps = NSMutableDictionary()
-            cookieProps = prefs.dictionary(forKey: el) as! NSMutableDictionary
-            
+            let g = ((prefs.dictionary(forKey: el)) as! NSDictionary).mutableCopy()
+            cookieProps = g as! NSMutableDictionary
             if (cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == "clydelink.sharepoint.com" || cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == ".sharepoint.com" || acceptAll)
             {
                 mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.name.rawValue) as! String
