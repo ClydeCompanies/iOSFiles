@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ClydeLink Apps.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>armv7</string>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>BE43A901B2919E8FC09D71F998FF932E871A41F4</string>
+				<key>dateExpires</key>
+				<string>8/29/20</string>
+				<key>type</key>
+				<string>iOS Distribution</string>
+			</dict>
+			<key>embeddedBinaries</key>
+			<array>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>armv7</string>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>BE43A901B2919E8FC09D71F998FF932E871A41F4</string>
+						<key>dateExpires</key>
+						<string>8/29/20</string>
+						<key>type</key>
+						<string>iOS Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>ADALiOS.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>BJ8N6ZWL59</string>
+						<key>name</key>
+						<string>Clyde Companies, Inc.</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>armv7</string>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>BE43A901B2919E8FC09D71F998FF932E871A41F4</string>
+						<key>dateExpires</key>
+						<string>8/29/20</string>
+						<key>type</key>
+						<string>iOS Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>CryptoSwift.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>BJ8N6ZWL59</string>
+						<key>name</key>
+						<string>Clyde Companies, Inc.</string>
+					</dict>
+				</dict>
+			</array>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>BJ8N6ZWL59.com.clydelink.ClydeLinkApps</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>BJ8N6ZWL59</string>
+				<key>get-task-allow</key>
+				<false/>
+				<key>keychain-access-groups</key>
+				<array>
+					<string>BJ8N6ZWL59.com.clydelink.ClydeLinkApps</string>
+				</array>
+			</dict>
+			<key>name</key>
+			<string>ClydeLink Apps.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>42eb3a99-d5ec-4b4a-8cb0-c5231877e34a</string>
+				<key>name</key>
+				<string>iOS Team Inhouse Provisioning Profile: com.clydelink.ClydeLinkApps</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>BJ8N6ZWL59</string>
+				<key>name</key>
+				<string>Clyde Companies, Inc.</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

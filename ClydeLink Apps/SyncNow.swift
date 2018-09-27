@@ -223,7 +223,8 @@ class SyncNow: NSObject {
                 
                 
                 self.EmployeeInfo = tokenMessage
-                self.prefs.set(self.EmployeeInfo[0]["CompanyNumber"]!, forKey: "Company")
+                let companyInformation:String = self.EmployeeInfo[0]["CompanyNumber"] as? String ?? ""
+                self.prefs.set(companyInformation, forKey: "Company")
                 
                 let employeedata = NSKeyedArchiver.archivedData(withRootObject: self.EmployeeInfo)
                 self.prefs.set(employeedata, forKey: "userinfo")
@@ -386,6 +387,7 @@ class SyncNow: NSObject {
             var cookieProps = NSMutableDictionary()
             let g = ((prefs.dictionary(forKey: el)) as! NSDictionary).mutableCopy()
             cookieProps = g as! NSMutableDictionary
+            
             if (cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == "clydelink.sharepoint.com" || cookieProps.value(forKey: HTTPCookiePropertyKey.domain.rawValue) as! String == ".sharepoint.com" || acceptAll)
             {
                 mystr += cookieProps.value(forKey: HTTPCookiePropertyKey.name.rawValue) as! String
