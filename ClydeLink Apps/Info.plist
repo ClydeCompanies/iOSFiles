@@ -22,12 +22,13 @@
 	<string>4</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>ms-o365-groups-intunemam</string>
+		<string>abgrmobile</string>
 		<string>csodmobile</string>
 		<string>mspbi-intunemam</string>
 		<string>adpmobile</string>
 		<string>regenceapp</string>
 		<string>heqmobile</string>
+		<string>msteams</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
