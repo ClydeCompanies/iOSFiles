@@ -11,6 +11,7 @@ target 'ClydeLink Apps' do
     #pod 'Office365/Outlook', '= 0.9.1'
     #pod 'Office365/Discovery', '= 0.9.1'
 	pod 'CryptoSwift'
+	pod 'SwiftSoup'
 
 
 end

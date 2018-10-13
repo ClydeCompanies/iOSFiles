@@ -1,20 +1,24 @@
 PODS:
   - ADALiOS (1.2.10)
-  - CryptoSwift (0.11.0)
+  - CryptoSwift (0.12.0)
+  - SwiftSoup (1.7.4)
 
 DEPENDENCIES:
   - ADALiOS (~> 1.2.1)
   - CryptoSwift
+  - SwiftSoup
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - ADALiOS
     - CryptoSwift
+    - SwiftSoup
 
 SPEC CHECKSUMS:
   ADALiOS: 505c364827c25dd37811e660a943dace9c0ff094
-  CryptoSwift: ad5208dd2aae0a764ea4ce2c2d34bd067cae67f0
+  CryptoSwift: 1c07ca50843dd48bc54e6ea53d7a4dba3b645716
+  SwiftSoup: 92f5b348c131aed8af04f4326db1579ab19fa08c
 
-PODFILE CHECKSUM: 435f13a235ad8714b0875c59600094d8a32cfff6
+PODFILE CHECKSUM: c1af54fab4bf4ffabca97e813c191678f3f4dd68
 
 COCOAPODS: 1.5.3
