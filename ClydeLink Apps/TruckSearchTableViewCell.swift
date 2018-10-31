@@ -61,7 +61,7 @@ class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of ea
             phone = phone.replacingOccurrences(of: "[^0-9]", with: "", options: NSString.CompareOptions.regularExpression, range:nil);
             if phone.count == 10
             {
-                
+
                 /*phone = "(" + phone.substring(with: (phone.startIndex..<phone.index(phone.startIndex, offsetBy: 3))) + ") " + phone.substring(with: Range<String.Index>(phone.characters.index(phone.startIndex, offsetBy: 3)..<phone.characters.index(phone.startIndex, offsetBy: 6))) + "-" + phone.substring(with: Range<String.Index>(phone.characters.index(phone.startIndex, offsetBy: 6)..<phone.endIndex))*/
             } /*else if phone.characters.count == 12
             {

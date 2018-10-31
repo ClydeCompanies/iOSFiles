@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftSoup
 
 class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simple ViewController designed to be a placeholder for other HTML queries and Segues that will be developed in the future
     
@@ -93,20 +94,23 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
     
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        if (webView.request!.url!.absoluteString.contains("fs.clydeinc.com"))
-        {
-            // Get the username employee is trying to login with from the url
-            let urlComponents = URLComponents(string: webView.request!.url!.absoluteString)
-            let queryItems = urlComponents?.queryItems
-            let param1 = queryItems?.filter({$0.name == "username"}).first
-
-            if (param1 != nil)
-            {
-                tempUser = (param1?.value!)!
-            }
-            
-            prefs.synchronize()
-        }
+        
+    
+//        if (webView.request!.url!.absoluteString.contains("fs.clydeinc.com"))
+//        {
+//            // Get the username employee is trying to login with from the url
+//            let urlComponents = URLComponents(string: webView.request!.url!.absoluteString)
+//            let queryItems = urlComponents?.queryItems
+//            let param1 = queryItems?.filter({$0.name == "username"}).first
+//
+//
+//            if (param1 != nil)
+//            {
+//                tempUser = (param1?.value!)!
+//            }
+//
+//            prefs.synchronize()
+//        }
         
         if (webView.request!.url!.absoluteString.contains("clydelink")) {
             
@@ -133,6 +137,30 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         
         if (webView.request!.url!.absoluteString.contains("clydelink.sharepoint.com") && prefs.string(forKey: "username") == "")
         {
+            //SwiftSoup - Finds username from the ClydeInc Apps Homepage and saves it to shared preferences
+            
+            var accessGrantedUsername: String = "unknownUsername"
+            
+            do {
+                let html = webView.stringByEvaluatingJavaScript(from: "document.documentElement.outerHTML")
+                let doc: Document = try SwiftSoup.parse(html ?? "<div></div>")
+                let link2: Element? = try doc.getElementById("SuiteNavUserName")
+                accessGrantedUsername = try link2?.text() ?? "Failed Username"
+            } catch Exception.Error(let type, let message) {
+                print(message)
+            } catch {
+                print("error")
+            }
+            
+            if (accessGrantedUsername != "Failed Username") {
+                
+                tempUser = accessGrantedUsername
+            }
+            else {
+                
+                tempUser = ""
+            }
+            
             prefs.set(tempUser, forKey: "username")
             
             if (webView.request!.url!.absoluteString.contains("clydelink.sharepoint.com/apps"))
