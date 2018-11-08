@@ -1,6 +1,6 @@
 PODS:
   - ADALiOS (1.2.10)
-  - CryptoSwift (0.12.0)
+  - CryptoSwift (0.13.0)
   - SwiftSoup (1.7.4)
 
 DEPENDENCIES:
@@ -16,7 +16,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   ADALiOS: 505c364827c25dd37811e660a943dace9c0ff094
-  CryptoSwift: 1c07ca50843dd48bc54e6ea53d7a4dba3b645716
+  CryptoSwift: 16e78bebf567bad1c87b2d58f6547f25b74c31aa
   SwiftSoup: 92f5b348c131aed8af04f4326db1579ab19fa08c
 
 PODFILE CHECKSUM: c1af54fab4bf4ffabca97e813c191678f3f4dd68
