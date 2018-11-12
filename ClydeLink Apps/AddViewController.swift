@@ -100,7 +100,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     // MARK: Table View Functions
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {  // Disallow Delete
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {  // Disallow Delete
         return .none
     }
     
@@ -143,7 +143,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         let cell = self.AppTable.dequeueReusableCell(withIdentifier: "AppCell", for: indexPath) as! AddTableViewCell
         cell.Title.text = appCell.title
-        cell.accessoryType = UITableViewCellAccessoryType.none;
+        cell.accessoryType = UITableViewCell.AccessoryType.none;
         if let icon = appCell.icon {
             let url = URL(string: "https://cciportal.clydeinc.com/images/large/icons/\(icon)")!
             if let data = try? Data(contentsOf: url){
@@ -234,10 +234,10 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         uppic.image = UIImage(named: "up-arrow")
         uppic.removeFromSuperview()
         
-        let btn = UIButton(type: UIButtonType.custom) as UIButton
+        let btn = UIButton(type: UIButton.ButtonType.custom) as UIButton
         btn.frame = CGRect(x: 0, y: 0, width: header.frame.width, height: header.frame.height)
         btn.addTarget(self, action: #selector(AddViewController.pressed), for: .touchUpInside)
-        btn.setTitleColor(UIColor.black, for: UIControlState())
+        btn.setTitleColor(UIColor.black, for: UIControl.State())
         btn.tag = section
         
         if (sectionOpen[section])
@@ -310,9 +310,9 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {  // Sets up title and sets username as the title for the home menu
         var uName: String = ""
-        if (prefs.string(forKey: "username") != nil && prefs.string(forKey: "username") != "")
+        if (prefs.string(forKey: "fullname") != nil && prefs.string(forKey: "fullname") != "")
         {
-            uName = "Logged in as " + prefs.string(forKey: "username")!
+            uName = "Logged in as " + prefs.string(forKey: "fullname")!
         } else {
             uName = "Not logged in"
         }

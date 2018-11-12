@@ -94,6 +94,8 @@ class SyncNow: NSObject {
                 let nameId : String = String(describing:(userId?["NameId"])! + "@live.com")
                 let email : String = String(describing: userdetails["Email"])
                 
+                self.prefs.set(String(email.components(separatedBy: "(")[1].components(separatedBy: ")")[0]), forKey: "username")
+                
                 salt = "i:0h.f|membership|" +  nameId
                 // Get IP
                 var ip = self.getIP()
@@ -111,6 +113,7 @@ class SyncNow: NSObject {
                             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
                                 
                                 self.prefs.set("", forKey: "username")
+                                self.prefs.set("", forKey: "fullname")
                                 self.prefs.set("", forKey: "LogInUser")
                                 self.prefs.set([], forKey: "userapps")
                                 self.prefs.set([], forKey: "permissions")
@@ -276,7 +279,6 @@ class SyncNow: NSObject {
         }
         
     }
-    
     @objc func buildAppStore(_ complete: () -> Void) {  // Convert raw data into more accessible AppStore
         if (AppStore.count == 0) {
             for element in Apps

@@ -97,7 +97,7 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     @IBAction func ClearCacheButton(_ sender: AnyObject) {
         print("Clearing Cache")
         
-        let alert = UIAlertController(title: "Clear Cache?", message: "App settings will be reset", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Clear Cache?", message: "App settings will be reset", preferredStyle: UIAlertController.Style.alert)
         
         
         
@@ -130,10 +130,11 @@ class SettingsViewController: UIViewController {  // Basics of Settings screen, 
     @IBAction func SignOut(_ sender: AnyObject) {  // Sign out button clicked
         
         if (SignOutButton.title == "Sign Out") {
-            let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "Sign out?", message: "All favorites will be lost.", preferredStyle: UIAlertController.Style.alert)
             
             alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (action: UIAlertAction!) in
                 self.prefs.set("", forKey: "username")
+                self.prefs.set("", forKey: "fullname")
                 self.prefs.set("", forKey: "LogInUser")
                 self.prefs.set([], forKey: "userapps")
                 self.prefs.set([], forKey: "permissions")

@@ -87,7 +87,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
         
     }
     
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
         
         return true
     }
@@ -135,7 +135,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
             
         }
         
-        if (webView.request!.url!.absoluteString.contains("clydelink.sharepoint.com") && prefs.string(forKey: "username") == "")
+        if (webView.request!.url!.absoluteString.contains("clydelink.sharepoint.com") && prefs.string(forKey: "fullname") == "")
         {
             //SwiftSoup - Finds username from the ClydeInc Apps Homepage and saves it to shared preferences
             
@@ -160,8 +160,7 @@ class ConstructionViewController: UIViewController, UIWebViewDelegate {  // Simp
                 
                 tempUser = ""
             }
-            
-            prefs.set(tempUser, forKey: "username")
+            prefs.set(tempUser, forKey: "fullname")
             
             if (webView.request!.url!.absoluteString.contains("clydelink.sharepoint.com/apps"))
             {

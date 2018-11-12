@@ -47,7 +47,7 @@ class LoginViewController: UIViewController {  // Basic ViewController for the L
         
         
         
-        prefs.set(Username.text, forKey: "username")
+        prefs.set(Username.text, forKey: "fullname")
         
     }
     

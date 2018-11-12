@@ -30,7 +30,7 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)  // Allows dismissal of keyboard on tap anywhere on screen besides the keyboard itself
         
-        ResultsTable.separatorStyle = UITableViewCellSeparatorStyle.singleLine
+        ResultsTable.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
         
         ResultsTable.tableFooterView = UIView(frame: CGRect.zero)
         
@@ -62,8 +62,8 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
         
         if (TextBox.text == ":-)") {
             let alertController = UIAlertController(title: "You Win!", message:
-                "", preferredStyle: UIAlertControllerStyle.alert)
-            alertController.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.default,handler: nil))
+                "", preferredStyle: UIAlertController.Style.alert)
+            alertController.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default,handler: nil))
             
             self.present(alertController, animated: true, completion: nil)
             self.activityIndicator.stopAnimating()  // Ends spinner
@@ -94,8 +94,8 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                     self.flag = 1
                     
                     let alertController = UIAlertController(title: "Error", message:
-                        "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
-                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+                        "Could not connect to the server.", preferredStyle: UIAlertController.Style.alert)
+                    alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default,handler: nil))
                     self.present(alertController, animated: true, completion: nil)
                     
                     
@@ -116,8 +116,8 @@ class TruckSearchViewController: UIViewController, UITableViewDelegate, UITableV
                         self.ResultsTable.reloadData()
                         
                         let alertController = UIAlertController(title: "Error", message:
-                            "Could not connect to the server.", preferredStyle: UIAlertControllerStyle.alert)
-                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+                            "Could not connect to the server.", preferredStyle: UIAlertController.Style.alert)
+                        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default,handler: nil))
                         
                         self.present(alertController, animated: true, completion: nil)
                         self.activityIndicator.stopAnimating()

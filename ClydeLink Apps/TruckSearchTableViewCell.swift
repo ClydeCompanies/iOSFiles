@@ -68,16 +68,16 @@ class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of ea
                 phone = "(" + phone.substringWithRange(Range<String.Index>(phone.startIndex..<phone.startIndex.advancedBy(3))) + ") " + phone.substringWithRange(Range<String.Index>(phone.startIndex.advancedBy(4)..<phone.endIndex))
             } */
             let callAlert = UIAlertController(title: "\(phone)", message:
-                "", preferredStyle: UIAlertControllerStyle.alert)
-            callAlert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
-            callAlert.addAction(UIAlertAction(title: "Call", style: UIAlertActionStyle.default,handler: { (action: UIAlertAction!) in
+                "", preferredStyle: UIAlertController.Style.alert)
+            callAlert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default,handler: nil))
+            callAlert.addAction(UIAlertAction(title: "Call", style: UIAlertAction.Style.default,handler: { (action: UIAlertAction!) in
                 self.call(self.phoneNumber.text!)
             }))
             parentViewController!.present(callAlert, animated: true, completion: nil)
         } else {
             let errorAlert = UIAlertController(title: "Error", message:
-                "Phone number not listed", preferredStyle: UIAlertControllerStyle.alert)
-            errorAlert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
+                "Phone number not listed", preferredStyle: UIAlertController.Style.alert)
+            errorAlert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default,handler: nil))
             parentViewController!.present(errorAlert, animated: true, completion: nil)
         }
     }

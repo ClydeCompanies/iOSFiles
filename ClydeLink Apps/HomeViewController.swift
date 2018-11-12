@@ -51,6 +51,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if (prefs.string(forKey: "username") == "Loading...")
         {
             prefs.set("", forKey: "username")
+            prefs.set("", forKey: "fullname")
         }
         test = "TEST"
         
@@ -58,7 +59,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if (prefs.bool(forKey: "NeedsUpdate"))
         {
             prefs.set(false, forKey: "NeedsUpdate")
-            let alert = UIAlertController(title: "Update Available", message: "There is an update available, would you like to install it?", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "Update Available", message: "There is an update available, would you like to install it?", preferredStyle: UIAlertController.Style.alert)
             
             alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
                 
@@ -93,7 +94,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.appButtons.append(element)
         }
         
-        AppTable.separatorStyle = UITableViewCellSeparatorStyle.singleLine
+        AppTable.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
         
         AppTable.tableFooterView = UIView(frame: CGRect.zero)
         
@@ -142,7 +143,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (connectedToNetwork() == false)
         {
-            let alert = UIAlertController(title: "No Connection", message: "You are not connected to the internet.", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "No Connection", message: "You are not connected to the internet.", preferredStyle: UIAlertController.Style.alert)
             
             alert.addAction(UIAlertAction(title: "Try Again", style: .default, handler: { (action: UIAlertAction!) in
                 let vc = self.storyboard!.instantiateViewController(withIdentifier: "Main")
@@ -152,7 +153,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             present(alert, animated: true, completion: nil)
         }
         
-        if (prefs.string(forKey: "username") == "")
+        if (prefs.string(forKey: "fullname") == "")
         {
             
             let alert = UIAlertController(title: "Log In", message: "Please log in to view apps", preferredStyle: .alert)
@@ -238,15 +239,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let userDefaults = UserDefaults.standard
         
         userDefaults.synchronize()
-        if (userDefaults.object(forKey: "username") == nil)
+        if (userDefaults.object(forKey: "fullname") == nil)
         {
-            userDefaults.set("", forKey: "username")
+            userDefaults.set("", forKey: "fullname")
         }
-        if (userDefaults.string(forKey: "username") != "")
+        if (userDefaults.string(forKey: "fullname") != "")
         {
-            let userEmail = userDefaults.string(forKey: "username")!
-            var parts = userEmail.components(separatedBy: "@")
-            self.test = String(parts[0])
+            let fullname = userDefaults.string(forKey: "fullname")!
+            self.test = String(fullname)
         }
         else
         {
@@ -313,7 +313,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {  // Delete the selected app
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {  // Delete the selected app
         if editingStyle == .delete {
             if (appButtons.count == 1)
             {
@@ -331,12 +331,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             prefs.set(appData, forKey: "userapps")
             prefs.synchronize()
             appButtons.remove(at: (indexPath as NSIndexPath).row)
-            tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
             
         }
     }
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {  // Allow Delete
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {  // Allow Delete
         if (self.AppTable.isEditing && self.NoFavorite == 0) {return .delete}
         return .none
     }
