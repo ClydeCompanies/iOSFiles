@@ -40,6 +40,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let webView = UIWebView()
         webView.loadHTMLString("<html></html>", baseURL: nil)
         var appName: String? = webView.stringByEvaluatingJavaScript(from: "navigator.appName")
+        appName = "" //Inserted this to avoid the warning that appName isn't used anywhere
         // Netscape
         let userAgent: String? = webView.stringByEvaluatingJavaScript(from: "navigator.userAgent")
         prefs.set(userAgent, forKey: "userAgent")

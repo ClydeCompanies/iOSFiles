@@ -59,14 +59,10 @@ class TruckSearchTableViewCell: UITableViewCell {  // Controls the content of ea
         if phoneNumber.text != "" {
             var phone = phoneNumber.text!
             phone = phone.replacingOccurrences(of: "[^0-9]", with: "", options: NSString.CompareOptions.regularExpression, range:nil);
-            if phone.characters.count == 10
+            if phone.count == 10
             {
-                phone = ""
-//                phone = "(" + phone.substring(with: Range<String.Index>(phone.startIndex..<phone.characters.index(phone.startIndex, offsetBy: 3))) + ") " + phone.substring(with: Range<String.Index>(phone.characters.index(phone.startIndex, offsetBy: 3)..<phone.characters.index(phone.startIndex, offsetBy: 6))) + "-" + phone.substring(with: Range<String.Index>(phone.characters.index(phone.startIndex, offsetBy: 6)..<phone.endIndex))
-            } /*else if phone.characters.count == 12
-            {
-                phone = "(" + phone.substringWithRange(Range<String.Index>(phone.startIndex..<phone.startIndex.advancedBy(3))) + ") " + phone.substringWithRange(Range<String.Index>(phone.startIndex.advancedBy(4)..<phone.endIndex))
-            } */
+                phone = "" //Phone number in trucksearchview is not currently being used natively
+            }
             let callAlert = UIAlertController(title: "\(phone)", message:
                 "", preferredStyle: UIAlertControllerStyle.alert)
             callAlert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default,handler: nil))
